@@ -81,6 +81,7 @@ public final class Asignacion implements Serializable {
 
     /**
      * Devuelve el segmento que ocupa el lugar específicado
+     *
      * @param index Indice del segmento a recuperar
      * @return Objeto segmento
      */
@@ -89,22 +90,8 @@ public final class Asignacion implements Serializable {
     }
 
     /**
-     *
-     * @param str
+     * Calcula array que almacena cuántas casillas ocupa cada segmento
      */
-    public void dbg(Object str) {
-        System.out.println(str);
-    }
-
-    /**
-     *
-     * @param str
-     */
-    public void dbg2(Object str) {
-        System.out.print(str);
-    }
-
-    //Calcula cuántas casillas ocupan los segmentos.
     private void calculaCuantasCasillas() {
         cuantasCasillas = new ArrayList<Integer>();
         Segmento s;
@@ -115,8 +102,11 @@ public final class Asignacion implements Serializable {
             cuantasCasillas.add(numCasillas);
         }
     }
-//Calcula en qué casilla específica se sitúan los segmentos
 
+    /**
+     * Calcula un array que almacena en qué casilla específica se sitúan los
+     * segmentos
+     */
     private void calculaQueCasilla() {
         queCasilla = new ArrayList<Integer>();
         int casilla = 0;
@@ -183,7 +173,7 @@ public final class Asignacion implements Serializable {
      * Genera una posible solución al azar, cuidando de que no haya elementos
      * repetidos.
      *
-     * @param datosPorAula 
+     * @param datosPorAula
      * @return
      */
     public static Asignacion generador(DatosPorAula datosPorAula) {
