@@ -80,9 +80,9 @@ public final class Asignacion implements Serializable {
     }
 
     /**
-     *
-     * @param index
-     * @return
+     * Devuelve el segmento que ocupa el lugar específicado
+     * @param index Indice del segmento a recuperar
+     * @return Objeto segmento
      */
     public Segmento getSegmento(int index) {
         return datosPorAula.getListaSegmentos().get(this.get(index));
