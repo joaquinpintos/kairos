@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profesorado>
+    <departamento nombre="Ciencias experimentales">
+        <profesores>
+            <profesor>
+                <nombre>Alberto</nombre>
+                <apellidos>Alvarez</apellidos>
+            </profesor>
+            <profesor>
+                <nombre>David</nombre>
+                <apellidos>Gutiérrez Rubio</apellidos>
+            </profesor>
+        </profesores>
+    </departamento>
+    <departamento nombre="Lengua">
+        <profesores>
+            <profesor>
+                <nombre>Juan</nombre>
+                <apellidos>Imedio</apellidos>
+            </profesor>
+            <profesor>
+                <nombre>Paquito</nombre>
+                <apellidos>Palotes</apellidos>
+            </profesor>
+        </profesores>
+    </departamento>
+</profesorado>

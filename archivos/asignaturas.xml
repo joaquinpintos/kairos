@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<plan_docente>
+    <estudios nombre="Primaria">
+        <cursos>
+            <curso nombre="1º">
+                <asignatura nombre="Mates">
+                    <grupos>
+                        <grupo nombre="1" subgrupos="2">
+                            <tramos_grupo_completo>
+                                <tramo minutos="60" numero="3"/>
+                            </tramos_grupo_completo>
+                            <tramos_grupo_mediano>
+                                <tramo minutos="90" numero="1"/>
+                            </tramos_grupo_mediano>
+                        </grupo>
+                        <grupo nombre="2" subgrupos="2">
+                            <tramos_grupo_completo>
+                                <tramo minutos="60" numero="3"/>
+                            </tramos_grupo_completo>
+                            <tramos_grupo_mediano>
+                                <tramo minutos="90" numero="1"/>
+                            </tramos_grupo_mediano>
+                        </grupo>
+                    </grupos>
+                </asignatura>
+                <asignatura nombre="Lengua">
+                    <grupos>
+                        <grupo nombre="1" subgrupos="0">
+                            <tramos_grupo_completo>
+                                <tramo minutos="60" numero="4"/>
+                            </tramos_grupo_completo>
+                        </grupo>
+                        <grupo nombre="2" subgrupos="0">
+                            <tramos_grupo_completo>
+                                <tramo minutos="60" numero="4"/>
+                            </tramos_grupo_completo>
+                        </grupo>
+                        <grupo nombre="3" subgrupos="0">
+                            <tramos_grupo_completo>
+                                <tramo minutos="60" numero="4"/>
+                            </tramos_grupo_completo>
+                        </grupo>
+                    </grupos>
+                </asignatura>
+            </curso>
+            <curso nombre="2º"/>
+            <curso nombre="3º"/>
+            <curso nombre="4º"/>
+        </cursos>
+    </estudios>
+    <estudios nombre="Infantil">
+        <cursos/>
+    </estudios>
+</plan_docente>
