@@ -11,9 +11,8 @@ import java.io.Serializable;
  *
  * @author David Gutierrez
  */
-public class Tramo implements Serializable {
+public class Tramo implements Serializable, Docentable {
 
-    private int numeroClases;
     private int minutos;
     private GrupoTramos parent;
     private Profesor profesor;
@@ -23,25 +22,8 @@ public class Tramo implements Serializable {
      * @param numeroClases
      * @param minutos
      */
-    public Tramo(int numeroClases, int minutos) {
-        this.numeroClases = numeroClases;
+    public Tramo(int minutos) {
         this.minutos = minutos;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getNumeroClases() {
-        return numeroClases;
-    }
-
-    /**
-     *
-     * @param numeroClases
-     */
-    public void setNumeroClases(int numeroClases) {
-        this.numeroClases = numeroClases;
     }
 
     /**
@@ -60,23 +42,9 @@ public class Tramo implements Serializable {
         this.minutos = minutos;
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getTotalHoras() {
-        return (double) minutos * numeroClases / 60.;
-    }
-
     @Override
     public String toString() {
-        String clase = "";
-        if (numeroClases > 1) {
-            clase = " clases de ";
-        } else {
-            clase = " clase de ";
-        }
-        return getTotalHoras() + "h";
+        return "Tramo de " + getMinutos() + "m";
     }
 
     /**
@@ -103,9 +71,13 @@ public class Tramo implements Serializable {
 
     }
 
-    void setDocente(Profesor profesor) {
-        this.profesor=profesor;
-        profesor.addDocencia(this);
+    @Override
+    public void setDocente(Profesor profesor) {
+        this.profesor = profesor;
+        if (profesor != null)
+         {
+            profesor.addDocencia(this);
+        }
     }
 
     public Profesor getDocente() {
@@ -113,7 +85,11 @@ public class Tramo implements Serializable {
     }
 
     void removeDocente() {
-        profesor=null;
+        profesor = null;
     }
-    
+
+    public boolean isAsignado() {
+        return (profesor!=null);
+    }
+
 }

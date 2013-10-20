@@ -13,7 +13,7 @@ import java.io.Serializable;
  *
  * @author david
  */
-public class Grupo implements Serializable, Comparable<Grupo> {
+public class Grupo implements Serializable, Comparable<Grupo>,Docentable  {
 
     private String nombre;
     private GrupoTramos tramosGrupoCompleto;

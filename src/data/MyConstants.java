@@ -6,6 +6,7 @@ package data;
 
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -59,6 +60,8 @@ public class MyConstants {
      *
      */
     public static final ImageIcon CLOCK_ICON = new ImageIcon("images/clock.png");
+    
+    public static final ImageIcon TRAMO_ICON = new ImageIcon("images/clock.png");
     /**
      *
      */
@@ -86,15 +89,15 @@ public class MyConstants {
     /**
      *
      */
-    public static final ImageIcon RED_TRAFFIC_LIGHT=new ImageIcon("images/redTrafficLight.png");
+    public static final ImageIcon RED_TRAFFIC_LIGHT = new ImageIcon("images/redTrafficLight.png");
     /**
      *
      */
-    public static final ImageIcon YELLOW_TRAFFIC_LIGHT=new ImageIcon("images/yellowTrafficLight.png");
+    public static final ImageIcon YELLOW_TRAFFIC_LIGHT = new ImageIcon("images/yellowTrafficLight.png");
     /**
      *
      */
-    public static final ImageIcon GREEN_TRAFFIC_LIGHT=new ImageIcon("images/greenTrafficLight.png");
+    public static final ImageIcon GREEN_TRAFFIC_LIGHT = new ImageIcon("images/greenTrafficLight.png");
     /**
      *
      */
@@ -126,7 +129,7 @@ public class MyConstants {
     /**
      *
      */
-    public static final Color FONDO_CASILLA_HORARIO=new Color(215,215,215);
+    public static final Color FONDO_CASILLA_HORARIO = new Color(215, 215, 215);
     /**
      *
      */
@@ -139,8 +142,7 @@ public class MyConstants {
      *
      */
     public static final Font NORMAL_FONT = new Font("ARIAL", Font.PLAIN, 12);
-    
-    
+
     /**
      *
      */
@@ -153,14 +155,12 @@ public class MyConstants {
      *
      */
     public static final Color[] coloresAsignaturas = {
-        new Color(255,165,96),
-        new Color(107,255,99),
-        new Color(223,129,146),
-        new Color(204,164,153),
-        new Color(153,221,146),
-        new Color(101,196,255)
+        new Color(255, 165, 96),
+        new Color(107, 255, 99),
+        new Color(223, 129, 146),
+        new Color(204, 164, 153),
+        new Color(153, 221, 146),
+        new Color(101, 196, 255)
     };
-    
-    
-    
+
 }

@@ -10,6 +10,7 @@ import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.DataAsignaturas;
 import data.asignaturas.Grupo;
+import data.asignaturas.Tramo;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -21,13 +22,14 @@ import javax.swing.tree.TreePath;
 public class TreeModelAsignaturas implements TreeModel {
 
     private final DataKairos dk;
+    private boolean llegarHastaTramos = false;
 
     /**
      *
      * @param dk
      */
     public TreeModelAsignaturas(DataKairos dk) {
-        this.dk=dk;
+        this.dk = dk;
     }
 
     @Override
@@ -54,7 +56,11 @@ public class TreeModelAsignaturas implements TreeModel {
             Asignatura data = (Asignatura) parent;
             resul = data.getGrupos().get(index);
         }
-        //Grupo -> null
+        if ((llegarHastaTramos) && (parent instanceof Grupo)) {
+            Grupo data = (Grupo) parent;
+            resul = data.getTramosGrupoCompleto().getTramos().get(index);
+        }
+
         return resul;
     }
 
@@ -77,13 +83,16 @@ public class TreeModelAsignaturas implements TreeModel {
             Asignatura data = (Asignatura) parent;
             resul = data.getGrupos().getGrupos().size();
         }
-        //Grupo -> 0
+        if ((llegarHastaTramos) && (parent instanceof Grupo)) {
+            Grupo data = (Grupo) parent;
+            resul = data.getTramosGrupoCompleto().getTramos().size();
+        }
         return resul;
     }
 
     @Override
     public boolean isLeaf(Object node) {
-        return (node instanceof Grupo);
+        return (!llegarHastaTramos)&&(node instanceof Grupo) || (llegarHastaTramos && (node instanceof Tramo));
     }
 
     @Override
@@ -92,7 +101,7 @@ public class TreeModelAsignaturas implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-         int resul = -1;
+        int resul = -1;
         if (parent instanceof DataAsignaturas) {
             DataAsignaturas data = (DataAsignaturas) parent;
             resul = data.getCarreras().indexOf(child);
@@ -119,5 +128,13 @@ public class TreeModelAsignaturas implements TreeModel {
 
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
+    }
+
+    public boolean isLlegarHastaTramos() {
+        return llegarHastaTramos;
+    }
+
+    public void setLlegarHastaTramos(boolean llegarHastaTramos) {
+        this.llegarHastaTramos = llegarHastaTramos;
     }
 }

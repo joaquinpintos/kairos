@@ -193,9 +193,8 @@ public class DOMLoaderAsignaturas {
     }
 
     private Tramo readTramo(Element parent) {
-        int numero = new Integer(parent.getAttribute("numero"));
         int minutos = new Integer(parent.getAttribute("minutos"));
-        return new Tramo(numero, minutos);
+        return new Tramo( minutos);
     }
 
     private void readDocencia(Element parent, Grupo nuevoGrupo) {

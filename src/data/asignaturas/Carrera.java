@@ -4,6 +4,7 @@
  */
 package data.asignaturas;
 
+import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +14,7 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Carrera implements Serializable {
+public class Carrera implements Serializable,Docentable  {
 
     private String nombre;
     private DataAsignaturas parent;
@@ -130,6 +131,12 @@ public class Carrera implements Serializable {
      */
     public void setParent(DataAsignaturas parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public void setDocente(Profesor profesor) {
+        for (Curso c: cursos)
+            c.setDocente(profesor);
     }
     
 }

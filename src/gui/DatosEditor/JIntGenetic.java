@@ -245,7 +245,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         errores.addAll(check.chequeaProfesores());
         errores.addAll(check.chequeaSiLosGruposCaben());
         errores.addAll(check.chequeSiTodoGrupoTieneUnaAulaAsignada());
-        errores.addAll(check.chequeaSiTodosLosGruposTienenAsignadaDocencia());
+        errores.addAll(check.chequeaSiTodosLosTramosTienenAsignadaDocencia());
         String textoError="Se han encontrado los siguientes errores validando los datos:\n";
         for (String er:errores)
             textoError+="\n - "+er;

@@ -6,6 +6,7 @@ package data.asignaturas;
 
 import data.DataProyectoListener;
 import data.MyConstants;
+import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Curso implements Serializable,Comparable<Curso> {
+public class Curso implements Serializable,Comparable<Curso>,Docentable {
 
     private ArrayList<DataProyectoListener> listeners;
     private String nombre;
@@ -161,5 +162,11 @@ public class Curso implements Serializable,Comparable<Curso> {
             parent.setDirty(value);
 //        } catch (NullPointerException e) {
 //        }
+    }
+
+    @Override
+    public void setDocente(Profesor profesor) {
+        for (Asignatura asig: asignaturas)
+            asig.setDocente(profesor);
     }
 }

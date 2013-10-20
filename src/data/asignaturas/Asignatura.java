@@ -4,6 +4,7 @@
  */
 package data.asignaturas;
 
+import data.profesores.Profesor;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.Collections;
@@ -13,7 +14,7 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Asignatura implements Serializable, Comparable<Asignatura> {
+public class Asignatura implements Serializable, Comparable<Asignatura>,Docentable  {
 
     private String nombre; //Nombre completo
     private String nombreCorto;//Nombre corto del curso
@@ -244,5 +245,11 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
         } catch (NullPointerException e) {
         }
 
+    }
+
+    @Override
+    public void setDocente(Profesor profesor) {
+        for (Grupo gr:grupos.getGrupos())
+            gr.setDocente(profesor);
     }
 }

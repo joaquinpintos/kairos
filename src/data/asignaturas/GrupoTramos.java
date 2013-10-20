@@ -71,7 +71,7 @@ public class GrupoTramos  implements Serializable  {
         double suma=0;
         for (Tramo tr: vectorTramos)
         {
-            suma+=tr.getTotalHoras();
+            suma+=tr.getMinutos()/60F;
         }
         return suma;
     }

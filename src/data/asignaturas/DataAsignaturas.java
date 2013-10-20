@@ -162,7 +162,6 @@ public class DataAsignaturas extends AbstractDataSets {
         Element elemTramo;
         for (Tramo tr : grupoTramos.getTramos()) {
             elemTramo = parent.getOwnerDocument().createElement("tramo");
-            elemTramo.setAttribute("numero", tr.getNumeroClases() + "");
             elemTramo.setAttribute("minutos", tr.getMinutos() + "");
             Node nodeTramo = parent.appendChild(elemTramo);
             if (tr.getDocente() != null) {

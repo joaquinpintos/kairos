@@ -52,8 +52,14 @@
 </profesores>
 </departamento>
 </profesorado>
-<aulario/>
-<asignacion_aulas/>
+<aulario>
+<aula nombre="11"/>
+</aulario>
+<asignacion_aulas>
+<asignacionGrupoCompleto aula="11@M" grupocurso="Primari@1º@1"/>
+<asignacionGrupoCompleto aula="11@M" grupocurso="Primari@1º@2"/>
+<asignacionGrupoCompleto aula="11@T" grupocurso="Primari@1º@3"/>
+</asignacion_aulas>
 <plan_docente>
 <estudios nombre="Primari">
 <cursos>
@@ -62,20 +68,20 @@
 <grupos>
 <grupo nombre="1">
 <tramos_grupo_completo>
-<tramo minutos="60" numero="3"/>
-<tramo minutos="90" numero="1"/>
+<tramo minutos="60"/>
+<tramo minutos="90"/>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="2">
 <tramos_grupo_completo>
-<tramo minutos="60" numero="3"/>
-<tramo minutos="90" numero="1"/>
+<tramo minutos="60"/>
+<tramo minutos="90"/>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="3">
 <tramos_grupo_completo>
-<tramo minutos="60" numero="3"/>
-<tramo minutos="90" numero="1"/>
+<tramo minutos="60"/>
+<tramo minutos="90"/>
 </tramos_grupo_completo>
 </grupo>
 </grupos>
@@ -84,20 +90,20 @@
 <grupos>
 <grupo nombre="1">
 <tramos_grupo_completo>
-<tramo minutos="60" numero="3"/>
-<tramo minutos="90" numero="1"/>
+<tramo minutos="60"/>
+<tramo minutos="90"/>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="2">
 <tramos_grupo_completo>
-<tramo minutos="60" numero="3"/>
-<tramo minutos="90" numero="1"/>
+<tramo minutos="60"/>
+<tramo minutos="90"/>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="3">
 <tramos_grupo_completo>
-<tramo minutos="60" numero="3"/>
-<tramo minutos="90" numero="1"/>
+<tramo minutos="60"/>
+<tramo minutos="90"/>
 </tramos_grupo_completo>
 </grupo>
 </grupos>

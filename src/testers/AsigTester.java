@@ -232,25 +232,25 @@ public class AsigTester {
 
         Asignatura asignatura = new Asignatura("Mates");
         cur1.addAsignatura(asignatura);
-        Tramo t1 = new Tramo(3, 60);
-        Tramo t2 = new Tramo(1, 90);
+        Tramo t1 = new Tramo( 60);
+        Tramo t2 = new Tramo( 90);
         Grupo gr = new Grupo("1");
         gr.addTramoGrupoCompleto(t1);
         asignatura.addGrupo(gr);
         gr = new Grupo("2");
         asignatura.addGrupo(gr);
 
-        gr.addTramoGrupoCompleto(new Tramo(1, 90));
+        gr.addTramoGrupoCompleto(new Tramo( 90));
 
         asignatura = new Asignatura("Lengua");
         cur1.addAsignatura(asignatura);
         gr = new Grupo("1");
-        t1 = new Tramo(3, 60);
-        t2 = new Tramo(1, 90);
+        t1 = new Tramo(60);
+        t2 = new Tramo(90);
         gr.addTramoGrupoCompleto(t1);
         asignatura.addGrupo(gr);
         gr = new Grupo("3");
-        t1 = new Tramo(4, 60);
+        t1 = new Tramo(60);
         gr.addTramoGrupoCompleto(t1);
         asignatura.addGrupo(gr);
         Aula aula11 = new Aula("11");
@@ -370,7 +370,7 @@ public class AsigTester {
     public Grupo grupoEstandar(String nombre) {
         Grupo gr = new Grupo(nombre);
 
-        gr.addTramoGrupoCompleto(new Tramo(3, 60));
+        gr.addTramoGrupoCompleto(new Tramo( 60));
         gr.setTarde(false);
         return gr;
     }
@@ -383,8 +383,8 @@ public class AsigTester {
     public Grupo addGrupoSinSubgrupos(String nombre) {
         Grupo gr = new Grupo(nombre);
 
-        gr.addTramoGrupoCompleto(new Tramo(3, 60));
-        gr.addTramoGrupoCompleto(new Tramo(1, 90));
+        gr.addTramoGrupoCompleto(new Tramo( 60));
+        gr.addTramoGrupoCompleto(new Tramo( 90));
         gr.setTarde(true);
         return gr;
     }

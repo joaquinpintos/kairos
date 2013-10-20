@@ -37,7 +37,7 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
 
-    private DataKairos dk;
+    private final DataKairos dk;
     Profesor selectedProfesor;
     Departamento selectedDpto;
     MainWindowTabbed mainWindow;

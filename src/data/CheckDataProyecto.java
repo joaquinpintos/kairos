@@ -8,6 +8,7 @@ import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.Grupo;
+import data.asignaturas.Tramo;
 import data.profesores.DataProfesores;
 import data.genetic.DatosPorAula;
 import java.util.HashSet;
@@ -66,12 +67,15 @@ public class CheckDataProyecto {
      *
      * @return
      */
-    public HashSet<String> chequeaSiTodosLosGruposTienenAsignadaDocencia() {
+    public HashSet<String> chequeaSiTodosLosTramosTienenAsignadaDocencia() {
         HashSet<String> resul = new HashSet<String>();
+        mainLoop:
         for (Grupo gr : dataProyecto.getDataAsignaturas().getAllGrupos()) {
-            if (!gr.isAsignado()) {
-                resul.add("Hay grupos sin profesor asignado");
-                break;
+            for (Tramo tr : gr.getTramosGrupoCompleto().getTramos()) {
+                if (!tr.isAsignado()) {
+                    resul.add("Hay grupos sin profesor asignado");
+                    break mainLoop;
+                }
             }
         }
         return resul;

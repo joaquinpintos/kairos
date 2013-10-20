@@ -475,8 +475,8 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         try {
             numClases = Integer.valueOf(jSpinnerNumClases1.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases1.getText());
-            if (numClases > 0) {
-                gr.addTramoGrupoCompleto(new Tramo(numClases, numHoras));
+            for (int cont=0;cont<numClases;cont++) {
+                gr.addTramoGrupoCompleto(new Tramo( numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -484,8 +484,8 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
 
             numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases2.getText());
-            if (numClases > 0) {
-                gr.addTramoGrupoCompleto(new Tramo(numClases, numHoras));
+             for (int cont=0;cont<numClases;cont++) {
+                gr.addTramoGrupoCompleto(new Tramo( numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -494,8 +494,8 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         try {
             numClases = Integer.valueOf(jSpinnerNumClases3.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases3.getText());
-            if (numClases > 0) {
-                gr.addTramoGrupoCompleto(new Tramo(numClases, numHoras));
+             for (int cont=0;cont<numClases;cont++) {
+                gr.addTramoGrupoCompleto(new Tramo( numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }

@@ -58,20 +58,20 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
         });
         if (!esNuevo) {
             jTextGrupos.setText(grupo.getNombre());
-            JSpinner[] spinners = {jSpinnerNumClases1, jSpinnerNumClases2, jSpinnerNumClases3};
-            JTextField[] duraciones = {jTextDuracionClases1, jTextDuracionClases2, jTextDuracionClases3};
-            for (JSpinner a : spinners) {
-                a.setValue(0);
-            }
-            for (JTextField a:duraciones){a.setText("");}
-            int index = 0;
-            for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
-                if (index < 3) {
-                    spinners[index].setValue(tr.getNumeroClases());
-                    duraciones[index].setText(tr.getMinutos() + "");
-                }
-                index++;
-            }
+//            JSpinner[] spinners = {jSpinnerNumClases1, jSpinnerNumClases2, jSpinnerNumClases3};
+//            JTextField[] duraciones = {jTextDuracionClases1, jTextDuracionClases2, jTextDuracionClases3};
+//            for (JSpinner a : spinners) {
+//                a.setValue(0);
+//            }
+//            for (JTextField a:duraciones){a.setText("");}
+//            int index = 0;
+//            for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
+//                if (index < 3) {
+//                    spinners[index].setValue(tr.getNumeroClases());
+//                    duraciones[index].setText(tr.getMinutos() + "");
+//                }
+//                index++;
+//            }
         }
         
     }
@@ -309,8 +309,8 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
         try {
             numClases = Integer.valueOf(jSpinnerNumClases1.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases1.getText());
-            if (numClases > 0) {
-                gr.addTramoGrupoCompleto(new Tramo(numClases, numHoras));
+            for (int cont=0;cont<numClases;cont++) {
+                gr.addTramoGrupoCompleto(new Tramo( numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -318,8 +318,8 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
             
             numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases2.getText());
-            if (numClases > 0) {
-                gr.addTramoGrupoCompleto(new Tramo(numClases, numHoras));
+            for (int cont=0;cont<numClases;cont++) {
+                gr.addTramoGrupoCompleto(new Tramo( numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -328,8 +328,8 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
         try {
             numClases = Integer.valueOf(jSpinnerNumClases3.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases3.getText());
-            if (numClases > 0) {
-                gr.addTramoGrupoCompleto(new Tramo(numClases, numHoras));
+            for (int cont=0;cont<numClases;cont++) {
+                gr.addTramoGrupoCompleto(new Tramo( numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }

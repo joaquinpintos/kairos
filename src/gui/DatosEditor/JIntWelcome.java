@@ -331,6 +331,7 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
                         fisal = new FileOutputStream(lastFileUsed);
                         oos = new ObjectOutputStream(fisal);
                         oos.writeObject(dk.getDP());
+                        oos.close();
 
                     }
                 } catch (FileNotFoundException ex) {
@@ -338,11 +339,6 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(rootPane, "No puedo cargar este fichero", "Error", JOptionPane.ERROR_MESSAGE);
                 } finally {
-                    try {
-                        oos.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                 }
             }
         }
@@ -370,6 +366,7 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
                             fisal = new FileOutputStream(lastFileUsed);
                             oos = new ObjectOutputStream(fisal);
                             oos.writeObject(dk.getDP());
+                            oos.close();
                         }
                     }
                 } catch (FileNotFoundException ex) {
@@ -377,11 +374,6 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(rootPane, "Error al guardar. Probablemente no tenga permisos para escribir en el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
                 } finally {
-                    try {
-                        oos.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                 }
             }
         }

@@ -9,34 +9,44 @@ package gui.DatosEditor.Docencia;
 import data.DataKairos;
 import data.profesores.TreeCellRendererProfesores;
 import data.profesores.TreeModelProfesores;
+import gui.DatosEditor.Asignaturas.TreeCellRendererAsignaturas;
 import gui.DatosEditor.Asignaturas.TreeModelAsignaturas;
 import gui.DatosEditor.DataGUIInterface;
 import gui.MainWindowTabbed;
+import java.awt.dnd.DropTarget;
+import java.util.TooManyListenersException;
 
 /**
  *
  * @author david
  */
-public class JIntAsignaciones extends javax.swing.JInternalFrame implements DataGUIInterface{
-private final DataKairos dk;
+public class JIntAsignaciones extends javax.swing.JInternalFrame implements DataGUIInterface {
+
+    private final DataKairos dk;
     private MainWindowTabbed mainWindow;
+
     /**
      * Creates new form jIntAsignaciones
      */
-    public JIntAsignaciones(DataKairos dk) {
+    public JIntAsignaciones(DataKairos dk) throws TooManyListenersException {
         initComponents();
-        this.dk=dk;
-        TreeModelProfesores mod=new TreeModelProfesores(dk);
+        this.dk = dk;
+        TreeModelProfesores mod = new TreeModelProfesores(dk);
         jTreeProfesores.setModel(mod);
         jTreeProfesores.setCellRenderer(new TreeCellRendererProfesores());
+        jTreeProfesores.setTransferHandler(new JTreeProfesoresTransferHandler());
+        jTreeProfesores.setDragEnabled(true);
         
-        TreeModelAsignaturas asigModel=new TreeModelAsignaturas(dk);
+        TreeModelAsignaturas asigModel = new TreeModelAsignaturas(dk);
+        asigModel.setLlegarHastaTramos(true);
         jTreeAsignaturas.setModel(asigModel);
-        
-        
+        jTreeAsignaturas.setCellRenderer(new TreeCellRendererAsignaturas());
+        jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
+        jTreeAsignaturas.setDragEnabled(true);
+        jTreeAsignaturas.setDropTarget(new DropTarget());
+        jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener(jTreeAsignaturas, dk));
         
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,6 +62,8 @@ private final DataKairos dk;
         jScrollPane2 = new javax.swing.JScrollPane();
         jTreeProfesores = new javax.swing.JTree();
         jPanel1 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jButExpandir = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jTreeAsignaturas);
 
@@ -64,27 +76,40 @@ private final DataKairos dk;
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_START);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 641, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jTextField1.setText("jTextField1");
+        jTextField1.setDragEnabled(true);
+        jTextField1.setDropMode(javax.swing.DropMode.INSERT);
+        jPanel1.add(jTextField1);
+
+        jButExpandir.setText("Expandir");
+        jButExpandir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButExpandirActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButExpandir);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButExpandirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButExpandirActionPerformed
+        mainWindow.expandTree(jTreeProfesores);
+        mainWindow.expandTree(jTreeAsignaturas);
+        
+
+    }//GEN-LAST:event_jButExpandirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButExpandir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTreeAsignaturas;
     private javax.swing.JTree jTreeProfesores;
     // End of variables declaration//GEN-END:variables
@@ -94,9 +119,9 @@ private final DataKairos dk;
         jTreeProfesores.updateUI();
         jTreeAsignaturas.updateUI();
     }
-
+    
     @Override
     public void setMainWindow(MainWindowTabbed mainWindow) {
-        this.mainWindow=mainWindow;
+        this.mainWindow = mainWindow;
     }
 }
