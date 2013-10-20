@@ -16,7 +16,7 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Curso implements Serializable,Comparable<Curso>,Docentable {
+public class Curso implements Serializable, Comparable<Curso>, Teachable {
 
     private ArrayList<DataProyectoListener> listeners;
     private String nombre;
@@ -57,7 +57,7 @@ public class Curso implements Serializable,Comparable<Curso>,Docentable {
         }
         Collections.sort(asignaturas);
         setDirty(true);
-        
+
     }
 
     /**
@@ -159,14 +159,22 @@ public class Curso implements Serializable,Comparable<Curso>,Docentable {
 
     void setDirty(boolean value) {
 //       try {
-            parent.setDirty(value);
+        parent.setDirty(value);
 //        } catch (NullPointerException e) {
 //        }
     }
 
     @Override
     public void setDocente(Profesor profesor) {
-        for (Asignatura asig: asignaturas)
+        for (Asignatura asig : asignaturas) {
             asig.setDocente(profesor);
+        }
+    }
+
+    @Override
+    public void removeDocente() {
+        for (Asignatura asig : asignaturas) {
+            asig.removeDocente();
+        }
     }
 }

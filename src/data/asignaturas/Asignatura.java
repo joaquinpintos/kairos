@@ -14,7 +14,7 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Asignatura implements Serializable, Comparable<Asignatura>,Docentable  {
+public class Asignatura implements Serializable, Comparable<Asignatura>, Teachable {
 
     private String nombre; //Nombre completo
     private String nombreCorto;//Nombre corto del curso
@@ -61,7 +61,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>,Docentab
     public void removeGrupo(Grupo gr) {
         this.grupos.getGrupos().remove(gr);
 
-        gr.removeDocencia();
+        gr.removeDocente();
         gruposNOAsignados.remove(gr);
         this.getParent().updateEstadoAsignacion(this);
         gr.setParent(null);
@@ -249,7 +249,15 @@ public class Asignatura implements Serializable, Comparable<Asignatura>,Docentab
 
     @Override
     public void setDocente(Profesor profesor) {
-        for (Grupo gr:grupos.getGrupos())
+        for (Grupo gr : grupos.getGrupos()) {
             gr.setDocente(profesor);
+        }
+    }
+
+    @Override
+    public void removeDocente() {
+        for (Grupo gr : grupos.getGrupos()) {
+            gr.removeDocente();
+        }
     }
 }

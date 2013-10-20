@@ -9,7 +9,6 @@ import gui.DatosEditor.Restricciones.JIntRestricciones;
 import gui.DatosEditor.DataGUIInterface;
 import gui.DatosEditor.JIntGenetic;
 import gui.DatosEditor.JIntDatosProyecto;
-import gui.DatosEditor.Docencia.JIntAsignacionesOld;
 import gui.DatosEditor.JIntTreeProfesores;
 import gui.DatosEditor.JIntWelcome;
 import gui.DatosEditor.Aulas.JIntTreeAulas;
@@ -17,6 +16,7 @@ import gui.DatosEditor.Asignaturas.JIntTreeAsignaturas;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
+import gui.DatosEditor.Docencia.JIntAsignaciones;
 import gui.HorarioEditor.JIntHorarioPorAulas;
 import java.io.File;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class MainWindowDesktopPane extends javax.swing.JFrame {
     private JIntTreeProfesores jIntTreeProfesores;
     private JIntTreeAsignaturas jIntTreeAsignaturas;
     private JIntTreeAulas jIntTreeAulas;
-    private JIntAsignacionesOld jIntAsignaciones;
+    private JIntAsignaciones jIntAsignaciones;
     private JIntRestricciones jIntRestricciones;
     private JIntGenetic jIntgenGenetic;
     private JIntHorarioPorAulas jIntHorarioView;
@@ -84,7 +84,7 @@ public class MainWindowDesktopPane extends javax.swing.JFrame {
         addTab("Aulas", jIntTreeAulas);
 
 
-        jIntAsignaciones = new JIntAsignacionesOld(dk);
+        jIntAsignaciones = new JIntAsignaciones(dk);
         addTab("Docencia", jIntAsignaciones);
         //dataProfesores.dataToDOM();
 
@@ -317,7 +317,7 @@ public class MainWindowDesktopPane extends javax.swing.JFrame {
      *
      * @return
      */
-    public JIntAsignacionesOld getjIntAsignaciones() {
+    public JIntAsignaciones getjIntAsignaciones() {
         return jIntAsignaciones;
     }
 

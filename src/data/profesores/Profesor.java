@@ -21,7 +21,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     private String nombre;
     private String apellidos;
     private Departamento departamento;
-    private ArrayList<DocenciaItem> docencia;
+    private ArrayList<Tramo> docencia;
 
     /**
      *
@@ -87,7 +87,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.nombreCorto = nombreCorto;
-        docencia = new ArrayList<DocenciaItem>();
+        docencia = new ArrayList<Tramo>();
     }
 
     /**
@@ -102,20 +102,12 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         this.departamento = departamento;
         this.apellidos = apellidos;
         this.nombreCorto = nombreCorto;
-        docencia = new ArrayList<DocenciaItem>();
+        docencia = new ArrayList<Tramo>();
     }
 
     @Override
     public String toString() {
         return apellidos + ", " + nombre;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Profesor copia() {
-        return new Profesor(this.nombre, this.apellidos, this.nombreCorto, this.departamento);
     }
 
     /**
@@ -143,7 +135,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      *
      * @return
      */
-    public ArrayList<DocenciaItem> getDocencia() {
+    public ArrayList<Tramo> getDocencia() {
         return docencia;
     }
 
@@ -151,19 +143,11 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      *
      * @param docenciaItem
      */
-    public void addDocencia(DocenciaItem docenciaItem) {
+    public void addDocencia(Tramo docenciaItem) {
         this.docencia.add(docenciaItem);
-        docenciaItem.getGrupo().setDocente(this);
-        ordenaDocencia();
-        setDirty(true);
-    }
-
-    /**
-     *
-     * @param grupo
-     */
-    public void addDocencia(Tramo tr) {
-        this.docencia.add(new DocenciaItem(tr));
+        if (docenciaItem.getDocente() != this) {
+            docenciaItem.setDocente(this);
+        }
         ordenaDocencia();
         setDirty(true);
     }
@@ -172,20 +156,19 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      *
      * @param docenciaItem
      */
-    public void removeDocencia(DocenciaItem docenciaItem) {
+    public void removeDocencia(Tramo docenciaItem) {
         if (docenciaItem != null) {
             this.docencia.remove(docenciaItem);
-            docenciaItem.getGrupo().setDocente(null);
-            setDirty(true);
+            if (docenciaItem.getDocente() != null) {
+                docenciaItem.setDocente(null);
+                setDirty(true);
+            }
         }
     }
 
-    /**
-     *
-     */
     public void clearDocencia() {
-        for (DocenciaItem d : docencia) {
-            d.getGrupo().setDocente(null);
+        for (Tramo d : docencia) {
+            d.setDocente(null);
         }
         docencia.clear();
         setDirty(true);
@@ -197,10 +180,10 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      */
     public double getHorasDocencia() {
         double suma = 0;
-        for (DocenciaItem d : docencia) {
-            suma += d.getHoras();
+        for (Tramo d : docencia) {
+            suma += d.getMinutos();
         }
-        return suma;
+        return suma/60;
     }
 
     /**
@@ -241,20 +224,6 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     public void setNombreCorto(String nombreCorto) {
         this.nombreCorto = nombreCorto;
         setDirty(true);
-    }
-
-    /**
-     * Versión sobrecargada
-     *
-     * @param gr
-     */
-    public void removeDocencia(Grupo gr) {
-        for (DocenciaItem item : docencia) {
-            if (item.getGrupo().equals(gr)) {
-                this.removeDocencia(item);
-                break;
-            }
-        }
     }
 
     /**

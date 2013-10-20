@@ -7,8 +7,6 @@ package data.profesores;
 import data.AbstractDataSets;
 import data.DataProyecto;
 import data.DataProyectoListener;
-import data.asignaturas.DocenciaItem;
-import data.asignaturas.Grupo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,7 +17,7 @@ import java.util.ArrayList;
  */
 public class DataProfesores extends AbstractDataSets implements Serializable {
 
-    private ArrayList<Departamento> departamentos;
+    private final ArrayList<Departamento> departamentos;
 
     /**
      *
@@ -135,23 +133,5 @@ public class DataProfesores extends AbstractDataSets implements Serializable {
         }
         return resul;
     }
-
-    /**
-     *
-     * @param gr
-     * @return
-     */
-    public Profesor buscaProfesorQueImparte(Grupo gr) {
-        Profesor resul = null;
-        outerLoop:
-        for (Profesor p : getTodosProfesores()) {
-            for (DocenciaItem d : p.getDocencia()) {
-                if (d.getGrupo() == gr) {
-                    resul = p;
-                    break outerLoop;
-                }
-            }
-        }
-        return resul;
-    }
+  
 }

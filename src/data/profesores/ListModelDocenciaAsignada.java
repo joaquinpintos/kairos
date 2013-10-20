@@ -4,9 +4,8 @@
  */
 package data.profesores;
 
-import data.asignaturas.DocenciaItem;
+import data.asignaturas.Tramo;
 import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 
@@ -16,13 +15,13 @@ import javax.swing.event.ListDataListener;
  */
 public class ListModelDocenciaAsignada implements ListModel{
 
-    private ArrayList<DocenciaItem> docencia;
+    private ArrayList<Tramo> docencia;
 
     /**
      *
      * @param docencia
      */
-    public ListModelDocenciaAsignada(ArrayList<DocenciaItem> docencia) {
+    public ListModelDocenciaAsignada(ArrayList<Tramo> docencia) {
         this.docencia = docencia;
     }
 
@@ -30,7 +29,7 @@ public class ListModelDocenciaAsignada implements ListModel{
      *
      */
     public ListModelDocenciaAsignada() {
-        docencia=new ArrayList<DocenciaItem>();
+        docencia=new ArrayList<Tramo>();
     }
     
     /**
@@ -65,7 +64,7 @@ public class ListModelDocenciaAsignada implements ListModel{
      *
      * @return
      */
-    public ArrayList<DocenciaItem> getDocencia() {
+    public ArrayList<Tramo> getDocencia() {
         return docencia;
     }
 
@@ -73,7 +72,7 @@ public class ListModelDocenciaAsignada implements ListModel{
      *
      * @param docencia
      */
-    public void setDocencia(ArrayList<DocenciaItem> docencia) {
+    public void setDocencia(ArrayList<Tramo> docencia) {
         this.docencia = docencia;
     }
     

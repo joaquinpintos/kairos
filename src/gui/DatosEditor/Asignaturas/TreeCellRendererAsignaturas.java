@@ -42,30 +42,44 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
             this.setText(value.toString());
         }
         if (value instanceof Carrera) {
+            this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             this.setIcon(MyConstants.CARRERA_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Curso) {
+            this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             this.setIcon(MyConstants.CURSO_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Asignatura) {
+//            Asignatura asig=(Asignatura) value;
+//            this.setBackground(asig.getColorEnTablaDeHorarios());
+            this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             this.setIcon(MyConstants.ASIGNATURA_ICON);
-            this.setFont(MyConstants.NORMAL_FONT);
+            this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Grupo) {
+            this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             this.setIcon(MyConstants.GRUPO_ICON);
             this.setFont(MyConstants.NORMAL_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Tramo) {
-            Tramo tr=(Tramo) value;
+            Tramo tr = (Tramo) value;
             this.setIcon(MyConstants.TRAMO_ICON);
-            this.setFont(MyConstants.NORMAL_FONT);
-            this.setText(tr.toString()+"->"+tr.getDocente());
+            
+            if (tr.getDocente() != null) {
+                this.setFont(MyConstants.NORMAL_FONT);
+                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
+                this.setText(tr.toString() + " docente: " + tr.getDocente());
+            } else {
+                this.setFont(MyConstants.NEGRITA_FONT);
+                this.setForeground(MyConstants.CONFLICTIVE_ITEM);
+                   this.setText(tr.toString());
+            }
         }
 
         if (selected) {
@@ -73,7 +87,7 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
         } else {
             this.setBackground(Color.white);
         };
-        
+
         return this;
     }
 }

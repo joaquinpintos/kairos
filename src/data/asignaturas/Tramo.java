@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author David Gutierrez
  */
-public class Tramo implements Serializable, Docentable {
+public class Tramo implements Serializable, Teachable,Comparable<Tramo> {
 
     private int minutos;
     private GrupoTramos parent;
@@ -84,12 +84,24 @@ public class Tramo implements Serializable, Docentable {
         return profesor;
     }
 
-    void removeDocente() {
+    @Override
+    public void removeDocente() {
+        Profesor p=profesor;
         profesor = null;
+        p.removeDocencia(this);
+        
     }
 
     public boolean isAsignado() {
         return (profesor!=null);
+    }
+
+    @Override
+    public int compareTo(Tramo o) {
+        int resul = 0;
+        if (this.minutos<o.getMinutos()) resul=-1;
+        if (this.minutos>o.getMinutos()) resul=1;
+        return resul;
     }
 
 }

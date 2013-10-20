@@ -13,7 +13,7 @@ import java.io.Serializable;
  *
  * @author david
  */
-public class Grupo implements Serializable, Comparable<Grupo>,Docentable  {
+public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     private String nombre;
     private GrupoTramos tramosGrupoCompleto;
@@ -140,11 +140,10 @@ public class Grupo implements Serializable, Comparable<Grupo>,Docentable  {
      */
     public void setDocente(Profesor profesor) {
 //        this.profesor = profesor;
-        for (Tramo tr:tramosGrupoCompleto.getTramos())
-        {
+        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
             tr.setDocente(profesor);
         }
-        
+
         this.getParent().updateEstadoAsignacion(this);
 
     }
@@ -227,8 +226,11 @@ public class Grupo implements Serializable, Comparable<Grupo>,Docentable  {
         }
     }
 
-   public  void removeDocencia() {
-        for (Tramo tr:tramosGrupoCompleto.getTramos())
+
+    @Override
+    public void removeDocente() {
+        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
             tr.removeDocente();
+        }
     }
 }

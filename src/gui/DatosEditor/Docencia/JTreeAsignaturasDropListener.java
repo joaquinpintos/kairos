@@ -6,9 +6,10 @@
 package gui.DatosEditor.Docencia;
 
 import data.DataKairos;
-import data.asignaturas.Docentable;
+import data.asignaturas.Teachable;
 import data.aulas.ListaAsignaciones;
 import data.profesores.Profesor;
+import gui.DatosEditor.DataGUIInterface;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
@@ -27,10 +28,10 @@ import javax.swing.tree.TreePath;
  */
 public class JTreeAsignaturasDropListener implements DropTargetListener {
 
-    private final JTree parent;
+    private final JIntAsignaciones parent;
     private final DataKairos dk;
 
-    public JTreeAsignaturasDropListener(JTree parent, DataKairos dk) {
+    public JTreeAsignaturasDropListener(JIntAsignaciones parent, DataKairos dk) {
         this.parent = parent;
         this.dk = dk;
     }
@@ -41,9 +42,9 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
 
     @Override
     public void dragOver(DropTargetDragEvent dtde) {
-          TreePath path = parent.getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+        TreePath path = parent.getjTreeAsignaturas().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
         if (path != null) {
-                parent.setSelectionPath(path);
+            parent.getjTreeAsignaturas().setSelectionPath(path);
         }
     }
 
@@ -57,7 +58,7 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
 
     @Override
     public void drop(DropTargetDropEvent dtde) {
-        Profesor profesor=null;
+        Profesor profesor = null;
         try {
             profesor = (Profesor) dtde.getTransferable().getTransferData(ProfesorDraggable.MY_FLAVOR);
         } catch (UnsupportedFlavorException ex) {
@@ -65,15 +66,19 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
         } catch (IOException ex) {
             Logger.getLogger(JTreeAsignaturasDropListener.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //Operaciones en nodo destino
-        TreePath path = parent.getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
-        Object obj=path.getLastPathComponent();
-        if (obj instanceof Docentable) 
-        {
-            ((Docentable)obj).setDocente(profesor);
+        TreePath path = parent.getjTreeAsignaturas().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+        if (path != null) {
+            Object obj = path.getLastPathComponent();
+            if (obj instanceof Teachable) {
+                Teachable teach=(Teachable) obj;
+                teach.removeDocente();
+                teach.setDocente(profesor);
+            }
         }
-        parent.updateUI();
+        parent.getjTreeAsignaturas().updateUI();
+        parent.getjTreeProfesores().updateUI();
     }
 
 }

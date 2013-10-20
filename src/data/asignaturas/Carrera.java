@@ -14,7 +14,7 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Carrera implements Serializable,Docentable  {
+public class Carrera implements Serializable,Teachable  {
 
     private String nombre;
     private DataAsignaturas parent;
@@ -138,5 +138,10 @@ public class Carrera implements Serializable,Docentable  {
         for (Curso c: cursos)
             c.setDocente(profesor);
     }
+
+    @Override
+    public void removeDocente() {
+    for (Curso c: cursos)
+            c.removeDocente();
+    }    }
     
-}

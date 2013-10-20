@@ -103,20 +103,6 @@ public class DataAsignaturas extends AbstractDataSets {
         return nodeRoot.getOwnerDocument();
     }
 
-//    private void writeDOM(Document doc, FileWriter salida) {
-//        Transformer Transformer;
-//        try {
-//            TransformerFactory tranFactory = TransformerFactory.newInstance();
-//            Transformer = tranFactory.newTransformer();
-//            DOMSource src = new DOMSource(doc);
-//            Result dest = new StreamResult(salida);
-//            Transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            Transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-//            Transformer.transform(src, dest);
-//        } catch (TransformerException ex) {
-//            throw new IllegalArgumentException("Error al escribir XML");
-//        }
-//    }
     private void nodoCarrera(Node parent, Carrera car) {
         Element elemCarrera = parent.getOwnerDocument().createElement("estudios");
         elemCarrera.setAttribute("nombre", car.getNombre());

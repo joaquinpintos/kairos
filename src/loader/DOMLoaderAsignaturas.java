@@ -22,60 +22,15 @@ import org.w3c.dom.Element;
  */
 public class DOMLoaderAsignaturas {
 
-    private File file;
-    private Carrera currentCarrera;
-    private Curso currentCurso;
     org.w3c.dom.Document dom;
     private final DataProyecto dataProyecto;
 
     /**
      *
-     * @param file
      * @param dataProyecto
      */
-    public DOMLoaderAsignaturas(File file, DataProyecto dataProyecto) {
-        this.file = file;
-        this.dataProyecto=dataProyecto;
-    }
-
-    /**
-     *
-     * @param msg
-     */
-    public void dbg(String msg) {
-        System.out.println(msg);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean load() {
-        dataProyecto.getDataAsignaturas().clear();
-        boolean isOk = true;
-        dom = null;
-        javax.xml.parsers.DocumentBuilderFactory dbf;
-        javax.xml.parsers.DocumentBuilder db;
-
-        dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-
-        try {
-            db = dbf.newDocumentBuilder();
-            dom = db.parse(file);
-            buildDocumentStructure();
-        } catch (Exception ex) {
-            dbg("Excepción al parsear " + ex.getMessage());
-            isOk = false;
-        } finally {
-            return isOk;
-        }
-    }
-
-    private void buildDocumentStructure() {
-        org.w3c.dom.Element rootElement = dom.getDocumentElement();
-        parseAsignaturas(rootElement);
-
-
+    public DOMLoaderAsignaturas(DataProyecto dataProyecto) {
+        this.dataProyecto = dataProyecto;
     }
 
     /**
@@ -91,12 +46,11 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 nuevaCarrera = new Carrera(nombre);
-               // dbg(nombreNodo + ":" + nombre);
+                // dbg(nombreNodo + ":" + nombre);
                 dataProyecto.getDataAsignaturas().addCarrera(nuevaCarrera);
                 readListaCursos(elemDep, nuevaCarrera);
             }
         }
-
 
     }
 
@@ -162,7 +116,7 @@ public class DOMLoaderAsignaturas {
                 String nombre = elemDep.getAttribute("nombre");
                 Grupo nuevoGrupo = new Grupo(nombre);
                 nuevaAsignatura.addGrupo(nuevoGrupo);
-                    readDocencia(elemDep, nuevoGrupo);
+                readDocencia(elemDep, nuevoGrupo);
                 readTramos(elemDep, nuevoGrupo);
             }
         }
@@ -186,15 +140,22 @@ public class DOMLoaderAsignaturas {
         if (nodeList != null && nodeList.getLength() > 0) {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
-                Tramo tr = readTramo(elemDep);
-                nuevoGrupo.addTramoGrupoCompleto(tr);
+                readTramo(elemDep, nuevoGrupo);
+
             }
         }
     }
 
-    private Tramo readTramo(Element parent) {
+    private void readTramo(Element parent, Grupo nuevoGrupo) {
         int minutos = new Integer(parent.getAttribute("minutos"));
-        return new Tramo( minutos);
+        Tramo tr = new Tramo(minutos);
+        nuevoGrupo.addTramoGrupoCompleto(tr);
+        Element elemDocencia = buscaPrimerElementoConNombre(parent, "docente");
+        if (elemDocencia != null) {
+            HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
+            Profesor prof = map.get(elemDocencia.getTextContent());
+            tr.setDocente(prof);
+        }
     }
 
     private void readDocencia(Element parent, Grupo nuevoGrupo) {
@@ -203,7 +164,7 @@ public class DOMLoaderAsignaturas {
         if (nodeList != null && nodeList.getLength() > 0) {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
-             //   dbg(elemDep.getTextContent());
+                //   dbg(elemDep.getTextContent());
                 Profesor prof;
                 HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
                 prof = map.get(elemDep.getTextContent());
@@ -215,4 +176,20 @@ public class DOMLoaderAsignaturas {
 
     }
 
+    /**
+     *
+     * @param parent
+     * @param nombre
+     * @return
+     */
+    public Element buscaPrimerElementoConNombre(Element parent, String nombre) {
+        org.w3c.dom.NodeList nodeList = parent.getElementsByTagName(nombre);
+        Element resul;
+        if (nodeList != null && nodeList.getLength() > 0) {
+            resul = (Element) nodeList.item(0);
+        } else {
+            resul = null;
+        }
+        return resul;
+    }
 }

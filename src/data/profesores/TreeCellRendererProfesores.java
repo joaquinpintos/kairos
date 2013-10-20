@@ -7,8 +7,6 @@ package data.profesores;
 import data.MyConstants;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
@@ -19,11 +17,13 @@ import javax.swing.tree.TreeCellRenderer;
  */
 public class TreeCellRendererProfesores extends JLabel implements TreeCellRenderer {
 
+    private boolean mostrarHorasDocencia;
 
     /**
      *
      */
     public TreeCellRendererProfesores() {
+        this.mostrarHorasDocencia = false;
         this.setOpaque(true);
     }
 
@@ -36,13 +36,39 @@ public class TreeCellRendererProfesores extends JLabel implements TreeCellRender
         }
 
         if (value instanceof Profesor) {
-            this.setIcon(MyConstants.PROFESOR_ICON);
-            this.setFont(MyConstants.NORMAL_FONT);
+            renderProfesor((Profesor) value);
         } else {
+            setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             this.setIcon(MyConstants.DEPARTAMENTO_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
+            this.setText(value.toString());
         }
-        this.setText(value.toString());
+
         return this;
+    }
+
+    private void renderProfesor(Profesor p) {
+        this.setIcon(MyConstants.PROFESOR_ICON);
+        this.setFont(MyConstants.NORMAL_FONT);
+        String texto = p.toString();
+
+        if (mostrarHorasDocencia) {
+            double horas = p.getHorasDocencia();
+            if (horas > 0) {
+                setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
+            } else {
+                setForeground(MyConstants.CONFLICTIVE_ITEM);
+            }
+            texto += ": " + horas + "h";
+        }
+        this.setText(texto);
+    }
+
+    public boolean isMostrarHorasDocencia() {
+        return mostrarHorasDocencia;
+    }
+
+    public void setMostrarHorasDocencia(boolean mostrarHorasDocencia) {
+        this.mostrarHorasDocencia = mostrarHorasDocencia;
     }
 }

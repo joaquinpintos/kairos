@@ -9,7 +9,6 @@ import gui.DatosEditor.Restricciones.JIntRestricciones;
 import gui.DatosEditor.DataGUIInterface;
 import gui.DatosEditor.JIntGenetic;
 import gui.DatosEditor.JIntDatosProyecto;
-import gui.DatosEditor.Docencia.JIntAsignacionesOld;
 import gui.DatosEditor.JIntTreeProfesores;
 import gui.DatosEditor.JIntWelcome;
 import gui.DatosEditor.Aulas.JIntTreeAulas;

@@ -12,7 +12,8 @@ import data.profesores.Profesor;
  * Cualquier clase que implemente esta interfaz es susceptible de ser enseñada: grupos, asignaturas, cursos, tramos, etc.
  * @author david
  */
-public interface Docentable {
+public interface Teachable {
     public void setDocente(Profesor profesor);
+    public void removeDocente();
     
 }

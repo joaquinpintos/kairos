@@ -142,7 +142,7 @@ public class XMLDataLoaderWriter  {
 
         nodeList = rootElement.getElementsByTagName("plan_docente");
         if (nodeList != null && nodeList.getLength() > 0) {
-            DOMLoaderAsignaturas domlp = new DOMLoaderAsignaturas(null, dataProyecto);
+            DOMLoaderAsignaturas domlp = new DOMLoaderAsignaturas(dataProyecto);
             for (int i = 0; i < nodeList.getLength(); i++) {
                 domlp.parseAsignaturas((Element) nodeList.item(i));
             }

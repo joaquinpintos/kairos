@@ -15,6 +15,7 @@ import gui.DatosEditor.DataGUIInterface;
 import gui.MainWindowTabbed;
 import java.awt.dnd.DropTarget;
 import java.util.TooManyListenersException;
+import javax.swing.JTree;
 
 /**
  *
@@ -33,7 +34,9 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
         this.dk = dk;
         TreeModelProfesores mod = new TreeModelProfesores(dk);
         jTreeProfesores.setModel(mod);
-        jTreeProfesores.setCellRenderer(new TreeCellRendererProfesores());
+        final TreeCellRendererProfesores rendProf = new TreeCellRendererProfesores();
+        rendProf.setMostrarHorasDocencia(true);
+        jTreeProfesores.setCellRenderer(rendProf);
         jTreeProfesores.setTransferHandler(new JTreeProfesoresTransferHandler());
         jTreeProfesores.setDragEnabled(true);
         
@@ -44,8 +47,15 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
         jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
         jTreeAsignaturas.setDragEnabled(true);
         jTreeAsignaturas.setDropTarget(new DropTarget());
-        jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener(jTreeAsignaturas, dk));
-        
+        jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener(this, dk));
+         }
+
+    public JTree getjTreeAsignaturas() {
+        return jTreeAsignaturas;
+    }
+
+    public JTree getjTreeProfesores() {
+        return jTreeProfesores;
     }
 
     /**
