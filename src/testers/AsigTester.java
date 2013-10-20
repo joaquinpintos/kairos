@@ -242,8 +242,6 @@ public class AsigTester {
 
         gr.addTramoGrupoCompleto(new Tramo(1, 90));
 
-        david.addDocencia(gr);
-
         asignatura = new Asignatura("Lengua");
         cur1.addAsignatura(asignatura);
         gr = new Grupo("1");
@@ -255,7 +253,6 @@ public class AsigTester {
         t1 = new Tramo(4, 60);
         gr.addTramoGrupoCompleto(t1);
         asignatura.addGrupo(gr);
-        alberto.addDocencia(gr);
         Aula aula11 = new Aula("11");
         Aula aula12 = new Aula("21");
         dp.getDataAulas().addAula(aula11);

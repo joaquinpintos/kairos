@@ -18,12 +18,12 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
     private String nombre; //Nombre completo
     private String nombreCorto;//Nombre corto del curso
     private Curso parent;//Curso al que pertenece
-    private ListaGrupos grupos;
+    private final ListaGrupos grupos;
     //Profesores que imparten esta asignatura
     //Deben ser el mísmo número que el número de grupos. Puede haber repetidos.
     private Color colorEnTablaDeHorarios;
     //En este array guardo los grupos que NO tengan asignada docencia
-    private HashSet<Grupo> gruposNOAsignados;
+    private final HashSet<Grupo> gruposNOAsignados;
     private int numCreditos;
 
     /**
@@ -60,7 +60,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
     public void removeGrupo(Grupo gr) {
         this.grupos.getGrupos().remove(gr);
 
-        gr.getProfesor().removeDocencia(gr);
+        gr.removeDocencia();
         gruposNOAsignados.remove(gr);
         this.getParent().updateEstadoAsignacion(this);
         gr.setParent(null);

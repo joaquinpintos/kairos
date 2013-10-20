@@ -243,7 +243,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
 
     private void jButAsignarDocenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButAsignarDocenciaActionPerformed
         if (selectedProfesor != null) {
-            mainWindow.getjIntAsignaciones().seleccionaProfesor(selectedProfesor);
+         //TODO: FIX THIS:   mainWindow.getjIntAsignaciones().seleccionaProfesor(selectedProfesor);
             mainWindow.getjTabPrincipal().setSelectedComponent(mainWindow.getjIntAsignaciones());
         }
     }//GEN-LAST:event_jButAsignarDocenciaActionPerformed

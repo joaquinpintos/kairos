@@ -16,6 +16,7 @@ public class DocenciaItem implements Comparable,Serializable{
     private Curso curso;
     private Asignatura asignatura;
     private Grupo grupo;
+    private Tramo tramo;
 
     /**
      *
@@ -24,19 +25,21 @@ public class DocenciaItem implements Comparable,Serializable{
      * @param asignatura
      * @param grupo
      */
-    public DocenciaItem(Carrera carrera, Curso curso, Asignatura asignatura, Grupo grupo) {
-        this.carrera = carrera;
-        this.curso = curso;
-        this.asignatura = asignatura;
-        this.grupo = grupo;
-    }
+//    public DocenciaItem(Carrera carrera, Curso curso, Asignatura asignatura, Grupo grupo) {
+//        this.carrera = carrera;
+//        this.curso = curso;
+//        this.asignatura = asignatura;
+//        this.grupo = grupo;
+//    }
 
     /**
      *
-     * @param grupo
+     * @param tr
+     * 
      */
-    public DocenciaItem(Grupo grupo) {
-        this.grupo = grupo;
+    public DocenciaItem(Tramo tr) {
+        this.tramo=tr;
+        this.grupo = tr.getParent().getParent();
         this.asignatura = this.grupo.getParent();
         this.curso = this.asignatura.getParent();
         this.carrera = this.curso.getParent();

@@ -5,35 +5,37 @@
 package data.genetic;
 
 import data.Hora;
-import data.MyConstants;
 import data.asignaturas.Grupo;
 import data.RangoHoras;
+import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 import java.io.Serializable;
 
 /**
  * Esta clase representa un segmento de docencia que hay que asignar a una
  * casilla. Puede tener distintas duraciones y ocupar más de una casilla. En
- * cualquier caso la casilla asignada es la primera que ocupa.
+ * cualquier caso la casilla asignada es la primera que ocupa. Desde la versión
+ * 1.1, cada segmento está asociado a un tramo, más que a un grupo. Esto implica
+ * entre otras cosas que varios profesores compartan la misma asignatura.
  *
  * @author david
  */
 public class Segmento implements Serializable {
 
-    Grupo grupo; //Grupo al que pertenece
     int duracion;//duracion en minutos
-    private int numeroDeCasillasQueOcupa;
+    private final int numeroDeCasillasQueOcupa;
     private boolean huecoLibre; //True si el segmento no se refiere a una clase, sino a un hueco libre
+    private final Tramo tramo;
 
     /**
-     *
-     * @param grupo
+     * Representa un segmento de ocupación. Unidad atómica de docencia, que debe de ubicarse en una casilla.
+     * @param Tramo
      * @param numeroDeCasillasQueOcupa
      * @param minutosPorCasilla
      */
-    public Segmento(Grupo grupo, int numeroDeCasillasQueOcupa,int minutosPorCasilla) {
-        this.grupo = grupo;
-        this.duracion = minutosPorCasilla* numeroDeCasillasQueOcupa;
+    public Segmento(Tramo tramo, int numeroDeCasillasQueOcupa, int minutosPorCasilla) {
+        this.tramo = tramo;
+        this.duracion = minutosPorCasilla * numeroDeCasillasQueOcupa;
         huecoLibre = false;//Por defecto, no es un hueco libre.
         this.numeroDeCasillasQueOcupa = numeroDeCasillasQueOcupa;
     }
@@ -47,7 +49,7 @@ public class Segmento implements Serializable {
         if (isHuecoLibre()) {
             return null;
         } else {
-            return this.grupo.getProfesor();
+            return this.tramo.getDocente();
         }
     }
 
@@ -56,7 +58,7 @@ public class Segmento implements Serializable {
         if (isHuecoLibre()) {
             return "Libre";
         } else {
-            return this.grupo.getParent().getNombre() + "-" + this.grupo.getNombre() + " " + this.duracion;
+            return this.tramo.getParent().getParent().getParent().getNombre() + "-" + this.tramo.getParent().getParent().getNombre() + " " + this.duracion;
         }
     }
 
@@ -68,16 +70,8 @@ public class Segmento implements Serializable {
         if (isHuecoLibre()) {
             return null;
         } else {
-            return grupo;
+            return tramo.getParent().getParent();
         }
-    }
-
-    /**
-     *
-     * @param grupo
-     */
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
     }
 
     /**
@@ -109,7 +103,6 @@ public class Segmento implements Serializable {
         Hora hora2 = cas.getHora().copia();
         hora2.sumaMinutos(this.duracion);
         return new RangoHoras(cas.getHora(), hora2);
-
 
     }
 

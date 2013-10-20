@@ -209,7 +209,8 @@ public class DOMLoaderAsignaturas {
                 HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
                 prof = map.get(elemDep.getTextContent());
                 //prof=dataProyecto.getDataProfesores().buscaProfesorPorHash(elemDep.getTextContent());
-                prof.addDocencia(nuevoGrupo);
+//                prof.addDocencia(nuevoGrupo);
+                nuevoGrupo.setDocente(prof);
             }
         }
 

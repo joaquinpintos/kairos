@@ -4,6 +4,7 @@
  */
 package data.asignaturas;
 
+import data.profesores.Profesor;
 import java.io.Serializable;
 
 /**
@@ -15,6 +16,7 @@ public class Tramo implements Serializable {
     private int numeroClases;
     private int minutos;
     private GrupoTramos parent;
+    private Profesor profesor;
 
     /**
      *
@@ -85,6 +87,10 @@ public class Tramo implements Serializable {
         this.parent = parent;
     }
 
+    public GrupoTramos getParent() {
+        return parent;
+    }
+
     /**
      *
      * @param value
@@ -96,4 +102,18 @@ public class Tramo implements Serializable {
         }
 
     }
+
+    void setDocente(Profesor profesor) {
+        this.profesor=profesor;
+        profesor.addDocencia(this);
+    }
+
+    public Profesor getDocente() {
+        return profesor;
+    }
+
+    void removeDocente() {
+        profesor=null;
+    }
+    
 }

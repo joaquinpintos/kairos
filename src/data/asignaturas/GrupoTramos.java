@@ -94,5 +94,13 @@ try {
         
     }
 
+    public Grupo getParent() {
+        return parent;
+    }
+    
+    public void setParent(Grupo parent) {
+        this.parent = parent;
+    }
+
     
 }

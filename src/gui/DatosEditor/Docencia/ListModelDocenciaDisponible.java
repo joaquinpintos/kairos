@@ -10,6 +10,7 @@ import data.asignaturas.Curso;
 import data.asignaturas.DataAsignaturas;
 import data.asignaturas.DocenciaItem;
 import data.asignaturas.Grupo;
+import data.asignaturas.Tramo;
 import java.util.Vector;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
@@ -57,7 +58,9 @@ public class ListModelDocenciaDisponible implements ListModel {
             for (Curso curso : carrera.getCursos()) {
                 for (Asignatura asignatura : curso.getAsignaturas()) {
                     for (Grupo grupo : asignatura.getGrupos().getGrupos()) {
-                        docencia.add(new DocenciaItem(carrera, curso, asignatura, grupo));
+                        for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
+                            docencia.add(new DocenciaItem(tr));
+                        }
                     }
                 }
             }

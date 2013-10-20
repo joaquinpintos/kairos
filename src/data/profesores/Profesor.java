@@ -6,6 +6,7 @@ package data.profesores;
 
 import data.asignaturas.Grupo;
 import data.asignaturas.DocenciaItem;
+import data.asignaturas.Tramo;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -152,7 +153,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      */
     public void addDocencia(DocenciaItem docenciaItem) {
         this.docencia.add(docenciaItem);
-        docenciaItem.getGrupo().setProfesor(this);
+        docenciaItem.getGrupo().setDocente(this);
         ordenaDocencia();
         setDirty(true);
     }
@@ -161,9 +162,8 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      *
      * @param grupo
      */
-    public void addDocencia(Grupo grupo) {
-        this.docencia.add(new DocenciaItem(grupo));
-        grupo.setProfesor(this);
+    public void addDocencia(Tramo tr) {
+        this.docencia.add(new DocenciaItem(tr));
         ordenaDocencia();
         setDirty(true);
     }
@@ -175,7 +175,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     public void removeDocencia(DocenciaItem docenciaItem) {
         if (docenciaItem != null) {
             this.docencia.remove(docenciaItem);
-            docenciaItem.getGrupo().setProfesor(null);
+            docenciaItem.getGrupo().setDocente(null);
             setDirty(true);
         }
     }
@@ -185,7 +185,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      */
     public void clearDocencia() {
         for (DocenciaItem d : docencia) {
-            d.getGrupo().setProfesor(null);
+            d.getGrupo().setDocente(null);
         }
         docencia.clear();
         setDirty(true);

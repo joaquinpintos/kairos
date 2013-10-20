@@ -128,7 +128,7 @@ public class Grupo implements Serializable, Comparable<Grupo> {
      *
      * @return
      */
-    public Profesor getProfesor() {
+    public Profesor getDocente() {
         return profesor;
     }
 
@@ -138,8 +138,13 @@ public class Grupo implements Serializable, Comparable<Grupo> {
      *
      * @param profesor
      */
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setDocente(Profesor profesor) {
+//        this.profesor = profesor;
+        for (Tramo tr:tramosGrupoCompleto.getTramos())
+        {
+            tr.setDocente(profesor);
+        }
+        
         this.getParent().updateEstadoAsignacion(this);
 
     }
@@ -220,5 +225,10 @@ public class Grupo implements Serializable, Comparable<Grupo> {
             parent.setDirty(value);
         } catch (NullPointerException e) {
         }
+    }
+
+   public  void removeDocencia() {
+        for (Tramo tr:tramosGrupoCompleto.getTramos())
+            tr.removeDocente();
     }
 }

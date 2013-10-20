@@ -117,7 +117,6 @@ public class DataAsignaturas extends AbstractDataSets {
 //            throw new IllegalArgumentException("Error al escribir XML");
 //        }
 //    }
-
     private void nodoCarrera(Node parent, Carrera car) {
         Element elemCarrera = parent.getOwnerDocument().createElement("estudios");
         elemCarrera.setAttribute("nombre", car.getNombre());
@@ -126,7 +125,6 @@ public class DataAsignaturas extends AbstractDataSets {
         for (Curso curso : car.getCursos()) {
             nodoCurso(nodeCursos, curso);
         }
-
 
     }
 
@@ -155,10 +153,7 @@ public class DataAsignaturas extends AbstractDataSets {
         Element elemGrupo = parent.getOwnerDocument().createElement("grupo");
         elemGrupo.setAttribute("nombre", gr.getNombre());
         Node nodeGrupo = parent.appendChild(elemGrupo);
-        if (gr.getProfesor() != null) {
-            Node nodeDocente = nodeGrupo.appendChild(parent.getOwnerDocument().createElement("docente"));
-            nodeDocente.setTextContent(gr.getProfesor().hash());
-        }
+
         Node nodeTramosCompleto = nodeGrupo.appendChild(parent.getOwnerDocument().createElement("tramos_grupo_completo"));
         nodeTramos(nodeTramosCompleto, gr.getTramosGrupoCompleto());
     }
@@ -169,7 +164,12 @@ public class DataAsignaturas extends AbstractDataSets {
             elemTramo = parent.getOwnerDocument().createElement("tramo");
             elemTramo.setAttribute("numero", tr.getNumeroClases() + "");
             elemTramo.setAttribute("minutos", tr.getMinutos() + "");
-            parent.appendChild(elemTramo);
+            Node nodeTramo = parent.appendChild(elemTramo);
+            if (tr.getDocente() != null) {
+                Node nodeDocente = nodeTramo.appendChild(parent.getOwnerDocument().createElement("docente"));
+                nodeDocente.setTextContent(tr.getDocente().hash());
+            }
+
         }
     }
 
