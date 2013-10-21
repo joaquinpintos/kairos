@@ -99,6 +99,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
         jButCalcularHorasCreditos = new javax.swing.JButton();
         jButCrearPDF = new javax.swing.JButton();
+        jLabPeso = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanelHorarios = new javax.swing.JPanel();
@@ -177,6 +178,9 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         jButCrearPDF.setText("jButton2");
         jPanel2.add(jButCrearPDF);
 
+        jLabPeso.setText("jLabel1");
+        jPanel2.add(jLabPeso);
+
         jPanel1.add(jPanel2);
         jPanel1.add(filler4);
 
@@ -245,6 +249,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
     private javax.swing.JButton jButCalcularHorasCreditos;
     private javax.swing.JButton jButCrearPDF;
     private javax.swing.JButton jButVolverAOptimizar;
+    private javax.swing.JLabel jLabPeso;
     private javax.swing.JList jListAulas;
     private javax.swing.JList jListRestricciones;
     private javax.swing.JPanel jPanel1;
@@ -311,7 +316,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         //  jListRestriccionesModel.setData(nuevasRestr);
 
         jListRestricciones.updateUI();
-//        jLabelPeso.setText("" + suma);
+        jLabPeso.setText("" + suma);
     }
 
     /**

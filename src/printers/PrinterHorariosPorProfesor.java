@@ -48,7 +48,7 @@ public class PrinterHorariosPorProfesor extends AbstractPrinter {
         if (isRotated()) {
             setTamañoTablaTurnoDoble(15F);
         } else {
-            setTamañoTablaTurnoDoble(22);
+            setTamañoTablaTurnoDoble(20);
         }
         _crearDocumento();
     }
@@ -63,7 +63,9 @@ public class PrinterHorariosPorProfesor extends AbstractPrinter {
     public void printCabecera(Document doc, Object obj) throws DocumentException {
         addTitle(doc);
         Profesor p = (Profesor) obj;
-        doc.add(new Paragraph("Horarios para el profesor " + p));
+        final Paragraph par = new Paragraph("Horarios para el profesor " + p);
+        doc.add(par);
+        par.setAlignment(Paragraph.ALIGN_CENTER);
     }
 
     /**
@@ -83,7 +85,7 @@ public class PrinterHorariosPorProfesor extends AbstractPrinter {
      */
     @Override
     protected Paragraph getParagraphForAsignatura(HorarioItem h) {
-        Font font = new Font(Font.FontFamily.HELVETICA, 10);
+        Font font = new Font(Font.FontFamily.HELVETICA, 8);
         return new Paragraph(h.getAsignatura().getNombre() + " (G." + h.getGrupo().getNombre() + ")\n" + h.getAula(), font);
     }
 

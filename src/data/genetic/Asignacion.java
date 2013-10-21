@@ -131,7 +131,6 @@ public final class Asignacion implements Serializable {
             resul.add(queCasilla.get(indiceSolucion) + k);
         }
 
-
         //(queCasilla.subList(indiceSolucion, indiceSolucion + c));
         return resul;
     }
@@ -302,16 +301,19 @@ public final class Asignacion implements Serializable {
             return false;
         }
         boolean resul = false;
-        int num = numCasilla2;
-        int indice = -1;
-        while (indice == -1) {
-            if (num == numCasilla1) {
-                resul = true;
-                break;
-            }
-            indice = queCasilla.indexOf(num);
-            num--;
-
+//        int num = numCasilla2;
+//        int indice = -1;
+//        while (indice == -1) {
+//            if (num == numCasilla1) {
+//                resul = true;
+//                break;
+//            }
+//            indice = queCasilla.indexOf(num);
+//            num--;
+//
+//        }
+        if (getQueSegmentoHayEnCasilla(numCasilla2) == getQueSegmentoHayEnCasilla(numCasilla1)) {
+            resul = true;
         }
         return resul;
     }

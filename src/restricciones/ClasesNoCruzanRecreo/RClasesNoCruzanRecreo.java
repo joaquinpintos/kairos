@@ -6,7 +6,6 @@
 package restricciones.ClasesNoCruzanRecreo;
 
 import data.DataProyecto;
-import data.Hora;
 import data.RangoHoras;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
@@ -71,14 +70,14 @@ public class RClasesNoCruzanRecreo extends Restriccion implements Serializable {
                     RangoHoras h = c.getRangoHora();
                     if ((h.getFin().equals(dataProyecto.getMañana1().getFin())) || (h.getFin().equals(dataProyecto.getTarde1().getFin()))) {
                         casillaJustoAntesRecreo.get(hashAula)[dia - 1] = n;
-                        casillaJustoDespuesRecreo.get(hashAula)[dia - 1] = n+1;
+                        casillaJustoDespuesRecreo.get(hashAula)[dia - 1] = n + 1;
                     }
 //                    if ((h.getInicio().equals(dataProyecto.getMañana2().getInicio())) || (h.getInicio().equals(dataProyecto.getTarde2().getInicio()))) {
 //                        casillaJustoDespuesRecreo.get(hashAula)[dia - 1] = n;
 //                    }
                     if ((h.getFin().equals(dataProyecto.getMañana2().getFin())) || (h.getFin().equals(dataProyecto.getTarde2().getFin()))) {
                         casillaJustoAntesFinalDia.get(hashAula)[dia - 1] = n;
-                        casillaJustoDespuesFinalDia.get(hashAula)[dia - 1] = n+1;
+                        casillaJustoDespuesFinalDia.get(hashAula)[dia - 1] = n + 1;
                     }
                 }
             } catch (Exception ex) {
@@ -100,36 +99,38 @@ public class RClasesNoCruzanRecreo extends Restriccion implements Serializable {
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
             Asignacion asig = posibleSolucion.getAsignacion(hashAula);
 
-            for (int n = 0; n < asig.size(); n++) {
-                ArrayList<Integer> r = asig.getRangoCasillasOcupadas(n);
-                if (r.size() > 1) {
+//            for (int n = 0; n < asig.size(); n++) {
+//                ArrayList<Integer> r = asig.getRangoCasillasOcupadas(n);
+//                if (r.size() > 1) {
                     diaLoop:
                     for (int dia = 0; dia < 5; dia++) {
                         int numCasillaAntesRecreo = casillaJustoAntesRecreo.get(hashAula)[dia];
                         int numCasillaDespuesRecreo = casillaJustoDespuesRecreo.get(hashAula)[dia];
                         int numCasillaAntesFinDia = casillaJustoAntesFinalDia.get(hashAula)[dia];
                         int numCasillaDespuesFinDia = casillaJustoDespuesFinalDia.get(hashAula)[dia];
-                        if (dia==4) numCasillaDespuesFinDia=1;
-                          if (asig.isCasillasEnMismoSegmento(numCasillaAntesRecreo, numCasillaDespuesRecreo)) {
+                        if (dia == 4) {
+                            numCasillaDespuesFinDia = -1;
+                        }
+                        if (asig.isCasillasEnMismoSegmento(numCasillaAntesRecreo, numCasillaDespuesRecreo)) {
                             sumaPeso(suma);
                             suma *= coef;
                             if (marcaCasillasConflictivas) {
-                                int numSegmento=asig.getQueSegmentoHayEnCasilla(numCasillaAntesRecreo);
-                                    marcaCasillaComoConflictiva(hashAula, asig.enQueCasillaEstaSegmento(numSegmento));
+                                int numSegmento = asig.getQueSegmentoHayEnCasilla(numCasillaAntesRecreo);
+                                marcaCasillaComoConflictiva(hashAula, asig.enQueCasillaEstaSegmento(numSegmento));
                             }
                         }
-                            if (asig.isCasillasEnMismoSegmento(numCasillaAntesFinDia, numCasillaDespuesFinDia)) {
+                        if (asig.isCasillasEnMismoSegmento(numCasillaAntesFinDia, numCasillaDespuesFinDia)) {
                             sumaPeso(suma);
                             suma *= coef;
                             if (marcaCasillasConflictivas) {
-                                int numSegmento=asig.getQueSegmentoHayEnCasilla(numCasillaAntesFinDia);
-                                    marcaCasillaComoConflictiva(hashAula, asig.enQueCasillaEstaSegmento(numSegmento));
+                                int numSegmento = asig.getQueSegmentoHayEnCasilla(numCasillaAntesFinDia);
+                                marcaCasillaComoConflictiva(hashAula, asig.enQueCasillaEstaSegmento(numSegmento));
                             }
                         }
-                        
+
                     }
-                }//End of if (r.size() > 1) {
-            }
+//                }//End of if (r.size() > 1) {
+//            }
 
         }
         return getPeso();

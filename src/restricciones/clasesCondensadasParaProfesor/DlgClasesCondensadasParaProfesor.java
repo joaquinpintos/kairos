@@ -62,11 +62,10 @@ public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
             jComboProfesores.setSelectedItem(r.getProfesor());
         }
         jComboProfesores.setSelectedItem(r.getProfesor());
-        jComboNumeroDias.addItem(1);
-        jComboNumeroDias.addItem(2);
-        jComboNumeroDias.addItem(3);
-        jComboNumeroDias.addItem(4);
-
+        jComboNumeroDias.addItem(new Integer(1));
+        jComboNumeroDias.addItem(new Integer(2));
+        jComboNumeroDias.addItem(new Integer(3));
+        jComboNumeroDias.addItem(new Integer(4));
 
         jComboNumeroDias.setSelectedItem(r.getNumeroMaximoDias());
 
@@ -194,7 +193,7 @@ public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
         try {
             if (retStatus == RET_OK) {
                 r.setProfesor((Profesor) jComboProfesores.getSelectedItem());
-                r.setNumeroMaximoDias(Integer.valueOf((String) jComboNumeroDias.getSelectedItem()));
+                r.setNumeroMaximoDias(Integer.valueOf(jComboNumeroDias.getSelectedItem().toString()));
             }
             returnStatus = retStatus;
             setVisible(false);

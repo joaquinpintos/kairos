@@ -11,6 +11,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -23,7 +24,10 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -121,7 +125,7 @@ abstract public class AbstractPrinter {
         maxNumFilas += dataProyecto.getMañana2().duracion();
         maxNumFilas += dataProyecto.getTarde1().duracion();
         maxNumFilas += dataProyecto.getTarde2().duracion();
-        maxNumFilas = (maxNumFilas * 60) /dataProyecto.getMinutosPorCasilla();
+        maxNumFilas = (maxNumFilas * 60) / dataProyecto.getMinutosPorCasilla();
         setAlturaCeldas((tamañoTabla * CM_TO_POINT - alturaRecreos - alturaSepMañanaTarde) / (maxNumFilas + 1));
     }
 
@@ -264,7 +268,7 @@ abstract public class AbstractPrinter {
     abstract public String getNombreDocumento(Object obj);
 
     private PdfPCell createCeldaHoras(String texto) {
-        Font font = new Font(Font.FontFamily.HELVETICA, 14);
+        Font font = new Font(Font.FontFamily.HELVETICA, 10);
 
         Paragraph p = new Paragraph(texto, font);
         p.setAlignment(Paragraph.ALIGN_CENTER);
@@ -294,7 +298,7 @@ abstract public class AbstractPrinter {
      *
      * @param doc Documento de itext al que añadir.
      * @param data Objeto DatosHojaHorario con los horarios a imprimir.
-     * @throws DocumentException  
+     * @throws DocumentException
      */
     public void printHojaHorario(Document doc, DatosHojaHorario data) throws DocumentException {
         PdfPTable t = new PdfPTable(6);
@@ -350,8 +354,6 @@ abstract public class AbstractPrinter {
             c.setUseBorderPadding(false);
             c.setUseVariableBorders(true);
 
-
-
         } else {
             p = new Paragraph("");//"C"+h.getNumcasilla()+" D"+h.getDiaSemana()+" "+h.getRangoHoras().getInicio());
             c = new PdfPCell(p);
@@ -374,7 +376,6 @@ abstract public class AbstractPrinter {
             c.setRowspan(h.getNumeroDeCasillasQueOcupa());
 
         }
-
 
         return c;
     }
@@ -437,8 +438,23 @@ abstract public class AbstractPrinter {
      * @return
      */
     protected Paragraph getParagraphForAsignatura(HorarioItem h) {
-        Font font = new Font(Font.FontFamily.HELVETICA, 10);
-        return new Paragraph(h.getAsignatura().getNombre(), font);
+        Font font = new Font(Font.FontFamily.HELVETICA, 6);
+        Paragraph p = null;
+        p = new Paragraph(h.getAsignatura().getNombre(), font);
+//        BaseFont bf;
+//        try {
+//            bf = BaseFont.createFont(
+//                    BaseFont.TIMES_ROMAN,
+//                    BaseFont.CP1252,
+//                    BaseFont.EMBEDDED);
+//            Font font = new Font(bf, 6);
+//            p = new Paragraph(h.getAsignatura().getNombre(), font);
+//        } catch (DocumentException ex) {
+//            Logger.getLogger(AbstractPrinter.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(AbstractPrinter.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        return p;
     }
 
     /**

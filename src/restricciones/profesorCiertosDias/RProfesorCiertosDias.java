@@ -366,6 +366,7 @@ public class RProfesorCiertosDias extends Restriccion  implements Serializable {
         int numDia = 1;
         for (String dia : MyConstants.DIAS_SEMANA) {
             nodo = creaNodoSimple(parent, dia);
+            //TODO: Esto da nullpointer al escribir en XML
             String rango = this.getRangos().get(numDia).toString();
             numDia++;
             creaNodoTexto(nodo, rango);

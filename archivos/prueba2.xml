@@ -1,134 +1,158 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <proyecto nombre="2º Cuatrimestre 2013/2014">
-    <calendario_académico>
-        <periodo_lectivo>
-            <inicio>14/01/2014</inicio>
-            <fin>07/06/2014</fin>
-        </periodo_lectivo>
-        <horario_aulas>
-            <horario_mañana>
-                <tramo_1>
-                    <inicio>08:15</inicio>
-                    <fin>11:15</fin>
-                </tramo_1>
-                <tramo_2>
-                    <inicio>11:45</inicio>
-                    <fin>14:45</fin>
-                </tramo_2>
-            </horario_mañana>
-            <horario_tarde>
-                <tramo_1>
-                    <inicio>15:00</inicio>
-                    <fin>18:00</fin>
-                </tramo_1>
-                <tramo_2>
-                    <inicio>18:30</inicio>
-                    <fin>21:00</fin>
-                </tramo_2>
-            </horario_tarde>
-        </horario_aulas>
-        <dias_semana_lectivos>
-            <dia>1</dia>
-            <dia>2</dia>
-            <dia>3</dia>
-            <dia>4</dia>
-            <dia>5</dia>
-        </dias_semana_lectivos>
-        <dias_no_lectivos/>
-    </calendario_académico>
-    <profesorado>
-        <departamento nombre="Ciencias Experimentales">
-            <profesores>
-                <profesor>
-                    <nombre>Alvarez</nombre>
-                    <apellidos>Alberto</apellidos>
-                    <nombre_corto>Alberto</nombre_corto>
-                </profesor>
-                <profesor>
-                    <nombre>David</nombre>
-                    <apellidos>Gutiérrez Rubio</apellidos>
-                    <nombre_corto>David</nombre_corto>
-                </profesor>
-            </profesores>
-        </departamento>
-    </profesorado>
-    <aulario>
-        <aula nombre="11"/>
-    </aulario>
-    <asignacion_aulas>
-        <asignacionGrupoCompleto aula="11@M" grupocurso="Primari@1º@1"/>
-        <asignacionGrupoCompleto aula="11@M" grupocurso="Primari@1º@2"/>
-        <asignacionGrupoCompleto aula="11@T" grupocurso="Primari@1º@3"/>
-    </asignacion_aulas>
-    <plan_docente>
-        <estudios nombre="Primaria">
-            <cursos>
-                <curso nombre="1º">
-                    <asignatura nombre="Matemáticas">
-                        <grupos>
-                            <grupo nombre="1">
-                                <tramos_grupo_completo>
-                                    <tramo minutos="60"/>
-                                    <tramo minutos="90"/>
-                                </tramos_grupo_completo>
-                            </grupo>
-                            <grupo nombre="2">
-                                <tramos_grupo_completo>
-                                    <tramo minutos="60"/>
-                                    <tramo minutos="90"/>
-                                </tramos_grupo_completo>
-                            </grupo>
-                            <grupo nombre="3">
-                                <tramos_grupo_completo>
-                                    <tramo minutos="60"/>
-                                    <tramo minutos="90"/>
-                                </tramos_grupo_completo>
-                            </grupo>
-                        </grupos>
-                    </asignatura>
-                    <asignatura nombre="Sociología">
-                        <grupos>
-                            <grupo nombre="1">
-                                <tramos_grupo_completo>
-                                    <tramo minutos="60"/>
-                                    <tramo minutos="90"/>
-                                </tramos_grupo_completo>
-                            </grupo>
-                            <grupo nombre="2">
-                                <tramos_grupo_completo>
-                                    <tramo minutos="60"/>
-                                    <tramo minutos="90"/>
-                                </tramos_grupo_completo>
-                            </grupo>
-                            <grupo nombre="3">
-                                <tramos_grupo_completo>
-                                    <tramo minutos="60"/>
-                                    <tramo minutos="90"/>
-                                </tramos_grupo_completo>
-                            </grupo>
-                        </grupos>
-                    </asignatura>
-                </curso>
-                <curso nombre="2º"/>
-                <curso nombre="3º"/>
-                <curso nombre="4º"/>
-            </cursos>
-        </estudios>
-    </plan_docente>
-    <restricciones>
-        <restriccion>
-            <className>restricciones.profesorNoUbicuo.RProfesorNoUbicuo</className>
-            <config_comun>
-                <nivel>1</nivel>
-            </config_comun>
-            <config_especifico/>
-        </restriccion>
-        <restriccion>
-            <className>restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo</className>
-            <config_comun>
-                <nivel>1</nivel>
-            </config_comun>
-            <config_especifico/>
-        </restriccion>
-    </restricciones>
+<calendario_académico>
+<periodo_lectivo>
+<inicio>14/01/2014</inicio>
+<fin>07/06/2014</fin>
+</periodo_lectivo>
+<horario_aulas>
+<horario_mañana>
+<tramo_1>
+<inicio>08:15</inicio>
+<fin>11:15</fin>
+</tramo_1>
+<tramo_2>
+<inicio>11:45</inicio>
+<fin>14:45</fin>
+</tramo_2>
+</horario_mañana>
+<horario_tarde>
+<tramo_1>
+<inicio>15:00</inicio>
+<fin>18:00</fin>
+</tramo_1>
+<tramo_2>
+<inicio>18:30</inicio>
+<fin>21:00</fin>
+</tramo_2>
+</horario_tarde>
+</horario_aulas>
+<dias_semana_lectivos>
+<dia>1</dia>
+<dia>2</dia>
+<dia>3</dia>
+<dia>4</dia>
+<dia>5</dia>
+</dias_semana_lectivos>
+<dias_no_lectivos/>
+</calendario_académico>
+<profesorado>
+<departamento nombre="Ciencias Experimentales">
+<profesores>
+<profesor>
+<nombre>Alvarez</nombre>
+<apellidos>Alberto</apellidos>
+<nombre_corto>Alberto</nombre_corto>
+</profesor>
+<profesor>
+<nombre>David</nombre>
+<apellidos>Gutiérrez Rubio</apellidos>
+<nombre_corto>David</nombre_corto>
+</profesor>
+</profesores>
+</departamento>
+</profesorado>
+<aulario>
+<aula nombre="11"/>
+</aulario>
+<asignacion_aulas>
+<asignacionGrupoCompleto aula="11@M" grupocurso="Primaria@1º@2"/>
+<asignacionGrupoCompleto aula="11@M" grupocurso="Primaria@1º@3"/>
+<asignacionGrupoCompleto aula="11@M" grupocurso="Primaria@1º@1"/>
+</asignacion_aulas>
+<plan_docente>
+<estudios nombre="Primaria">
+<cursos>
+<curso nombre="1º">
+<asignatura nombre="Matemáticas">
+<grupos>
+<grupo nombre="1">
+<tramos_grupo_completo>
+<tramo minutos="60">
+<docente>Alvarez@Alberto</docente>
+</tramo>
+<tramo minutos="90">
+<docente>Alvarez@Alberto</docente>
+</tramo>
+</tramos_grupo_completo>
+</grupo>
+<grupo nombre="2">
+<tramos_grupo_completo>
+<tramo minutos="60">
+<docente>Alvarez@Alberto</docente>
+</tramo>
+<tramo minutos="90">
+<docente>Alvarez@Alberto</docente>
+</tramo>
+</tramos_grupo_completo>
+</grupo>
+<grupo nombre="3">
+<tramos_grupo_completo>
+<tramo minutos="60">
+<docente>Alvarez@Alberto</docente>
+</tramo>
+<tramo minutos="90">
+<docente>Alvarez@Alberto</docente>
+</tramo>
+</tramos_grupo_completo>
+</grupo>
+</grupos>
+</asignatura>
+<asignatura nombre="Sociología">
+<grupos>
+<grupo nombre="1">
+<tramos_grupo_completo>
+<tramo minutos="60">
+<docente>David@Gutiérrez Rubio</docente>
+</tramo>
+<tramo minutos="90">
+<docente>David@Gutiérrez Rubio</docente>
+</tramo>
+</tramos_grupo_completo>
+</grupo>
+<grupo nombre="2">
+<tramos_grupo_completo>
+<tramo minutos="60">
+<docente>David@Gutiérrez Rubio</docente>
+</tramo>
+<tramo minutos="90">
+<docente>David@Gutiérrez Rubio</docente>
+</tramo>
+</tramos_grupo_completo>
+</grupo>
+<grupo nombre="3">
+<tramos_grupo_completo>
+<tramo minutos="60">
+<docente>David@Gutiérrez Rubio</docente>
+</tramo>
+<tramo minutos="90">
+<docente>David@Gutiérrez Rubio</docente>
+</tramo>
+</tramos_grupo_completo>
+</grupo>
+</grupos>
+</asignatura>
+</curso>
+<curso nombre="2º"/>
+<curso nombre="3º"/>
+<curso nombre="4º"/>
+</cursos>
+</estudios>
+</plan_docente>
+<restricciones>
+<restriccion>
+<className>restricciones.profesorNoUbicuo.RProfesorNoUbicuo</className>
+<config_comun>
+<nivel>1</nivel>
+</config_comun>
+<config_especifico/>
+</restriccion>
+<restriccion>
+<className>restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo</className>
+<config_comun>
+<nivel>1</nivel>
+</config_comun>
+<config_especifico/>
+</restriccion>
+</restricciones>
 </proyecto>
