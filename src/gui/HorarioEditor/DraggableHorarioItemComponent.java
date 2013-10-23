@@ -12,7 +12,6 @@ import data.horarios.HorarioItem;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -44,7 +43,7 @@ public class DraggableHorarioItemComponent extends JPanel {
      * other (z-Buffer change)
      */
     protected boolean overbearing = true;
-    private HorarioItem h;
+    private final HorarioItem h;
     private final HorariosJPanelModel jPanelModel;
     private int debugNumber;
     private final Border selectedConflictiveBorder;

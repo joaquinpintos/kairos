@@ -43,11 +43,12 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
 
     /**
      * Creates new form jDlgEditarAsignatura
-     * @param parent 
+     *
+     * @param parent
      * @param modal
-     * @param dataProyecto 
+     * @param dataProyecto
      * @param asigEdit
-     * @param createNew  
+     * @param createNew
      */
     public JDlgAñadirAsignatura(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto, Asignatura asigEdit, boolean createNew) {
         super(parent, modal);
@@ -68,7 +69,9 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         });
         //Lleno los combos con la lista de carreras y cursos
         ArrayList<Carrera> estudiosCombo = dataProyecto.getDataAsignaturas().getCarreras();
-        for (Carrera c:estudiosCombo) jComboEstudios.addItem(c);
+        for (Carrera c : estudiosCombo) {
+            jComboEstudios.addItem(c);
+        }
         AutoCompleteDecorator.decorate(jComboEstudios);
         if (!estudiosCombo.isEmpty()) {
             jComboEstudios.setSelectedIndex(0);
@@ -127,7 +130,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         jComboEstudios = new javax.swing.JComboBox();
         jTextNombreCorto = new javax.swing.JTextField();
         jTextNumCreditos = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckCrearGrupos = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jSpinnerNumClases1 = new javax.swing.JSpinner();
@@ -178,91 +181,91 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
 
         jLabel4.setText("Estudios:");
 
-        jCheckBox1.setText("Crear grupos automáticamente");
+        jCheckCrearGrupos.setText("Crear grupos automáticamente");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jPanel1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jPanel1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel13.setText("Grupos:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel13, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel13, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jSpinnerNumClases1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jSpinnerNumClases1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jSpinnerNumClases1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jSpinnerNumClases2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jSpinnerNumClases2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jSpinnerNumClases2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jSpinnerNumClases3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jSpinnerNumClases3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jSpinnerNumClases3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel11.setText("minutos cada una.");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel11, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel11, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel10.setText("clases de");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel10, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel10, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel9.setText("clases de");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel9, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel9, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jTextDuracionClases3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextDuracionClases3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextDuracionClases3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel14.setText("Ej: A,B,C ");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel14, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel14, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jTextGrupos.setToolTipText("Introduce los grupos separados por comas, por ejemplo: A,B,C,D");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextGrupos, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextGrupos, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jTextDuracionClases2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jTextDuracionClases2.setText("90");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextDuracionClases2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextDuracionClases2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jTextDuracionClases1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jTextDuracionClases1.setText("60");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextDuracionClases1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jTextDuracionClases1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel8.setText("minutos cada una, más");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel8, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel8, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel5.setText("La docencia semanal por grupo se distribuye en:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel5, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel5, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel7.setText("minutos cada una, más");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel7, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel7, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         jLabel15.setText("clases de");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckBox1, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel15, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jCheckCrearGrupos, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jLabel15, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -377,7 +380,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextNumCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCheckBox1))
+                            .addComponent(jCheckCrearGrupos))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -405,7 +408,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jTextNumCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(jCheckCrearGrupos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -450,15 +453,15 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
             }
 
 //            asigNueva.removeAllGrupos();//Por si estoy editando una asignatura en vez de crear una nueva
-            String[] listaGrupos = jTextGrupos.getText().split(",");
-            for (String nombreGrupo : listaGrupos) {
-                Grupo gr = new Grupo(nombreGrupo.trim());
-                addTramosToGrupo(gr);
-                asigNueva.addGrupo(gr);
+            if ((jCheckCrearGrupos.isSelected()) && (!jTextGrupos.getText().isEmpty())) {
+                String[] listaGrupos = jTextGrupos.getText().split(",");
+                for (String nombreGrupo : listaGrupos) {
+                    Grupo gr = new Grupo(nombreGrupo.trim());
+                    addTramosToGrupo(gr);
+                    asigNueva.addGrupo(gr);
+                }
             }
-
         }
-
 
         returnStatus = retStatus;
         setVisible(false);
@@ -475,8 +478,8 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         try {
             numClases = Integer.valueOf(jSpinnerNumClases1.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases1.getText());
-            for (int cont=0;cont<numClases;cont++) {
-                gr.addTramoGrupoCompleto(new Tramo( numHoras));
+            for (int cont = 0; cont < numClases; cont++) {
+                gr.addTramoGrupoCompleto(new Tramo(numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -484,18 +487,17 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
 
             numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases2.getText());
-             for (int cont=0;cont<numClases;cont++) {
-                gr.addTramoGrupoCompleto(new Tramo( numHoras));
+            for (int cont = 0; cont < numClases; cont++) {
+                gr.addTramoGrupoCompleto(new Tramo(numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
 
-
         try {
             numClases = Integer.valueOf(jSpinnerNumClases3.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases3.getText());
-             for (int cont=0;cont<numClases;cont++) {
-                gr.addTramoGrupoCompleto(new Tramo( numHoras));
+            for (int cont = 0; cont < numClases; cont++) {
+                gr.addTramoGrupoCompleto(new Tramo(numHoras));
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -503,7 +505,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckCrearGrupos;
     private javax.swing.JComboBox jComboCursos;
     private javax.swing.JComboBox jComboEstudios;
     private javax.swing.JLabel jLabel1;
@@ -543,7 +545,9 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         if (ac != null) {
             jComboCursos.removeAllItems();
             ArrayList<Curso> cursosCombo = ac.getCursos();
-            for (Curso c:cursosCombo) jComboCursos.addItem(c);
+            for (Curso c : cursosCombo) {
+                jComboCursos.addItem(c);
+            }
             AutoCompleteDecorator.decorate(jComboCursos);
             if (!cursosCombo.isEmpty()) {
                 jComboCursos.setSelectedIndex(0);

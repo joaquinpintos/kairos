@@ -8,7 +8,7 @@ import data.DataKairos;
 import data.DataProyecto;
 import data.MyConstants;
 import data.restricciones.Restriccion;
-import gui.MainWindowTabbed;
+import gui.AbstractMainWindow;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +31,7 @@ import loader.XMLDataLoaderWriter;
  */
 public final class JIntWelcome extends javax.swing.JInternalFrame implements DataGUIInterface {
 
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
     private final DataKairos dk;
     private File lastFileUsed;
     private AbstractAction cargarProyectoAction;
@@ -203,7 +203,7 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 
@@ -235,21 +235,7 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
         return xmldlw.save();
     }
 
-    /**
-     *
-     * @return
-     */
-    public File getLastFileUsed() {
-        return lastFileUsed;
-    }
-
-    /**
-     *
-     * @param lastFileUsed
-     */
-    public void setLastFileUsed(File lastFileUsed) {
-        this.lastFileUsed = lastFileUsed;
-    }
+   
 
     /**
      *
@@ -274,10 +260,11 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
                         int valorDevuelto = fc.showSaveDialog(null);
 
                         if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
-                            setLastFileUsed(fc.getSelectedFile());
+//                            setLastFileUsed(fc.getSelectedFile());
                             fich = new FileInputStream(lastFileUsed);
                             os = new ObjectInputStream(fich);
                             DataProyecto o = (DataProyecto) os.readObject();
+                             os.close();
                             dk.setDP(o);
                             mainWindow.registraListeners();
                             mainWindow.getjIntTreeProfesores().updateData();
@@ -362,7 +349,7 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
 
                     if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                         if ((!fc.getSelectedFile().exists()) || (JOptionPane.showConfirmDialog(rootPane, "El fichero existe, ¿sobreescribir?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
-                            setLastFileUsed(fc.getSelectedFile());
+//                            setLastFileUsed(fc.getSelectedFile());
                             fisal = new FileOutputStream(lastFileUsed);
                             oos = new ObjectOutputStream(fisal);
                             oos.writeObject(dk.getDP());

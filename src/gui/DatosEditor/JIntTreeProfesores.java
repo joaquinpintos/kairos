@@ -11,6 +11,7 @@ import data.profesores.Departamento;
 import data.profesores.Profesor;
 import data.profesores.TreeCellRendererProfesores;
 import data.profesores.TreeModelProfesores;
+import gui.AbstractMainWindow;
 import gui.MainWindowTabbed;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -40,7 +41,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     private final DataKairos dk;
     Profesor selectedProfesor;
     Departamento selectedDpto;
-    MainWindowTabbed mainWindow;
+    AbstractMainWindow mainWindow;
     TreeModel treeModelProfesores;
     private JPopupMenu jPopupMenuProfesores;
     private AbstractAction actionEditarProfesores;
@@ -144,10 +145,10 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         jButEditarProfesor = new javax.swing.JButton();
         jButAñadirProfesor = new javax.swing.JButton();
         jButEditarDepartamento = new javax.swing.JButton();
-        jButAsignarDocencia = new javax.swing.JButton();
         jButAñadirDepartamento = new javax.swing.JButton();
         jButEliminarDepartamento = new javax.swing.JButton();
 
+        setResizable(true);
         setTitle("Profesores");
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -174,13 +175,6 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
             }
         });
 
-        jButAsignarDocencia.setText("Asignar docencia");
-        jButAsignarDocencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButAsignarDocenciaActionPerformed(evt);
-            }
-        });
-
         jButAñadirDepartamento.setText("Añadir departamento");
 
         jButEliminarDepartamento.setText("Eliminar departamento");
@@ -203,9 +197,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButEliminarDepartamento)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButAsignarDocencia, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(165, 165, 165)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButAñadirProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButEditarProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -220,7 +212,6 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButEditarProfesor)
                     .addComponent(jButEditarDepartamento)
-                    .addComponent(jButAsignarDocencia)
                     .addComponent(jButAñadirDepartamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -241,14 +232,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     private void jButEditarDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButEditarDepartamentoActionPerformed
     }//GEN-LAST:event_jButEditarDepartamentoActionPerformed
 
-    private void jButAsignarDocenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButAsignarDocenciaActionPerformed
-        if (selectedProfesor != null) {
-         //TODO: FIX THIS:   mainWindow.getjIntAsignaciones().seleccionaProfesor(selectedProfesor);
-            mainWindow.getjTabPrincipal().setSelectedComponent(mainWindow.getjIntAsignaciones());
-        }
-    }//GEN-LAST:event_jButAsignarDocenciaActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButAsignarDocencia;
     private javax.swing.JButton jButAñadirDepartamento;
     private javax.swing.JButton jButAñadirProfesor;
     private javax.swing.JButton jButEditarDepartamento;
@@ -340,7 +324,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 

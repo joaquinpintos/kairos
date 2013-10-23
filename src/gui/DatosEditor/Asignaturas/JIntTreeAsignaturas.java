@@ -12,8 +12,8 @@ import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.Grupo;
+import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
-import gui.MainWindowTabbed;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -32,7 +32,7 @@ import javax.swing.tree.TreeSelectionModel;
 public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
 
     private DataProyecto dataProyecto;
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
     private final DataKairos dk;
     private AbstractAction añadirAsignaturaAction;
     private AbstractAction editarAsignaturaAction;
@@ -95,6 +95,10 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
         jButEliminarAsignatura = new javax.swing.JButton();
         jButEditarAsignatura = new javax.swing.JButton();
         jButAñadirAsignatura = new javax.swing.JToggleButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+
+        setResizable(true);
 
         jScrollPane1.setViewportView(jTreeAsignaturas);
 
@@ -126,10 +130,14 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
         jPanel1.add(jPanel2);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(filler1, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(filler2, java.awt.BorderLayout.LINE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JToggleButton jButAñadirAsignatura;
     private javax.swing.JButton jButAñadirCarrera;
     private javax.swing.JButton jButAñadirCursos;
@@ -155,7 +163,7 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 

@@ -4,7 +4,7 @@
  */
 package gui.DatosEditor;
 
-import gui.MainWindowTabbed;
+import gui.AbstractMainWindow;
 
 /**
  *
@@ -19,5 +19,5 @@ public interface DataGUIInterface {
      *
      * @param mainWindow
      */
-    public void setMainWindow(MainWindowTabbed mainWindow);
+    public void setMainWindow(AbstractMainWindow mainWindow);
 }

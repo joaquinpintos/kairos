@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import data.restricciones.Restriccion;
+import gui.AbstractMainWindow;
 import gui.MainWindowTabbed;
 
 
@@ -40,7 +41,7 @@ public class GeneticAlgorithm {
     private ArrayList<Restriccion> restriccionesFallidas;
     private int nivelCritico;
     private PosibleSolucion solucionInicial;
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
 
     /**
      *
@@ -421,7 +422,7 @@ public class GeneticAlgorithm {
      *
      * @param mainWindow
      */
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 }

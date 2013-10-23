@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import data.restricciones.Restriccion;
+import gui.AbstractMainWindow;
 import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
     //private GeneticAlgorithm geneticAlgorithm;
     ListaCasillas listaCasillas;
     ListaSegmentos listaSegmentos;
-    private MainWindowTabbed mainWindow;//Referencia a mw
+    private AbstractMainWindow mainWindow;//Referencia a mw
     private final DataKairos dk;
 
     /**
@@ -64,7 +65,6 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
     private void initComponents() {
 
         jLabIteracion = new javax.swing.JLabel();
-        jLabOptimoPoblacion = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextTamañoPoblacion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -80,9 +80,6 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
 
         jLabIteracion.setText("Iteración:");
         jLabIteracion.setFocusable(false);
-
-        jLabOptimoPoblacion.setText("Óptimo población:");
-        jLabOptimoPoblacion.setFocusable(false);
 
         jLabel3.setText("Número de elementos de la población:");
         jLabel3.setFocusable(false);
@@ -103,8 +100,13 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         });
 
         jTogInterrumpido.setText("Cancelar");
+        jTogInterrumpido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTogInterrumpidoActionPerformed(evt);
+            }
+        });
 
-        jLabOptimoGlobal.setText("Óptimo global:");
+        jLabOptimoGlobal.setText("Óptimo:");
         jLabOptimoGlobal.setFocusable(false);
 
         jLabel1.setText("Elitismo:");
@@ -125,68 +127,70 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabIteracion)
-                            .addComponent(jTogInterrumpido)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabOptimoPoblacion)
-                                .addGap(173, 173, 173)
-                                .addComponent(jLabOptimoGlobal))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 114, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextProbabilidadMutacion, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                            .addComponent(jTextTamañoPoblacion))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextElitismo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabSemaforo)
-                            .addComponent(jButComenzar))))
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(63, 63, 63))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextProbabilidadMutacion, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                .addComponent(jTextTamañoPoblacion)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextElitismo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(75, 75, 75))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabIteracion)
+                                        .addComponent(jLabOptimoGlobal))
+                                    .addGap(128, 128, 128))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(107, 107, 107)
+                                    .addComponent(jLabSemaforo)
+                                    .addGap(43, 43, 43)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButComenzar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTogInterrumpido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextTamañoPoblacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextProbabilidadMutacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextElitismo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButComenzar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextTamañoPoblacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextElitismo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabIteracion)
+                            .addComponent(jLabSemaforo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextProbabilidadMutacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jButComenzar)))
-                .addGap(17, 17, 17)
-                .addComponent(jLabSemaforo)
-                .addGap(11, 11, 11)
-                .addComponent(jLabIteracion)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabOptimoPoblacion)
-                    .addComponent(jLabOptimoGlobal))
-                .addGap(28, 28, 28)
-                .addComponent(jTogInterrumpido)
-                .addGap(18, 18, 18)
+                        .addComponent(jLabOptimoGlobal))
+                    .addComponent(jTogInterrumpido))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,11 +203,15 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
             Logger.getLogger(JIntGenetic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButComenzarActionPerformed
+
+    private void jTogInterrumpidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTogInterrumpidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTogInterrumpidoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButComenzar;
     private javax.swing.JLabel jLabIteracion;
     private javax.swing.JLabel jLabOptimoGlobal;
-    private javax.swing.JLabel jLabOptimoPoblacion;
     private javax.swing.JLabel jLabSemaforo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -344,7 +352,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 }

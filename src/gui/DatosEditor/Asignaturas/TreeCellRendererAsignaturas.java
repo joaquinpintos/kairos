@@ -74,7 +74,7 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
             if (tr.getDocente() != null) {
                 this.setFont(MyConstants.NORMAL_FONT);
                 this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-                this.setText(tr.toString() + " docente: " + tr.getDocente());
+                this.setText(tr.toString() + ". Docente: " + tr.getDocente());
             } else {
                 this.setFont(MyConstants.NEGRITA_FONT);
                 this.setForeground(MyConstants.CONFLICTIVE_ITEM);

@@ -4,6 +4,7 @@
  */
 package gui.HorarioEditor;
 
+import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import data.DataKairos;
 import data.DataProyectoListener;
 import data.MyConstants;
@@ -16,7 +17,7 @@ import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
 import data.horarios.HorarioItem;
 import data.horarios.DatosHojaHorario;
-import gui.MainWindowTabbed;
+import gui.AbstractMainWindow;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 /**
  * Esta clase maneja la representación de horarioitem dentro de un jpanel,
@@ -49,9 +51,9 @@ public class HorariosJPanelModel {
     private ArrayList<RangoHoras> listaDeRangosHorariosMañana;
     private ArrayList<RangoHoras> listaDeRangosHorariosTarde;
     private ArrayList<DraggableHorarioItemComponent> data;
-    private HashMap<String, DatosHojaHorario> horariosEnTablaPorAula;
+    private final HashMap<String, DatosHojaHorario> horariosEnTablaPorAula;
     private HashMap<String, Integer> numeroFilasPorAula;
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
     private final JListAulasModel jListAulasModel;
     //Constantes de tamaño
     ;
@@ -86,8 +88,6 @@ public class HorariosJPanelModel {
         listeners = new ArrayList<DataProyectoListener>();
         calculaFilasRecreo();
 
-
-
     }
 
     /**
@@ -109,7 +109,7 @@ public class HorariosJPanelModel {
             int x = col2x(n + 1, w, h);
             l.setOpaque(true);
             l.setBackground(MyConstants.FONDO_CASILLA_HORARIO);
-            l.setBounds(x, row2y(0, w, h), wCol(w, h), hRow(w,h));
+            l.setBounds(x, row2y(0, w, h), wCol(w, h), hRow(w, h));
             //TODO: Las rectas se borran inmediatamente
 //            if (dibujaRectasVerticales)
 //            {
@@ -138,7 +138,7 @@ public class HorariosJPanelModel {
                 l.setOpaque(true);
                 //l.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                 jPanelHorarios.add(l);
-                l.setBounds(col2x(0, w, h), row2y(n + 1, w, h), wCol(w, h), hRow(w,h));
+                l.setBounds(col2x(0, w, h), row2y(n + 1, w, h), wCol(w, h), hRow(w, h));
 
                 if ((r.getFin().equals(dk.getDP().getMañana1().getFin())) || ((r.getFin().equals(dk.getDP().getTarde1().getFin())))) {
                     JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
@@ -167,12 +167,11 @@ public class HorariosJPanelModel {
         int resul = W_MARGIN + col * (wCol + W_OFFSET);
         return resul;
 
-
     }
 
     /**
      *
-     * @param row 
+     * @param row
      * @param w
      * @param h
      * @return
@@ -196,25 +195,25 @@ public class HorariosJPanelModel {
     public int wCol(int w, int h) {
         return (w - 5 * W_OFFSET - 2 * W_MARGIN) / 6;
     }
+
     /**
      *
      * @param w
      * @param h
      * @return
      */
-    public int hRow(int w,int h){
-    int numFilas=numeroFilasPorAula.get(hashAulaMostrada)+1;
-        return (h-(numFilas-1)*H_OFFSET-H_MARGIN)/numFilas;
+    public int hRow(int w, int h) {
+        int numFilas = numeroFilasPorAula.get(hashAulaMostrada) + 1;
+        return (h - (numFilas - 1) * H_OFFSET - H_MARGIN) / numFilas;
     }
 
     /**
      * Calcula la altura de la celda para tamaño de frame indicado.
      *
-     * @param numFila 
-     * @param numColumna 
+     * @param numFila
+     * @param numColumna
      * @return
      */
-
     public int filaColumnaToNumeroCasilla(int numFila, int numColumna) {
         int resul = -1;
         int numFilasTotal = numeroFilasPorAula.get(hashAulaMostrada);
@@ -255,7 +254,6 @@ public class HorariosJPanelModel {
                 }
                 horariosEnTablaPorAula.get(hashAula).add(h);
 
-
             }
         } catch (NullPointerException ex) {
             Logger.getLogger(HorariosJPanelModel.class
@@ -282,26 +280,34 @@ public class HorariosJPanelModel {
      * @param w
      * @param h
      */
-    public void dibujaItems(int w, int h) {
-        data.clear();
-        if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
-            int contador = 0;
-            for (HorarioItem hItem : dk.getDP().getHorario().getHorarios()) {
-                String hashH = hItem.getHashAula();
-                if (hashAulaMostrada == null ? hashH == null : hashAulaMostrada.equals(hashH)) {
-                    DraggableHorarioItemComponent c = new DraggableHorarioItemComponent(hItem, this, contador);
-                    contador++;
-                    jPanelHorarios.add(c);
-                    data.add(c);
-                    drawItem(c, w, h);
+    public void dibujaItems(final int w, final int h) {
+        final HorariosJPanelModel pane = this;
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run()
+        {
+            data.clear();
+            if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
+                int contador = 0;
+                for (HorarioItem hItem : dk.getDP().getHorario().getHorarios()) {
+                    String hashH = hItem.getHashAula();
+                    if (hashAulaMostrada == null ? hashH == null : hashAulaMostrada.equals(hashH)) {
+                        DraggableHorarioItemComponent c = new DraggableHorarioItemComponent(hItem, pane, contador);
+                        contador++;
+                        jPanelHorarios.add(c);
+                        data.add(c);
+                        drawItem(c, w, h);
+                    }
                 }
-            }
-        }//End of   if (!dk.getDP().getHorario().getHorarios().isEmpty())
+            }//End of   if (!dk.getDP().getHorario().getHorarios().isEmpty())
+        }
+
     }
+//);
 
     /**
      *
-     * @param c 
+     * @param c
      * @param h
      * @param w
      */
@@ -311,7 +317,7 @@ public class HorariosJPanelModel {
         int dia = hItem.getDiaSemana();
         int fila = horariosEnTablaPorAula.get(hashAulaMostrada).getNumeroDeFila(hItem);
         int nu = hItem.getNumeroDeCasillasQueOcupa();
-        int alturaItem = hRow(w,h) * nu;
+        int alturaItem = hRow(w, h) * nu;
         if (nu > 0) {
             alturaItem += (nu - 1) * H_OFFSET;
         }
@@ -328,7 +334,7 @@ public class HorariosJPanelModel {
 //        int h = d.height;
 //        relocateItems(w, h);
 //   
-        if ((dk.getDP().getHorario().hayUnaSolucion())&&(hashAulaMostrada!=null)) {
+        if ((dk.getDP().getHorario().hayUnaSolucion()) && (hashAulaMostrada != null)) {
             rebuildAll();
         }
     }
@@ -345,7 +351,7 @@ public class HorariosJPanelModel {
             int dia = hItem.getDiaSemana();
             int fila = horariosEnTablaPorAula.get(hashAulaMostrada).getNumeroDeFila(hItem);
             int nu = hItem.getNumeroDeCasillasQueOcupa();
-            int alturaItem = hRow(w,h) * nu;
+            int alturaItem = hRow(w, h) * nu;
             if (nu > 0) {
                 alturaItem += (nu - 1) * H_OFFSET;
             }
@@ -423,12 +429,14 @@ public class HorariosJPanelModel {
 
             if (puedoSoltarAqui(draggableItem.getH(), numFila, numColumna)) {
                 effectivelyDropItem(draggableItem, numColumna, numFila, w, h);
+                repaintAllItems();
             }
+            else System.out.println("No puedo soltar aqui");
 
         }
-        repaintAllItems();
+        
         relocateItems(w, h);
-        mainWindow.repaint();
+//        mainWindow.repaint();
     }
 
     /**
@@ -459,7 +467,7 @@ public class HorariosJPanelModel {
             }
         }
         if (resul) {//Compruebo si no voy a partir ningún segmento
-            System.out.println("¿Cabe un segmento que ocupa " + h.getNumeroDeCasillasQueOcupa() + " casillas?");
+//            System.out.println("¿Cabe un segmento que ocupa " + h.getNumeroDeCasillasQueOcupa() + " casillas?");
             ArrayList<Integer> a = calculaCasillaDestino(asig, h.getNumcasilla(), numCasillaDst, h.getNumeroDeCasillasQueOcupa());
             if (a == null) {
                 resul = false;
@@ -509,7 +517,6 @@ public class HorariosJPanelModel {
         for (int k : casillasAMover) {
             DraggableHorarioItemComponent dMove = getHorarioItemPorCasilla(k);
 
-
             if (dMove != null) {
                 //Miro si la casilla de destino está "reservada" para dSrc, si lo está, avanzo n1
                 while ((columnaA == columnaB) && (filaA1 + n1 >= filaB) && (filaA1 + n1 < filaB + dSrc.getH().getNumeroDeCasillasQueOcupa())) {
@@ -556,7 +563,6 @@ public class HorariosJPanelModel {
         int cuantasCasilasSrc = src.getNumeroDeCasillasQueOcupa();
 
 //        int numCasillaDst = dDst.getH().getNumcasilla();
-
         ArrayList<Integer> segmentosDestino = calculaCasillaDestino(asig, src.getNumcasilla(), numCasillaDst, cuantasCasilasSrc);
         int numCasillaDondeVaDst = numCasillaSrc;
         int offset = 0;
@@ -654,7 +660,7 @@ public class HorariosJPanelModel {
      *
      * @param mainWindow
      */
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 
@@ -708,7 +714,6 @@ public class HorariosJPanelModel {
             nuevaAsig.addAll(segmentosDestino);
             nuevaAsig.addAll(oldAsig.subList(index1 + 1, oldAsig.size()));
 
-
         }
         return nuevaAsig;
     }
@@ -755,12 +760,21 @@ public class HorariosJPanelModel {
      *
      */
     public void repaintAllItems() {
-        for (DraggableHorarioItemComponent hItem : data) {
-            hItem.rebuildContent();
-        }
-        if (mainWindow != null) {
-            mainWindow.repaint();
-        }
+//        SwingUtilities.invokeLater(new Runnable() {
+//
+//            @Override
+//            public void run()
+//            {
+                
+                for (DraggableHorarioItemComponent hItem : data) {
+                    hItem.rebuildContent();
+                }
+                if (mainWindow != null) {
+                    mainWindow.repaint();
+                }
+//            }
+//        }
+//        );
     }
 
     /**
@@ -820,8 +834,8 @@ public class HorariosJPanelModel {
                 n = 0;
                 InnerLoopTarde:
                 for (Casilla c : dk.getDP().getMapDatosPorAula().get(hashAula).getListaCasillas().getCasillas()) {
-                    if (c.isFinalDeRango()) {//La primera casilla con final de rango es el recreo.
-                        break InnerLoopTarde;
+                    if (c.isFinalDeRango()) {
+                        break;
                     }
                     n++;
                 }

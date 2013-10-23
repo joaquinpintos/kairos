@@ -16,6 +16,7 @@ import data.asignaturas.Grupo;
 import data.aulas.Aula;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
+import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
 import gui.MainWindowTabbed;
 import java.awt.dnd.DropTarget;
@@ -50,7 +51,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
     private DataProfesores dataProfesores;
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
     private final CarreraGrupoCursosNoAsignadosSimpleListModel modelHashes;
     private AbstractAction añadirAulaAction;
     private AbstractAction editarAulaAction;
@@ -121,6 +122,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jScrollPane3 = new javax.swing.JScrollPane();
         jListGrupos = new javax.swing.JList();
         jLabel2 = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         jPanelAulas1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTreeAulas = new javax.swing.JTree();
@@ -132,7 +134,9 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jButAñadirAula = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
 
+        setResizable(true);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -152,6 +156,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
         jLabel2.setText("Grupos:");
         jPanelGrupos1.add(jLabel2, java.awt.BorderLayout.PAGE_START);
+        jPanelGrupos1.add(filler2, java.awt.BorderLayout.LINE_END);
 
         jPanel1.add(jPanelGrupos1, java.awt.BorderLayout.LINE_END);
 
@@ -196,6 +201,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jPanelInferior1.add(filler8);
 
         jPanel1.add(jPanelInferior1, java.awt.BorderLayout.PAGE_END);
+        jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -208,6 +214,8 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     private void jButEliminarAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButEliminarAulaActionPerformed
     }//GEN-LAST:event_jButEliminarAulaActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler8;
@@ -242,7 +250,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
 
 

@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.AbstractAction;
 import data.restricciones.Restriccion;
+import gui.AbstractMainWindow;
 import java.awt.event.KeyEvent;
 import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.ActionMap;
@@ -28,7 +29,7 @@ import javax.swing.KeyStroke;
  */
 public final class JIntRestricciones extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
 
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
     private ListModelRestricciones listModelRestricciones;
     private AbstractAction elegirNivelRestricionAction;
     private AbstractAction editarRestriccionAction;
@@ -39,11 +40,12 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 
     /**
      * Creates new form JIntRestricciones
-     * @param dk 
+     *
+     * @param dk
      */
     public JIntRestricciones(DataKairos dk) {
         initComponents();
-        this.dk=dk;
+        this.dk = dk;
         listModelRestricciones = new ListModelRestricciones(dk);
         jListRestricciones.setModel(listModelRestricciones);
         RestriccionListRenderer rend = new RestriccionListRenderer();
@@ -71,6 +73,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 32767));
 
+        setResizable(true);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 0));
 
         jScrollPane1.setViewportView(jListRestricciones);
@@ -119,12 +122,13 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
     public void updateData() {
         jListRestricciones.updateUI();
     }
+
     /**
      *
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 
@@ -145,17 +149,18 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             public void actionPerformed(ActionEvent e) {
                 try {
                     Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
-                    r.lanzarDialogoDeConfiguracion(this);
-                    //Lanzo el evento de que se han modificado las restricciones
-                    dk.getDP().getDataRestricciones().fireDataEvent(r, DataProyectoListener.MODIFY);
-                    updateData();
+                    if (r != null) {
+                        r.lanzarDialogoDeConfiguracion(this);
+                        //Lanzo el evento de que se han modificado las restricciones
+                        dk.getDP().getDataRestricciones().fireDataEvent(r, DataProyectoListener.MODIFY);
+                        updateData();
+                    }
 
                 } catch (ArrayIndexOutOfBoundsException exc) {
                 }
             }
         }
         editarRestriccionAction = new EditarRestriccionAction();
-
 
         //Necesito definir esto despues de editarRestriccionAction porque hago referencia a él.
         class AñadirRestriccionAction extends AbstractAction {
@@ -174,8 +179,6 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             }
         }
         añadirRestriccionAction = new AñadirRestriccionAction();
-
-
 
         class EliminarRestriccionAction extends AbstractAction {
 
@@ -201,7 +204,6 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         eliminarRestriccion = new EliminarRestriccionAction();
 
         //Acción para elegir el nivel de la restricción
-
         class ElegirNivelRestriccionAction extends AbstractAction {
 
             private final Frame parent;
@@ -223,9 +225,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         }
         elegirNivelRestricionAction = new ElegirNivelRestriccionAction(mainWindow);
 
-
         //Listener para detectar doble click en la lista de restricciones.
-
         class JListRestriccionesMouseListener implements MouseListener {
 
             @Override
@@ -263,7 +263,6 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         actionMap.put("Añadir restricción", añadirRestriccionAction);
 
         jListRestriccionesMouseListener = new JListRestriccionesMouseListener();
-
 
         //Asigno actions y listeners
         jListRestricciones.addMouseListener(jListRestriccionesMouseListener);

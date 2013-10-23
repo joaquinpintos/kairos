@@ -54,7 +54,7 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
         dataProyecto.setNombreProyecto(nombre);
         dataProyecto.getDataRestricciones().add(new RProfesorNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
+        //TODO: ¿Pueden hacer falta más restricciones, por ejemplo grupos no ubicuos?
     }
-    
     
 }

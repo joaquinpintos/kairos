@@ -9,10 +9,10 @@ package gui.DatosEditor.Docencia;
 import data.DataKairos;
 import data.profesores.TreeCellRendererProfesores;
 import data.profesores.TreeModelProfesores;
+import gui.AbstractMainWindow;
 import gui.DatosEditor.Asignaturas.TreeCellRendererAsignaturas;
 import gui.DatosEditor.Asignaturas.TreeModelAsignaturas;
 import gui.DatosEditor.DataGUIInterface;
-import gui.MainWindowTabbed;
 import java.awt.dnd.DropTarget;
 import java.util.TooManyListenersException;
 import javax.swing.JTree;
@@ -24,7 +24,7 @@ import javax.swing.JTree;
 public class JIntAsignaciones extends javax.swing.JInternalFrame implements DataGUIInterface {
 
     private final DataKairos dk;
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
 
     /**
      * Creates new form jIntAsignaciones
@@ -67,31 +67,20 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTreeAsignaturas = new javax.swing.JTree();
+        jPanel1 = new javax.swing.JPanel();
+        jButExpandir = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTreeProfesores = new javax.swing.JTree();
-        jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButExpandir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTreeAsignaturas = new javax.swing.JTree();
 
-        jScrollPane1.setViewportView(jTreeAsignaturas);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jTreeProfesores.setMaximumSize(new java.awt.Dimension(30000, 300000));
-        jTreeProfesores.setMinimumSize(new java.awt.Dimension(400, 200));
-        jTreeProfesores.setPreferredSize(new java.awt.Dimension(400, 200));
-        jScrollPane2.setViewportView(jTreeProfesores);
-
-        getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_START);
+        setResizable(true);
+        getContentPane().setLayout(new java.awt.BorderLayout(5, 0));
 
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        jTextField1.setText("jTextField1");
-        jTextField1.setDragEnabled(true);
-        jTextField1.setDropMode(javax.swing.DropMode.INSERT);
-        jPanel1.add(jTextField1);
 
         jButExpandir.setText("Expandir");
         jButExpandir.addActionListener(new java.awt.event.ActionListener() {
@@ -102,6 +91,24 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
         jPanel1.add(jButExpandir);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(filler1, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(filler2, java.awt.BorderLayout.LINE_END);
+
+        jSplitPane1.setDividerLocation(300);
+
+        jTreeProfesores.setMaximumSize(new java.awt.Dimension(30000, 300000));
+        jTreeProfesores.setMinimumSize(new java.awt.Dimension(400, 200));
+        jTreeProfesores.setPreferredSize(new java.awt.Dimension(400, 200));
+        jScrollPane2.setViewportView(jTreeProfesores);
+
+        jSplitPane1.setLeftComponent(jScrollPane2);
+
+        jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScrollPane1.setViewportView(jTreeAsignaturas);
+
+        jSplitPane1.setRightComponent(jScrollPane1);
+
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -115,11 +122,13 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JButton jButExpandir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTree jTreeAsignaturas;
     private javax.swing.JTree jTreeProfesores;
     // End of variables declaration//GEN-END:variables
@@ -131,7 +140,7 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
     }
     
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 }

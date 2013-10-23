@@ -20,6 +20,7 @@ import javax.swing.ListCellRenderer;
 import data.restricciones.Restriccion;
 import gui.DatosEditor.Restricciones.RestriccionListRenderer;
 import data.horarios.HorarioItem;
+import gui.AbstractMainWindow;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
@@ -28,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.border.Border;
 
 /**
@@ -37,7 +37,7 @@ import javax.swing.border.Border;
  */
 public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements DataGUIInterface, HorarioListener, DataProyectoListener {
 
-    private MainWindowTabbed mainWindow;
+    private AbstractMainWindow mainWindow;
 //    private final HorariosTableModelPorAula modelHorarios;
     private final JListRestriccionesModel jListRestriccionesModel;
     private final JListAulasModel jListAulasModel;
@@ -126,6 +126,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         jScrollPane1.setViewportView(jTableHorario);
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setResizable(true);
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
         jListAulas.setPreferredSize(new java.awt.Dimension(150, 0));
@@ -292,7 +293,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
      * @param mainWindow
      */
     @Override
-    public void setMainWindow(MainWindowTabbed mainWindow) {
+    public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
 
@@ -492,7 +493,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainWindow.getjTabPrincipal().setSelectedComponent(mainWindow.getjIntgenGenetic());
+                mainWindow.switchToComponent(mainWindow.getjIntgenGenetic());
                 try {
                     mainWindow.getjIntgenGenetic().doGenetic(dk.getDP().getHorario().getSolucion());
                 } catch (Exception ex) {

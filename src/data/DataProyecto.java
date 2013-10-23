@@ -32,12 +32,12 @@ import java.math.BigInteger;
 public class DataProyecto implements Serializable {
 
     private File pathForPDF; //Ruta para guardar los PDF
-    private DataProfesores dataProfesores;
-    private DataAsignaturas dataAsignaturas;
-    private DataAulas dataAulas;
-    private CalendarioAcademico calendarioAcadémico;
-    private HashMap<String, DatosPorAula> mapDatosPorAula;
-    private DataAsignacionAulas dataAsignacionAulas;
+    private final DataProfesores dataProfesores;
+    private final DataAsignaturas dataAsignaturas;
+    private final DataAulas dataAulas;
+    private final CalendarioAcademico calendarioAcadémico;
+    private final HashMap<String, DatosPorAula> mapDatosPorAula;
+    private final DataAsignacionAulas dataAsignacionAulas;
     private HashMap<String, Profesor> mapProfesor;
     //Esta clase contiene un horario ya construido. Se usa después de hallar una solución
     private Horario horario;
@@ -50,9 +50,9 @@ public class DataProyecto implements Serializable {
     //datos por aula, con toda la información relativa al aula/genetic algorithm
     //Cada asignatura (sin importar grupo) representada por su hash, me da
     //la lista de segmentos que pertenecen a ella, divididos por grupos
-    private HashMap<String, ListaSegmentos> mapSegmentosPorAsignaturaGrupo;
-    private HashMap<Profesor, ArrayList<ListaSegmentos>> mapSegmentosImpartidosPorProfesor;
-    private DataRestricciones dataRestricciones;
+    private final HashMap<String, ListaSegmentos> mapSegmentosPorAsignaturaGrupo;
+    private final HashMap<Profesor, ArrayList<ListaSegmentos>> mapSegmentosImpartidosPorProfesor;
+    private final DataRestricciones dataRestricciones;
     //Optimo encontrado, si hubiera alguno
     private PosibleSolucion optimo;
     private String tituloPaginasImprimir;
@@ -61,6 +61,10 @@ public class DataProyecto implements Serializable {
     //Si hay clases de 90 y 60, las casillas son de 30=mcd(60,90)
     private int minutosPorCasilla;
     private boolean dirty;
+    /**
+     * Estado del proyecto: puede tomar valores dentro de MYCONSTANTS.
+     */
+    private int status;
 
     /**
      * Constructor por defecto
@@ -77,6 +81,7 @@ public class DataProyecto implements Serializable {
         calendarioAcadémico = new CalendarioAcademico();
         dataRestricciones = new DataRestricciones(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
+        status=MyConstants.STATUS_PROJECT_NO_SOLUTION;
     }
 
     /**
@@ -516,4 +521,13 @@ public class DataProyecto implements Serializable {
         
         this.dirty = dirty;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
 }
