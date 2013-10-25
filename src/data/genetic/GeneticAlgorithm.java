@@ -7,15 +7,12 @@ package data.genetic;
 import genetic.crossovers.Crossover;
 import genetic.mutators.Mutator;
 import data.DataProyecto;
-import data.horarios.HorarioConstructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
-import gui.MainWindowTabbed;
+import javax.swing.SwingWorker;
 
 
 /**
@@ -26,9 +23,9 @@ public class GeneticAlgorithm {
 
     private ArrayList<PosibleSolucion> manada;
     private PosibleSolucion optimo;
-    private Crossover cruzador;
-    private ArrayList<Restriccion> restricciones;
-    private DataProyecto dataProyecto;
+    private final Crossover cruzador;
+    private final ArrayList<Restriccion> restricciones;
+    private final DataProyecto dataProyecto;
     private ListaSegmentos listaSegmentos;
     private ListaCasillas listaCasillas;
     private int tamañoManada;
@@ -136,29 +133,22 @@ public class GeneticAlgorithm {
         manada = new ArrayList<PosibleSolucion>();
         restriccionesFallidas = new ArrayList<Restriccion>();
         setDebug(false);
+        generaManadaInicial();
     }
 
     /**
      * Bucle principal del algoritmo.
-     * @return 
+     * @return true si ha terminado
      */
-    public PosibleSolucion runMainLoop() {
-        nivelCritico = 3;//Al principio nivel verde
-        int nnInicial=0;
-        if (solucionInicial != null) {
-            manada.add(solucionInicial);
-            nnInicial=1;
-        }
-        for (int nn = nnInicial; nn < tamañoManada; nn++) {
-            boolean add = manada.add(PosibleSolucion.generador(dataProyecto));
-        }
+    public boolean runSingleLoop() {
+        boolean continueLoop=true;
         //Al principio tomo como óptimo una solución cualquiera.
         optimo = manada.get(0).copia();
         //Bucle principal:
         long optimoValor = 100000;
         optimo.setPeso(optimoValor);
         buclePrincipal:
-        while (numIter < max_iter) {
+//        while (numIter < max_iter) {
             tamañoManada = manada.size();
             for (PosibleSolucion s : manada) {
                 s.setDataProyecto(dataProyecto);
@@ -172,41 +162,46 @@ public class GeneticAlgorithm {
             if (manada.get(0).getPeso() < optimo.getPeso()) {
                 optimo = manada.get(0).copia();
             }
-            if (geneticInformer != null) {
-                geneticInformer.setInformation(this);
-            }
-            if (geneticInformer.interrumpido()) {
-                optimo = manada.get(0).copia();//Cojo lo mejor que tenga
-                break buclePrincipal;
-            }
+//            if (geneticInformer != null) {
+//                geneticInformer.setInformation(this);
+//            }
+//            if (geneticInformer.interrumpido()) {
+//                optimo = manada.get(0).copia();//Cojo lo mejor que tenga
+//                break buclePrincipal;
+//            }
 
             //Calculo el valor óptimo que he ido alcanzando.
-            optimoValor = optimo.getPeso();
+//            optimoValor = optimo.getPeso();
             if (optimo.getPeso() == 0) {//Óptimo alcanzado. No puedo mejorar más
                 optimo = manada.get(0).copia();
-                break buclePrincipal;
+                continueLoop=false;
+//                break buclePrincipal;
             }
             calcularSiguienteGeneracion();
             numIter++;
-        }//buclePrincipal
+        return continueLoop;
+    }
 
+    public PosibleSolucion getSolucion() {
         //Finalizado el bucle, genero horario con la mejor solución hallada.
         //Antes refresco los datos internos de las soluciones
         optimo.setDataProyecto(dataProyecto);
         optimo.update();//Actualizo datos internos de las soluciones
         calculaPesosPosibleSolucion(optimo);
-        geneticInformer.finalizado(this);
-        dataProyecto.setOptimo(optimo);
-        try {
-            dataProyecto.setHorario(HorarioConstructor.constructor(optimo, dataProyecto));
-            //dataProyecto.getMainWindow().refrescaVentanaHorarios();
-        } catch (Exception ex) {
-            Logger.getLogger(GeneticAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        mainWindow.getjIntHorarioView().needRecalcularPesos();
+//        geneticInformer.finalizado(this);
         return optimo;
+    }
 
-
+    protected void generaManadaInicial() {
+        nivelCritico = 3;//Al principio nivel verde
+        int nnInicial=0;
+        if (solucionInicial != null) {
+            manada.add(solucionInicial);
+            nnInicial=1;
+        }
+        for (int nn = nnInicial; nn < tamañoManada; nn++) {
+            boolean add = manada.add(PosibleSolucion.generador(dataProyecto));
+        }
     }
 
     /**

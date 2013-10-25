@@ -15,6 +15,7 @@ import genetic.crossovers.Crossover;
 import data.genetic.ListaCasillas;
 import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
+import data.horarios.HorarioConstructor;
 import genetic.mutators.AssortedMutator;
 import genetic.mutators.Mutator;
 import gui.MainWindowTabbed;
@@ -24,8 +25,11 @@ import javax.swing.SwingWorker;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
 import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import sun.java2d.loops.CompositeType;
 
 /**
  *
@@ -38,11 +42,13 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
     ListaSegmentos listaSegmentos;
     private AbstractMainWindow mainWindow;//Referencia a mw
     private final DataKairos dk;
+    private SwingWorker<PosibleSolucion, GeneticInterim> geneticWorker;
 
     /**
      * Creates new form JIntGenetic
-     * @param dk 
-     * @throws Exception 
+     *
+     * @param dk
+     * @throws Exception
      */
     public JIntGenetic(DataKairos dk) throws Exception {
         initComponents();
@@ -100,11 +106,6 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         });
 
         jTogInterrumpido.setText("Cancelar");
-        jTogInterrumpido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTogInterrumpidoActionPerformed(evt);
-            }
-        });
 
         jLabOptimoGlobal.setText("Óptimo:");
         jLabOptimoGlobal.setFocusable(false);
@@ -204,10 +205,6 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         }
     }//GEN-LAST:event_jButComenzarActionPerformed
 
-    private void jTogInterrumpidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTogInterrumpidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTogInterrumpidoActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButComenzar;
     private javax.swing.JLabel jLabIteracion;
@@ -254,14 +251,14 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         errores.addAll(check.chequeaSiLosGruposCaben());
         errores.addAll(check.chequeSiTodoGrupoTieneUnaAulaAsignada());
         errores.addAll(check.chequeaSiTodosLosTramosTienenAsignadaDocencia());
-        String textoError="Se han encontrado los siguientes errores validando los datos:\n";
-        for (String er:errores)
-            textoError+="\n - "+er;
+        String textoError = "Se han encontrado los siguientes errores validando los datos:\n";
+        for (String er : errores) {
+            textoError += "\n - " + er;
+        }
         if (!errores.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, textoError, "Error al validar", JOptionPane.OK_OPTION);
             return;
         }
-
 
         if (!dataGenerator.generaDatos()) {
             jLabIteracion.setText("Error: no hay aulas suficientes!!");
@@ -317,26 +314,65 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
             geneticAlgorithm.addRestriccion(r);
         }
 
-        geneticAlgorithm.setGeneticInformer(informer);
+//        geneticAlgorithm.setGeneticInformer(informer);
         geneticAlgorithm.inicializarDatos();
         geneticAlgorithm.setMax_iter(100000);
         geneticAlgorithm.setSolucionInicial(solInicial);
-        SwingWorker worker = new SwingWorker<PosibleSolucion, Integer>() {
+
+        geneticWorker = new SwingWorker<PosibleSolucion, GeneticInterim>() {
+            int contador;
+
             @Override
-            public PosibleSolucion doInBackground() {
-                PosibleSolucion s = geneticAlgorithm.runMainLoop();
-                return s;
+            public PosibleSolucion doInBackground() throws Exception {
+                contador = 0;
+                while ((!jTogInterrumpido.isSelected())&&(geneticAlgorithm.runSingleLoop())) {
+                    publish(new GeneticInterim(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
+                }
+                return geneticAlgorithm.getSolucion();
             }
+
+            @Override
+            public void done() {
+                PosibleSolucion optimo;
+                try {
+                    optimo = get();
+                    dk.getDP().setOptimo(optimo);
+                    dk.getDP().setHorario(HorarioConstructor.constructor(optimo, dk.getDP()));
+                    mainWindow.getjIntHorarioView().updateData();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JIntGenetic.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(JIntGenetic.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(JIntGenetic.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            @Override
+            protected void process(List<GeneticInterim> informs) {
+                GeneticInterim i = informs.get(informs.size() - 1);
+                jLabIteracion.setText("Iteración: " + i.numIter);
+                jLabOptimoGlobal.setText("Óptimo global: " + i.peso);
+//                jLabSemaforo.setIcon(trafficLights[g.getNivelCritico()-1]);
+                jLabSemaforo.setIcon(null);
+                jLabSemaforo.setText(i.level + "");
+                //jLabOptimoPoblacion.setText("Óptimo población: " + optimoManada);
+                contador++;
+                if (contador == 10) {
+                    contador = 0;
+                    geneticAlgorithm.calculaPesosOptimo();
+                    jTextRestriccionesNoCumplidas.setText(geneticAlgorithm.getDescripcionRestriccionesFallidas());
+                }
+            }
+
         };
 //        GeneticWorker worker=new GeneticWorker(geneticAlgorithm);
 //        PosibleSolucion optimo = worker.doInBackground();
 
-        worker.execute();
+        geneticWorker.execute();
+//        worker.run();
 //      geneticAlgorithm.runMainLoop();
 //        PosibleSolucion optimo = dk.getDP().getOptimo();
-
-
-
 
     }
 
@@ -367,8 +403,22 @@ class GeneticWorker extends SwingWorker<PosibleSolucion, Integer> {
 
     @Override
     public PosibleSolucion doInBackground() {
-        geneticAlgorithm.runMainLoop();
+        geneticAlgorithm.runSingleLoop();
         PosibleSolucion s = geneticAlgorithm.getOptimo();
         return s;
     }
 };
+
+class GeneticInterim {
+
+    public int numIter;
+    public int level;
+    public double peso;
+
+    public GeneticInterim(int numIter, int level, double peso) {
+        this.numIter = numIter;
+        this.level = level;
+        this.peso = peso;
+    }
+
+}
