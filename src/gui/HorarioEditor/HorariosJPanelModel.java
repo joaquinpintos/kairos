@@ -4,7 +4,6 @@
  */
 package gui.HorarioEditor;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import data.DataKairos;
 import data.DataProyectoListener;
 import data.MyConstants;
@@ -20,6 +19,7 @@ import data.horarios.DatosHojaHorario;
 import gui.AbstractMainWindow;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,15 +44,15 @@ public class HorariosJPanelModel {
 
     JPanel jPanelHorarios;
     DataKairos dk;
-    private ArrayList<DataProyectoListener> listeners;
+    private final ArrayList<DataProyectoListener> listeners;
     //La solución que estoy mostrando
     private PosibleSolucion solucion;
     private String hashAulaMostrada;
     private ArrayList<RangoHoras> listaDeRangosHorariosMañana;
     private ArrayList<RangoHoras> listaDeRangosHorariosTarde;
-    private ArrayList<DraggableHorarioItemComponent> data;
+    private final ArrayList<DraggableHorarioItemComponent> data;
     private final HashMap<String, DatosHojaHorario> horariosEnTablaPorAula;
-    private HashMap<String, Integer> numeroFilasPorAula;
+    private final HashMap<String, Integer> numeroFilasPorAula;
     private AbstractMainWindow mainWindow;
     private final JListAulasModel jListAulasModel;
     //Constantes de tamaño
@@ -66,7 +66,7 @@ public class HorariosJPanelModel {
     private boolean dibujaRectasVerticales = true;
     private boolean dibujaRectasHorizontales = true;
     //HashAula---->[row,col]-->numCasilla (fácil ¿no?)
-    private HashMap<String, HashMap<Integer[], Integer>> mapFilaColumnaToCasilla;
+    private final HashMap<String, HashMap<Integer[], Integer>> mapFilaColumnaToCasilla;
     private int filaRecreoMañana;
     private int filaRecreoTarde;
     private int filaRecreo;
@@ -419,8 +419,8 @@ public class HorariosJPanelModel {
     void prepareToDropItemAt(DraggableHorarioItemComponent draggableItem, int x, int y) {
         solucion = dk.getDP().getHorario().getSolucion();
         Dimension d = jPanelHorarios.getSize();
-        int w = d.width;
-        int h = d.height;
+        final int w = d.width;
+        final int h = d.height;
 
         int numColumna = x2col(x, w, h);
         int numFila = y2row(y, w, h);
@@ -430,13 +430,12 @@ public class HorariosJPanelModel {
             if (puedoSoltarAqui(draggableItem.getH(), numFila, numColumna)) {
                 effectivelyDropItem(draggableItem, numColumna, numFila, w, h);
                 repaintAllItems();
+            } else {
+                System.out.println("No puedo soltar aqui");
             }
-            else System.out.println("No puedo soltar aqui");
 
         }
-        
         relocateItems(w, h);
-//        mainWindow.repaint();
     }
 
     /**
@@ -486,7 +485,7 @@ public class HorariosJPanelModel {
      * @param w Anchura del panel de horarios
      * @param h ALtura del panel de horarios
      */
-    private void effectivelyDropItem(DraggableHorarioItemComponent dragSrc, int numColumna, int numFila, int w, int h) {
+    private void effectivelyDropItem(final DraggableHorarioItemComponent dragSrc, final int numColumna, final int numFila, final int w, final int h) {
         intercambioHorarioItemsNew(dragSrc, numFila, numColumna, w, h);
         fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
     }
@@ -765,13 +764,13 @@ public class HorariosJPanelModel {
 //            @Override
 //            public void run()
 //            {
-                
-                for (DraggableHorarioItemComponent hItem : data) {
-                    hItem.rebuildContent();
-                }
-                if (mainWindow != null) {
-                    mainWindow.repaint();
-                }
+
+        for (DraggableHorarioItemComponent hItem : data) {
+            hItem.rebuildContent();
+        }
+//        if (mainWindow != null) {
+//            mainWindow.repaint();
+//        }
 //            }
 //        }
 //        );
@@ -781,17 +780,19 @@ public class HorariosJPanelModel {
      *
      */
     public void clearConflictivos() {
-        for (HorarioItem h : dk.getDP().getHorario().getHorarios()) {
-            h.setMarkLevel(HorarioItem.NO_MARK);
+//        for (HorarioItem h : dk.getDP().getHorario().getHorarios()) {
+//            h.setMarkLevel(HorarioItem.NO_MARK);
+//
+//        }
+        for (DraggableHorarioItemComponent hItem : data) {
+            hItem.setMarkLevel(HorarioItem.NO_MARK);
         }
-
-    }
-
-    /**
-     *
-     * @param casillasConflictivas
-     * @param markType
-     */
+        }
+        /**
+         *
+         * @param casillasConflictivas
+         * @param markType
+         */
     public void marcaConflictivos(HashMap<String, HashSet<Integer>> casillasConflictivas, int markType) {
 //        System.out.println("[DEBUG] Marco conflictivos "+casillasConflictivas);
 
@@ -799,7 +800,7 @@ public class HorariosJPanelModel {
             for (int n : casillasConflictivas.get(hashAula)) {
                 DraggableHorarioItemComponent drg = getItemConCasilla(n);
                 if ((drg != null) && drg.getH().getHashAula().equals(hashAula)) {
-                    drg.getH().setMarkLevel(markType);
+                    drg.setMarkLevel(markType);
                 }
             }
 

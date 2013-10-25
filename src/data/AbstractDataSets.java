@@ -26,8 +26,6 @@ public class AbstractDataSets implements Serializable {
 
     }
 
-   
-
     /**
      *
      * @param l
@@ -58,7 +56,9 @@ public class AbstractDataSets implements Serializable {
      */
     public void fireDataEvent(Object data, int type) {
         for (DataProyectoListener l : listeners) {
-            l.dataEvent(data, type);
+            if (l != null) {
+                l.dataEvent(data, type);
+            }
         }
     }
 

@@ -7,12 +7,12 @@ package gui;
 import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -21,6 +21,7 @@ import javax.swing.JMenu;
 public class MainWindowDesktopPane extends AbstractMainWindow {
 
     private JMenu viewMenu;
+    private JMenuItem importXMLMenuItem;
 
     /**
      * Creates new form MainWindow
@@ -50,6 +51,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
+        importXMLMenuItem=new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
@@ -86,6 +88,13 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         saveAsMenuItem.setDisplayedMnemonicIndex(5);
         saveAsMenuItem.setAction(guardarProyectoComoAction);
         fileMenu.add(saveAsMenuItem);
+        
+        importXMLMenuItem.setText("Importar XML");
+        importXMLMenuItem.setMnemonic('x');
+        importXMLMenuItem.setAction(importarXMLAction);
+        fileMenu.add(importXMLMenuItem);
+        
+        
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");

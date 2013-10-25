@@ -6,6 +6,9 @@ package kairos;
 
 import gui.MainWindowDesktopPane;
 import gui.MainWindowTabbed;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -17,16 +20,16 @@ public class Kairos {
 
     /**
      * @param args the command line arguments
-     * @throws Exception  
+     * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-       if (true){
+        if (true) {
           // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //           for (UIManager.LookAndFeelInfo in:UIManager.getInstalledLookAndFeels())
 //           {
 //               System.out.println(in.getName());
 //           }
-           //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 //           try {
 //               UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 //           } catch (ClassNotFoundException classNotFoundException) {
@@ -35,11 +38,21 @@ public class Kairos {
 //           } catch (UnsupportedLookAndFeelException unsupportedLookAndFeelException) {
 //           }
 //        MainWindowTabbed mainWindow = new MainWindowTabbed();
-           MainWindowDesktopPane mainWindow=new MainWindowDesktopPane();
-        mainWindow.setLocationRelativeTo(null);
-        mainWindow.setVisible(true);
-       }
-       else{
-       }
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    MainWindowDesktopPane mainWindow;
+                    try {
+                        mainWindow = new MainWindowDesktopPane();
+                        mainWindow.setLocationRelativeTo(null);
+                        mainWindow.setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Kairos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+
+        } else {
+        }
     }
 }

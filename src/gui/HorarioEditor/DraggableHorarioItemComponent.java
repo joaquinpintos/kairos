@@ -48,6 +48,8 @@ public class DraggableHorarioItemComponent extends JPanel {
     private int debugNumber;
     private final Border selectedConflictiveBorder;
     private final Border conflictiveBorder;
+    private Color colorAsig;
+    private Color colorBorde;
 
     /**
      *
@@ -95,20 +97,9 @@ public class DraggableHorarioItemComponent extends JPanel {
             this.setOpaque(true);
             BoxLayout la = new BoxLayout(this, BoxLayout.Y_AXIS);
             this.setLayout(la);
-            Color colorAsig = h.getAsignatura().getColorEnTablaDeHorarios();
-            Color colorBorde = new Color(colorAsig.getRed() / 2, colorAsig.getGreen() / 2, colorAsig.getBlue() / 2);
-            switch (h.getMarkLevel()) {
-                case HorarioItem.NO_MARK:
-                    Color borde = new Color(colorAsig.getRed() / 2, colorAsig.getGreen() / 2, colorAsig.getBlue() / 2);
-                    this.setBorder(BorderFactory.createLineBorder(borde, 2));
-                    break;
-                case HorarioItem.SIMPLE_MARK:
-                    this.setBorder(conflictiveBorder);
-                    break;
-                case HorarioItem.DOUBLE_MARK:
-                    this.setBorder(selectedConflictiveBorder);
-                    break;
-            }
+            colorAsig = h.getAsignatura().getColorEnTablaDeHorarios();
+            colorBorde = new Color(colorAsig.getRed() / 2, colorAsig.getGreen() / 2, colorAsig.getBlue() / 2);
+
             this.setBackground(colorAsig);
             String nombre = h.getAsignatura().getNombreCorto();
 
@@ -126,18 +117,31 @@ public class DraggableHorarioItemComponent extends JPanel {
         {
             this.setOpaque(true);
             setBackground(MyConstants.FONDO_CASILLA_HORARIO);
-            switch (h.getMarkLevel()) {
-                case HorarioItem.NO_MARK:
-                    this.setBorder(null);
-                    break;
-                case HorarioItem.SIMPLE_MARK:
-                    this.setBorder(conflictiveBorder);
-                    break;
-                case HorarioItem.DOUBLE_MARK:
-                    this.setBorder(selectedConflictiveBorder);
-                    break;
-            }
         }
+        drawConflictivo();
+    }
+
+    private void drawConflictivo() {
+        switch (h.getMarkLevel()) {
+            case HorarioItem.NO_MARK:
+                if (!this.h.isHuecoLibre()) {//hueco ocupado
+                    this.setBorder(BorderFactory.createLineBorder(colorBorde, 2));
+                } else {
+                    this.setBorder(null);
+                }
+                break;
+            case HorarioItem.SIMPLE_MARK:
+                this.setBorder(conflictiveBorder);
+                break;
+            case HorarioItem.DOUBLE_MARK:
+                this.setBorder(selectedConflictiveBorder);
+                break;
+        }
+    }
+
+    public void setMarkLevel(int markLevel) {
+        h.setMarkLevel(markLevel);
+        drawConflictivo();
     }
 
     private void setDebugContent() {
@@ -347,8 +351,8 @@ public class DraggableHorarioItemComponent extends JPanel {
     }
 
     void rebuildContent() {
-        this.removeAll();
-        setContent();
+//        this.removeAll();
+//        setContent();
     }
 
     void moveToCasilla(ListaCasillas lc, int numCasillaDst) {
@@ -358,7 +362,6 @@ public class DraggableHorarioItemComponent extends JPanel {
         int dur = h.getRangoHoras().duracion();
         h.setRangoHoras(new RangoHoras(c.getHora(), dur));
 
-
-
     }
+
 }

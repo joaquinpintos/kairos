@@ -39,6 +39,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import loader.XMLDataLoaderWriter;
 
 /**
  *
@@ -64,6 +65,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected AbstractAction cargarProyectoAction;
     protected AbstractAction guardarProyectoAction;
     protected AbstractAction guardarProyectoComoAction;
+    protected AbstractAction importarXMLAction;
     private File lastFileUsed;
 
     public AbstractMainWindow() throws Exception {
@@ -108,29 +110,29 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         jIntHorarioEditor = new JIntHorarioPorAulas(dk);
         addTab("Horario", jIntHorarioEditor);
     }
-
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
-    }
-
-    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-
-        JDlgAbout dlg = new JDlgAbout(this, true);
-        dlg.setLocationRelativeTo(null);
-        dlg.setVisible(true);
-    }
-
-    private void cargarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        jIntWelcome.getCargarProyectoAction().actionPerformed(evt);
-    }
-
-    private void guardarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        jIntWelcome.getGuardarProyectoAction().actionPerformed(evt);
-    }
-
-    private void guardarComoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        jIntWelcome.getGuardarProyectoComoAction().actionPerformed(evt);
-    }
+//
+//    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+//        System.exit(0);
+//    }
+//
+//    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+//
+//        JDlgAbout dlg = new JDlgAbout(this, true);
+//        dlg.setLocationRelativeTo(null);
+//        dlg.setVisible(true);
+//    }
+//
+//    private void cargarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+//        jIntWelcome.getCargarProyectoAction().actionPerformed(evt);
+//    }
+//
+//    private void guardarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+//        jIntWelcome.getGuardarProyectoAction().actionPerformed(evt);
+//    }
+//
+//    private void guardarComoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+//        jIntWelcome.getGuardarProyectoComoAction().actionPerformed(evt);
+//    }
 
     /**
      *
@@ -290,7 +292,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                     FileInputStream fich;
-                    ObjectInputStream os = null;
+                    ObjectInputStream os;
                     try {
                         JFileChooser fc = new JFileChooser(getLastFileUsed());
                         FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos kairos", "krs");
@@ -329,11 +331,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
                     } finally {
-                        try {
-                            os.close();
-                        } catch (IOException ex) {
-                            Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+//                        try {
+//                            os.close();
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
                     }
                 }
             }
@@ -401,10 +403,68 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
+        class ImportarXMLAction extends AbstractAction {
+
+            public ImportarXMLAction() {
+                super("Importar datos XML", null);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Este metodo IMPORTA datos de XML
+                if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                    JFileChooser fc = new JFileChooser("archivos");
+                    fc.setDialogTitle("Elige archivo de proyecto a cargar");
+                    FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivo XML", "xml");
+                    fc.setFileFilter(filt);
+                    int valorDevuelto = fc.showOpenDialog(null);
+
+                    if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
+                        dk.clear();
+                        boolean cargaCorrecta = loadXMLFromFile(fc.getSelectedFile());
+                        if (!cargaCorrecta) {
+                            JOptionPane.showMessageDialog(null, "Error al cargar los datos.");
+                        }
+                        mainWindow.refreshAllTabs();
+                        mainWindow.expandAllTrees();
+                        dk.getDP().setDirty(false);
+                    }
+                }
+            }
+        }
+
         cargarProyectoAction = new CargarProyectoAction();
         guardarProyectoAction = new GuardarProyectoAction();
         guardarProyectoComoAction = new GuardarProyectoComoAction();
+        importarXMLAction = new ImportarXMLAction();
+    }
 
+    /**
+     *
+     * @param fichero
+     * @return
+     * @throws IOException
+     */
+    public boolean saveToFile(File fichero) throws IOException {
+        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
+        xmldlw.setFile(fichero);
+        return xmldlw.save();
+    }
+
+    /**
+     *
+     * @param fichero
+     * @return
+     */
+    public boolean loadXMLFromFile(File fichero) {
+        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
+        xmldlw.setFile(fichero);
+        boolean resul = xmldlw.load(fichero);
+        //Reconstruyo hashmap de profesores, util para asignaciones
+        if (resul) {
+            dk.getDP().reconstruyeHashMapProfesor();
+        }
+        return resul;
     }
 
     /**
