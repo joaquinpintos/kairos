@@ -6,6 +6,7 @@ package data.asignaturas;
 
 import data.DataProyectoListener;
 import data.MyConstants;
+import data.aulas.Aula;
 import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,10 +22,11 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     private ArrayList<DataProyectoListener> listeners;
     private String nombre;
     private Carrera parent;
-    private ArrayList<Asignatura> asignaturas;
+    private final ArrayList<Asignatura> asignaturas;
     int contaColor;
     //Aquí guardo las asignaturas que tengan algún grupo no asignado.
-    private HashSet<Asignatura> asignaturasNOasignadas;
+    private final HashSet<Asignatura> asignaturasNOasignadas;
+    private boolean algunoSinAula;
 
     /**
      *
@@ -35,6 +37,7 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         asignaturas = new ArrayList<Asignatura>();
         contaColor = 0;
         asignaturasNOasignadas = new HashSet<Asignatura>();
+        algunoSinAula = true;
     }
 
     /**
@@ -49,9 +52,7 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
             contaColor = 0;
         }
-        updateEstadoAsignacion(asig);
         try {
-            this.getParent().updateEstadoAsignacion(this);
             this.getParent().getParent().fireDataEvent(asig, DataProyectoListener.ADD);
         } catch (NullPointerException e) {
         }
@@ -70,7 +71,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         asignaturasNOasignadas.remove(asig);
         DataAsignaturas dataAsignaturas = this.getParent().getParent();
         try {
-            this.getParent().updateEstadoAsignacion(this);
             dataAsignaturas.fireDataEvent(asig, DataProyectoListener.REMOVE);
         } catch (NullPointerException e) {
         }
@@ -139,19 +139,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         return !asignaturasNOasignadas.isEmpty();
     }
 
-    /**
-     *
-     * @param asig
-     */
-    public void updateEstadoAsignacion(Asignatura asig) {
-        if (asig.tieneGruposSinAsignar()) {
-            asignaturasNOasignadas.add(asig);
-        } else {
-            asignaturasNOasignadas.remove(asig);
-        }
-        this.getParent().updateEstadoAsignacion(this);
-    }
-
     @Override
     public int compareTo(Curso o) {
         return this.nombre.compareTo(o.getNombre());
@@ -176,5 +163,42 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         for (Asignatura asig : asignaturas) {
             asig.removeDocente();
         }
+    }
+
+    public void fireDataEvent(Object obj, int type) {
+        getParent().fireDataEvent(obj, type);
+    }
+
+    @Override
+    public void asignaAula(Aula aula, boolean tarde) {
+        for (Asignatura asig : asignaturas) {
+            asig.asignaAula(aula, tarde);
+        }
+    }
+
+    @Override
+    public void removeAula() {
+        for (Asignatura asig : asignaturas) {
+            asig.removeAula();
+        }
+    }
+
+    public void updateAsigAulaStatus() {
+        boolean resul = false;
+        for (Asignatura asig : asignaturas) {
+            if (asig.algunoSinAula()) {
+                resul = true;
+                break;
+            }
+        }
+        if (resul != algunoSinAula) {
+            algunoSinAula = resul;
+            //Actualizo hacia arriba
+            getParent().updateAsigAulaStatus();
+        }
+    }
+
+    public boolean algunoSinAula() {
+        return algunoSinAula;
     }
 }

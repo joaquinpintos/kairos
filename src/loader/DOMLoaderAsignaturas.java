@@ -11,6 +11,8 @@ import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
+import data.aulas.Aula;
+import data.genetic.DatosPorAula;
 import data.profesores.Profesor;
 import java.io.File;
 import java.util.HashMap;
@@ -116,7 +118,6 @@ public class DOMLoaderAsignaturas {
                 String nombre = elemDep.getAttribute("nombre");
                 Grupo nuevoGrupo = new Grupo(nombre);
                 nuevaAsignatura.addGrupo(nuevoGrupo);
-                readDocencia(elemDep, nuevoGrupo);
                 readTramos(elemDep, nuevoGrupo);
             }
         }
@@ -156,24 +157,13 @@ public class DOMLoaderAsignaturas {
             Profesor prof = map.get(elemDocencia.getTextContent());
             tr.setDocente(prof);
         }
-    }
-
-    private void readDocencia(Element parent, Grupo nuevoGrupo) {
-        final String nombreNodo = "docente";
-        org.w3c.dom.NodeList nodeList = parent.getElementsByTagName(nombreNodo);
-        if (nodeList != null && nodeList.getLength() > 0) {
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
-                //   dbg(elemDep.getTextContent());
-                Profesor prof;
-                HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
-                prof = map.get(elemDep.getTextContent());
-                //prof=dataProyecto.getDataProfesores().buscaProfesorPorHash(elemDep.getTextContent());
-//                prof.addDocencia(nuevoGrupo);
-                nuevoGrupo.setDocente(prof);
-            }
+        Element elemAula = buscaPrimerElementoConNombre(parent, "aula");
+        if (elemAula != null) {
+            HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
+            DatosPorAula dat = map.get(elemAula.getTextContent());
+            Aula aula=dataProyecto.getAulaPorHash(elemAula.getTextContent());
+            tr.asignaAula(aula,elemAula.getTextContent().contains("@T"));
         }
-
     }
 
     /**

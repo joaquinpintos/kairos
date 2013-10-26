@@ -147,14 +147,6 @@ public class XMLDataLoaderWriter  {
                 domlp.parseAsignaturas((Element) nodeList.item(i));
             }
         }
-        //Leo datos asignación de aulas
-        nodeList = rootElement.getElementsByTagName("asignacion_aulas");
-        if (nodeList != null && nodeList.getLength() > 0) {
-            DOMLoaderAulas domlp = new DOMLoaderAulas(null, dataProyecto);
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                domlp.readAsignacionAulasGruposCompletos((Element) nodeList.item(i));
-            }
-        }
         //Leo datos generales sobre el proyecto
         nodeList = rootElement.getElementsByTagName("calendario_académico");
         if (nodeList != null && nodeList.getLength() > 0) {

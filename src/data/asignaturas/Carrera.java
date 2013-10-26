@@ -4,23 +4,32 @@
  */
 package data.asignaturas;
 
+import data.aulas.Aula;
 import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 
 /**
  *
  * @author david
  */
-public class Carrera implements Serializable,Teachable  {
+public class Carrera implements Serializable, Teachable {
 
     private String nombre;
     private DataAsignaturas parent;
-    private ArrayList<Curso> cursos;
-    //Cursos que tienen alguna asignatura que tiene algun grupo no asignado.
-    private HashSet<Curso> cursosNOAsignados;
+    private final ArrayList<Curso> cursos;
+    private boolean algunoSinAula;
+
+    /**
+     *
+     * @param nombre
+     */
+    public Carrera(String nombre) {
+        this.nombre = nombre;
+        this.cursos = new ArrayList<Curso>();
+        algunoSinAula=true;
+    }
 
     /**
      *
@@ -37,16 +46,6 @@ public class Carrera implements Serializable,Teachable  {
     public void setNombre(String nombre) {
         this.nombre = nombre;
         setDirty(true);
-    }
-
-    /**
-     *
-     * @param nombre
-     */
-    public Carrera(String nombre) {
-        this.nombre = nombre;
-        this.cursos = new ArrayList<Curso>();
-        this.cursosNOAsignados = new HashSet<Curso>();
     }
 
     /**
@@ -98,26 +97,6 @@ public class Carrera implements Serializable,Teachable  {
         return cursos;
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean tieneGruposSinAsignar() {
-        return !cursosNOAsignados.isEmpty();
-    }
-
-    /**
-     *
-     * @param curso
-     */
-    public void updateEstadoAsignacion(Curso curso) {
-        if (curso.tieneGruposSinAsignar()) {
-            cursosNOAsignados.add(curso);
-        } else {
-            cursosNOAsignados.remove(curso);
-        }
-    }
-
     void setDirty(boolean value) {
         try {
             parent.setDirty(value);
@@ -135,13 +114,50 @@ public class Carrera implements Serializable,Teachable  {
 
     @Override
     public void setDocente(Profesor profesor) {
-        for (Curso c: cursos)
+        for (Curso c : cursos) {
             c.setDocente(profesor);
+        }
     }
 
     @Override
     public void removeDocente() {
-    for (Curso c: cursos)
+        for (Curso c : cursos) {
             c.removeDocente();
-    }    }
-    
+        }
+    }
+
+    public void fireDataEvent(Object obj, int type) {
+        getParent().fireDataEvent(obj, type);
+    }
+
+    @Override
+    public void asignaAula(Aula aula, boolean tarde) {
+        for (Curso c : cursos) {
+            c.asignaAula(aula, tarde);
+        }
+    }
+
+    @Override
+    public void removeAula() {
+        for (Curso c : cursos) {
+            c.removeAula();
+        }
+    }
+
+    public void updateAsigAulaStatus() {
+        boolean resul = false;
+        for (Curso c : cursos) {
+            if (c.algunoSinAula()) {
+                resul = true;
+                break;
+            }
+        }
+        if (resul != algunoSinAula) {
+            algunoSinAula = resul;
+        }
+    }
+
+    public boolean algunoSinAula() {
+        return algunoSinAula;
+    }
+}

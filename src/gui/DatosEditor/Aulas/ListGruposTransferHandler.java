@@ -98,8 +98,8 @@ class JListGruposDropListener implements DropTargetListener {
             if (grupoDragged.getAulaNombre() != null) {
                 System.out.println("[DROP TO LISTA_AULAS] Grupo" + grupoDragged.getHash());
                 dk.getDP().getDataAulas().quitaAsignacionGrupoCompletoFromAula(grupoDragged.getHash(), grupoDragged.getAulaNombre());
-                CarreraGrupoCursosNoAsignadosSimpleListModel model = (CarreraGrupoCursosNoAsignadosSimpleListModel) parent.getjListGrupos().getModel();
-                model.add(grupoDragged);
+//                CarreraGrupoCursosNoAsignadosSimpleListModel model = (CarreraGrupoCursosNoAsignadosSimpleListModel) parent.getjListGrupos().getModel();
+//                model.add(grupoDragged);
             }
             parent.updateData();
         } catch (UnsupportedFlavorException ex) {

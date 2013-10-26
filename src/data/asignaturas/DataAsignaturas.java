@@ -18,7 +18,8 @@ import org.w3c.dom.Node;
  */
 public class DataAsignaturas extends AbstractDataSets {
 
-    private ArrayList<Carrera> carreras;
+    private final ArrayList<Carrera> carreras;
+    private final ListaGrupoCursos listaGrupoCursos;
 
     /**
      *
@@ -27,6 +28,8 @@ public class DataAsignaturas extends AbstractDataSets {
     public DataAsignaturas(DataProyecto dataProyecto) {
         super(dataProyecto);
         this.carreras = new ArrayList<Carrera>();
+        listaGrupoCursos = new ListaGrupoCursos();
+        this.addListener(listaGrupoCursos);//Listener para cuando se añada/borre un grupo
     }
 
     /**
@@ -78,12 +81,12 @@ public class DataAsignaturas extends AbstractDataSets {
 
     }
 
-    /**
-     *
-     * @return
-     */
     public ArrayList<Carrera> getCarreras() {
         return carreras;
+    }
+
+    public ListaGrupoCursos getListaGrupoCursos() {
+        return listaGrupoCursos;
     }
 
     @Override
@@ -91,6 +94,7 @@ public class DataAsignaturas extends AbstractDataSets {
         return "Plan docente";
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Código de exportar/importar desde XML">
     /**
      *
      * @param nodeRoot
@@ -154,9 +158,14 @@ public class DataAsignaturas extends AbstractDataSets {
                 Node nodeDocente = nodeTramo.appendChild(parent.getOwnerDocument().createElement("docente"));
                 nodeDocente.setTextContent(tr.getDocente().hash());
             }
+            if (tr.getAula()!= null) {
+                Node nodeAula = nodeTramo.appendChild(parent.getOwnerDocument().createElement("aula"));
+                nodeAula.setTextContent(tr.getAula().getHash(tr.isTarde()));
+            }
 
         }
     }
+//</editor-fold>
 
     /**
      *

@@ -89,7 +89,6 @@ public class PrinterHorarioPorGrupos extends AbstractPrinter {
         HashMap<CarreraCursoGrupoContainer, DatosHojaHorario> data = new HashMap<CarreraCursoGrupoContainer, DatosHojaHorario>();
         for (HorarioItem h : getDataProyecto().getHorario().getHorarios()) {
             Grupo gr = h.getGrupo();
-            if (!gr.isLibre()) {
                 CarreraCursoGrupoContainer cont = new CarreraCursoGrupoContainer(gr);
                 if (!data.containsKey(cont)) {
                     DatosHojaHorario dat = new DatosHojaHorario(getDataProyecto());
@@ -101,7 +100,6 @@ public class PrinterHorarioPorGrupos extends AbstractPrinter {
                     data.put(cont, dat);
                 }
                 data.get(cont).add(h);
-            }
         } //End of for (horarioitem h:...
         //Relleno las hojas con huecos libres
         for (CarreraCursoGrupoContainer cont : data.keySet()) {

@@ -92,9 +92,10 @@ public class JTreeAulasDropListener implements DropTargetListener {
                 dk.getDP().getDataAulas().asignaGrupoCompletoToAula(grupoDragged.getHash(), aula.getHash(asignaciones.esTarde()));
                 grupoDragged.setAulaNombre(aula.getHash(asignaciones.esTarde()));
                 jTreeAulas.updateUI();
-                CarreraGrupoCursosNoAsignadosSimpleListModel model = (CarreraGrupoCursosNoAsignadosSimpleListModel) parent.getjListGrupos().getModel();
-                model.remove(grupoDragged);
-                parent.getjListGrupos().updateUI();
+                //TODO: MIRAR ESTO
+//                CarreraGrupoCursosNoAsignadosSimpleListModel model = (CarreraGrupoCursosNoAsignadosSimpleListModel) parent.getjTreeGrupoCursos().getModel();
+//                model.remove(grupoDragged);
+                parent.getjTreeGrupoCursos().updateUI();
             }
         } catch (UnsupportedFlavorException ex) {
             Logger.getLogger(JIntTreeAulas.class.getName()).log(Level.SEVERE, null, ex);

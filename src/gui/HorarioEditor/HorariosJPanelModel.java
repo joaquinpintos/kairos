@@ -243,11 +243,11 @@ public class HorariosJPanelModel {
 
                     horariosEnTablaPorAula.put(hashAula, datosHojaHorario);
                     if (hashAula.contains("@T")) {
-                        System.out.println("T!!");
+//                        System.out.println("T!!");
                         numeroFilasPorAula.put(hashAula, datosHojaHorario.setTarde(false));
                         listaDeRangosHorariosTarde = datosHojaHorario.getRangosHoras();
                     } else {
-                        System.out.println("M!!");
+//                        System.out.println("M!!");
                         numeroFilasPorAula.put(hashAula, datosHojaHorario.setMañana(false));
                         listaDeRangosHorariosMañana = datosHojaHorario.getRangosHoras();
                     }
@@ -635,7 +635,7 @@ public class HorariosJPanelModel {
             resul = null;
         }
 
-        System.out.println("Casillas [" + n1 + ", " + n2 + "]");
+//        System.out.println("Casillas [" + n1 + ", " + n2 + "]");
         return resul;
     }
 
@@ -858,7 +858,7 @@ public class HorariosJPanelModel {
                 break;
             }
         }
-        System.out.println("mañanaRecreo= " + filaRecreoMañana);
-        System.out.println("tardeRecreo= " + filaRecreoTarde);
+//        System.out.println("mañanaRecreo= " + filaRecreoMañana);
+//        System.out.println("tardeRecreo= " + filaRecreoTarde);
     }
 }

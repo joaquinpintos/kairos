@@ -8,7 +8,10 @@ import data.DataKairos;
 import data.DataProyecto;
 import data.aulas.Aula;
 import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -87,7 +90,11 @@ public class DOMLoaderAulas {
             db = dbf.newDocumentBuilder();
             dom = db.parse(file);
             buildDocumentStructure();
-        } catch (Exception ex) {
+        } catch (ParserConfigurationException ex) {
+            isOk = false;
+        } catch (SAXException ex) {
+            isOk = false;
+        } catch (IOException ex) {
             isOk = false;
         } finally {
             return isOk;

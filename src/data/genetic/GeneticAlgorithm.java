@@ -356,10 +356,11 @@ public class GeneticAlgorithm {
     }
 
     /**
-     *
+     * 
      * @return
      */
     public String getDescripcionRestriccionesFallidas() {
+        //TODO: Da error de concurrentException ya aque mientras se rellena este array se actualiza en otro thread
         String resul = "";
         for (Restriccion r : restriccionesFallidas) {
             resul += r.descripcion() + "\n";

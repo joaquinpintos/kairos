@@ -6,6 +6,7 @@
 
 package data.asignaturas;
 
+import data.aulas.Aula;
 import data.profesores.Profesor;
 
 /**
@@ -15,5 +16,7 @@ import data.profesores.Profesor;
 public interface Teachable {
     public void setDocente(Profesor profesor);
     public void removeDocente();
+    public void asignaAula(Aula aula,boolean tarde);
+    public void removeAula();
     
 }

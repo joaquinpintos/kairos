@@ -96,6 +96,7 @@ public class TreeModelProfesores implements TreeModel {
 
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
+        listeners.remove(l);
     }
 
 

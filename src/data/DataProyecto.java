@@ -81,7 +81,7 @@ public class DataProyecto implements Serializable {
         calendarioAcadémico = new CalendarioAcademico();
         dataRestricciones = new DataRestricciones(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
-        status=MyConstants.STATUS_PROJECT_NO_SOLUTION;
+        status = MyConstants.STATUS_PROJECT_NO_SOLUTION;
     }
 
     /**
@@ -354,7 +354,6 @@ public class DataProyecto implements Serializable {
 //            }
 //        }
 //    }
-
 //    private void creaArrayGrupos() {
 //        arrayGrupos = new ArrayList<Grupo>();
 //        for (Carrera c : dataAsignaturas.getCarreras()) {
@@ -516,9 +515,9 @@ public class DataProyecto implements Serializable {
      * @param dirty
      */
     public void setDirty(boolean dirty) {
-        if (dirty) System.out.println("SET DIRTY!!!!!");else
-            System.out.println("SET NO DIRTY!!!!!");
-        
+//        if (dirty) System.out.println("SET DIRTY!!!!!");else
+//            System.out.println("SET NO DIRTY!!!!!");
+
         this.dirty = dirty;
     }
 
@@ -529,5 +528,18 @@ public class DataProyecto implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
-    
+
+    public Aula getAulaPorHash(String hashAula) {
+        Aula resul = null;
+        boolean tarde = hashAula.contains("@T");
+
+        for (Aula aula : dataAulas.getAulas()) {
+            if (aula.getHash(tarde).equals(hashAula)) {
+                resul = aula;
+                break;
+            }
+        }
+        return resul;
+    }
+
 }

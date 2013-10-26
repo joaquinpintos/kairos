@@ -33,7 +33,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanelOpcionesGrupos" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -108,7 +108,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jCheckCrearGrupos" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanelOpcionesGrupos" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -182,11 +182,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Crear grupos autom&#xe1;ticamente"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckCrearGruposActionPerformed"/>
+      </Events>
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanel1">
-      <BindingProperties>
-        <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jPanel1" targetPath="enabled" updateStrategy="0" immediately="false"/>
-      </BindingProperties>
+    <Container class="javax.swing.JPanel" name="jPanelOpcionesGrupos">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -282,9 +282,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Grupos:"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel13" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinnerNumClases1">
           <Properties>
@@ -292,9 +289,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jSpinnerNumClases1" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinnerNumClases2">
           <Properties>
@@ -302,9 +296,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jSpinnerNumClases2" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinnerNumClases3">
           <Properties>
@@ -312,33 +303,21 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jSpinnerNumClases3" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
             <Property name="text" type="java.lang.String" value="minutos cada una."/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel11" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
             <Property name="text" type="java.lang.String" value="clases de"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel10" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
             <Property name="text" type="java.lang.String" value="clases de"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel9" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextDuracionClases3">
           <Properties>
@@ -346,25 +325,16 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jTextDuracionClases3" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel14">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ej: A,B,C "/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel14" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextGrupos">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Introduce los grupos separados por comas, por ejemplo: A,B,C,D"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jTextGrupos" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextDuracionClases2">
           <Properties>
@@ -373,9 +343,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="90"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jTextDuracionClases2" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextDuracionClases1">
           <Properties>
@@ -384,41 +351,26 @@
             </Property>
             <Property name="text" type="java.lang.String" value="60"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jTextDuracionClases1" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
             <Property name="text" type="java.lang.String" value="minutos cada una, m&#xe1;s"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel8" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
             <Property name="text" type="java.lang.String" value="La docencia semanal por grupo se distribuye en:"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel5" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
             <Property name="text" type="java.lang.String" value="minutos cada una, m&#xe1;s"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel7" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
           <Properties>
             <Property name="text" type="java.lang.String" value="clases de"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jCheckCrearGrupos" sourcePath="${selected}" target="jLabel15" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>

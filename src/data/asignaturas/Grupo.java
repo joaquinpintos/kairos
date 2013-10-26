@@ -16,11 +16,11 @@ import java.io.Serializable;
 public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     private String nombre;
-    private GrupoTramos tramosGrupoCompleto;
+    private final GrupoTramos tramosGrupoCompleto;
     private Asignatura parent;
-    private Profesor profesor;//Profesor que impartirá la docencia en este grupo
     private boolean tarde;
     private Aula aulaAsignada;
+    private boolean algunoSinAula;
 
     /**
      *
@@ -29,24 +29,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     public Grupo(String nombre) {
         this.nombre = nombre;
         this.tramosGrupoCompleto = new GrupoTramos(this);
-        this.profesor = null;
         this.tarde = false;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean isAsignado() {
-        return (this.profesor != null);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean isLibre() {
-        return (this.profesor == null);
+        algunoSinAula = true;
     }
 
     /**
@@ -124,28 +108,18 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     }
 
-    /**
-     *
-     * @return
-     */
-    public Profesor getDocente() {
-        return profesor;
-    }
-
     //AL asignar la docencia a este profesor, actualizo el estado de la asignatura 
     //a la que pertenece
     /**
      *
      * @param profesor
      */
+    @Override
     public void setDocente(Profesor profesor) {
 //        this.profesor = profesor;
         for (Tramo tr : tramosGrupoCompleto.getTramos()) {
             tr.setDocente(profesor);
         }
-
-        this.getParent().updateEstadoAsignacion(this);
-
     }
 
     /**
@@ -226,11 +200,35 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         }
     }
 
-
     @Override
     public void removeDocente() {
         for (Tramo tr : tramosGrupoCompleto.getTramos()) {
             tr.removeDocente();
         }
+    }
+
+    @Override
+    public void asignaAula(Aula aula, boolean tarde) {
+        for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
+            tr.asignaAula(aula, tarde,true);
+        }
+    }
+
+    @Override
+    public void removeAula() {
+        for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
+            tr.removeAula();
+        }
+    }
+
+    public void updateAsigAulaStatus() {
+        if (tramosGrupoCompleto.algunoSinAula() != algunoSinAula) {
+            algunoSinAula = tramosGrupoCompleto.algunoSinAula();
+        parent.updateAsigAulaStatus();
+        }
+        
+    }
+  public boolean algunoSinAula() {
+        return algunoSinAula;
     }
 }

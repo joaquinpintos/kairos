@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class AbstractDataSets implements Serializable {
 
     private DataProyecto dataProyecto;
-    private ArrayList<DataProyectoListener> listeners;
+    private final ArrayList<DataProyectoListener> listeners;
 
     /**
      *

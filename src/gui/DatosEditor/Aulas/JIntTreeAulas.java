@@ -18,7 +18,6 @@ import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
-import gui.MainWindowTabbed;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -34,12 +33,12 @@ import javax.swing.ActionMap;
 import javax.swing.DropMode;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
-import javax.swing.tree.TreePath;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import testers.AsigTester;
 
 /**
@@ -52,7 +51,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     private DataAulas dataAulas;
     private DataProfesores dataProfesores;
     private AbstractMainWindow mainWindow;
-    private final CarreraGrupoCursosNoAsignadosSimpleListModel modelHashes;
     private AbstractAction añadirAulaAction;
     private AbstractAction editarAulaAction;
     private AbstractAction eliminarAulaAction;
@@ -61,8 +59,9 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
     /**
      * Creates new form JIntTreeAulas
-     * @param dk 
-     * @throws Exception 
+     *
+     * @param dk
+     * @throws Exception
      */
     public JIntTreeAulas(DataKairos dk) throws Exception {
         initComponents();
@@ -70,35 +69,34 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         //this.dataAulas=asig.dataAulasRelleno();
 
         this.dk = dk;
-        this.jTreeAulas.setModel(new TreeModelAulas(dk));
 
-        modelHashes = new CarreraGrupoCursosNoAsignadosSimpleListModel(dk);
-        this.jListGrupos.setModel(modelHashes);
-        this.jListGrupos.setDragEnabled(true);
-        this.jListGrupos.setTransferHandler(new ListGruposTransferHandler());
-        this.jListGrupos.setDropMode(DropMode.INSERT);
-        this.jListGrupos.setDropTarget(new DropTarget());
-        jListGrupos.getDropTarget().addDropTargetListener(new JListGruposDropListener(this, dk));
+//        modelHashes = new CarreraGrupoCursosNoAsignadosSimpleListModel(dk);
+//        this.jListGrupos.setModel(modelHashes);
+//        this.jListGrupos.setDragEnabled(true);
+//        this.jListGrupos.setTransferHandler(new ListGruposTransferHandler());
+//        this.jListGrupos.setDropMode(DropMode.INSERT);
+//        this.jListGrupos.setDropTarget(new DropTarget());
+//        jListGrupos.getDropTarget().addDropTargetListener(new JListGruposDropListener(this, dk));
+        final TreeModelGrupoCursos treeModelGrupoCursos = new TreeModelGrupoCursos(dk);
+        this.jTreeGrupoCursos.setModel(treeModelGrupoCursos);
+        treeModelGrupoCursos.addTreeModelListener(createTreeModelListener(jTreeGrupoCursos));
+        treeModelAulas = new TreeModelAulas(dk);
+        jTreeGrupoCursos.setCellRenderer(new JTreeGrupoCursosSinAulaRenderer(dk));
+        jTreeGrupoCursos.setDragEnabled(true);
 
+        jTreeAulas.setModel(treeModelAulas);
+        treeModelAulas.addTreeModelListener(createTreeModelListener(jTreeAulas));
         jTreeAulas.setDragEnabled(true);
         jTreeAulas.setTransferHandler(new JTreeAulasTransferHandler());
         jTreeAulas.setDropMode(DropMode.ON);
         jTreeAulas.setDropTarget(new DropTarget());
         jTreeAulas.getDropTarget().addDropTargetListener(new JTreeAulasDropListener(this, dk));
-
         jTreeAulas.setCellRenderer(new JTreeAulasRenderer(dk));
 
         createActions();
         updateData();
     }
-
-    /**
-     *
-     * @return
-     */
-    public JList getjListGrupos() {
-        return jListGrupos;
-    }
+    private final TreeModelAulas treeModelAulas;
 
     /**
      *
@@ -106,6 +104,10 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      */
     public JTree getjTreeAulas() {
         return jTreeAulas;
+    }
+
+    public JTree getjTreeGrupoCursos() {
+        return jTreeGrupoCursos;
     }
 
     /**
@@ -118,23 +120,25 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanelGrupos1 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jListGrupos = new javax.swing.JList();
-        jLabel2 = new javax.swing.JLabel();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-        jPanelAulas1 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTreeAulas = new javax.swing.JTree();
-        jLabel1 = new javax.swing.JLabel();
         jPanelInferior1 = new javax.swing.JPanel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jButton1 = new javax.swing.JButton();
         jButEditarAula = new javax.swing.JButton();
         jButEliminarAula = new javax.swing.JButton();
         jButAñadirAula = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanelAulas1 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTreeAulas = new javax.swing.JTree();
+        jLabel1 = new javax.swing.JLabel();
+        jPanelGrupos1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTreeGrupoCursos = new javax.swing.JTree();
 
         setResizable(true);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
@@ -142,42 +146,16 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel1.setLayout(new java.awt.BorderLayout(10, 10));
 
-        jPanelGrupos1.setLayout(new java.awt.BorderLayout(0, 5));
-
-        jScrollPane3.setMinimumSize(new java.awt.Dimension(150, 200));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(359, 131));
-
-        jListGrupos.setMaximumSize(new java.awt.Dimension(150, 100));
-        jListGrupos.setMinimumSize(new java.awt.Dimension(150, 50));
-        jListGrupos.setPreferredSize(new java.awt.Dimension(150, 100));
-        jScrollPane3.setViewportView(jListGrupos);
-
-        jPanelGrupos1.add(jScrollPane3, java.awt.BorderLayout.CENTER);
-
-        jLabel2.setText("Grupos:");
-        jPanelGrupos1.add(jLabel2, java.awt.BorderLayout.PAGE_START);
-        jPanelGrupos1.add(filler2, java.awt.BorderLayout.LINE_END);
-
-        jPanel1.add(jPanelGrupos1, java.awt.BorderLayout.LINE_END);
-
-        jPanelAulas1.setLayout(new java.awt.BorderLayout(0, 5));
-
-        jTreeAulas.setDropMode(javax.swing.DropMode.ON);
-        jTreeAulas.setMaximumSize(new java.awt.Dimension(1000, 1000));
-        jTreeAulas.setMinimumSize(new java.awt.Dimension(100, 100));
-        jTreeAulas.setName("TreeAulas"); // NOI18N
-        jTreeAulas.setPreferredSize(new java.awt.Dimension(400, 300));
-        jScrollPane5.setViewportView(jTreeAulas);
-
-        jPanelAulas1.add(jScrollPane5, java.awt.BorderLayout.CENTER);
-
-        jLabel1.setText("Aulas:");
-        jPanelAulas1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
-
-        jPanel1.add(jPanelAulas1, java.awt.BorderLayout.CENTER);
-
         jPanelInferior1.setLayout(new javax.swing.BoxLayout(jPanelInferior1, javax.swing.BoxLayout.X_AXIS));
         jPanelInferior1.add(filler5);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanelInferior1.add(jButton1);
 
         jButEditarAula.setText("Editar Aula");
         jPanelInferior1.add(jButEditarAula);
@@ -203,6 +181,39 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jPanel1.add(jPanelInferior1, java.awt.BorderLayout.PAGE_END);
         jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
 
+        jSplitPane1.setContinuousLayout(true);
+        jSplitPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jPanelAulas1.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jTreeAulas.setDropMode(javax.swing.DropMode.ON);
+        jTreeAulas.setMaximumSize(new java.awt.Dimension(1000, 1000));
+        jTreeAulas.setMinimumSize(new java.awt.Dimension(100, 100));
+        jTreeAulas.setName("TreeAulas"); // NOI18N
+        jTreeAulas.setPreferredSize(new java.awt.Dimension(400, 300));
+        jScrollPane5.setViewportView(jTreeAulas);
+
+        jPanelAulas1.add(jScrollPane5, java.awt.BorderLayout.CENTER);
+
+        jLabel1.setText("Aulas:");
+        jPanelAulas1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+
+        jSplitPane1.setLeftComponent(jPanelAulas1);
+
+        jPanelGrupos1.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jLabel2.setText("Grupos:");
+        jPanelGrupos1.add(jLabel2, java.awt.BorderLayout.PAGE_START);
+        jPanelGrupos1.add(filler2, java.awt.BorderLayout.LINE_END);
+
+        jScrollPane1.setViewportView(jTreeGrupoCursos);
+
+        jPanelGrupos1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setRightComponent(jPanelGrupos1);
+
+        jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -213,6 +224,13 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
     private void jButEliminarAulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButEliminarAulaActionPerformed
     }//GEN-LAST:event_jButEliminarAulaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        updateData();
+        mainWindow.expandTree(jTreeGrupoCursos);
+        mainWindow.expandTree(jTreeAulas);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -222,16 +240,18 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     private javax.swing.JButton jButAñadirAula;
     private javax.swing.JButton jButEditarAula;
     private javax.swing.JButton jButEliminarAula;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jListGrupos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelAulas1;
     private javax.swing.JPanel jPanelGrupos1;
     private javax.swing.JPanel jPanelInferior1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTree jTreeAulas;
+    private javax.swing.JTree jTreeGrupoCursos;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -239,10 +259,8 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      */
     @Override
     public final void updateData() {
-        modelHashes.updateData();
         jTreeAulas.updateUI();
-        jListGrupos.updateUI();
-
+        jTreeGrupoCursos.updateUI();
     }
 
     /**
@@ -252,7 +270,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     @Override
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
-
 
     }
 
@@ -322,7 +339,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
             }
         }//End of class EliminarAula
 
-
         añadirAulaAction = new AñadirAulaAction();
         jButAñadirAula.setAction(añadirAulaAction);
 
@@ -345,7 +361,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "Añadir aula");
         actionMap = getRootPane().getActionMap();
         actionMap.put("Añadir aula", añadirAulaAction);
-
 
         //Mouse listener para jTreeAulas
         jTreeAulas.addMouseListener(new MouseListener() {
@@ -386,7 +401,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
             }
         });
 
-
     }
 
     /**
@@ -396,9 +410,32 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      */
     @Override
     public void dataEvent(Object obj, int type) {
-        if (obj instanceof Aula) {
-            jTreeAulas.updateUI();
-        }
+        jTreeAulas.updateUI();
+        jTreeGrupoCursos.updateUI();
+    }
+
+    private TreeModelListener createTreeModelListener(final JTree tree) {
+        return new TreeModelListener() {
+            @Override
+            public void treeNodesChanged(TreeModelEvent e) {
+                tree.expandPath(e.getTreePath());
+            }
+
+            @Override
+            public void treeNodesInserted(TreeModelEvent e) {
+                tree.expandPath(e.getTreePath());
+            }
+
+            @Override
+            public void treeNodesRemoved(TreeModelEvent e) {
+                tree.expandPath(e.getTreePath());
+            }
+
+            @Override
+            public void treeStructureChanged(TreeModelEvent e) {
+                tree.expandPath(e.getTreePath());
+            }
+        };
     }
 }
 
@@ -457,4 +494,5 @@ class CarreraGrupoCursosNoAsignadosSimpleListModel extends AbstractListModel<Car
     void add(CarreraCursoGrupoContainer grupoDragged) {
         data.add(grupoDragged);
     }
+
 }

@@ -254,6 +254,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
 
         dk.getDP().getDataAulas().addListener(jIntTreeAulas);
+        dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);
+        
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
     }
 

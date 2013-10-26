@@ -74,7 +74,7 @@ public class JTreeAulasRenderer extends JLabel implements TreeCellRenderer {
 //        if (value == null) {
 //            this.setText("NULL");
 //        }
-        System.out.println(value.getClass().getCanonicalName());
+//        System.out.println(value.getClass().getCanonicalName());
 
         return this;
     }

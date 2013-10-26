@@ -4,6 +4,8 @@
  */
 package data.asignaturas;
 
+import data.DataProyectoListener;
+import data.aulas.Aula;
 import data.profesores.Profesor;
 import java.awt.Color;
 import java.io.Serializable;
@@ -24,8 +26,8 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     //Deben ser el mísmo número que el número de grupos. Puede haber repetidos.
     private Color colorEnTablaDeHorarios;
     //En este array guardo los grupos que NO tengan asignada docencia
-    private final HashSet<Grupo> gruposNOAsignados;
     private int numCreditos;
+    private boolean algunoSinAula;
 
     /**
      *
@@ -37,8 +39,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         this.nombreCorto = "";
         this.grupos = new ListaGrupos();
         colorEnTablaDeHorarios = new Color(220, 241, 182);//Color inicial. En principio no se usa.
-        gruposNOAsignados = new HashSet<Grupo>();
-
+        algunoSinAula = true;
     }
 
     /**
@@ -48,10 +49,10 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     public void addGrupo(Grupo gr) {
         this.grupos.addGrupo(gr);
         gr.setParent(this);
-        updateEstadoAsignacion(gr);
-        this.getParent().updateEstadoAsignacion(this);
         Collections.sort(grupos.getGrupos());
         setDirty(true);
+        //Disparo evento de creación de grupo
+        fireDataEvent(gr, DataProyectoListener.ADD);
     }
 
     /**
@@ -60,21 +61,12 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      */
     public void removeGrupo(Grupo gr) {
         this.grupos.getGrupos().remove(gr);
-
         gr.removeDocente();
-        gruposNOAsignados.remove(gr);
-        this.getParent().updateEstadoAsignacion(this);
         gr.setParent(null);
         setDirty(true);
+        //Disparo evento de elminación de grupo
+        fireDataEvent(gr, DataProyectoListener.REMOVE);
 
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean tieneGruposSinAsignar() {
-        return !gruposNOAsignados.isEmpty();
     }
 
     /**
@@ -194,19 +186,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
 
     /**
      *
-     * @param gr
-     */
-    public void updateEstadoAsignacion(Grupo gr) {
-        if (!gr.isAsignado()) {
-            gruposNOAsignados.add(gr);
-        } else {
-            gruposNOAsignados.remove(gr);
-        }
-        this.getParent().updateEstadoAsignacion(this);
-    }
-
-    /**
-     *
      */
     public synchronized void removeAllGrupos() {
         for (Grupo gr : grupos.getGrupos()) {
@@ -259,5 +238,42 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         for (Grupo gr : grupos.getGrupos()) {
             gr.removeDocente();
         }
+    }
+
+    public void fireDataEvent(Object obj, int type) {
+        getParent().fireDataEvent(obj, type);
+    }
+
+    @Override
+    public void asignaAula(Aula aula, boolean tarde) {
+        for (Grupo gr : grupos.getGrupos()) {
+            gr.asignaAula(aula, tarde);
+        }
+    }
+
+    @Override
+    public void removeAula() {
+        for (Grupo gr : grupos.getGrupos()) {
+            gr.removeAula();
+        }
+    }
+
+    public void updateAsigAulaStatus() {
+        boolean resul = false;
+        for (Grupo gr : grupos.getGrupos()) {
+            if (gr.algunoSinAula()) {
+                resul = true;
+                break;
+            }
+        }
+        if (resul != algunoSinAula) {
+            algunoSinAula = resul;
+            //Actualizo hacia arriba
+            getParent().updateAsigAulaStatus();
+        }
+    }
+
+    public boolean algunoSinAula() {
+        return algunoSinAula;
     }
 }
