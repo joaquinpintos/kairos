@@ -3,9 +3,7 @@
  * and open the template in the editor.
  */
 package gui.DatosEditor.Aulas;
-
-import data.aulas.CarreraCursoGrupoContainer;
-import data.asignaturas.Grupo;
+import data.asignaturas.Teachable;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -15,34 +13,27 @@ import java.io.IOException;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class CarreraCursoGrupoContainerDraggable implements Transferable{
+public class TeachableDraggable implements Transferable{
         /**
      *
      */
-    final static public DataFlavor MY_FLAVOR = new DataFlavor(CarreraCursoGrupoContainer.class, "Kairos/CarreraCursoGrupo");
+    final static public DataFlavor MY_FLAVOR = new DataFlavor(Teachable.class, "Kairos/Teachable");
 
-    private CarreraCursoGrupoContainer cont;
+    private Teachable cont;
 
     /**
      *
      * @param cont
      */
-    public CarreraCursoGrupoContainerDraggable(CarreraCursoGrupoContainer cont) {
+    public TeachableDraggable(Teachable cont) {
         this.cont = cont;
-    }
-     /**
-     *
-     * @param gr
-     */
-    public CarreraCursoGrupoContainerDraggable(Grupo gr) {
-        this.cont = new CarreraCursoGrupoContainer(gr);
     }
 
     /**
      *
      * @return
      */
-    public CarreraCursoGrupoContainer getContainer() {
+    public Teachable getContainer() {
         return cont;
     }
   @Override

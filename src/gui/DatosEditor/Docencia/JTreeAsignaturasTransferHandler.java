@@ -9,7 +9,7 @@ package gui.DatosEditor.Docencia;
 import data.MyConstants;
 import data.asignaturas.Tramo;
 import data.profesores.Profesor;
-import gui.DatosEditor.Aulas.CarreraCursoGrupoContainerDraggable;
+import gui.DatosEditor.Aulas.TeachableDraggable;
 import java.awt.Image;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;

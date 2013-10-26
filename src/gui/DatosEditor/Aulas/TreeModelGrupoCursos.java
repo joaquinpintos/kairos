@@ -8,7 +8,6 @@ package gui.DatosEditor.Aulas;
 import data.DataKairos;
 import data.asignaturas.Grupo;
 import data.asignaturas.GrupoCursos;
-import data.asignaturas.GrupoSinAula;
 import data.asignaturas.ListaGrupoCursos;
 import data.asignaturas.Tramo;
 import java.util.ArrayList;

@@ -72,10 +72,10 @@ public class TreeModelAulas implements TreeModel {
             Aula data = (Aula) parent;
             resul = 2;//Mañana y tarde
         }
-        if (parent instanceof ListaAsignaciones) {
-            ListaAsignaciones data = (ListaAsignaciones) parent;
-            resul = data.size();
-        }
+//        if (parent instanceof ListaAsignaciones) {
+//            ListaAsignaciones data = (ListaAsignaciones) parent;
+//            resul = data.size();
+//        }
 
 //RangoHoras -> 0
         return resul;
@@ -83,7 +83,7 @@ public class TreeModelAulas implements TreeModel {
 
     @Override
     public boolean isLeaf(Object node) {
-        return (node instanceof HashToGroupContainer);
+        return (node instanceof ListaAsignaciones);
     }
 
     @Override

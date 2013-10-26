@@ -138,6 +138,7 @@ public class XMLDataLoaderWriter  {
                 domlp.parseAulas((Element) nodeList.item(i));
             }
         }
+        dataProyecto.getDataAsignaturas().refrescaEstadoAsignacionAulas();
         //Leo datos asignaturas
 
         nodeList = rootElement.getElementsByTagName("plan_docente");
@@ -226,7 +227,6 @@ public class XMLDataLoaderWriter  {
         //Grabo todos los datos de las aulas
         Node nodeAulas = nodeRoot.appendChild(documentoXML.createElement("aulario"));
         dataAulas.dataToDOM(nodeAulas);
-        dataAulas.asignacionAulasToDOM(nodeRoot);
 
         //Grabo todos los datos de la asignación docente
         Node nodeAsignaturas = nodeRoot.appendChild(documentoXML.createElement("plan_docente"));

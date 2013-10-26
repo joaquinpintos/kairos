@@ -6,6 +6,9 @@
 package data.asignaturas;
 
 import data.DataProyectoListener;
+import data.aulas.Aula;
+import data.aulas.AulaMT;
+import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class GrupoCursos implements DataProyectoListener, Serializable {
+public class GrupoCursos implements DataProyectoListener, Serializable, Teachable {
 
     private final ArrayList<Grupo> grupos;
     private final String nombreGrupo;
@@ -136,6 +139,28 @@ public class GrupoCursos implements DataProyectoListener, Serializable {
             }
         }
         return resul;
+    }
+
+    @Override
+    public void setDocente(Profesor profesor) {
+    }
+
+    @Override
+    public void removeDocente() {
+    }
+
+    @Override
+    public void asignaAula(AulaMT aula) {
+        for (Grupo gr : grupos) {
+            gr.asignaAula(aula);
+        }
+    }
+
+    @Override
+    public void removeAula() {
+        for (Grupo gr : grupos) {
+            gr.removeAula();
+        }
     }
 
 }

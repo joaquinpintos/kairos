@@ -64,18 +64,6 @@ public class JTreeAulasRenderer extends JLabel implements TreeCellRenderer {
             }
             this.setFont(MyConstants.NEGRITA_FONT);
         }
-        if (value instanceof HashToGroupContainer) {
-            this.setIcon(MyConstants.GRUPO_ICON);
-            HashToGroupContainer aa = (HashToGroupContainer) value;
-            this.setText(aa.toString() + " " + aa.getAula() + " (" + aa.getTotalHoras() + " horas)");
-            this.setFont(MyConstants.NORMAL_FONT);
-        }
-//        this.setText(value.getClass().getCanonicalName());
-//        if (value == null) {
-//            this.setText("NULL");
-//        }
-//        System.out.println(value.getClass().getCanonicalName());
-
         return this;
     }
 }

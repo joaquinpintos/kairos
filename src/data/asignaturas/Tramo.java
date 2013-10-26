@@ -5,6 +5,7 @@
 package data.asignaturas;
 
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
 
@@ -17,7 +18,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     private int minutos;
     private GrupoTramos parent;
     private Profesor profesor;
-    private Aula aula;
+    private AulaMT aulaMT;
     private boolean tarde;
 
     /**
@@ -112,29 +113,32 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     }
 
     @Override
-    public void asignaAula(Aula aula, boolean tarde) {
-        this.aula=aula;
-        this.tarde=tarde;
+    public void asignaAula(AulaMT aula) {
+        this.aulaMT = aula;
+        this.tarde = tarde;
         parent.updateAsigAulaStatus();
+        aula.asignaTramo(this);
+                
     }
-    
-    public void asignaAula(Aula aula, boolean tarde,boolean batch) {
-        if (this.aula!=null) asignaAula(aula, tarde);
+
+    public void asignaAula(AulaMT aula,boolean batch) {
+        //if (this.aulaMT == null) {
+            asignaAula(aula);
+        //}
     }
-    
 
     @Override
     public void removeAula() {
-        this.aula=null;
+        this.aulaMT = null;
         parent.updateAsigAulaStatus();
     }
 
-    public Aula getAula() {
-        return aula;
+    public AulaMT getAula() {
+        return aulaMT;
     }
-    public boolean tieneAula()
-    {
-        return (aula!=null);
+
+    public boolean tieneAula() {
+        return (aulaMT != null);
     }
 
     public boolean isTarde() {

@@ -6,7 +6,6 @@ package data.genetic;
 
 import data.DataProyecto;
 import data.Hora;
-import data.MyConstants;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -18,7 +17,6 @@ import data.aulas.DataAulas;
 import data.RangoHoras;
 import data.profesores.DataProfesores;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Esta clase construye el conjunto de segmentos y de casillas a partir de los
@@ -51,13 +49,12 @@ public class DataGenerator {
 
     /**
      *
-     * @return
-     * @throws Exception
+     * @return @throws Exception
      */
     public boolean generaDatos() throws Exception {
         boolean resul;
         dataProyecto.clearDatosPorAula();
-        calculaHashMapDeAsignacionesAulasAGrupos();
+//        calculaHashMapDeAsignacionesAulasAGrupos();
         calculaCasillas();
         calculaSegmentos();
         resul = rellenaSegmentosConHuecosLibres();
@@ -85,18 +82,17 @@ public class DataGenerator {
      * @param grupo
      */
     public void auxCalculaSegmentos(Grupo grupo) {
-        String hashAulaCompleto = dataProyecto.getMapGruposCompletosToAulas().get(grupo.getHashCarreraGrupoCurso());
         ListaSegmentos ls = new ListaSegmentos();
         //Bucle para generar los segmentos de grupos completos.
         for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
 //            for (int n = 0; n < tr.getNumeroClases(); n++) {
-                Segmento s = new Segmento(tr,tr.getMinutos()/dataProyecto.getMinutosPorCasilla(),dataProyecto.getMinutosPorCasilla());
-                dataProyecto.getDatosPorAula(hashAulaCompleto).addSegmento(s);
-                ls.add(s);
+            String hashAula = tr.getAula().getHash();
+            Segmento s = new Segmento(tr, tr.getMinutos() / dataProyecto.getMinutosPorCasilla(), dataProyecto.getMinutosPorCasilla());
+            dataProyecto.getDatosPorAula(hashAula).addSegmento(s);
+            ls.add(s);
 //            }
 //            dataProyecto.getMapSegmentosPorAsignaturaGrupo().put(grupo.getHashCarreraGrupoCurso(), ls);
         }
-      
 
     }
 
@@ -121,7 +117,6 @@ public class DataGenerator {
             dataProyecto.getDatosPorAula(hashAulaMañana).setListaCasillas(nuevaListaCasillas);
             dataProyecto.getDatosPorAula(hashAulaMañana).setHashAula(hashAulaMañana);
 
-
             //Aulas por la mañana hash nombreAula@T
             nuevaListaCasillas = new ListaCasillas(dataProyecto.getMinutosPorCasilla());
             String hashAulaTarde = aula.getHash(true);//Aulas por la tarde
@@ -138,7 +133,6 @@ public class DataGenerator {
             dataProyecto.getDatosPorAula(hashAulaTarde).setHashAula(hashAulaTarde);
         }
 
-
     }
 
     private void auxCalculaCasillas(Aula aula, String hashAula, int dia, ListaCasillas nuevaListaCasillas, RangoHoras rango) throws Exception {
@@ -152,7 +146,6 @@ public class DataGenerator {
         }
         //Ultima casilla de cada rango la marco como final.
         cas.setFinaldeRango(true);
-
 
     }
 
@@ -290,12 +283,12 @@ public class DataGenerator {
     /**
      *
      */
-    public void calculaHashMapDeAsignacionesAulasAGrupos() {
-        HashMap<String, String> mapa = dataProyecto.getDataAulas().getMapGruposCompletosToAulas();
-        mapa.clear();
-        for (Aula aula:dataProyecto.getDataAulas().getAulas())
-        {
-            mapa.putAll(aula.getMapAsignacionesAulasAGrupos());
-        }
-    }
+//    public void calculaHashMapDeAsignacionesAulasAGrupos() {
+//        HashMap<String, String> mapa = dataProyecto.getDataAulas().getMapGruposCompletosToAulas();
+//        mapa.clear();
+//        for (Aula aula:dataProyecto.getDataAulas().getAulas())
+//        {
+//            mapa.putAll(aula.getMapAsignacionesAulasAGrupos());
+//        }
+//    }
 }

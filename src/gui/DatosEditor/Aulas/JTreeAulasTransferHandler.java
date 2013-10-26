@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package gui.DatosEditor.Aulas;
 
-package gui.DatosEditor.Docencia;
-
-import data.MyConstants;
-import data.profesores.Profesor;
-import gui.DatosEditor.Aulas.TeachableDraggable;
-import java.awt.Image;
+import data.aulas.ListaAsignaciones;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import javax.swing.JComponent;
@@ -18,24 +14,19 @@ import javax.swing.TransferHandler;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JTreeProfesoresTransferHandler extends TransferHandler {
-    
-    @Override
-    protected Transferable createTransferable(JComponent c) {
-        ProfesorDraggable resul = null;
-        JTree jtree = (JTree) c;
-        Object value = jtree.getSelectionPath().getLastPathComponent();
-        if (value instanceof Profesor) {
-            resul = new ProfesorDraggable((Profesor) value);
-        }
-        return resul;
-    }
+public class JTreeAulasTransferHandler extends TransferHandler {
 
     @Override
-    public Image getDragImage() {
-        return MyConstants.PROFESOR_ICON.getImage();
+    protected Transferable createTransferable(JComponent c) {
+        AulaMañanaTardeContainerDraggable resul = null;
+        JTree jtree = (JTree) c;
+        Object value = jtree.getSelectionPath().getLastPathComponent();
+        if (value instanceof ListaAsignaciones) {
+            resul = new AulaMañanaTardeContainerDraggable((ListaAsignaciones) value);
+        }
+        return resul;
     }
 
     @Override
@@ -52,6 +43,6 @@ public class JTreeProfesoresTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferHandler.TransferSupport support) {
-        return (support.getComponent() instanceof JTree) && support.isDataFlavorSupported(TramoDraggable.MY_FLAVOR);
+        return (support.getComponent() instanceof JTree) && support.isDataFlavorSupported(AulaMañanaTardeContainerDraggable.MY_FLAVOR);
     }
 }

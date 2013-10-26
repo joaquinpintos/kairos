@@ -6,6 +6,7 @@ package data.asignaturas;
 
 import data.DataProyectoListener;
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.awt.Color;
 import java.io.Serializable;
@@ -245,9 +246,9 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     }
 
     @Override
-    public void asignaAula(Aula aula, boolean tarde) {
+    public void asignaAula(AulaMT aula) {
         for (Grupo gr : grupos.getGrupos()) {
-            gr.asignaAula(aula, tarde);
+            gr.asignaAula(aula);
         }
     }
 

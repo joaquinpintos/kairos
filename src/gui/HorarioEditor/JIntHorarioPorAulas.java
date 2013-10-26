@@ -4,7 +4,7 @@
  */
 package gui.HorarioEditor;
 
-import data.aulas.AulaMañanaTardeContainer;
+import data.aulas.AulaMT;
 import data.DataKairos;
 import data.DataProyectoListener;
 import data.MyConstants;
@@ -209,10 +209,10 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
     }// </editor-fold>//GEN-END:initComponents
 
     private void jListAulasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListAulasValueChanged
-        AulaMañanaTardeContainer a = (AulaMañanaTardeContainer) jListAulas.getSelectedValue();
+        AulaMT a = (AulaMT) jListAulas.getSelectedValue();
 //        modelHorarios.setAulaMostrada(a.getAula().getHash(a.getEsTarde()));
         jTableHorario.updateUI();
-        horariosJPanelModel.setHashAulaMostrada(a.getHashAula());
+        horariosJPanelModel.setHashAulaMostrada(a.getHash());
         horariosJPanelModel.rebuildAll();
         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
         if (r != null) {
@@ -277,12 +277,12 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
             if (jListAulas.getSelectedIndex() == -1) {
                 jListAulas.setSelectedIndex(0);
             }
-            AulaMañanaTardeContainer a = (AulaMañanaTardeContainer) jListAulas.getSelectedValue();
+            AulaMT a = (AulaMT) jListAulas.getSelectedValue();
 //        modelHorarios.setAulaMostrada(a.getHashAula());
             jTableHorario.updateUI();
 
 //        creaListenersParaRestricciones();
-            horariosJPanelModel.setHashAulaMostrada(a.getHashAula());
+            horariosJPanelModel.setHashAulaMostrada(a.getHash());
             horariosJPanelModel.rebuildAll();
             mainWindow.repaint();
         }
@@ -586,7 +586,7 @@ class JListRestriccionesModel extends AbstractListModel<Restriccion> {
     }
 }
 
-class JListAulasRenderer extends JLabel implements ListCellRenderer<AulaMañanaTardeContainer> {
+class JListAulasRenderer extends JLabel implements ListCellRenderer<AulaMT> {
 
     Border borderSelectedConflictivo;
     Border borderAulaSelected;
@@ -602,7 +602,7 @@ class JListAulasRenderer extends JLabel implements ListCellRenderer<AulaMañanaT
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, AulaMañanaTardeContainer data, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList list, AulaMT data, int index, boolean isSelected, boolean cellHasFocus) {
         if (isSelected) {
 //            this.setBackground(MyConstants.SELECTED_ITEM_LIST);
             this.setBorder(borderAulaSelected);

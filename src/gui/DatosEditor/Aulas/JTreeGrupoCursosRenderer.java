@@ -21,7 +21,7 @@ import javax.swing.tree.TreeCellRenderer;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JTreeGrupoCursosSinAulaRenderer extends JLabel implements TreeCellRenderer {
+public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer {
 
     private final DataKairos dk;
 
@@ -29,7 +29,7 @@ public class JTreeGrupoCursosSinAulaRenderer extends JLabel implements TreeCellR
      *
      * @param dk
      */
-    public JTreeGrupoCursosSinAulaRenderer(DataKairos dk) {
+    public JTreeGrupoCursosRenderer(DataKairos dk) {
         this.dk = dk;
         this.setOpaque(true);
     }
@@ -47,22 +47,41 @@ public class JTreeGrupoCursosSinAulaRenderer extends JLabel implements TreeCellR
             this.setText("Grupos");
         }
         if (value instanceof GrupoCursos) {
-            GrupoCursos gc = (GrupoCursos)value;
+            GrupoCursos gc = (GrupoCursos) value;
             this.setIcon(MyConstants.AULA_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NEGRITA_FONT);
-            this.setText(gc.toString()+" "+gc.algunoSinAula());
+            if (gc.algunoSinAula()) {
+                this.setForeground(MyConstants.CONFLICTIVE_ITEM);
+            } else {
+                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
+            }
+            this.setText(gc.toString());
         }
         if (value instanceof Grupo) {
-            Grupo gr = (Grupo)value;
+            Grupo gr = (Grupo) value;
             this.setIcon(MyConstants.ASIGNATURA_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NEGRITA_FONT);
-            this.setText(gr.getParent().getNombre()+" "+gr.algunoSinAula());
+            if (gr.algunoSinAula()) {
+                this.setForeground(MyConstants.CONFLICTIVE_ITEM);
+            } else {
+                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
+            };
+            this.setText(gr.getParent().getNombre());
         }
-          if (value instanceof Tramo) {
-            Tramo tr = (Tramo)value;
+        if (value instanceof Tramo) {
+            Tramo tr = (Tramo) value;
             this.setIcon(MyConstants.TRAMO_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NORMAL_FONT);
-            this.setText(tr.toString()+" "+!tr.tieneAula());
+            String aula;
+            if (tr.tieneAula()) {
+                aula = " " + tr.getAula().toString();
+                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
+            } else {
+                aula = "";
+                this.setForeground(MyConstants.CONFLICTIVE_ITEM);
+            }
+
+            this.setText(tr.toString() + aula);
         }
         return this;
     }

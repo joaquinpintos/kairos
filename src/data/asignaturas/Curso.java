@@ -7,6 +7,7 @@ package data.asignaturas;
 import data.DataProyectoListener;
 import data.MyConstants;
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -170,9 +171,9 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     }
 
     @Override
-    public void asignaAula(Aula aula, boolean tarde) {
+    public void asignaAula(AulaMT aula) {
         for (Asignatura asig : asignaturas) {
-            asig.asignaAula(aula, tarde);
+            asig.asignaAula(aula);
         }
     }
 

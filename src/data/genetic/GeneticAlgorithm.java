@@ -14,7 +14,6 @@ import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
 import javax.swing.SwingWorker;
 
-
 /**
  *
  * @author David Gutierrez
@@ -138,10 +137,11 @@ public class GeneticAlgorithm {
 
     /**
      * Bucle principal del algoritmo.
-     * @return true si ha terminado
+     *
+     * @return false si ha terminado
      */
     public boolean runSingleLoop() {
-        boolean continueLoop=true;
+        boolean continueLoop = true;
         //Al principio tomo como óptimo una solución cualquiera.
         optimo = manada.get(0).copia();
         //Bucle principal:
@@ -149,36 +149,29 @@ public class GeneticAlgorithm {
         optimo.setPeso(optimoValor);
         buclePrincipal:
 //        while (numIter < max_iter) {
-            tamañoManada = manada.size();
-            for (PosibleSolucion s : manada) {
-                s.setDataProyecto(dataProyecto);
-                s.update();//Actualizo datos internos de las soluciones
-            }
-            calculaPesosManada();
+        tamañoManada = manada.size();
+        for (PosibleSolucion s : manada) {
+            s.setDataProyecto(dataProyecto);
+            s.update();//Actualizo datos internos de las soluciones
+        }
+        calculaPesosManada();
             //Ahora selecciono los mejores y los cruzo.
-            //Primero los ordeno de menos peso a más peso
-            Collections.sort(manada, new SolucionesComparator());
-            //Optimo
-            if (manada.get(0).getPeso() < optimo.getPeso()) {
-                optimo = manada.get(0).copia();
-            }
-//            if (geneticInformer != null) {
-//                geneticInformer.setInformation(this);
-//            }
-//            if (geneticInformer.interrumpido()) {
-//                optimo = manada.get(0).copia();//Cojo lo mejor que tenga
-//                break buclePrincipal;
-//            }
-
-            //Calculo el valor óptimo que he ido alcanzando.
+        //Primero los ordeno de menos peso a más peso
+        Collections.sort(manada, new SolucionesComparator());
+        //Optimo
+        if (manada.get(0).getPeso() < optimo.getPeso()) {
+            optimo = manada.get(0).copia();
+        }
+        //Calculo el valor óptimo que he ido alcanzando.
 //            optimoValor = optimo.getPeso();
-            if (optimo.getPeso() == 0) {//Óptimo alcanzado. No puedo mejorar más
-                optimo = manada.get(0).copia();
-                continueLoop=false;
+        if (optimo.getPeso() == 0) {//Óptimo alcanzado. No puedo mejorar más
+            optimo = manada.get(0).copia();
+            continueLoop = false;
 //                break buclePrincipal;
-            }
-            calcularSiguienteGeneracion();
-            numIter++;
+        }
+        calcularSiguienteGeneracion();
+        numIter++;
+        System.out.println("Optimo: "+optimo.getPeso());
         return continueLoop;
     }
 
@@ -194,10 +187,10 @@ public class GeneticAlgorithm {
 
     protected void generaManadaInicial() {
         nivelCritico = 3;//Al principio nivel verde
-        int nnInicial=0;
+        int nnInicial = 0;
         if (solucionInicial != null) {
             manada.add(solucionInicial);
-            nnInicial=1;
+            nnInicial = 1;
         }
         for (int nn = nnInicial; nn < tamañoManada; nn++) {
             boolean add = manada.add(PosibleSolucion.generador(dataProyecto));
@@ -288,8 +281,6 @@ public class GeneticAlgorithm {
             mutator.mutate(hijo);
             //}
             nuevaManada.add(hijo);
-
-
         }
 
 //Metodo de emparejar al azar
@@ -356,7 +347,7 @@ public class GeneticAlgorithm {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getDescripcionRestriccionesFallidas() {
@@ -366,7 +357,6 @@ public class GeneticAlgorithm {
             resul += r.descripcion() + "\n";
         }
         return resul;
-
 
     }
 
@@ -421,7 +411,12 @@ public class GeneticAlgorithm {
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
+
+    public void runMainLoop() {
+        while (runSingleLoop());
+    }
 }
+
 /**
  * Clase para comparar dos soluciones atendiendo a sus pesos.
  *

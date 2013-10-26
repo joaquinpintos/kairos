@@ -158,9 +158,9 @@ public class DataAsignaturas extends AbstractDataSets {
                 Node nodeDocente = nodeTramo.appendChild(parent.getOwnerDocument().createElement("docente"));
                 nodeDocente.setTextContent(tr.getDocente().hash());
             }
-            if (tr.getAula()!= null) {
+            if (tr.getAula() != null) {
                 Node nodeAula = nodeTramo.appendChild(parent.getOwnerDocument().createElement("aula"));
-                nodeAula.setTextContent(tr.getAula().getHash(tr.isTarde()));
+                nodeAula.setTextContent(tr.getAula().getHash());
             }
 
         }
@@ -176,4 +176,12 @@ public class DataAsignaturas extends AbstractDataSets {
         c.addAsignatura(asigNueva);
         fireDataEvent(asigNueva, DataProyectoListener.ADD);
     }
+
+    public void refrescaEstadoAsignacionAulas() {
+        for (Grupo gr: getAllGrupos())
+        {
+            gr.updateAsigAulaStatus();
+        }
+    }
+
 }

@@ -4,7 +4,6 @@
  */
 package data;
 
-import data.aulas.CarreraCursoGrupoContainer;
 import data.horarios.Horario;
 import data.asignaturas.DataAsignaturas;
 import data.asignaturas.Grupo;
@@ -295,78 +294,12 @@ public class DataProyecto implements Serializable {
 
     /**
      *
-     * @return
-     */
-    public HashMap<String, String> getMapGruposCompletosToAulas() {
-        return dataAulas.getMapGruposCompletosToAulas();
-    }
-
-    /**
-     *
-     * @param hashGrupoCurso
-     * @param hashAula
-     */
-    public void addGrupoCompletoToAula(String hashGrupoCurso, String hashAula) {
-        dataAulas.addGrupoCompletoToAula(hashGrupoCurso, hashAula);
-        dataAsignacionAulas.addHashToAula(hashAula, hashGrupoCurso);
-        setDirty(true);
-    }
-
-//    public HashMap<String, ListaSegmentos> getMapSegmentosPorAsignaturaGrupo() {
-//        return mapSegmentosPorAsignaturaGrupo;
-//    }
-//
-//    public void setMapSegmentosPorAsignaturaGrupo(HashMap<String, ListaSegmentos> mapSegmentosPorAsignaturaGrupo) {
-//        this.mapSegmentosPorAsignaturaGrupo = mapSegmentosPorAsignaturaGrupo;
-//    }
-//    public void actualizaSegmentosImpartidosPorProfesor() {
-//        if (arrayGrupos == null) {
-//            creaArrayGrupos();
-//        }
-//        //Relleno de nuevo la lista de segmentos que impartirá cada profesor
-//        mapSegmentosImpartidosPorProfesor.clear();//Borro los datos que hubiera
-//        for (Grupo gr : arrayGrupos) {
-//            if (!mapSegmentosImpartidosPorProfesor.containsKey(gr.getProfesor())) {
-//                mapSegmentosImpartidosPorProfesor.put(gr.getProfesor(), new ArrayList<ListaSegmentos>());
-//            }
-//            String hashGrupo = gr.getHashCarreraGrupoCurso();
-//            ListaSegmentos ls = mapSegmentosPorAsignaturaGrupo.get(hashGrupo);//Segmentos pertenecientes a dicho grupo
-//            mapSegmentosImpartidosPorProfesor.get(gr.getProfesor()).add(ls);
-//        }
-//
-//
-//    }
-    /**
-     *
      * @param pr
      * @return
      */
     public ArrayList<ListaSegmentos> getSegmentosProfesor(Profesor pr) {
         return mapSegmentosImpartidosPorProfesor.get(pr);
     }
-
-//    private void creaHashProfesores() {
-//        //Relleno un array con los hash de todos los profesores.
-//        hashProfesores = new ArrayList<String>();
-//        for (Departamento d : dataProfesores.getDepartamentos()) {
-//            for (Profesor p : d.getProfesores()) {
-//                hashProfesores.add(p.hash());
-//            }
-//        }
-//    }
-//    private void creaArrayGrupos() {
-//        arrayGrupos = new ArrayList<Grupo>();
-//        for (Carrera c : dataAsignaturas.getCarreras()) {
-//            for (Curso cu : c.getCursos()) {
-//                for (Asignatura asig : cu.getAsignaturas()) {
-//                    for (Grupo g : asig.getGrupos().getGrupos()) {
-//                        arrayGrupos.add(g);
-//                    }
-//                }
-//
-//            }
-//        }
-//    }
     /**
      *
      * @return
@@ -425,20 +358,6 @@ public class DataProyecto implements Serializable {
         return dataAsignacionAulas;
     }
 
-    /**
-     *
-     * @param con
-     * @return
-     */
-    public boolean isCarreraGrupoCursoContainerAssociadoConAula(CarreraCursoGrupoContainer con) {
-        Boolean resul = false;
-        for (Aula aula : dataAulas.getAulas()) {
-            if ((aula.getAsignacionesMañana().contieneContainer(con)) || (aula.getAsignacionesTarde().contieneContainer(con))) {
-                resul = true;
-            }
-        }
-        return resul;
-    }
 
     /**
      *
@@ -541,5 +460,5 @@ public class DataProyecto implements Serializable {
         }
         return resul;
     }
-
+    
 }

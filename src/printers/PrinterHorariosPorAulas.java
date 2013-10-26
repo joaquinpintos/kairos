@@ -9,7 +9,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import data.DataProyecto;
-import data.aulas.AulaMañanaTardeContainer;
+import data.aulas.AulaMT;
 import data.horarios.DatosHojaHorario;
 import data.horarios.HorarioItem;
 import java.io.File;
@@ -24,7 +24,7 @@ import java.util.HashMap;
  */
 public class PrinterHorariosPorAulas extends AbstractPrinter {
 
-    private HashMap<AulaMañanaTardeContainer, DatosHojaHorario> data;
+    private HashMap<AulaMT, DatosHojaHorario> data;
     private int numFilasTarde = 1;
     private int numFilasMañana = 1;
 
@@ -36,7 +36,7 @@ public class PrinterHorariosPorAulas extends AbstractPrinter {
      */
     public PrinterHorariosPorAulas(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) {
         super(dataProyecto, fileDst, variosDocumentos);
-        data = new HashMap<AulaMañanaTardeContainer, DatosHojaHorario>();
+        data = new HashMap<AulaMT, DatosHojaHorario>();
         buildData();
     }
 
@@ -57,7 +57,7 @@ public class PrinterHorariosPorAulas extends AbstractPrinter {
     private void buildData() {
         ArrayList<HorarioItem> horarios = getDataProyecto().getHorario().getHorarios();
         for (HorarioItem h : horarios) {
-            AulaMañanaTardeContainer cont = new AulaMañanaTardeContainer(h.getAula(), h.isEsTarde());
+            AulaMT cont = new AulaMT(h.getAula(), h.isEsTarde());
             if (!data.containsKey(cont))//Creo key nueva
             {
                 DatosHojaHorario dat = new DatosHojaHorario(getDataProyecto());
@@ -72,12 +72,12 @@ public class PrinterHorariosPorAulas extends AbstractPrinter {
             }
             data.get(cont).add(h);
         }
-        ArrayList<AulaMañanaTardeContainer> aulasOrdenadas = new ArrayList<AulaMañanaTardeContainer>();
+        ArrayList<AulaMT> aulasOrdenadas = new ArrayList<AulaMT>();
         aulasOrdenadas.addAll(data.keySet());
         Collections.sort(aulasOrdenadas);
 
         //Una vez construido el diccionario, los añado a la colección de páginas.
-        for (AulaMañanaTardeContainer cont : aulasOrdenadas) {
+        for (AulaMT cont : aulasOrdenadas) {
 //            System.out.println("Adding data to print: " + cont + " " + data.get(cont));
             addPage(cont, cont, data.get(cont), null);
         }
@@ -93,7 +93,7 @@ public class PrinterHorariosPorAulas extends AbstractPrinter {
     public void printCabecera(Document doc, Object obj) throws DocumentException {
         addTitle(doc);
         String texto;
-        AulaMañanaTardeContainer cont = (AulaMañanaTardeContainer) obj;
+        AulaMT cont = (AulaMT) obj;
         texto = "Horarios para "+cont.getAula().getNombre() + " " + (cont.getEsTarde() ? "tarde" : "mañana");
         Paragraph par = new Paragraph(texto);
         par.setAlignment(Paragraph.ALIGN_CENTER);
@@ -128,7 +128,7 @@ public class PrinterHorariosPorAulas extends AbstractPrinter {
      */
     @Override
     public String getNombreDocumento(Object obj) {
-        AulaMañanaTardeContainer a = (AulaMañanaTardeContainer) obj;
+        AulaMT a = (AulaMT) obj;
         return "Horarios_" + a.toString().replace(" ", "_");
     }
 }

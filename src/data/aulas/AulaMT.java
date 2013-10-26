@@ -4,14 +4,16 @@
  */
 package data.aulas;
 
+import data.asignaturas.Tramo;
 import data.horarios.HorarioItem;
 import java.io.Serializable;
 
 /**
+ * Esta clase encapsula un aula y un turno de mañana/tarde
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class AulaMañanaTardeContainer implements Serializable,Comparable<AulaMañanaTardeContainer> {
+public class AulaMT implements Serializable, Comparable<AulaMT> {
 
     private Aula aula;
     private Boolean esTarde;
@@ -22,7 +24,7 @@ public class AulaMañanaTardeContainer implements Serializable,Comparable<AulaMa
      * @param aula
      * @param esTarde
      */
-    public AulaMañanaTardeContainer(Aula aula, boolean esTarde) {
+    public AulaMT(Aula aula, boolean esTarde) {
         this.aula = aula;
         this.esTarde = esTarde;
         markType = HorarioItem.NO_MARK;
@@ -32,7 +34,7 @@ public class AulaMañanaTardeContainer implements Serializable,Comparable<AulaMa
      *
      * @return
      */
-    public String getHashAula() {
+    public String getHash() {
         return aula.getHash(esTarde);
     }
 
@@ -105,7 +107,7 @@ public class AulaMañanaTardeContainer implements Serializable,Comparable<AulaMa
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AulaMañanaTardeContainer other = (AulaMañanaTardeContainer) obj;
+        final AulaMT other = (AulaMT) obj;
         if (this.aula != other.aula && (this.aula == null || !this.aula.equals(other.aula))) {
             return false;
         }
@@ -115,10 +117,18 @@ public class AulaMañanaTardeContainer implements Serializable,Comparable<AulaMa
         return true;
     }
 
-
-
     @Override
-    public int compareTo(AulaMañanaTardeContainer o) {
-       return this.toString().compareTo(o.toString());
+    public int compareTo(AulaMT o) {
+        return this.toString().compareTo(o.toString());
+    }
+
+    public void asignaTramo(Tramo aThis) {
+        ListaAsignaciones asig;
+        if (esTarde) {
+            asig = aula.getAsignacionesTarde();
+        } else {
+            asig = aula.getAsignacionesMañana();
+        }
+        asig.add(aThis);
     }
 }

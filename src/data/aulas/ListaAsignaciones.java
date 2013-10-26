@@ -4,7 +4,7 @@
  */
 package data.aulas;
 
-import gui.DatosEditor.Aulas.HashToGroupContainer;
+import data.asignaturas.Tramo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,10 +14,10 @@ import java.util.ArrayList;
  */
 public class ListaAsignaciones  implements Serializable {
 
-    ArrayList<HashToGroupContainer> hashToGroupContainers;
-    private final Boolean tarde;
+    ArrayList<Tramo> tramos;
     private final int index;
     private final Aula aula;
+    private final boolean tarde;
 
     /**
      *
@@ -26,18 +26,25 @@ public class ListaAsignaciones  implements Serializable {
      * @param aula
      */
     public ListaAsignaciones(Boolean tarde, int index, Aula aula) {
-        hashToGroupContainers = new ArrayList<HashToGroupContainer>();
+        tramos = new ArrayList<Tramo>();
         this.tarde = tarde;
         this.index = index;
         this.aula = aula;
+    }
+
+
+  
+
+    public Aula getAula() {
+        return aula;
     }
 
     /**
      *
      * @return
      */
-    public ArrayList<HashToGroupContainer> getHashToGroupContainers() {
-        return hashToGroupContainers;
+    public ArrayList<Tramo> getHashToGroupContainers() {
+        return tramos;
     }
 
     /**
@@ -64,7 +71,7 @@ public class ListaAsignaciones  implements Serializable {
      * @return
      */
     public int size() {
-        return hashToGroupContainers.size();
+        return tramos.size();
     }
 
     /**
@@ -72,8 +79,8 @@ public class ListaAsignaciones  implements Serializable {
      * @param index
      * @return
      */
-    public HashToGroupContainer get(int index) {
-        return hashToGroupContainers.get(index);
+    public Tramo get(int index) {
+        return tramos.get(index);
     }
 
     /**
@@ -81,9 +88,8 @@ public class ListaAsignaciones  implements Serializable {
      * @param e
      * @return
      */
-    public boolean add(HashToGroupContainer e) {
-        e.setAula(this.aula);
-        return hashToGroupContainers.add(e);
+    public boolean add(Tramo e) {
+        return tramos.add(e);
     }
 
     /**
@@ -97,22 +103,6 @@ public class ListaAsignaciones  implements Serializable {
         return tarde;
     }
 
-    /**
-     *
-     * @param con
-     * @return
-     */
-    public boolean contieneContainer(CarreraCursoGrupoContainer con) {
-        Boolean resul = false;
-        for (HashToGroupContainer hg : hashToGroupContainers) {
-            if (hg.getHash().equals(con.getHash()))  {
-                resul = true;
-            }
-        }
-        return resul;
-
-
-    }
 
     /**
      *
@@ -120,9 +110,9 @@ public class ListaAsignaciones  implements Serializable {
      */
     public double getHorasOcupadas() {
         double resul=0;
-        for (HashToGroupContainer c:hashToGroupContainers)
+        for (Tramo c:tramos)
         {
-            resul+=c.getTotalHoras();
+            resul+=c.getMinutos()/60F;
         }
             return resul;
     }
@@ -132,7 +122,7 @@ public class ListaAsignaciones  implements Serializable {
      * @return
      */
     public boolean isEmpty() {
-        return hashToGroupContainers.isEmpty();
+        return tramos.isEmpty();
     }
     
     

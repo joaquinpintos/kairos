@@ -128,10 +128,10 @@ public class GrupoTramos implements Serializable {
     }
 
     public void updateAsigAulaStatus() {
-        boolean resul = true;
+        boolean resul = false;
         for (Tramo tr : vectorTramos) {
             if (!tr.tieneAula()) {
-                resul = false;
+                resul = true;
                 break;
             }
         }

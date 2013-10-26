@@ -6,7 +6,7 @@ package gui.HorarioEditor;
 
 import data.DataKairos;
 import data.DataProyectoListener;
-import data.aulas.AulaMañanaTardeContainer;
+import data.aulas.AulaMT;
 import data.horarios.HorarioItem;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import javax.swing.AbstractListModel;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 
-public class JListAulasModel extends AbstractListModel<AulaMañanaTardeContainer> implements DataProyectoListener {
+public class JListAulasModel extends AbstractListModel<AulaMT> implements DataProyectoListener {
 
     private final DataKairos dk;
 
@@ -37,7 +37,7 @@ public class JListAulasModel extends AbstractListModel<AulaMañanaTardeContainer
     }
 
     @Override
-    public AulaMañanaTardeContainer getElementAt(int index) {
+    public AulaMT getElementAt(int index) {
         return dk.getDP().getDataAulas().getAulaContainers().get(index);
     }
 
@@ -48,7 +48,7 @@ public class JListAulasModel extends AbstractListModel<AulaMañanaTardeContainer
      */
     public void marcaAulasConSegmentosConflictivos(HashMap<String, HashSet<Integer>> casillasConflictivas, int markType) {
         //Primero desmarco todas las aulas como conflictivas
-        HashMap<String, AulaMañanaTardeContainer> hm = dk.getDP().getDataAulas().getMapHashToContainers();
+        HashMap<String, AulaMT> hm = dk.getDP().getDataAulas().getMapHashToContainers();
         for (String hashAula : casillasConflictivas.keySet()) {//Tengo un bucle con los hashAula 11@M 11@T etc.
             if (!casillasConflictivas.get(hashAula).isEmpty()) {
                 hm.get(hashAula).setTieneSegmentosConflictivos(markType);
@@ -60,8 +60,8 @@ public class JListAulasModel extends AbstractListModel<AulaMañanaTardeContainer
      *
      */
     public void clearConflictivos() {
-        ArrayList<AulaMañanaTardeContainer> aulaContainers = dk.getDP().getDataAulas().getAulaContainers();
-        for (AulaMañanaTardeContainer a : aulaContainers) {
+        ArrayList<AulaMT> aulaContainers = dk.getDP().getDataAulas().getAulaContainers();
+        for (AulaMT a : aulaContainers) {
             a.setTieneSegmentosConflictivos(HorarioItem.NO_MARK);
         }
     }

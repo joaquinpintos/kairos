@@ -4,10 +4,7 @@
  */
 package data.aulas;
 
-import gui.DatosEditor.Aulas.HashToGroupContainer;
-import data.asignaturas.Grupo;
 import java.io.Serializable;
-import java.util.HashMap;
 
 /**
  *
@@ -16,8 +13,8 @@ import java.util.HashMap;
 public class Aula implements Serializable {
 
     String nombre;
-    private ListaAsignaciones asignacionesMañana;
-    private ListaAsignaciones asignacionesTarde;
+    private final ListaAsignaciones asignacionesMañana;
+    private final ListaAsignaciones asignacionesTarde;
     private DataAulas parent;
 
     /**
@@ -73,31 +70,6 @@ public class Aula implements Serializable {
         return resul;
     }
 
-    void asignaGrupo(Grupo gr, Boolean esTarde) {
-        //Primero miro a cuál de las asignaciones tengo que meter el grupo
-        ListaAsignaciones asignaciones;
-        if (esTarde) {
-            asignaciones = asignacionesTarde;
-        } else {
-            asignaciones = asignacionesMañana;
-        }
-        String hash = gr.getHashCarreraGrupoCurso();
-        Boolean encontrado = false;
-        for (int n = 0; n < asignaciones.size(); n++) {
-            HashToGroupContainer hashCont = asignaciones.get(n);
-            if (hashCont.getHash() == null ? gr.getHashCarreraGrupoCurso() == null : hashCont.getHash().equals(gr.getHashCarreraGrupoCurso())) {
-                encontrado = true;
-                hashCont.addGrupo(gr);
-            }
-        }
-        //Aun no hay un contenedor de grupos con ese hash, creo uno
-        if (!encontrado) {
-            asignaciones.add(new HashToGroupContainer(gr, this));
-        }
-
-        setDirty(true);
-
-    }
 
     /**
      *
@@ -115,40 +87,7 @@ public class Aula implements Serializable {
         return asignacionesTarde;
     }
 
-    /**
-     *
-     * @return
-     */
-    public HashMap<String, String> getMapAsignacionesAulasAGrupos() {
-        HashMap<String, String> resul = new HashMap<String, String>();
-        for (HashToGroupContainer cont : asignacionesMañana.getHashToGroupContainers()) {
-            resul.put(cont.getHash(), this.getHash(false));
-        }
-        for (HashToGroupContainer cont : asignacionesTarde.getHashToGroupContainers()) {
-            resul.put(cont.getHash(), this.getHash(true));
-        }
-        return resul;
-    }
 
-    void quitaAsignacionesDeMañanaConHash(String hash) {
-        quitaAsignacionesConHash(asignacionesMañana, hash);
-        setDirty(true);
-    }
-
-    void quitaAsignacionesDeTardeConHash(String hash) {
-        quitaAsignacionesConHash(asignacionesTarde, hash);
-        setDirty(true);
-    }
-
-    void quitaAsignacionesConHash(ListaAsignaciones asignaciones, String hash) {
-        for (HashToGroupContainer hg : asignaciones.hashToGroupContainers) {
-            if (hg.getHash().equals(hash)) {
-                asignaciones.hashToGroupContainers.remove(hg);
-                break;
-            }
-        }
-        setDirty(true);
-    }
 
     @Override
     public int hashCode() {

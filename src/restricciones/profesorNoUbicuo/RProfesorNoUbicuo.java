@@ -72,7 +72,7 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
             ArrayList<Tramo> docencia = p.getDocencia();
             for (Tramo d : docencia) {
                 String hashGrupoCurso = d.getParent().getParent().getHashCarreraGrupoCurso();
-                String hashAula = dataProyecto.getMapGruposCompletosToAulas().get(hashGrupoCurso);
+                String hashAula = d.getAula().getHash();
                 dd.add(hashAula);
                 mapProfesorToAulas.put(p, dd);
             }

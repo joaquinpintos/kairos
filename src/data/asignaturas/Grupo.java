@@ -5,6 +5,7 @@
 package data.asignaturas;
 
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
 
@@ -208,9 +209,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     @Override
-    public void asignaAula(Aula aula, boolean tarde) {
+    public void asignaAula(AulaMT aula) {
         for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
-            tr.asignaAula(aula, tarde,true);
+            tr.asignaAula(aula, true);
         }
     }
 

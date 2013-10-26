@@ -5,6 +5,7 @@
 package data.asignaturas;
 
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -131,9 +132,9 @@ public class Carrera implements Serializable, Teachable {
     }
 
     @Override
-    public void asignaAula(Aula aula, boolean tarde) {
+    public void asignaAula(AulaMT aula) {
         for (Curso c : cursos) {
-            c.asignaAula(aula, tarde);
+            c.asignaAula(aula);
         }
     }
 

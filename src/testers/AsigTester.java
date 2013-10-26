@@ -262,12 +262,6 @@ public class AsigTester {
         dp.setTarde1(new RangoHoras(16, 00, 18, 00));
         dp.setTarde2(new RangoHoras(18, 30, 21, 30));
 
-        dataProyecto.addGrupoCompletoToAula("1º@1", "11@M");
-
-        dataProyecto.addGrupoCompletoToAula("1º@2", "21@M");
-
-        dataProyecto.addGrupoCompletoToAula("1º@3", "11@T");
-
 
     }
 
@@ -354,9 +348,6 @@ public class AsigTester {
         int k = 1;
         for (Carrera carr : dataProyecto.getDataAsignaturas().getCarreras()) {
             for (int n = 1; n <= numeroCursos; n++) {
-                dataProyecto.addGrupoCompletoToAula(carr.getNombre() + "@" + n + "@3", k + "@T");
-                dataProyecto.addGrupoCompletoToAula(carr.getNombre() + "@" + n + "@1", k + "@M");
-                dataProyecto.addGrupoCompletoToAula(carr.getNombre() + "@" + n + "@2", (k + 1) + "@M");
                 k += 2;
             }
         }

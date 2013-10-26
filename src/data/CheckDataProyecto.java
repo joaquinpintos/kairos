@@ -85,14 +85,14 @@ public class CheckDataProyecto {
      *
      * @return
      */
-    public HashSet<String> chequeSiTodoGrupoTieneUnaAulaAsignada() {
+    public HashSet<String> chequeSiTodosLosTramosTieneUnaAulaAsignada() {
         HashSet<String> resul = new HashSet<String>();
         for (Carrera carr : dataProyecto.getDataAsignaturas().getCarreras()) {
             for (Curso curso : carr.getCursos()) {
                 for (Asignatura asig : curso.getAsignaturas()) {
                     for (Grupo gr : asig.getGrupos().getGrupos()) {
-                        if (!dataProyecto.getMapGruposCompletosToAulas().containsKey(gr.getHashCarreraGrupoCurso())) {
-                            resul.add("Grupo " + gr.getNombreConCarrera() + " no tiene asignada aula.");
+                        if (gr.algunoSinAula()) {
+                            resul.add("Grupo " + gr.getNombreConCarrera() + " tiene tramos sin aula asignada.");
                         }
 
                     }

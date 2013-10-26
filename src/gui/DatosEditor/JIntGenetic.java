@@ -18,7 +18,6 @@ import data.genetic.PosibleSolucion;
 import data.horarios.HorarioConstructor;
 import genetic.mutators.AssortedMutator;
 import genetic.mutators.Mutator;
-import gui.MainWindowTabbed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
@@ -29,7 +28,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import sun.java2d.loops.CompositeType;
 
 /**
  *
@@ -241,7 +239,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         dk.getDP().calculaMinutosPorCasilla();
         System.out.println("Minutos por casilla: " + dk.getDP().getMinutosPorCasilla());
         DataGenerator dataGenerator = new DataGenerator(dk.getDP().getMinutosPorCasilla(), dk.getDP());
-        dataGenerator.calculaHashMapDeAsignacionesAulasAGrupos();
+//        dataGenerator.calculaHashMapDeAsignacionesAulasAGrupos();
 
         Mutator mutator = new AssortedMutator();
         Crossover crossover = new PermutationCrossover();
@@ -249,7 +247,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         HashSet<String> errores = new HashSet<String>();
         errores.addAll(check.chequeaProfesores());
         errores.addAll(check.chequeaSiLosGruposCaben());
-        errores.addAll(check.chequeSiTodoGrupoTieneUnaAulaAsignada());
+        errores.addAll(check.chequeSiTodosLosTramosTieneUnaAulaAsignada());
         errores.addAll(check.chequeaSiTodosLosTramosTienenAsignadaDocencia());
         String textoError = "Se han encontrado los siguientes errores validando los datos:\n";
         for (String er : errores) {

@@ -4,15 +4,10 @@
  */
 package gui.DatosEditor.Aulas;
 
-import data.aulas.CarreraCursoGrupoContainer;
 import data.DataKairos;
 import data.DataProyectoListener;
 import data.MyConstants;
-import data.asignaturas.Asignatura;
-import data.asignaturas.Carrera;
-import data.asignaturas.Curso;
 import data.asignaturas.DataAsignaturas;
-import data.asignaturas.Grupo;
 import data.aulas.Aula;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
@@ -23,11 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import javax.swing.AbstractAction;
-import javax.swing.AbstractListModel;
 import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.ActionMap;
 import javax.swing.DropMode;
@@ -46,7 +37,7 @@ import testers.AsigTester;
  * @author david
  */
 public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
-
+    
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
     private DataProfesores dataProfesores;
@@ -81,9 +72,13 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         this.jTreeGrupoCursos.setModel(treeModelGrupoCursos);
         treeModelGrupoCursos.addTreeModelListener(createTreeModelListener(jTreeGrupoCursos));
         treeModelAulas = new TreeModelAulas(dk);
-        jTreeGrupoCursos.setCellRenderer(new JTreeGrupoCursosSinAulaRenderer(dk));
+        jTreeGrupoCursos.setCellRenderer(new JTreeGrupoCursosRenderer(dk));
         jTreeGrupoCursos.setDragEnabled(true);
-
+        jTreeGrupoCursos.setTransferHandler(new GrupoCursoTransferHandler());
+         this.jTreeGrupoCursos.setDropMode(DropMode.INSERT);
+        this.jTreeGrupoCursos.setDropTarget(new DropTarget());
+        jTreeGrupoCursos.getDropTarget().addDropTargetListener(new JTreeGrupoCursoDropListener(this));
+        
         jTreeAulas.setModel(treeModelAulas);
         treeModelAulas.addTreeModelListener(createTreeModelListener(jTreeAulas));
         jTreeAulas.setDragEnabled(true);
@@ -92,7 +87,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jTreeAulas.setDropTarget(new DropTarget());
         jTreeAulas.getDropTarget().addDropTargetListener(new JTreeAulasDropListener(this, dk));
         jTreeAulas.setCellRenderer(new JTreeAulasRenderer(dk));
-
+        
         createActions();
         updateData();
     }
@@ -105,7 +100,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     public JTree getjTreeAulas() {
         return jTreeAulas;
     }
-
+    
     public JTree getjTreeGrupoCursos() {
         return jTreeGrupoCursos;
     }
@@ -181,6 +176,8 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jPanel1.add(jPanelInferior1, java.awt.BorderLayout.PAGE_END);
         jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
 
+        jSplitPane1.setDividerLocation(300);
+        jSplitPane1.setResizeWeight(0.5);
         jSplitPane1.setContinuousLayout(true);
         jSplitPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -270,7 +267,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     @Override
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
-
+        
     }
 
     /**
@@ -278,12 +275,12 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      */
     private void createActions() {
         class AñadirAulaAction extends AbstractAction {
-
+            
             public AñadirAulaAction() {
                 super("Añadir aula", MyConstants.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_A);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 Aula nuevaAula = new Aula("");
@@ -293,17 +290,17 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                     System.out.println("Added aula " + nuevaAula);
                     dk.getDP().getDataAulas().addAula(nuevaAula);
                 }
-
+                
             }
         }//End of class AñadirAula
 
         class EditarAulaAction extends AbstractAction {
-
+            
             public EditarAulaAction() {
                 super("Editar", MyConstants.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_E);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
@@ -315,16 +312,16 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                         dk.getDP().getDataAulas().fireDataEvent(aulaEditar, DataProyectoListener.MODIFY);
                     }
                 }
-
+                
             }
         }//End of class EditarAula
         class EliminarAulaAction extends AbstractAction {
-
+            
             public EliminarAulaAction() {
                 super("Eliminar", MyConstants.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_L);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
@@ -341,13 +338,13 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
         añadirAulaAction = new AñadirAulaAction();
         jButAñadirAula.setAction(añadirAulaAction);
-
+        
         editarAulaAction = new EditarAulaAction();
         jButEditarAula.setAction(editarAulaAction);
-
+        
         eliminarAulaAction = new EliminarAulaAction();
         jButEliminarAula.setAction(eliminarAulaAction);
-
+        
         jpopMenu = new JPopupMenu();
         jpopMenu.add(añadirAulaAction);
         jpopMenu.add(editarAulaAction);
@@ -367,11 +364,11 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
             @Override
             public void mouseClicked(MouseEvent e) {
             }
-
+            
             public void doPop(MouseEvent e) {
                 jpopMenu.show(e.getComponent(), e.getX(), e.getY());
             }
-
+            
             @Override
             public void mousePressed(MouseEvent e) {
                 try {
@@ -384,23 +381,23 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                     doPop(e);
                 }
             }
-
+            
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     doPop(e);
                 }
             }
-
+            
             @Override
             public void mouseEntered(MouseEvent e) {
             }
-
+            
             @Override
             public void mouseExited(MouseEvent e) {
             }
         });
-
+        
     }
 
     /**
@@ -413,86 +410,28 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jTreeAulas.updateUI();
         jTreeGrupoCursos.updateUI();
     }
-
+    
     private TreeModelListener createTreeModelListener(final JTree tree) {
         return new TreeModelListener() {
             @Override
             public void treeNodesChanged(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
-
+            
             @Override
             public void treeNodesInserted(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
-
+            
             @Override
             public void treeNodesRemoved(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
-
+            
             @Override
             public void treeStructureChanged(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
         };
     }
-}
-
-class CarreraGrupoCursosNoAsignadosSimpleListModel extends AbstractListModel<CarreraCursoGrupoContainer> {
-
-    ArrayList<CarreraCursoGrupoContainer> data;
-    private final DataKairos dk;
-
-    public CarreraGrupoCursosNoAsignadosSimpleListModel(DataKairos dk) {
-        this.dk = dk;
-        data = new ArrayList<CarreraCursoGrupoContainer>();
-        updateData();
-    }
-
-    @Override
-    public int getSize() {
-        return data.size();
-    }
-
-    @Override
-    public CarreraCursoGrupoContainer getElementAt(int index) {
-        return data.get(index);
-    }
-//MUY MUY POCO EFICIENTE!!!
-
-    public final void updateData() {
-        //Actualizo lista de Carreras-Cursos-Grupos, manualmente
-        data.clear();
-        HashSet<CarreraCursoGrupoContainer> dataAux = new HashSet<CarreraCursoGrupoContainer>();
-        for (Carrera c : dk.getDP().getDataAsignaturas().getCarreras()) {
-            for (Curso cu : c.getCursos()) {
-                for (Asignatura asig : cu.getAsignaturas()) {
-                    for (Grupo g : asig.getGrupos().getGrupos()) {
-                        String hash = g.getHashCarreraGrupoCurso();
-                        String nombre = g.getNombreConCarrera();
-                        CarreraCursoGrupoContainer con = new CarreraCursoGrupoContainer(hash, nombre);
-                        if (!dk.getDP().isCarreraGrupoCursoContainerAssociadoConAula(con)) {
-                            dataAux.add(con);
-                        }
-                    }
-                }
-            }
-        }
-        for (CarreraCursoGrupoContainer con : dataAux) {
-            if (!data.contains(con)) {
-                data.add(con);
-            }
-        }
-        Collections.sort(data);
-    }
-
-    public void remove(CarreraCursoGrupoContainer c) {
-        data.remove(c);
-    }
-
-    void add(CarreraCursoGrupoContainer grupoDragged) {
-        data.add(grupoDragged);
-    }
-
 }

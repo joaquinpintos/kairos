@@ -12,6 +12,7 @@ import data.asignaturas.Curso;
 import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.genetic.DatosPorAula;
 import data.profesores.Profesor;
 import java.io.File;
@@ -162,7 +163,7 @@ public class DOMLoaderAsignaturas {
             HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
             DatosPorAula dat = map.get(elemAula.getTextContent());
             Aula aula=dataProyecto.getAulaPorHash(elemAula.getTextContent());
-            tr.asignaAula(aula,elemAula.getTextContent().contains("@T"));
+            tr.asignaAula(new AulaMT(aula,elemAula.getTextContent().contains("@T")));
         }
     }
 
