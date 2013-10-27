@@ -5,7 +5,6 @@
 package restricciones.profesorNoUbicuo;
 
 import data.DataProyecto;
-import data.asignaturas.DocenciaItem;
 import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 import data.genetic.Asignacion;
@@ -31,7 +30,8 @@ import java.util.HashSet;
 public class RProfesorNoUbicuo extends Restriccion implements Serializable {
 
     //profesor->lista de hashaulas, y cada hashaula->lista de [segmentos,duracion]
-    private HashMap<Profesor, ArrayList<String>> mapProfesorToAulas;
+    //A cada profesor le asigna una lista de hashaulas donde imparte.
+    //y a cada hashaula, una lista de [segmento,duracion] 
     HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>> dataMañana;
     HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>> dataTarde;
     HashSet<Profesor> profesoresConflictivos;
@@ -61,25 +61,28 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
         //Hacer una lista de segmentos conflictivos para cada aula
         //Comparar las casillas de dichos segmentos a ver si coinciden
         //en día y hora.
-        profesoresConflictivos = new HashSet<Profesor>();
-
+        
+        //Fase 1: Calculo de mapProfesorToAulas
+        HashMap<Profesor, ArrayList<String>> mapProfesorToAulas;
         mapProfesorToAulas = new HashMap<Profesor, ArrayList<String>>();
-        dataMañana = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
-        dataTarde = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
         for (Profesor p : dataProyecto.getDataProfesores().getTodosProfesores()) {
             //hashaula->lista de segmentos
             ArrayList<String> dd = new ArrayList<String>();
             ArrayList<Tramo> docencia = p.getDocencia();
             for (Tramo d : docencia) {
                 String hashGrupoCurso = d.getParent().getParent().getHashCarreraGrupoCurso();
-                String hashAula = d.getAula().getHash();
+                String hashAula = d.getAulaMT().getHash();
                 dd.add(hashAula);
                 mapProfesorToAulas.put(p, dd);
             }
         }
+        //Fase 1: Calculo de dataMañana y dataTarde
+        
         //Tendré 0, 1 y 2 grupos conflictivos. Calculo y elimino profesores no conflictivos
         //Tengo que contar para cada profesor cuántos aulas tiene de mañana y de tarde
-
+        dataMañana = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
+        dataTarde = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
+        profesoresConflictivos = new HashSet<Profesor>();
         for (Profesor p : mapProfesorToAulas.keySet()) {
             HashMap<String, ArrayList<Integer[]>> aulaToSegmentosMañana = new HashMap<String, ArrayList<Integer[]>>();
             HashMap<String, ArrayList<Integer[]>> aulaToSegmentosTarde = new HashMap<String, ArrayList<Integer[]>>();

@@ -158,9 +158,9 @@ public class DataAsignaturas extends AbstractDataSets {
                 Node nodeDocente = nodeTramo.appendChild(parent.getOwnerDocument().createElement("docente"));
                 nodeDocente.setTextContent(tr.getDocente().hash());
             }
-            if (tr.getAula() != null) {
+            if (tr.getAulaMT() != null) {
                 Node nodeAula = nodeTramo.appendChild(parent.getOwnerDocument().createElement("aula"));
-                nodeAula.setTextContent(tr.getAula().getHash());
+                nodeAula.setTextContent(tr.getAulaMT().getHash());
             }
 
         }

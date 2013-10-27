@@ -86,7 +86,7 @@ public class DataGenerator {
         //Bucle para generar los segmentos de grupos completos.
         for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
 //            for (int n = 0; n < tr.getNumeroClases(); n++) {
-            String hashAula = tr.getAula().getHash();
+            String hashAula = tr.getAulaMT().getHash();
             Segmento s = new Segmento(tr, tr.getMinutos() / dataProyecto.getMinutosPorCasilla(), dataProyecto.getMinutosPorCasilla());
             dataProyecto.getDatosPorAula(hashAula).addSegmento(s);
             ls.add(s);

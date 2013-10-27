@@ -5,6 +5,7 @@
 package data;
 
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
+import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
 import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
 
 /**
@@ -53,6 +54,7 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
         dataProyecto=new DataProyecto();
         dataProyecto.setNombreProyecto(nombre);
         dataProyecto.getDataRestricciones().add(new RProfesorNoUbicuo(dataProyecto));
+        dataProyecto.getDataRestricciones().add(new RGrupoNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
         //TODO: ¿Pueden hacer falta más restricciones, por ejemplo grupos no ubicuos?
     }

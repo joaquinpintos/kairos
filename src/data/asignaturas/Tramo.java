@@ -133,7 +133,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         parent.updateAsigAulaStatus();
     }
 
-    public AulaMT getAula() {
+    public AulaMT getAulaMT() {
         return aulaMT;
     }
 

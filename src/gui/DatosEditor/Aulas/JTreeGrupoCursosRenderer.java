@@ -74,7 +74,7 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
             this.setFont(MyConstants.NORMAL_FONT);
             String aula;
             if (tr.tieneAula()) {
-                aula = " " + tr.getAula().toString();
+                aula = " " + tr.getAulaMT().toString();
                 this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             } else {
                 aula = "";

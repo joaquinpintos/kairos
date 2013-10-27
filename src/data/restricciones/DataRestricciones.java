@@ -17,6 +17,7 @@ import restricciones.clasesCondensadasParaProfesor.RClasesCondensadasParaProfeso
 import restricciones.noHuecosEntreMedias.RNoHuecosEntreMedias;
 import restricciones.profesorCiertosDias.RProfesorCiertosDias;
 import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
+import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
 
 /**
  *
@@ -24,7 +25,7 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
  */
 public class DataRestricciones extends AbstractDataSets implements Serializable {
 
-    private ArrayList<Restriccion> listaRestricciones;
+    private final ArrayList<Restriccion> listaRestricciones;
     private ArrayList<Restriccion> restriccionesDisponibles;
     Document documentoXML;
 
@@ -97,6 +98,7 @@ public class DataRestricciones extends AbstractDataSets implements Serializable 
         restriccionesDisponibles = new ArrayList<Restriccion>();
         restriccionesDisponibles.add(new RNoHuecosEntreMedias());
         restriccionesDisponibles.add(new RProfesorNoUbicuo());
+        restriccionesDisponibles.add(new RGrupoNoUbicuo());
         restriccionesDisponibles.add(new RProfesorCiertosDias());
         restriccionesDisponibles.add(new RClasesCondensadasParaProfesor());
         restriccionesDisponibles.add(new RClasesNoCruzanRecreo());
