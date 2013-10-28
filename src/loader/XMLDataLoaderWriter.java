@@ -189,8 +189,9 @@ public class XMLDataLoaderWriter  {
             Transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             Transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             Transformer.transform(src, dest);
+            salida.close();
         } catch (TransformerException ex) {
-            throw new IllegalArgumentException("Error al crear conversor DOM a XML");
+        } catch (IOException ex) {
         }
     }
 

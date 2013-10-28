@@ -7,12 +7,14 @@ package gui;
 import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -20,8 +22,7 @@ import javax.swing.JMenuItem;
  */
 public class MainWindowDesktopPane extends AbstractMainWindow {
 
-    private JMenu viewMenu;
-    private JMenuItem importXMLMenuItem;
+    
 
     /**
      * Creates new form MainWindow
@@ -51,7 +52,9 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
-        importXMLMenuItem=new javax.swing.JMenuItem();
+        importXMLMenuItem = new javax.swing.JMenuItem();
+        exportXMLMenuItem = new javax.swing.JMenuItem();
+        creaPDFMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
@@ -65,22 +68,19 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         viewMenu = new javax.swing.JMenu();
         viewMenu.setMnemonic('V');
         viewMenu.setText("Ver");
-        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Open");
         openMenuItem.setAction(cargarProyectoAction);
-        
+        openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+
         fileMenu.add(openMenuItem);
 
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Save");
         saveMenuItem.setAction(guardarProyectoAction);
+        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setMnemonic('a');
@@ -88,13 +88,15 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         saveAsMenuItem.setDisplayedMnemonicIndex(5);
         saveAsMenuItem.setAction(guardarProyectoComoAction);
         fileMenu.add(saveAsMenuItem);
-        
-        importXMLMenuItem.setText("Importar XML");
-        importXMLMenuItem.setMnemonic('x');
+
         importXMLMenuItem.setAction(importarXMLAction);
         fileMenu.add(importXMLMenuItem);
-        
-        
+
+        exportXMLMenuItem.setAction(exportarXMLAction);
+        fileMenu.add(exportXMLMenuItem);
+
+        creaPDFMenuItem.setAction(creaPDFAction);
+        fileMenu.add(creaPDFMenuItem);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
@@ -178,6 +180,11 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    
+    private JMenu viewMenu;
+    private JMenuItem importXMLMenuItem;
+    private JMenuItem exportXMLMenuItem;
+    private JMenuItem creaPDFMenuItem;
     // End of variables declaration                   
 
     @Override
@@ -193,15 +200,26 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         DataGUIInterface d = (DataGUIInterface) tab;
         d.setMainWindow(this);
         listaTabs.add(tab);
-        AbstractAction a = new AbstractAction() {
-            
+        AbstractAction viewFrameAction = new AbstractAction() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                tab.setVisible(!tab.isVisible());
+                if (!tab.isVisible()) {
+                    tab.setVisible(true);
+                } else {
+                    if (tab.isSelected()) {
+                        tab.setVisible(false);
+                    } else {
+                        //Triquiñuela para poner una ventana encima
+                        tab.setVisible(false);
+                        tab.setVisible(true);
+                    }
+                }
+
             }
         };
-        a.putValue(Action.NAME, title);
-        viewMenu.add(a);
+        viewFrameAction.putValue(Action.NAME, title);
+        viewMenu.add(viewFrameAction);
 
     }
 

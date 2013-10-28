@@ -20,8 +20,10 @@ import gui.DatosEditor.JIntGenetic;
 import gui.DatosEditor.JIntTreeProfesores;
 import gui.DatosEditor.JIntWelcome;
 import gui.DatosEditor.Restricciones.JIntRestricciones;
-import gui.HorarioEditor.JIntHorarioPorAulas;
+import gui.HorarioEditor.JIntHorarioEditor;
+import gui.HorarioEditor.jDlgPrintHorario;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -60,13 +62,16 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private JIntAsignaciones jIntAsignaciones;
     private JIntRestricciones jIntRestricciones;
     private JIntGenetic jIntgenGenetic;
-    private JIntHorarioPorAulas jIntHorarioEditor;
+    private JIntHorarioEditor jIntHorarioEditor;
     protected ArrayList<JInternalFrame> listaTabs;
     protected AbstractAction cargarProyectoAction;
     protected AbstractAction guardarProyectoAction;
     protected AbstractAction guardarProyectoComoAction;
     protected AbstractAction importarXMLAction;
+    protected AbstractAction exportarXMLAction;
+    protected AbstractAction creaPDFAction;
     private File lastFileUsed;
+    private JIntHorarioEditor jIntHorarioEditor2;
 
     public AbstractMainWindow() throws Exception {
         super();
@@ -107,8 +112,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         jIntgenGenetic = new JIntGenetic(dk);
         addTab("Optimizacion", jIntgenGenetic);
 
-        jIntHorarioEditor = new JIntHorarioPorAulas(dk);
+        jIntHorarioEditor = new JIntHorarioEditor(dk);
         addTab("Horario", jIntHorarioEditor);
+
+        jIntHorarioEditor2 = new JIntHorarioEditor(dk);
+        addTab("Horario 2", jIntHorarioEditor2);
     }
 //
 //    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,7 +202,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      * @return
      */
-    public JIntHorarioPorAulas getjIntHorarioView() {
+    public JIntHorarioEditor getjIntHorarioView() {
         return jIntHorarioEditor;
     }
 
@@ -249,13 +257,14 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      */
     public final void registraListeners() {
         dk.getDP().getDataRestricciones().addListener(jIntHorarioEditor);
+        dk.getDP().getDataRestricciones().addListener(jIntHorarioEditor2);
         dk.getDP().getDataRestricciones().addListener(jIntRestricciones);
 
         dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
 
         dk.getDP().getDataAulas().addListener(jIntTreeAulas);
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);
-        
+
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
     }
 
@@ -288,6 +297,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
             public CargarProyectoAction() {
                 super("Cargar proyecto", null);
+                putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
             }
 
             @Override
@@ -347,6 +357,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
             public GuardarProyectoAction() {
                 super("Guardar proyecto", null);
+                putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_G));
             }
 
             @Override
@@ -375,6 +386,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
             public GuardarProyectoComoAction() {
                 super("Guardar proyecto como...", null);
+                putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_U));
             }
 
             @Override
@@ -409,6 +421,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
             public ImportarXMLAction() {
                 super("Importar datos XML", null);
+                putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
             }
 
             @Override
@@ -434,11 +447,55 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
+        class ExportarXMLAction extends AbstractAction {
+
+            public ExportarXMLAction() {
+                super("Exportar datos XML", null);
+                putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_E));
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {  //Este metodo EXPORTA los datos a XML
+                JFileChooser fc = new JFileChooser(mainWindow.getLastFileUsed());
+                fc.setDialogTitle("Elige archivo a guardar");
+                int valorDevuelto = fc.showSaveDialog(null);
+
+                if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
+                    boolean guardadoCorrecto = true;
+                    try {
+                        guardadoCorrecto = saveToFile(fc.getSelectedFile());
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (!guardadoCorrecto) {
+                        JOptionPane.showMessageDialog(null, "Error al guardar los datos.");
+                    }
+                }
+            }
+        }
 
         cargarProyectoAction = new CargarProyectoAction();
         guardarProyectoAction = new GuardarProyectoAction();
         guardarProyectoComoAction = new GuardarProyectoComoAction();
         importarXMLAction = new ImportarXMLAction();
+        exportarXMLAction = new ExportarXMLAction();
+
+        class CreaPDFAction extends AbstractAction {
+
+            public CreaPDFAction() {
+                super("Imprimir calendarios", null);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jDlgPrintHorario dlg = new jDlgPrintHorario(mainWindow, true, dk.getDP());
+                dlg.setLocationRelativeTo(null);
+                dlg.setVisible(true);
+            }
+        }
+        creaPDFAction = new CreaPDFAction();
+
     }
 
     /**

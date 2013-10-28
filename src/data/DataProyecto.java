@@ -80,7 +80,7 @@ public class DataProyecto implements Serializable {
         calendarioAcadémico = new CalendarioAcademico();
         dataRestricciones = new DataRestricciones(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
-        status = MyConstants.STATUS_PROJECT_NO_SOLUTION;
+        status = DataKairos.STATUS_PROJECT_NO_SOLUTION;
     }
 
     /**

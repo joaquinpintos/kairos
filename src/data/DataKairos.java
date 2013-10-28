@@ -14,14 +14,20 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-  public class DataKairos {
+public class DataKairos {
+
+    //Estados en los que se puede encontrar el programa
+    public static final int STATUS_NO_PROJECT = 0;
+    public static final int STATUS_PROJECT_NO_SOLUTION = 1;
+    public static final int STATUS_PROJECT_SOLUTION = 2;
+    public static final int STATUS_COMPUTING_SOLUTION = 3;
     private DataProyecto dataProyecto;
 
     /**
      *
      */
     public DataKairos() {
-        dataProyecto=new DataProyecto();
+        dataProyecto = new DataProyecto();
     }
 
     /**
@@ -39,10 +45,11 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
     public void setDP(DataProyecto dataProyecto) {
         this.dataProyecto = dataProyecto;
     }
+
     /**
      *
      */
-    public void clear(){
+    public void clear() {
         dataProyecto.clear();
     }
 
@@ -51,12 +58,12 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
      * @param nombre
      */
     public void createNewDP(String nombre) {
-        dataProyecto=new DataProyecto();
+        dataProyecto = new DataProyecto();
         dataProyecto.setNombreProyecto(nombre);
         dataProyecto.getDataRestricciones().add(new RProfesorNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RGrupoNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
         //TODO: ¿Pueden hacer falta más restricciones, por ejemplo grupos no ubicuos?
     }
-    
+
 }

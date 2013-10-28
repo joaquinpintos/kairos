@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
-import javax.swing.SwingWorker;
 
 /**
  *
@@ -413,7 +412,7 @@ public class GeneticAlgorithm {
     }
 
     public void runMainLoop() {
-        while (runSingleLoop());
+        while (runSingleLoop()){};
     }
 }
 

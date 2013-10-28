@@ -35,7 +35,7 @@ import javax.swing.border.Border;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements DataGUIInterface, HorarioListener, DataProyectoListener {
+public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, HorarioListener, DataProyectoListener {
 
     private AbstractMainWindow mainWindow;
 //    private final HorariosTableModelPorAula modelHorarios;
@@ -50,7 +50,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
      *
      * @param dk 
      */
-    public JIntHorarioPorAulas(DataKairos dk) {
+    public JIntHorarioEditor(DataKairos dk) {
         initComponents();
         this.dk = dk;
         jListAulasModel = new JListAulasModel(dk);
@@ -87,8 +87,11 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHorario = new javax.swing.JTable();
+        jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListAulas = new javax.swing.JList();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jPanelHorarios = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -101,8 +104,6 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         jButCrearPDF = new javax.swing.JButton();
         jLabPeso = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jPanelHorarios = new javax.swing.JPanel();
 
         jTableHorario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -137,7 +138,27 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         });
         jScrollPane2.setViewportView(jListAulas);
 
-        getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_START);
+        jSplitPane1.setLeftComponent(jScrollPane2);
+
+        jPanelHorarios.setMinimumSize(new java.awt.Dimension(500, 500));
+        jPanelHorarios.setName(""); // NOI18N
+
+        javax.swing.GroupLayout jPanelHorariosLayout = new javax.swing.GroupLayout(jPanelHorarios);
+        jPanelHorarios.setLayout(jPanelHorariosLayout);
+        jPanelHorariosLayout.setHorizontalGroup(
+            jPanelHorariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 718, Short.MAX_VALUE)
+        );
+        jPanelHorariosLayout.setVerticalGroup(
+            jPanelHorariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+
+        jScrollPane4.setViewportView(jPanelHorarios);
+
+        jSplitPane1.setRightComponent(jScrollPane4);
+
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.LINE_START);
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
         jPanel1.add(filler1);
@@ -186,24 +207,6 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
         jPanel1.add(filler4);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
-
-        jPanelHorarios.setMinimumSize(new java.awt.Dimension(500, 500));
-        jPanelHorarios.setName(""); // NOI18N
-
-        javax.swing.GroupLayout jPanelHorariosLayout = new javax.swing.GroupLayout(jPanelHorarios);
-        jPanelHorarios.setLayout(jPanelHorariosLayout);
-        jPanelHorariosLayout.setHorizontalGroup(
-            jPanelHorariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-        jPanelHorariosLayout.setVerticalGroup(
-            jPanelHorariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-
-        jScrollPane4.setViewportView(jPanelHorarios);
-
-        getContentPane().add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -260,6 +263,7 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTableHorario;
     // End of variables declaration//GEN-END:variables
 
@@ -497,28 +501,14 @@ public class JIntHorarioPorAulas extends javax.swing.JInternalFrame implements D
                 try {
                     mainWindow.getjIntgenGenetic().doGenetic(dk.getDP().getHorario().getSolucion());
                 } catch (Exception ex) {
-                    Logger.getLogger(JIntHorarioPorAulas.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIntHorarioEditor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
         volverAOptimizarAction = new VolverAOptimizarAction();
         jButVolverAOptimizar.setAction(volverAOptimizarAction);
 
-        class CreaPDFAction extends AbstractAction {
-
-            public CreaPDFAction() {
-                super("Imprimir calendarios", null);
-            }
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jDlgPrintHorario dlg = new jDlgPrintHorario(mainWindow, true, dk.getDP());
-                dlg.setLocationRelativeTo(null);
-                dlg.setVisible(true);
-            }
-        };
-        creaPDFAction = new CreaPDFAction();
-        jButCrearPDF.setAction(creaPDFAction);
+       
 
 
         class CalculaHorasAsignaturasAction extends AbstractAction {

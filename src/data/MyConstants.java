@@ -163,11 +163,4 @@ public class MyConstants {
         new Color(101, 196, 255)
     };
     public static final Color BACKGROUND_APP_COLOR=Color.gray;
-
-    
-    //Estados en los que se puede encontrar el programa
-    public static final int STATUS_NO_PROJECT=0;
-    public static final int STATUS_PROJECT_NO_SOLUTION=1;
-    public static final int STATUS_PROJECT_SOLUTION=2;
-    public static final int STATUS_COMPUTING_SOLUTION=3;
 }
