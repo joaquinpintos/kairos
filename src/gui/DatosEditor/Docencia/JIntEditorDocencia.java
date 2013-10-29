@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.DatosEditor.Docencia;
 
 import data.DataKairos;
+import data.DataProyectoListener;
 import data.profesores.TreeCellRendererProfesores;
 import data.profesores.TreeModelProfesores;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.Asignaturas.TreeCellRendererAsignaturas;
 import gui.DatosEditor.Asignaturas.TreeModelAsignaturas;
 import gui.DatosEditor.DataGUIInterface;
+import gui.TreeAsignaturas;
 import java.awt.dnd.DropTarget;
 import java.util.TooManyListenersException;
 import javax.swing.JTree;
@@ -21,7 +22,7 @@ import javax.swing.JTree;
  *
  * @author david
  */
-public class JIntAsignaciones extends javax.swing.JInternalFrame implements DataGUIInterface {
+public class JIntEditorDocencia extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas,TreeProfesores {
 
     private final DataKairos dk;
     private AbstractMainWindow mainWindow;
@@ -29,7 +30,7 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
     /**
      * Creates new form jIntAsignaciones
      */
-    public JIntAsignaciones(DataKairos dk) throws TooManyListenersException {
+    public JIntEditorDocencia(DataKairos dk) throws TooManyListenersException {
         initComponents();
         this.dk = dk;
         TreeModelProfesores mod = new TreeModelProfesores(dk);
@@ -39,6 +40,9 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
         jTreeProfesores.setCellRenderer(rendProf);
         jTreeProfesores.setTransferHandler(new JTreeProfesoresTransferHandler());
         jTreeProfesores.setDragEnabled(true);
+        jTreeProfesores.setDropTarget(new DropTarget());
+        jTreeProfesores.getDropTarget().addDropTargetListener(new JTreeProfesoresDropListener((TreeProfesores) this, dk));
+    
         
         TreeModelAsignaturas asigModel = new TreeModelAsignaturas(dk);
         asigModel.setLlegarHastaTramos(true);
@@ -47,9 +51,10 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
         jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
         jTreeAsignaturas.setDragEnabled(true);
         jTreeAsignaturas.setDropTarget(new DropTarget());
-        jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener(this, dk));
-         }
+        jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener((TreeAsignaturas) this, dk));
+    }
 
+    @Override
     public JTree getjTreeAsignaturas() {
         return jTreeAsignaturas;
     }
@@ -116,7 +121,7 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
     private void jButExpandirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButExpandirActionPerformed
         mainWindow.expandTree(jTreeProfesores);
         mainWindow.expandTree(jTreeAsignaturas);
-        
+
 
     }//GEN-LAST:event_jButExpandirActionPerformed
 
@@ -138,9 +143,15 @@ public class JIntAsignaciones extends javax.swing.JInternalFrame implements Data
         jTreeProfesores.updateUI();
         jTreeAsignaturas.updateUI();
     }
-    
+
     @Override
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
+    }
+
+    @Override
+    public void dataEvent(Object obj, int type) {
+        jTreeAsignaturas.updateUI();
+        jTreeProfesores.updateUI();
     }
 }

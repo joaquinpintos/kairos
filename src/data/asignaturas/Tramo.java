@@ -4,7 +4,7 @@
  */
 package data.asignaturas;
 
-import data.aulas.Aula;
+import data.DataProyectoListener;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
@@ -80,6 +80,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         if (profesor != null) {
             profesor.addDocencia(this);
         }
+        fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
     public Profesor getDocente() {
@@ -93,7 +94,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         if (p != null) {
             p.removeDocencia(this);
         }
-
+        fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
     public boolean isAsignado() {
@@ -113,17 +114,16 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     }
 
     @Override
-    public void asignaAula(AulaMT aula) {
-        this.aulaMT = aula;
-        this.tarde = tarde;
+    public void asignaAula(AulaMT aulaMT) {
+        this.aulaMT = aulaMT;
         parent.updateAsigAulaStatus();
-        aula.asignaTramo(this);
-                
+        aulaMT.asignaTramo(this);
+        fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
-    public void asignaAula(AulaMT aula,boolean batch) {
+    public void asignaAula(AulaMT aulaMT, boolean batch) {
         //if (this.aulaMT == null) {
-            asignaAula(aula);
+        asignaAula(aulaMT);
         //}
     }
 
@@ -131,6 +131,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     public void removeAula() {
         this.aulaMT = null;
         parent.updateAsigAulaStatus();
+        fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
     public AulaMT getAulaMT() {
@@ -145,4 +146,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return tarde;
     }
 
+    public void fireDataEvent(Object obj, int type) {
+        getParent().fireDataEvent(obj, type);
+    }
 }

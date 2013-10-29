@@ -4,6 +4,7 @@
  */
 package data.asignaturas;
 
+import data.DataProyectoListener;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
@@ -64,7 +65,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      */
     public void addTramoGrupoCompleto(Tramo tr) {
         tramosGrupoCompleto.add(tr);
+        updateAsigAulaStatus();
         setDirty(true);
+        fireDataEvent(tr, DataProyectoListener.ADD);
     }
 
     /**
@@ -73,7 +76,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      */
     public void removeTramoGrupoCompleto(Tramo tr) {
         tramosGrupoCompleto.remove(tr);
+        updateAsigAulaStatus();
         setDirty(true);
+        fireDataEvent(tr, DataProyectoListener.REMOVE);
     }
 
     @Override
@@ -225,11 +230,16 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     public void updateAsigAulaStatus() {
         if (tramosGrupoCompleto.algunoSinAula() != algunoSinAula) {
             algunoSinAula = tramosGrupoCompleto.algunoSinAula();
-        parent.updateAsigAulaStatus();
+            parent.updateAsigAulaStatus();
         }
-        
+
     }
-  public boolean algunoSinAula() {
+
+    public boolean algunoSinAula() {
         return algunoSinAula;
+    }
+
+    public void fireDataEvent(Object obj, int type) {
+        getParent().fireDataEvent(obj, type);
     }
 }

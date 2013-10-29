@@ -10,11 +10,10 @@ import data.DataProyecto;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
-import data.restricciones.Restriccion;
-import gui.DatosEditor.Asignaturas.JIntTreeAsignaturas;
+import gui.DatosEditor.Asignaturas.JIntEditorAsignaturas;
 import gui.DatosEditor.Aulas.JIntTreeAulas;
 import gui.DatosEditor.DataGUIInterface;
-import gui.DatosEditor.Docencia.JIntAsignaciones;
+import gui.DatosEditor.Docencia.JIntEditorDocencia;
 import gui.DatosEditor.JIntDatosProyecto;
 import gui.DatosEditor.JIntGenetic;
 import gui.DatosEditor.JIntTreeProfesores;
@@ -57,9 +56,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private final DataKairos dk;
     private JIntWelcome jIntWelcome;
     private JIntTreeProfesores jIntTreeProfesores;
-    private JIntTreeAsignaturas jIntTreeAsignaturas;
+    private JIntEditorAsignaturas jIntTreeAsignaturas;
     private JIntTreeAulas jIntTreeAulas;
-    private JIntAsignaciones jIntAsignaciones;
+    private JIntEditorDocencia jIntEditorDocencia;
     private JIntRestricciones jIntRestricciones;
     private JIntGenetic jIntgenGenetic;
     private JIntHorarioEditor jIntHorarioEditor;
@@ -96,14 +95,14 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         jIntTreeProfesores = new JIntTreeProfesores(dk);
         addTab("Profesores", jIntTreeProfesores);
 
-        jIntTreeAsignaturas = new JIntTreeAsignaturas(dk);
+        jIntTreeAsignaturas = new JIntEditorAsignaturas(dk);
         addTab("Asignaturas", jIntTreeAsignaturas);
 
         jIntTreeAulas = new JIntTreeAulas(dk);
         addTab("Aulas", jIntTreeAulas);
 
-        jIntAsignaciones = new JIntAsignaciones(dk);
-        addTab("Docencia", jIntAsignaciones);
+        jIntEditorDocencia = new JIntEditorDocencia(dk);
+        addTab("Docencia", jIntEditorDocencia);
         //dataProfesores.dataToDOM();
 
         jIntRestricciones = new JIntRestricciones(dk);
@@ -115,8 +114,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         jIntHorarioEditor = new JIntHorarioEditor(dk);
         addTab("Horario", jIntHorarioEditor);
 
-        jIntHorarioEditor2 = new JIntHorarioEditor(dk);
-        addTab("Horario 2", jIntHorarioEditor2);
+//        jIntHorarioEditor2 = new JIntHorarioEditor(dk);
+//        addTab("Horario 2", jIntHorarioEditor2);
     }
 //
 //    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +169,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      * @return
      */
-    public JIntTreeAsignaturas getjIntTreeAsignaturas() {
+    public JIntEditorAsignaturas getjIntTreeAsignaturas() {
         return jIntTreeAsignaturas;
     }
 
@@ -186,8 +185,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      * @return
      */
-    public JIntAsignaciones getjIntAsignaciones() {
-        return jIntAsignaciones;
+    public JIntEditorDocencia getjIntAsignaciones() {
+        return jIntEditorDocencia;
     }
 
     /**
@@ -264,8 +263,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
         dk.getDP().getDataAulas().addListener(jIntTreeAulas);
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);
-
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
+
+        dk.getDP().getDataAsignaturas().addListener(jIntEditorDocencia);
     }
 
     /**
@@ -320,21 +320,21 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             os.close();
                             dk.setDP(o);
                             registraListeners();
-//                            getjIntTreeProfesores().updateData();
-//                            getjIntTreeAsignaturas().updateData();
-//                            getjIntTreeAulas().updateData();
-//                            getjIntAsignaciones().updateData();
-                            getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
+//                            getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
 
-                            for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
-                                r.setDataProyecto(dk.getDP());
-                            }
+//                            for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
+//                                r.setDataProyecto(dk.getDP());
+//                            }
                             for (JInternalFrame tab : listaTabs) {
                                 ((DataGUIInterface) tab).updateData();
                             }
                             expandAllTrees();
                             getjIntHorarioView().needRecalcularPesos();
-
+                            if (dk.getDP().getHorario().hayUnaSolucion()) {
+                                setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
+                            } else {
+                                setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
+                            }
                         }
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
@@ -443,6 +443,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         mainWindow.refreshAllTabs();
                         mainWindow.expandAllTrees();
                         dk.getDP().setDirty(false);
+                        if (dk.getDP().getHorario().hayUnaSolucion()) {
+                            mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
+                        } else {
+                            mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
+                        }
                     }
                 }
             }
@@ -534,4 +539,38 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         this.lastFileUsed = lastFileUsed;
     }
 
+    public void setProjectStatus(int status) {
+        switch (status) {
+            case DataKairos.STATUS_NO_PROJECT: {
+                for (JInternalFrame t : listaTabs) {
+                    t.setVisible(false);
+                }
+                cargarProyectoAction.setEnabled(true);
+                guardarProyectoAction.setEnabled(false);
+                guardarProyectoComoAction.setEnabled(false);
+                importarXMLAction.setEnabled(true);
+                exportarXMLAction.setEnabled(false);
+                creaPDFAction.setEnabled(false);
+                break;
+            }
+            case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
+                cargarProyectoAction.setEnabled(true);
+                guardarProyectoAction.setEnabled(true);
+                guardarProyectoComoAction.setEnabled(true);
+                importarXMLAction.setEnabled(true);
+                exportarXMLAction.setEnabled(true);
+                creaPDFAction.setEnabled(false);
+                break;
+            }
+            case DataKairos.STATUS_PROJECT_SOLUTION: {
+                cargarProyectoAction.setEnabled(true);
+                guardarProyectoAction.setEnabled(true);
+                guardarProyectoComoAction.setEnabled(true);
+                importarXMLAction.setEnabled(true);
+                exportarXMLAction.setEnabled(true);
+                creaPDFAction.setEnabled(true);
+                break;
+            }
+        }
+    }
 }

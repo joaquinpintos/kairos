@@ -126,7 +126,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         });
         jScrollPane1.setViewportView(jTableHorario);
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         setResizable(true);
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
@@ -158,7 +158,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
         jSplitPane1.setRightComponent(jScrollPane4);
 
-        getContentPane().add(jSplitPane1, java.awt.BorderLayout.LINE_START);
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
         jPanel1.add(filler1);

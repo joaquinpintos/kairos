@@ -29,7 +29,7 @@ public class ProfesorDraggable implements Transferable {
         return new DataFlavor[]{MY_FLAVOR};
     }
 
-      @Override
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return (flavor.equals(MY_FLAVOR));
 
@@ -39,6 +39,5 @@ public class ProfesorDraggable implements Transferable {
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         return cont;
     }
-    
 
 }

@@ -12,12 +12,21 @@ import data.profesores.Profesor;
 import data.profesores.TreeCellRendererProfesores;
 import data.profesores.TreeModelProfesores;
 import gui.AbstractMainWindow;
+import gui.DatosEditor.Docencia.JTreeAsignaturasDropListener;
+import gui.DatosEditor.Docencia.JTreeProfesoresDropListener;
+import gui.DatosEditor.Docencia.JTreeProfesoresTransferHandler;
+import gui.DatosEditor.Docencia.TreeProfesores;
 import gui.MainWindowTabbed;
+import gui.TreeAsignaturas;
+import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.TooManyListenersException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.JOptionPane;
@@ -36,7 +45,7 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author david
  */
-public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
+public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeProfesores {
 
     private final DataKairos dk;
     Profesor selectedProfesor;
@@ -70,14 +79,16 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         this.jTreeProfesores.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         this.jTreeProfesores.addTreeSelectionListener(createSelectionListener());
+        jTreeProfesores.setTransferHandler(new JTreeProfesoresTransferHandler());
+        jTreeProfesores.setDragEnabled(true);
+        jTreeProfesores.setDropTarget(new DropTarget());
+        try {
+            jTreeProfesores.getDropTarget().addDropTargetListener(new JTreeProfesoresDropListener((TreeProfesores) this, dk));
+        } catch (TooManyListenersException ex) {
+            Logger.getLogger(JIntTreeProfesores.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         creaAcciones();
-
-
-
-
-
-
 
         //Aquí añado mouselistener para registrar clicks y double-clicks
         MouseListener ml = new MouseAdapter() {
@@ -142,31 +153,39 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTreeProfesores = new javax.swing.JTree();
-        jButEditarProfesor = new javax.swing.JButton();
-        jButAñadirProfesor = new javax.swing.JButton();
+        jPanelInferior = new javax.swing.JPanel();
+        jPanelInferior1 = new javax.swing.JPanel();
+        jButEliminarDepartamento = new javax.swing.JButton();
         jButEditarDepartamento = new javax.swing.JButton();
         jButAñadirDepartamento = new javax.swing.JButton();
-        jButEliminarDepartamento = new javax.swing.JButton();
+        jPanelInferior2 = new javax.swing.JPanel();
+        jButEditarProfesor = new javax.swing.JButton();
+        jButAñadirProfesor = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setIconifiable(true);
+        setMaximizable(true);
         setResizable(true);
         setTitle("Profesores");
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(300, 33));
+        setName(""); // NOI18N
+        setPreferredSize(new java.awt.Dimension(400, 300));
 
         jScrollPane1.setViewportView(jTreeProfesores);
 
-        jButEditarProfesor.setText("Editar");
-        jButEditarProfesor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButEditarProfesorActionPerformed(evt);
-            }
-        });
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jButAñadirProfesor.setText("Añadir");
-        jButAñadirProfesor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButAñadirProfesorActionPerformed(evt);
-            }
-        });
+        jPanelInferior.setPreferredSize(new java.awt.Dimension(1328, 74));
+        jPanelInferior.setLayout(new javax.swing.BoxLayout(jPanelInferior, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanelInferior1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jPanelInferior1.setPreferredSize(new java.awt.Dimension(0, 30));
+        jPanelInferior1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButEliminarDepartamento.setText("Eliminar departamento");
+        jPanelInferior1.add(jButEliminarDepartamento);
 
         jButEditarDepartamento.setText("Editar departamentos");
         jButEditarDepartamento.addActionListener(new java.awt.event.ActionListener() {
@@ -174,51 +193,36 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 jButEditarDepartamentoActionPerformed(evt);
             }
         });
+        jPanelInferior1.add(jButEditarDepartamento);
 
         jButAñadirDepartamento.setText("Añadir departamento");
+        jPanelInferior1.add(jButAñadirDepartamento);
 
-        jButEliminarDepartamento.setText("Eliminar departamento");
+        jPanelInferior.add(jPanelInferior1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(173, 173, 173)
-                                .addComponent(jButEditarDepartamento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                                .addComponent(jButAñadirDepartamento))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButEliminarDepartamento)))
-                        .addGap(165, 165, 165)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButAñadirProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButEditarProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButEditarProfesor)
-                    .addComponent(jButEditarDepartamento)
-                    .addComponent(jButAñadirDepartamento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButAñadirProfesor)
-                    .addComponent(jButEliminarDepartamento))
-                .addContainerGap())
-        );
+        jPanelInferior2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButEditarProfesor.setText("Editar");
+        jButEditarProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButEditarProfesorActionPerformed(evt);
+            }
+        });
+        jPanelInferior2.add(jButEditarProfesor);
+
+        jButAñadirProfesor.setText("Añadir");
+        jButAñadirProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButAñadirProfesorActionPerformed(evt);
+            }
+        });
+        jPanelInferior2.add(jButAñadirProfesor);
+
+        jPanelInferior.add(jPanelInferior2);
+
+        getContentPane().add(jPanelInferior, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(filler1, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(filler2, java.awt.BorderLayout.LINE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -233,11 +237,16 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     }//GEN-LAST:event_jButEditarDepartamentoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JButton jButAñadirDepartamento;
     private javax.swing.JButton jButAñadirProfesor;
     private javax.swing.JButton jButEditarDepartamento;
     private javax.swing.JButton jButEditarProfesor;
     private javax.swing.JButton jButEliminarDepartamento;
+    private javax.swing.JPanel jPanelInferior;
+    private javax.swing.JPanel jPanelInferior1;
+    private javax.swing.JPanel jPanelInferior2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTreeProfesores;
     // End of variables declaration//GEN-END:variables
@@ -248,7 +257,6 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
             public void valueChanged(TreeSelectionEvent tse) {
                 TreePath path = tse.getPath();
                 selectItems(path);
-
 
             }
         };
@@ -481,7 +489,6 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         jButAñadirDepartamento.setAction(actionAñadirDepartamento);
         jButEditarDepartamento.setAction(actionEditarDepartamento);
         jButEliminarDepartamento.setAction(actionEliminarDepartamento);
-
 
         jPopupMenuProfesores = new JPopupMenu("Mi menu");
         jPopupMenuProfesores.add(actionEditarProfesores);

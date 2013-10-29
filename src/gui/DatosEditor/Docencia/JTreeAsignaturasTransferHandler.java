@@ -7,10 +7,12 @@
 package gui.DatosEditor.Docencia;
 
 import data.MyConstants;
+import data.asignaturas.Teachable;
 import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 import gui.DatosEditor.Aulas.TeachableDraggable;
 import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import javax.swing.JComponent;
@@ -25,11 +27,11 @@ public class JTreeAsignaturasTransferHandler extends TransferHandler {
      
     @Override
     protected Transferable createTransferable(JComponent c) {
-        TramoDraggable resul = null;
+        TeachableDraggable resul = null;
         JTree jtree = (JTree) c;
         Object value = jtree.getSelectionPath().getLastPathComponent();
-        if (value instanceof Tramo) {
-            resul = new TramoDraggable((Tramo) value);
+        if (value instanceof Teachable) {
+            resul = new TeachableDraggable((Teachable) value);
         }
         return resul;
     }

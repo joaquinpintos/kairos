@@ -19,7 +19,7 @@ public class TeachableDraggable implements Transferable{
      */
     final static public DataFlavor MY_FLAVOR = new DataFlavor(Teachable.class, "Kairos/Teachable");
 
-    private Teachable cont;
+    private final Teachable cont;
 
     /**
      *

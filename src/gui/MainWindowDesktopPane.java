@@ -4,10 +4,12 @@
  */
 package gui;
 
+import data.DataKairos;
 import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JDesktopPane;
@@ -22,7 +24,7 @@ import javax.swing.KeyStroke;
  */
 public class MainWindowDesktopPane extends AbstractMainWindow {
 
-    
+    private final ArrayList<AbstractAction> actionsViewFrame;
 
     /**
      * Creates new form MainWindow
@@ -31,10 +33,12 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      */
     public MainWindowDesktopPane() throws Exception {
         super();
+        actionsViewFrame=new ArrayList<AbstractAction>();
         initComponents();
         jDesktopPane.setBackground(MyConstants.BACKGROUND_APP_COLOR);
         createInternalFrames();
         registraListeners();
+        setProjectStatus(DataKairos.STATUS_NO_PROJECT);
     }
 
     /**
@@ -180,7 +184,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
-    
+
     private JMenu viewMenu;
     private JMenuItem importXMLMenuItem;
     private JMenuItem exportXMLMenuItem;
@@ -218,6 +222,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
             }
         };
+        actionsViewFrame.add(viewFrameAction);
         viewFrameAction.putValue(Action.NAME, title);
         viewMenu.add(viewFrameAction);
 
@@ -227,4 +232,31 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     public void switchToComponent(DataGUIInterface dataif) {
     }
 
+    @Override
+    public void setProjectStatus(int status) {
+        super.setProjectStatus(status);
+        switch (status) {
+            case DataKairos.STATUS_NO_PROJECT: {
+                for (AbstractAction ac:actionsViewFrame)
+                {
+                    ac.setEnabled(false);
+                }
+                break;
+            }
+            case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
+                for (AbstractAction ac:actionsViewFrame)
+                {
+                    ac.setEnabled(true);
+                }
+                break;
+            }
+            case DataKairos.STATUS_PROJECT_SOLUTION: {
+                 for (AbstractAction ac:actionsViewFrame)
+                {
+                    ac.setEnabled(true);
+                }
+                break;
+            }
+        }
+    }
 }

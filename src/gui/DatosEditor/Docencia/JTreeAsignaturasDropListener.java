@@ -7,10 +7,8 @@ package gui.DatosEditor.Docencia;
 
 import data.DataKairos;
 import data.asignaturas.Teachable;
-import data.aulas.ListaAsignaciones;
 import data.profesores.Profesor;
-import gui.DatosEditor.DataGUIInterface;
-import java.awt.datatransfer.Transferable;
+import gui.TreeAsignaturas;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -19,7 +17,6 @@ import java.awt.dnd.DropTargetListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
 /**
@@ -28,10 +25,10 @@ import javax.swing.tree.TreePath;
  */
 public class JTreeAsignaturasDropListener implements DropTargetListener {
 
-    private final JIntAsignaciones parent;
+    private final TreeAsignaturas parent;
     private final DataKairos dk;
 
-    public JTreeAsignaturasDropListener(JIntAsignaciones parent, DataKairos dk) {
+    public JTreeAsignaturasDropListener(TreeAsignaturas parent, DataKairos dk) {
         this.parent = parent;
         this.dk = dk;
     }
@@ -77,8 +74,6 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
                 teach.setDocente(profesor);
             }
         }
-        parent.getjTreeAsignaturas().updateUI();
-        parent.getjTreeProfesores().updateUI();
     }
 
 }

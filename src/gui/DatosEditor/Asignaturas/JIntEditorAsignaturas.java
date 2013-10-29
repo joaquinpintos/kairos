@@ -12,11 +12,17 @@ import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.Grupo;
+import data.asignaturas.Tramo;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
+import gui.DatosEditor.Docencia.JTreeAsignaturasDropListener;
+import gui.DatosEditor.Docencia.JTreeAsignaturasTransferHandler;
+import gui.TreeAsignaturas;
+import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.TooManyListenersException;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -28,7 +34,7 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author david
  */
-public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
+public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas {
 
     private DataProyecto dataProyecto;
     private AbstractMainWindow mainWindow;
@@ -48,22 +54,31 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
     private JPopupMenu jPopMenuGrupos;
     private AbstractAction eliminarGrupoAction;
     private AbstractAction editarCarreraAction;
+    private AbstractAction añadirTramosAction;
 
     /**
      * Creates new form JIntTreeAsignaturas
-     * @param dk 
+     *
+     * @param dk
      */
-    public JIntTreeAsignaturas(DataKairos dk) {
+    public JIntEditorAsignaturas(DataKairos dk) {
         initComponents();
         this.dk = dk;
 
         this.jTreeAsignaturas.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         TreeModelAsignaturas model = new TreeModelAsignaturas(dk);
+        model.setLlegarHastaTramos(true);
         jTreeAsignaturas.setModel(model);
 
         TreeCellRendererAsignaturas treeCellRendererAsignaturas = new TreeCellRendererAsignaturas();
         jTreeAsignaturas.setCellRenderer(treeCellRendererAsignaturas);
-
+        jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
+        jTreeAsignaturas.setDragEnabled(true);
+        jTreeAsignaturas.setDropTarget(new DropTarget());
+        try {
+            jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener((TreeAsignaturas) this, dk));
+        } catch (TooManyListenersException ex) {
+        }
         creaActions();
     }
 
@@ -71,6 +86,7 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
      *
      * @return
      */
+    @Override
     public JTree getjTreeAsignaturas() {
         return jTreeAsignaturas;
     }
@@ -96,6 +112,19 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
         jButAñadirAsignatura = new javax.swing.JToggleButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTreeAsignaturas1 = new javax.swing.JTree();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jButAñadirCarrera1 = new javax.swing.JButton();
+        jButAñadirCursos1 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jButEliminarAsignatura1 = new javax.swing.JButton();
+        jButEditarAsignatura1 = new javax.swing.JButton();
+        jButAñadirAsignatura1 = new javax.swing.JToggleButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
 
         setResizable(true);
 
@@ -132,21 +161,71 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
         getContentPane().add(filler1, java.awt.BorderLayout.LINE_END);
         getContentPane().add(filler2, java.awt.BorderLayout.LINE_START);
 
+        jInternalFrame1.setResizable(true);
+
+        jScrollPane2.setViewportView(jTreeAsignaturas1);
+
+        jInternalFrame1.getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButAñadirCarrera1.setText("jButton1");
+        jPanel5.add(jButAñadirCarrera1);
+
+        jButAñadirCursos1.setText("jButton2");
+        jPanel5.add(jButAñadirCursos1);
+
+        jPanel4.add(jPanel5);
+
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButEliminarAsignatura1.setText("Eliminar asignatura");
+        jPanel6.add(jButEliminarAsignatura1);
+
+        jButEditarAsignatura1.setText("Editar asignatura");
+        jPanel6.add(jButEditarAsignatura1);
+
+        jButAñadirAsignatura1.setText("Añadir asignatura");
+        jPanel6.add(jButAñadirAsignatura1);
+
+        jPanel4.add(jPanel6);
+
+        jInternalFrame1.getContentPane().add(jPanel4, java.awt.BorderLayout.PAGE_END);
+        jInternalFrame1.getContentPane().add(filler3, java.awt.BorderLayout.LINE_END);
+        jInternalFrame1.getContentPane().add(filler4, java.awt.BorderLayout.LINE_START);
+
+        getContentPane().add(jInternalFrame1, java.awt.BorderLayout.PAGE_START);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JToggleButton jButAñadirAsignatura;
+    private javax.swing.JToggleButton jButAñadirAsignatura1;
     private javax.swing.JButton jButAñadirCarrera;
+    private javax.swing.JButton jButAñadirCarrera1;
     private javax.swing.JButton jButAñadirCursos;
+    private javax.swing.JButton jButAñadirCursos1;
     private javax.swing.JButton jButEditarAsignatura;
+    private javax.swing.JButton jButEditarAsignatura1;
     private javax.swing.JButton jButEliminarAsignatura;
+    private javax.swing.JButton jButEliminarAsignatura1;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jTreeAsignaturas;
+    private javax.swing.JTree jTreeAsignaturas1;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -176,7 +255,6 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
-
 
                 Asignatura nuevaAsignatura = new Asignatura("");
                 JDlgAñadirAsignatura dlg = new JDlgAñadirAsignatura(mainWindow, true, dk.getDP(), nuevaAsignatura, true);
@@ -378,15 +456,42 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                 TreePath pat = jTreeAsignaturas.getSelectionPath();
+                TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat.getLastPathComponent() instanceof Carrera) {
-                    Carrera ca=(Carrera) pat.getLastPathComponent();
-                    String nombre=JOptionPane.showInputDialog(rootPane, "Nombre:", ca.getNombre());
-                    if (nombre!=null) ca.setNombre(nombre);
+                    Carrera ca = (Carrera) pat.getLastPathComponent();
+                    String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", ca.getNombre());
+                    if (nombre != null) {
+                        ca.setNombre(nombre);
+                    }
                 }
             }
         }
-        editarCarreraAction=new EditarCarreraAction();
+        class AñadirTramosAction extends AbstractAction {
+
+            public AñadirTramosAction() {
+                super("Añadir tramos", MyConstants.TRAMO_ICON);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Grupo grupoEditado = null;
+                TreePath pat = jTreeAsignaturas.getSelectionPath();
+                if (pat.getLastPathComponent() instanceof Grupo) {
+                    grupoEditado = (Grupo) pat.getLastPathComponent();
+                }
+                if (pat.getLastPathComponent() instanceof Tramo) {
+                    grupoEditado = (Grupo) pat.getParentPath().getLastPathComponent();
+                }
+                if (grupoEditado != null) {
+                    JDlgAñadirTramos dlg = new JDlgAñadirTramos(mainWindow, true, grupoEditado);
+                    dlg.setVisible(true);
+                    if (dlg.getReturnStatus() == JDlgAñadirTramos.RET_OK) {
+                        jTreeAsignaturas.updateUI();
+                    }
+                }
+            }
+        }
+        editarCarreraAction = new EditarCarreraAction();
         eliminarGrupoAction = new EliminarGrupoAction();
         añadirGrupoAction = new AñadirGrupoAction();
         editarGrupoAction = new EditarGrupoAction();
@@ -396,13 +501,16 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
         añadirCursoAction = new AñadirCursosAction();
         jButAñadirCursos.setAction(añadirCursoAction);
 
-
         añadirCarreraAction = new AñadirCarreraAction();
         jButAñadirCarrera.setAction(añadirCarreraAction);
 
         añadirAsignaturaAction = new AñadirAsignaturaAction();
         jButAñadirAsignatura.setAction(añadirAsignaturaAction);
 
+        añadirTramosAction=new AñadirTramosAction();
+        
+        
+        
         editarAsignaturaAction = new EditarAsignaturaAction();
         jButEditarAsignatura.setAction(editarAsignaturaAction);
 
@@ -422,8 +530,10 @@ public class JIntTreeAsignaturas extends javax.swing.JInternalFrame implements D
         jPopMenuCarreras = new JPopupMenu();
         jPopMenuCarreras.add(añadirCursoAction);
         jPopMenuCarreras.add(editarCarreraAction);
+        
 
         jPopMenuGrupos = new JPopupMenu();
+         jPopMenuGrupos.add(añadirTramosAction);
         jPopMenuGrupos.add(editarGrupoAction);
         jPopMenuGrupos.add(eliminarGrupoAction);
 

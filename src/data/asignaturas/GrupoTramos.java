@@ -145,4 +145,8 @@ public class GrupoTramos implements Serializable {
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
+
+    public void fireDataEvent(Object obj, int type) {
+        getParent().fireDataEvent(obj, type);
+    }
 }

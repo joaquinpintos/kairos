@@ -82,6 +82,8 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         jTextRestriccionesNoCumplidas = new javax.swing.JTextArea();
         jLabSemaforo = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
         jLabIteracion.setText("Iteración:");
         jLabIteracion.setFocusable(false);
 
@@ -323,7 +325,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
             @Override
             public PosibleSolucion doInBackground() throws Exception {
                 contador = 0;
-                while ((!jTogInterrumpido.isSelected())&&(geneticAlgorithm.runSingleLoop())) {
+                while ((!jTogInterrumpido.isSelected()) && (geneticAlgorithm.runSingleLoop())) {
                     publish(new GeneticInterim(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
                 }
                 return geneticAlgorithm.getSolucion();
@@ -337,6 +339,11 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                     dk.getDP().setOptimo(optimo);
                     dk.getDP().setHorario(HorarioConstructor.constructor(optimo, dk.getDP()));
                     mainWindow.getjIntHorarioView().updateData();
+                    if (dk.getDP().getHorario().hayUnaSolucion()) {
+                        mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
+                    } else {
+                        mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
+                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(JIntGenetic.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ExecutionException ex) {
@@ -390,22 +397,22 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
         this.mainWindow = mainWindow;
     }
 }
-
-class GeneticWorker extends SwingWorker<PosibleSolucion, Integer> {
-
-    GeneticAlgorithm geneticAlgorithm;
-
-    public GeneticWorker(GeneticAlgorithm geneticAlgorithm) {
-        this.geneticAlgorithm = geneticAlgorithm;
-    }
-
-    @Override
-    public PosibleSolucion doInBackground() {
-        geneticAlgorithm.runSingleLoop();
-        PosibleSolucion s = geneticAlgorithm.getOptimo();
-        return s;
-    }
-};
+//
+//class GeneticWorker extends SwingWorker<PosibleSolucion, Integer> {
+//
+//    GeneticAlgorithm geneticAlgorithm;
+//
+//    public GeneticWorker(GeneticAlgorithm geneticAlgorithm) {
+//        this.geneticAlgorithm = geneticAlgorithm;
+//    }
+//
+//    @Override
+//    public PosibleSolucion doInBackground() {
+//        geneticAlgorithm.runSingleLoop();
+//        PosibleSolucion s = geneticAlgorithm.getOptimo();
+//        return s;
+//    }
+//};
 
 class GeneticInterim {
 

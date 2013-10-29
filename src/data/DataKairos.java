@@ -22,6 +22,7 @@ public class DataKairos {
     public static final int STATUS_PROJECT_SOLUTION = 2;
     public static final int STATUS_COMPUTING_SOLUTION = 3;
     private DataProyecto dataProyecto;
+    private int status;
 
     /**
      *
@@ -64,6 +65,14 @@ public class DataKairos {
         dataProyecto.getDataRestricciones().add(new RGrupoNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
         //TODO: ¿Pueden hacer falta más restricciones, por ejemplo grupos no ubicuos?
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

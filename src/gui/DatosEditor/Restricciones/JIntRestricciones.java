@@ -73,6 +73,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 32767));
 
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         setResizable(true);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 0));
 
