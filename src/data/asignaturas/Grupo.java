@@ -227,6 +227,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
             tr.removeAula();
         }
+        updateAsigAulaStatus();
     }
 
     public void updateAsigAulaStatus() {
@@ -242,6 +243,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     public void fireDataEvent(Object obj, int type) {
-        getParent().fireDataEvent(obj, type);
+        try {
+            getParent().fireDataEvent(obj, type);
+        } catch (NullPointerException e) {
+        }
     }
 }

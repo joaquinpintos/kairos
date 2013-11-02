@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
  */
 public class DataAulas extends AbstractDataSets implements Serializable {
 
-    private ArrayList<Aula> aulas;
+    private final ArrayList<Aula> aulas;
     //hashGrupoCurso--->Aula@M/T
     private final ArrayList<AulaMT> aulaContainers;
     private final HashMap<String, AulaMT> mapHashToContainers;

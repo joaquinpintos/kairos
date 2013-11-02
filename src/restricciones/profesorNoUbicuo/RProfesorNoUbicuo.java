@@ -92,7 +92,7 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
             HashMap<String, ArrayList<Integer[]>> aulaToSegmentosTarde = new HashMap<String, ArrayList<Integer[]>>();
 
             for (String hashAula : mapProfesorToAulas.get(p)) {
-                //TODO: ¿Y si el nombre del aula contiene la T o la M????
+                //TODO: No permitir que el nombre del aula contenga @
                 if (hashAula.contains("@M")) {//es clase de mañana
                     aulaToSegmentosMañana.put(hashAula, new ArrayList<Integer[]>());
                 }

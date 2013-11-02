@@ -66,7 +66,10 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
             } else {
                 this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             };
-            this.setText(gr.getParent().getNombre());
+            try {
+                this.setText(gr.getParent().getNombre());
+            } catch (Exception e) {
+            }
         }
         if (value instanceof Tramo) {
             Tramo tr = (Tramo) value;

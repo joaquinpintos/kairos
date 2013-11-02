@@ -5,6 +5,8 @@
  */
 package data.asignaturas;
 
+import data.AbstractDataSets;
+import data.DataProyecto;
 import data.DataProyectoListener;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,11 +15,12 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ListaGrupoCursos implements DataProyectoListener, Serializable {
+public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoListener, Serializable {
 
     private final ArrayList<GrupoCursos> grupoCursos;
 
-    public ListaGrupoCursos() {
+    public ListaGrupoCursos(DataProyecto dataProyecto) {
+        super(dataProyecto);
         grupoCursos = new ArrayList<GrupoCursos>();
     }
 
@@ -54,17 +57,19 @@ public class ListaGrupoCursos implements DataProyectoListener, Serializable {
             System.out.println("Añadido grupoCurso " + e);
             System.out.println(grupoCursos);
         }
+        fireDataEvent(e, ADD);
     }
 
     public void remove(GrupoCursos gc) {
         grupoCursos.remove(gc);
+        fireDataEvent(gc, REMOVE);
     }
 
     @Override
     public void dataEvent(Object obj, int type) {
         if (obj instanceof Grupo) {
             Grupo gr = (Grupo) obj;
-            final GrupoCursos gc = grupoQueContiene(gr);
+            GrupoCursos gc = grupoCursoQueContiene(gr);
             switch (type) {
                 case DataProyectoListener.ADD:
                     //Miro si no hay ya un grupoCurso que pueda contener esto
@@ -79,30 +84,49 @@ public class ListaGrupoCursos implements DataProyectoListener, Serializable {
                     if (gc != null) {
                         removeGrupo(gc, gr);
                     }
+                    else
+                    {//Busco a lo bestia
+                        removeGrupo(gr);
+                    }
                     break;
                 case DataProyectoListener.MODIFY:
-                    throw new java.lang.UnsupportedOperationException("Not supported yet.");
+                    gc = grupoCursoQueContiene(gr);
             }
         }
 
     }
 
     /**
-     * Devuelve true si el grupo dado pertenece a algún grupocurso de la lista
+     * Devuelve el grupocurso al que pertenece el grupo dado. Null si no
+     * pertenece a ninguno.
      *
      * @param gr
      * @return
      */
-    private GrupoCursos grupoQueContiene(Grupo gr) {
+    private GrupoCursos grupoCursoQueContiene(Grupo gr) {
         GrupoCursos resul = null;
-        Curso c = gr.getParent().getParent();
-        for (GrupoCursos gc : grupoCursos) {
-            if ((gc.getNombreGrupo().equals(gr.getNombre())) && (gc.getCurso().equals(gr.getParent().getParent()))) {
-                resul = gc;
+        try {
+            Curso c = gr.getParent().getParent();
+            for (GrupoCursos gc : grupoCursos) {
+                if ((gc.getNombreGrupo().equals(gr.getNombre())) && (gc.getCurso().equals(gr.getParent().getParent()))) {
+                    resul = gc;
+                    break;
+                }
+            }
+        } catch (NullPointerException e) {
+        }
+        return resul;
+    }
+    private void removeGrupo(Grupo gr)
+    {
+        for (GrupoCursos gcu:grupoCursos)
+        {
+            if (gcu.getGrupos().contains(gr))
+            {
+                removeGrupo(gcu, gr);
                 break;
             }
         }
-        return resul;
     }
 
     private void removeGrupo(GrupoCursos gc, Grupo gr) {
@@ -112,6 +136,7 @@ public class ListaGrupoCursos implements DataProyectoListener, Serializable {
         } else {
             gc.removeGrupo(gr);
         }
+        fireDataEvent(gr, REMOVE);
     }
 
     @Override

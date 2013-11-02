@@ -98,7 +98,7 @@ public class PrinterHorariosPorProfesor extends AbstractPrinter {
                 if (!data.containsKey(p))//Creo una clave nueva
                 {
                     DatosHojaHorario d = new DatosHojaHorario(getDataProyecto());
-                    d.setMañanaYTarde(false);//TODO: Incluir recreos
+                    d.setMañanaYTarde(false);//TODO: Incluir recreos opcionalmente
                     data.put(p, d);
                 }
                 data.get(p).add(h);

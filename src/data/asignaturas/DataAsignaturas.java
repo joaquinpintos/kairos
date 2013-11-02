@@ -28,7 +28,7 @@ public class DataAsignaturas extends AbstractDataSets {
     public DataAsignaturas(DataProyecto dataProyecto) {
         super(dataProyecto);
         this.carreras = new ArrayList<Carrera>();
-        listaGrupoCursos = new ListaGrupoCursos();
+        listaGrupoCursos = new ListaGrupoCursos(dataProyecto);
         this.addListener(listaGrupoCursos);//Listener para cuando se añada/borre un grupo
     }
 

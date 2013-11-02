@@ -5,13 +5,11 @@
 package data.asignaturas;
 
 import data.DataProyectoListener;
-import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashSet;
 
 /**
  *
@@ -53,6 +51,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         Collections.sort(grupos.getGrupos());
         setDirty(true);
         //Disparo evento de creación de grupo
+        updateAsigAulaStatus();
         fireDataEvent(gr, DataProyectoListener.ADD);
     }
 
@@ -65,6 +64,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         gr.removeDocente();
         gr.setParent(null);
         setDirty(true);
+        updateAsigAulaStatus();
         //Disparo evento de elminación de grupo
         fireDataEvent(gr, DataProyectoListener.REMOVE);
 
