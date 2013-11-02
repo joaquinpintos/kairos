@@ -65,6 +65,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      */
     public void addTramoGrupoCompleto(Tramo tr) {
         tramosGrupoCompleto.add(tr);
+        tr.setParent(tramosGrupoCompleto);
         updateAsigAulaStatus();
         setDirty(true);
         fireDataEvent(tr, DataProyectoListener.ADD);
@@ -76,6 +77,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      */
     public void removeTramoGrupoCompleto(Tramo tr) {
         tramosGrupoCompleto.remove(tr);
+        tr.setParent(null);
         updateAsigAulaStatus();
         setDirty(true);
         fireDataEvent(tr, DataProyectoListener.REMOVE);

@@ -55,6 +55,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     private AbstractAction eliminarGrupoAction;
     private AbstractAction editarCarreraAction;
     private AbstractAction añadirTramosAction;
+    private AbstractAction eliminarTramoAction;
+    private JPopupMenu jPopMenuTramos;
 
     /**
      * Creates new form JIntTreeAsignaturas
@@ -491,6 +493,24 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 }
             }
         }
+        class EliminarTramoAction extends AbstractAction {
+
+            public EliminarTramoAction() {
+                super("Eliminar tramo", MyConstants.DELETE_ICON);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Tramo tramoABorrar = null;
+                TreePath pat = jTreeAsignaturas.getSelectionPath();
+                if (pat.getLastPathComponent() instanceof Tramo) {
+                    tramoABorrar = (Tramo) pat.getLastPathComponent();
+                    Grupo gr = (Grupo) pat.getParentPath().getLastPathComponent();
+                    gr.removeTramoGrupoCompleto(tramoABorrar);
+                    jTreeAsignaturas.updateUI();
+                }
+            }
+        }
         editarCarreraAction = new EditarCarreraAction();
         eliminarGrupoAction = new EliminarGrupoAction();
         añadirGrupoAction = new AñadirGrupoAction();
@@ -507,10 +527,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         añadirAsignaturaAction = new AñadirAsignaturaAction();
         jButAñadirAsignatura.setAction(añadirAsignaturaAction);
 
-        añadirTramosAction=new AñadirTramosAction();
-        
-        
-        
+        añadirTramosAction = new AñadirTramosAction();
+        eliminarTramoAction = new EliminarTramoAction();
         editarAsignaturaAction = new EditarAsignaturaAction();
         jButEditarAsignatura.setAction(editarAsignaturaAction);
 
@@ -530,13 +548,15 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         jPopMenuCarreras = new JPopupMenu();
         jPopMenuCarreras.add(añadirCursoAction);
         jPopMenuCarreras.add(editarCarreraAction);
-        
 
         jPopMenuGrupos = new JPopupMenu();
-         jPopMenuGrupos.add(añadirTramosAction);
+        jPopMenuGrupos.add(añadirTramosAction);
         jPopMenuGrupos.add(editarGrupoAction);
         jPopMenuGrupos.add(eliminarGrupoAction);
 
+        jPopMenuTramos = new JPopupMenu();
+        jPopMenuTramos.add(añadirTramosAction);
+        jPopMenuTramos.add(eliminarTramoAction);
         //Creo mouse listener para jtreeAsignaturas
         MouseListener ml;
         ml = new MouseListener() {
@@ -593,6 +613,9 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 }
                 if (selPath.getLastPathComponent() instanceof Grupo) {
                     jPopMenuGrupos.show(e.getComponent(), e.getX(), e.getY());
+                }
+                if (selPath.getLastPathComponent() instanceof Tramo) {
+                    jPopMenuTramos.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         };

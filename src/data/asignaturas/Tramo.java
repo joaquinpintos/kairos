@@ -116,8 +116,8 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     @Override
     public void asignaAula(AulaMT aulaMT) {
         this.aulaMT = aulaMT;
-        parent.updateAsigAulaStatus();
         aulaMT.asignaTramo(this);
+        parent.updateAsigAulaStatus();
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 

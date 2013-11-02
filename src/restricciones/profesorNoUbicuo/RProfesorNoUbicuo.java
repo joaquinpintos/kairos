@@ -5,6 +5,8 @@
 package restricciones.profesorNoUbicuo;
 
 import data.DataProyecto;
+import data.asignaturas.Grupo;
+import data.asignaturas.GrupoTramos;
 import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 import data.genetic.Asignacion;
@@ -70,7 +72,9 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
             ArrayList<String> dd = new ArrayList<String>();
             ArrayList<Tramo> docencia = p.getDocencia();
             for (Tramo d : docencia) {
-                String hashGrupoCurso = d.getParent().getParent().getHashCarreraGrupoCurso();
+                GrupoTramos a = d.getParent();
+                Grupo b = a.getParent();
+                String hashGrupoCurso = b.getHashCarreraGrupoCurso();
                 String hashAula = d.getAulaMT().getHash();
                 dd.add(hashAula);
                 mapProfesorToAulas.put(p, dd);
