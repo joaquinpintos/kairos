@@ -11,6 +11,7 @@ import data.MyConstants;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
+import data.asignaturas.DataAsignaturas;
 import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
 import gui.AbstractMainWindow;
@@ -41,7 +42,7 @@ import javax.swing.tree.TreeSelectionModel;
  * @author david
  */
 public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas {
-
+    
     private DataProyecto dataProyecto;
     private AbstractMainWindow mainWindow;
     private final DataKairos dk;
@@ -64,6 +65,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     private AbstractAction eliminarTramoAction;
     private JPopupMenu jPopMenuTramos;
     private AbstractAction eliminarAction;
+    private AbstractAction añadirAction;
+    private AbstractAction eliminarCarreraAction;
 
     /**
      * Creates new form JIntTreeAsignaturas
@@ -73,12 +76,12 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     public JIntEditorAsignaturas(DataKairos dk) {
         initComponents();
         this.dk = dk;
-
+        
         this.jTreeAsignaturas.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         TreeModelAsignaturas model = new TreeModelAsignaturas(dk);
         model.setLlegarHastaTramos(true);
         jTreeAsignaturas.setModel(model);
-
+        
         TreeCellRendererAsignaturas treeCellRendererAsignaturas = new TreeCellRendererAsignaturas();
         jTreeAsignaturas.setCellRenderer(treeCellRendererAsignaturas);
         jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
@@ -253,40 +256,40 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
-
+    
     private void creaActions() {
         class AñadirAsignaturaAction extends AbstractAction {
-
+            
             public AñadirAsignaturaAction() {
                 super("Añadir asignatura", MyConstants.ADD_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
-
+                
                 Asignatura nuevaAsignatura = new Asignatura("");
                 JDlgAñadirAsignatura dlg = new JDlgAñadirAsignatura(mainWindow, true, dk.getDP(), nuevaAsignatura, true);
                 dlg.setLocationRelativeTo(null);
                 if ((pat != null) && (pat.getPath().length > 1)) {
                     pat.getPathComponent(1);
-
+                    
                     Curso cu = (Curso) pat.getPathComponent(2);
                     Carrera car = (Carrera) pat.getPathComponent(1);
                     dlg.getjComboEstudios().setSelectedItem(car);
                     dlg.getjComboCursos().setSelectedItem(cu);
                 }
-
+                
                 dlg.setVisible(true);
 //                jTreeAsignaturas.updateUI();
             }
         }
         class EditarAsignaturaAction extends AbstractAction {
-
+            
             public EditarAsignaturaAction() {
                 super("Editar asignatura", MyConstants.ASIGNATURA_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -299,11 +302,11 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             }
         }
         class EliminarAsignaturaAction extends AbstractAction {
-
+            
             public EliminarAsignaturaAction() {
                 super("Eliminar asignatura", MyConstants.REMOVE_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -318,16 +321,17 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             }
         }
         class AñadirCarreraAction extends AbstractAction {
-
+            
             public AñadirCarreraAction() {
                 super("Añadir carrera", MyConstants.CARRERA_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 Carrera car = new Carrera("");
                 JDlgAñadirCarrera dlg = new JDlgAñadirCarrera(mainWindow, true, car);
                 dlg.setLocationRelativeTo(null);
+                dlg.setTitle("Añadir carrera");
                 dlg.setVisible(true);
                 if (dlg.getReturnStatus() == JDlgAñadirAsignatura.RET_OK) {
                     dk.getDP().getDataAsignaturas().addCarrera(car);
@@ -335,12 +339,31 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 updateData();
             }
         }
+        class EliminarCarreraAction extends AbstractAction {
+            
+            public EliminarCarreraAction() {
+                super("Eliminar carrera", MyConstants.DELETE_ICON);
+            }
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath pat = jTreeAsignaturas.getSelectionPath();
+                if (pat.getLastPathComponent() instanceof Carrera) {
+                    Carrera car = (Carrera) pat.getLastPathComponent();
+                    if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente la carrera" + car.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        car.getParent().removeCarrera(car);
+                    }
+                    updateData();
+                    
+                }
+            }
+        }
         class AñadirCursosAction extends AbstractAction {
-
+            
             public AñadirCursosAction() {
                 super("Añadir curso", MyConstants.CURSO_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -354,16 +377,16 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         dlg.getCarrera().addCurso(cur);
                     }
                     updateData();
-
+                    
                 }
             }
         }
         class EliminarCursoAction extends AbstractAction {
-
+            
             public EliminarCursoAction() {
                 super("Eliminar curso", MyConstants.DELETE_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -373,16 +396,16 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         cur.getParent().removeCurso(cur);
                     }
                     updateData();
-
+                    
                 }
             }
         }
         class EditarCursoAction extends AbstractAction {
-
+            
             public EditarCursoAction() {
                 super("Editar curso", MyConstants.CURSO_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -392,16 +415,16 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     dlg.setLocationRelativeTo(null);
                     dlg.setVisible(true);
                     updateData();
-
+                    
                 }
             }
         }
         class AñadirGrupoAction extends AbstractAction {
-
+            
             public AñadirGrupoAction() {
                 super("Añadir grupo", MyConstants.GRUPO_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -415,16 +438,16 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         asig.addGrupo(gr);
                     }
                     updateData();
-
+                    
                 }
             }
         }
         class EditarGrupoAction extends AbstractAction {
-
+            
             public EditarGrupoAction() {
                 super("Editar grupo", MyConstants.GRUPO_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -434,16 +457,16 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     dlg.setLocationRelativeTo(null);
                     dlg.setVisible(true);
                     updateData();
-
+                    
                 }
             }
         }
         class EliminarGrupoAction extends AbstractAction {
-
+            
             public EliminarGrupoAction() {
                 super("Eliminar grupo", MyConstants.DELETE_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -453,16 +476,16 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         gr.getParent().removeGrupo(gr);
                     }
                     updateData();
-
+                    
                 }
             }
         }
         class EditarCarreraAction extends AbstractAction {
-
+            
             public EditarCarreraAction() {
                 super("Editar carrera", null);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -476,11 +499,11 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             }
         }
         class AñadirTramosAction extends AbstractAction {
-
+            
             public AñadirTramosAction() {
                 super("Añadir tramos", MyConstants.TRAMO_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 Grupo grupoEditado = null;
@@ -501,11 +524,11 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             }
         }
         class EliminarTramoAction extends AbstractAction {
-
+            
             public EliminarTramoAction() {
                 super("Eliminar tramo", MyConstants.DELETE_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 Tramo tramoABorrar = null;
@@ -521,16 +544,19 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             }
         }
         class EliminarAction extends AbstractAction {
-
+            
             public EliminarAction() {
                 super("Eliminar", MyConstants.DELETE_ICON);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 Object obj = pat.getLastPathComponent();
                 //TODO: Falta action eliminarCarrera
+                if (obj instanceof Carrera) {
+                    eliminarCarreraAction.actionPerformed(e);
+                }
                 if (obj instanceof Curso) {
                     eliminarCursoAction.actionPerformed(e);
                 }
@@ -545,73 +571,113 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 }
             }
         }
+        class AñadirAction extends AbstractAction {
+            
+            public AñadirAction() {
+                super("Añadir", MyConstants.ADD_ICON);
+            }
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath pat = jTreeAsignaturas.getSelectionPath();
+                Object obj = pat.getLastPathComponent();
+                //TODO: Falta action eliminarCarrera
+                if (obj instanceof DataAsignaturas) {
+                    añadirCarreraAction.actionPerformed(e);
+                }
+                if (obj instanceof Carrera) {
+                    añadirCursoAction.actionPerformed(e);
+                }
+                if (obj instanceof Curso) {
+                    añadirAsignaturaAction.actionPerformed(e);
+                }
+                if (obj instanceof Asignatura) {
+                    añadirGrupoAction.actionPerformed(e);
+                }
+                if (obj instanceof Grupo) {
+                    añadirTramosAction.actionPerformed(e);
+                }
+                if (obj instanceof Tramo) {
+                    añadirTramosAction.actionPerformed(e);
+                }
+            }
+        }
+        eliminarAction = new EliminarAction();
+        añadirAction = new AñadirAction();
+        InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        ActionMap actionMap = getRootPane().getActionMap();
+        //Mapeo la tecla DEL para borrar la restricción
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "Eliminar");
+        actionMap.put("Eliminar", eliminarAction);
 
-        eliminarAction=new EliminarAction();
-        
+        //Mapeo la tecla INS para añadir nueva restricción
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "Añadir");
+        actionMap.put("Añadir", añadirAction);
         
         editarCarreraAction = new EditarCarreraAction();
         eliminarGrupoAction = new EliminarGrupoAction();
         añadirGrupoAction = new AñadirGrupoAction();
         editarGrupoAction = new EditarGrupoAction();
-
+        
         eliminarCursoAction = new EliminarCursoAction();
         editarCursoAction = new EditarCursoAction();
         añadirCursoAction = new AñadirCursosAction();
-
+        
         jButAñadirCursos.setAction(añadirCursoAction);
-
+        
         añadirCarreraAction = new AñadirCarreraAction();
-
+        eliminarCarreraAction=new EliminarCarreraAction();
+        
         jButAñadirCarrera.setAction(añadirCarreraAction);
-
+        
         añadirAsignaturaAction = new AñadirAsignaturaAction();
-
+        
         jButAñadirAsignatura.setAction(añadirAsignaturaAction);
-
+        
         añadirTramosAction = new AñadirTramosAction();
         eliminarTramoAction = new EliminarTramoAction();
         editarAsignaturaAction = new EditarAsignaturaAction();
-
+        
         jButEditarAsignatura.setAction(editarAsignaturaAction);
-
+        
         eliminarAsignaturaAction = new EliminarAsignaturaAction();
-
+        
         jButEliminarAsignatura.setAction(eliminarAsignaturaAction);
-
+        
         jPopMenuAsignaturas = new JPopupMenu();
-
+        
         jPopMenuAsignaturas.add(editarAsignaturaAction);
-
+        
         jPopMenuAsignaturas.add(eliminarAsignaturaAction);
-
+        
         jPopMenuAsignaturas.add(añadirGrupoAction);
-
+        
         jPopMenuCursos = new JPopupMenu();
-
+        
         jPopMenuCursos.add(añadirAsignaturaAction);
-
+        
         jPopMenuCursos.add(editarCursoAction);
-
+        
         jPopMenuCursos.add(eliminarCursoAction);
-
+        
         jPopMenuCarreras = new JPopupMenu();
-
+        
         jPopMenuCarreras.add(añadirCursoAction);
-
+        
         jPopMenuCarreras.add(editarCarreraAction);
-
+        
         jPopMenuGrupos = new JPopupMenu();
-
+        
         jPopMenuGrupos.add(añadirTramosAction);
-
+        
         jPopMenuGrupos.add(editarGrupoAction);
-
+        
         jPopMenuGrupos.add(eliminarGrupoAction);
-
+        
         jPopMenuTramos = new JPopupMenu();
-
+        
         jPopMenuTramos.add(añadirTramosAction);
-
+        
         jPopMenuTramos.add(eliminarTramoAction);
         //Creo mouse listener para jtreeAsignaturas
         MouseListener ml;
@@ -619,7 +685,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             @Override
             public void mouseClicked(MouseEvent e) {
             }
-
+            
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
@@ -638,23 +704,23 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 } catch (NullPointerException ex) {
                 }
             }
-
+            
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-
+                    
                     doPop(e);
                 }
             }
-
+            
             @Override
             public void mouseEntered(MouseEvent e) {
             }
-
+            
             @Override
             public void mouseExited(MouseEvent e) {
             }
-
+            
             private void doPop(MouseEvent e) {
                 TreePath selPath = jTreeAsignaturas.getPathForLocation(e.getX(), e.getY());
                 jTreeAsignaturas.setSelectionPath(selPath);
@@ -675,22 +741,9 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 }
             }
         };
-
+        
         jTreeAsignaturas.addMouseListener(ml);
-
-        //Mapeo la tecla DEL para borrar la restricción
-        InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "Eliminar");
-        ActionMap actionMap = getRootPane().getActionMap();
-
-        actionMap.put(
-                "Eliminar", eliminarAction);
-
-        //Mapeo la tecla INS para añadir nueva restricción
-//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "Añadir");
-//        actionMap.put(
-//                "Añadir", añadirAction);
+        
     }
 
     /**

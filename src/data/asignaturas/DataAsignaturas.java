@@ -48,6 +48,7 @@ public class DataAsignaturas extends AbstractDataSets {
         this.carreras.add(car);
         car.setParent(this);
         setDirty(true);
+        fireDataEvent(car, DataProyectoListener.ADD);
 //        car.setParent(this);
     }
 
