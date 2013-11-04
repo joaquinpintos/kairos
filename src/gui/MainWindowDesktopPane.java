@@ -51,6 +51,27 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private void initComponents() {
 
         jDesktopPane = new JDesktopPane();
+                setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        createJMenus();
+
+        setJMenuBar(menuBar);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 949, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+        );
+
+        pack();
+    }
+
+    protected void createJMenus() throws IllegalArgumentException {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -60,11 +81,11 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         exportXMLMenuItem = new javax.swing.JMenuItem();
         creaPDFMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
+        //editMenu = new javax.swing.JMenu();
+        //cutMenuItem = new javax.swing.JMenuItem();
+        //copyMenuItem = new javax.swing.JMenuItem();
+        //pasteMenuItem = new javax.swing.JMenuItem();
+        //deleteMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -72,9 +93,9 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         viewMenu = new javax.swing.JMenu();
         viewMenu.setMnemonic('V');
         viewMenu.setText("Ver");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        
+        
+        
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
@@ -114,26 +135,26 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         menuBar.add(fileMenu);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
+//        editMenu.setMnemonic('e');
+//        editMenu.setText("Edit");
+//
+//        cutMenuItem.setMnemonic('t');
+//        cutMenuItem.setText("Cut");
+//        editMenu.add(cutMenuItem);
+//
+//        copyMenuItem.setMnemonic('y');
+//        copyMenuItem.setText("Copy");
+//        editMenu.add(copyMenuItem);
+//
+//        pasteMenuItem.setMnemonic('p');
+//        pasteMenuItem.setText("Paste");
+//        editMenu.add(pasteMenuItem);
+//
+//        deleteMenuItem.setMnemonic('d');
+//        deleteMenuItem.setText("Delete");
+//        editMenu.add(deleteMenuItem);
 
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
-        editMenu.add(cutMenuItem);
-
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
-
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
-
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
-
-        menuBar.add(editMenu);
+        //menuBar.add(editMenu);
 
         menuBar.add(viewMenu);
         helpMenu.setMnemonic('h');
@@ -145,25 +166,18 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         aboutMenuItem.setMnemonic('a');
         aboutMenuItem.setText("About");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JDlgAbout dlg=new JDlgAbout(null, true);
+                dlg.setLocationRelativeTo(null);
+                dlg.setVisible(true);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
-
-        setJMenuBar(menuBar);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 949, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>                        
+    }
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
         System.exit(0);

@@ -27,7 +27,6 @@ import java.awt.event.MouseListener;
 import java.util.TooManyListenersException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
-import javax.swing.Icon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -453,9 +452,10 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat.getLastPathComponent() instanceof Grupo) {
                     Grupo gr = (Grupo) pat.getLastPathComponent();
-                    JDlgAñadirGrupo dlg = new JDlgAñadirGrupo(mainWindow, true, gr, false);
-                    dlg.setLocationRelativeTo(null);
-                    dlg.setVisible(true);
+                   String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", gr.getNombre());
+                    if (nombre != null) {
+                        gr.setNombre(nombre);
+                    }
                     updateData();
                     
                 }
@@ -517,6 +517,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (grupoEditado != null) {
                     JDlgAñadirTramos dlg = new JDlgAñadirTramos(mainWindow, true, grupoEditado);
                     dlg.setVisible(true);
+                    dlg.setLocationRelativeTo(null);
                     if (dlg.getReturnStatus() == JDlgAñadirTramos.RET_OK) {
                         jTreeAsignaturas.updateUI();
                     }
@@ -531,7 +532,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                Tramo tramoABorrar = null;
+                Tramo tramoABorrar;
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat.getLastPathComponent() instanceof Tramo) {
                     tramoABorrar = (Tramo) pat.getLastPathComponent();

@@ -5,9 +5,7 @@
 package loader;
 
 import data.CalendarioAcademico;
-import data.DataKairos;
 import data.DataProyecto;
-import loader.DOMLoaderDatosProyecto;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
@@ -38,7 +36,7 @@ import org.xml.sax.SAXException;
  *
  * @author david
  */
-public class XMLDataLoaderWriter  {
+public class XMLDataLoaderWriter {
 
     private File file;
     org.w3c.dom.Document dom;
@@ -49,7 +47,7 @@ public class XMLDataLoaderWriter  {
      * @param dataProyecto
      */
     public XMLDataLoaderWriter(DataProyecto dataProyecto) {
-        this.dataProyecto=dataProyecto;
+        this.dataProyecto = dataProyecto;
         file = new File("./archivos");//TODO cambiar
     }
 
@@ -109,16 +107,13 @@ public class XMLDataLoaderWriter  {
         this.file = file;
     }
 
-
     private void parseData() {
         org.w3c.dom.Element rootElement = dom.getDocumentElement();
         //Leo nombre del proyecto
         String nombreProyecto = rootElement.getAttribute("nombre");
-        dataProyecto.setNombreProyecto(nombreProyecto);
-
+        dataProyecto.getConfigProyecto().setNombreProyecto(nombreProyecto);
 
         //Leo datos profesores
-
         org.w3c.dom.NodeList nodeList = rootElement.getElementsByTagName("profesorado");
         if (nodeList != null && nodeList.getLength() > 0) {
             DOMLoaderProfesores domlp = new DOMLoaderProfesores(null, dataProyecto);
@@ -130,7 +125,6 @@ public class XMLDataLoaderWriter  {
         dataProyecto.reconstruyeHashMapProfesor();
 
         //Leo datos aulas
-
         nodeList = rootElement.getElementsByTagName("aulario");
         if (nodeList != null && nodeList.getLength() > 0) {
             DOMLoaderAulas domlp = new DOMLoaderAulas(null, dataProyecto);
@@ -171,8 +165,7 @@ public class XMLDataLoaderWriter  {
 
     /**
      *
-     * @return
-     * @throws IOException
+     * @return @throws IOException
      */
     public boolean save() throws IOException {
         writeDOM(dataToDOM(), new FileWriter(file));
@@ -200,46 +193,46 @@ public class XMLDataLoaderWriter  {
      * @return
      */
     public Document dataToDOM() {
-        DataProfesores dataProfesores=dataProyecto.getDataProfesores();
-        DataAulas dataAulas=dataProyecto.getDataAulas();
-        DataAsignaturas dataAsignaturas=dataProyecto.getDataAsignaturas();
+        DataProfesores dataProfesores = dataProyecto.getDataProfesores();
+        DataAulas dataAulas = dataProyecto.getDataAulas();
+        DataAsignaturas dataAsignaturas = dataProyecto.getDataAsignaturas();
         TreeSet DOMdepartamentos;
         Document documentoXML = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder parser = factory.newDocumentBuilder();
             documentoXML = parser.newDocument();
-        } catch (Exception e) {
+        } catch (ParserConfigurationException e) {
             throw new IllegalArgumentException("No he podido construir modelo DOM");
         }
         Element elementRoot = documentoXML.createElement("proyecto");
-        elementRoot.setAttribute("nombre", dataProyecto.getNombreProyecto());//Introduzco atributo nombre con nombre del proyecto
+        elementRoot.setAttribute("nombre", dataProyecto.getConfigProyecto().getNombreProyecto());//Introduzco atributo nombre con nombre del proyecto
         Node nodeRoot = documentoXML.appendChild(elementRoot);
+        Node nodeConfig=nodeRoot.appendChild(documentoXML.createElement("config"));
+        dataProyecto.getConfigProyecto().dataToDOM(documentoXML,nodeConfig);
         //Grabo todos los datos del calendario académico
         Node nodeCalendarioAcadémico = nodeRoot.appendChild(documentoXML.createElement("calendario_académico"));
-        CalendarioAcademico aa = dataProyecto.getCalendarioAcadémico();
-        aa.dataToDOM(documentoXML,nodeCalendarioAcadémico);
-
+        dataProyecto.getCalendarioAcadémico().dataToDOM(documentoXML, nodeCalendarioAcadémico);
 
         //Grabo todos los datos del profesorado
         Node nodeProfesorado = nodeRoot.appendChild(documentoXML.createElement("profesorado"));
-   dataProfesoresToDOM(documentoXML,nodeProfesorado);
+        dataProfesoresToDOM(documentoXML, nodeProfesorado);
 
         //Grabo todos los datos de las aulas
         Node nodeAulas = nodeRoot.appendChild(documentoXML.createElement("aulario"));
-        dataAulas.dataToDOM(nodeAulas);
+        dataProyecto.getDataAulas().dataToDOM(nodeAulas);
 
         //Grabo todos los datos de la asignación docente
         Node nodeAsignaturas = nodeRoot.appendChild(documentoXML.createElement("plan_docente"));
-        dataAsignaturas.dataToDOM(nodeAsignaturas);
+        dataProyecto.getDataAsignaturas().dataToDOM(nodeAsignaturas);
 
         //Grabo las restricciones
         Node nodeRestricciones = nodeRoot.appendChild(documentoXML.createElement("restricciones"));
         dataProyecto.getDataRestricciones().dataToDOM(nodeRestricciones);
 
-
         return documentoXML;
     }
+
     /**
      *
      * @param documentoXML
@@ -313,6 +306,4 @@ public class XMLDataLoaderWriter  {
         return el;
     }
 
-    
-    
 }

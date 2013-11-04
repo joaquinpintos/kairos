@@ -62,16 +62,18 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
             Logger.getLogger(JTreeAsignaturasDropListener.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(JTreeAsignaturasDropListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassCastException ex) {
         }
-
-        //Operaciones en nodo destino
-        TreePath path = parent.getjTreeAsignaturas().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
-        if (path != null) {
-            Object obj = path.getLastPathComponent();
-            if (obj instanceof Teachable) {
-                Teachable teach=(Teachable) obj;
-                teach.removeDocente();
-                teach.setDocente(profesor);
+        if (profesor != null) {
+            //Operaciones en nodo destino
+            TreePath path = parent.getjTreeAsignaturas().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+            if (path != null) {
+                Object obj = path.getLastPathComponent();
+                if (obj instanceof Teachable) {
+                    Teachable teach = (Teachable) obj;
+                    teach.removeDocente();
+                    teach.setDocente(profesor);
+                }
             }
         }
     }

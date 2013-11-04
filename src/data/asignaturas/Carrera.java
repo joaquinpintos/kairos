@@ -4,6 +4,7 @@
  */
 package data.asignaturas;
 
+import data.DataProyectoListener;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
@@ -57,6 +58,7 @@ public class Carrera implements Serializable, Teachable {
         this.cursos.add(curso);
         curso.setParent(this);
         Collections.sort(cursos);
+        fireDataEvent(curso, DataProyectoListener.ADD);
         setDirty(true);
     }
 
@@ -75,6 +77,7 @@ public class Carrera implements Serializable, Teachable {
     public void removeCurso(Curso curso) {
         this.cursos.remove(curso);
         curso.setParent(null);
+        fireDataEvent(curso, DataProyectoListener.REMOVE);
         setDirty(true);
     }
 
@@ -160,5 +163,14 @@ public class Carrera implements Serializable, Teachable {
 
     public boolean algunoSinAula() {
         return algunoSinAula;
+    }
+
+    void removeAllCursos() {
+        ArrayList<Curso> cursosClone = (ArrayList<Curso>) cursos.clone();
+        for (Curso cu:cursosClone)
+        {
+            removeCurso(cu);
+        }
+            
     }
 }

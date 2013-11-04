@@ -8,6 +8,7 @@ import data.AbstractDataSets;
 import data.DataProyecto;
 import data.DataProyectoListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,7 +18,7 @@ import org.w3c.dom.Node;
  * @author david
  */
 public class DataAsignaturas extends AbstractDataSets {
-
+    
     private final ArrayList<Carrera> carreras;
     private final ListaGrupoCursos listaGrupoCursos;
 
@@ -57,9 +58,11 @@ public class DataAsignaturas extends AbstractDataSets {
      * @param car
      */
     public void removeCarrera(Carrera car) {
+            car.removeAllCursos();
         this.carreras.remove(car);
         car.setParent(null);
         setDirty(true);
+        fireDataEvent(car, DataProyectoListener.REMOVE);
 //        car.setParent(null);
     }
 
@@ -79,17 +82,17 @@ public class DataAsignaturas extends AbstractDataSets {
             }
         }
         return resul;
-
+        
     }
-
+    
     public ArrayList<Carrera> getCarreras() {
         return carreras;
     }
-
+    
     public ListaGrupoCursos getListaGrupoCursos() {
         return listaGrupoCursos;
     }
-
+    
     @Override
     public String toString() {
         return "Plan docente";
@@ -107,7 +110,7 @@ public class DataAsignaturas extends AbstractDataSets {
         }
         return nodeRoot.getOwnerDocument();
     }
-
+    
     private void nodoCarrera(Node parent, Carrera car) {
         Element elemCarrera = parent.getOwnerDocument().createElement("estudios");
         elemCarrera.setAttribute("nombre", car.getNombre());
@@ -116,9 +119,9 @@ public class DataAsignaturas extends AbstractDataSets {
         for (Curso curso : car.getCursos()) {
             nodoCurso(nodeCursos, curso);
         }
-
+        
     }
-
+    
     private void nodoCurso(Node parent, Curso curso) {
         Element elemCurso = parent.getOwnerDocument().createElement("curso");
         elemCurso.setAttribute("nombre", curso.getNombre());
@@ -126,9 +129,9 @@ public class DataAsignaturas extends AbstractDataSets {
         for (Asignatura asig : curso.getAsignaturas()) {
             nodeAsignatura(nodeCurso, asig);
         }
-
+        
     }
-
+    
     private void nodeAsignatura(Node parent, Asignatura asig) {
         Element elemAsignatura = parent.getOwnerDocument().createElement("asignatura");
         elemAsignatura.setAttribute("nombre", asig.getNombre());
@@ -137,18 +140,18 @@ public class DataAsignaturas extends AbstractDataSets {
         for (Grupo gr : asig.getGrupos().getGrupos()) {
             nodeGrupo(nodeGrupos, gr);
         }
-
+        
     }
-
+    
     private void nodeGrupo(Node parent, Grupo gr) {
         Element elemGrupo = parent.getOwnerDocument().createElement("grupo");
         elemGrupo.setAttribute("nombre", gr.getNombre());
         Node nodeGrupo = parent.appendChild(elemGrupo);
-
+        
         Node nodeTramosCompleto = nodeGrupo.appendChild(parent.getOwnerDocument().createElement("tramos_grupo_completo"));
         nodeTramos(nodeTramosCompleto, gr.getTramosGrupoCompleto());
     }
-
+    
     private void nodeTramos(Node parent, GrupoTramos grupoTramos) {
         Element elemTramo;
         for (Tramo tr : grupoTramos.getTramos()) {
@@ -163,7 +166,7 @@ public class DataAsignaturas extends AbstractDataSets {
                 Node nodeAula = nodeTramo.appendChild(parent.getOwnerDocument().createElement("aula"));
                 nodeAula.setTextContent(tr.getAulaMT().getHash());
             }
-
+            
         }
     }
 //</editor-fold>
@@ -177,12 +180,11 @@ public class DataAsignaturas extends AbstractDataSets {
         c.addAsignatura(asigNueva);
         fireDataEvent(asigNueva, DataProyectoListener.ADD);
     }
-
+    
     public void refrescaEstadoAsignacionAulas() {
-        for (Grupo gr: getAllGrupos())
-        {
+        for (Grupo gr : getAllGrupos()) {
             gr.updateAsigAulaStatus();
         }
     }
-
+    
 }

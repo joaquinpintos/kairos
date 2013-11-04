@@ -60,7 +60,7 @@ public class DataKairos {
      */
     public void createNewDP(String nombre) {
         dataProyecto = new DataProyecto();
-        dataProyecto.setNombreProyecto(nombre);
+        dataProyecto.getConfigProyecto().setNombreProyecto(nombre);
         dataProyecto.getDataRestricciones().add(new RProfesorNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RGrupoNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));

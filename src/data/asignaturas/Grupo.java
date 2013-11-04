@@ -76,6 +76,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      * @param tr
      */
     public void removeTramoGrupoCompleto(Tramo tr) {
+        tr.removeAula();
+        tr.removeDocente();
         tramosGrupoCompleto.remove(tr);
         tr.setParent(null);
         updateAsigAulaStatus();

@@ -9,7 +9,6 @@ import data.DataKairos;
 import data.MyConstants;
 import data.RangoHoras;
 import gui.AbstractMainWindow;
-import gui.MainWindowTabbed;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +29,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
 
     /**
      * Creates new form JIntDatosProyecto
-     * @param dk 
+     *
+     * @param dk
      */
     public JIntDatosProyecto(DataKairos dk) {
         initComponents();
@@ -47,7 +47,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jLabDesgMiercoles.setText("");
         jLabDesgJueves.setText("");
         jLabDesgViernes.setText("");
-
 
         class MyChangeListener implements ChangeListener {
 
@@ -502,7 +501,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     public void updateData() {
         try {
             //Cambio titulo ventana
-            mainwindow.setTitle("Kairos - " + dk.getDP().getNombreProyecto());
+            mainwindow.setTitle("Kairos - " + dk.getDP().getConfigProyecto().getNombreProyecto());
 
             //Cambio textos horas aulas
             jTextHoraMañanaInicio1.setText(dk.getDP().getMañana1().getInicio().toString());
@@ -521,11 +520,9 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
             jCheckJueves.setSelected(dk.getDP().getDiasSemanaLectivos().contains(4));
             jCheckViernes.setSelected(dk.getDP().getDiasSemanaLectivos().contains(5));
 
-
             //Cambio campos inicio/final periodo lectivo
             jTextInicioPeriodoLectivo.setText(dk.getDP().getCalendarioAcadémico().getStrInicio());
             jTextFinPeriodoLectivo.setText(dk.getDP().getCalendarioAcadémico().getStrFin());
-
 
             //Creo cuadro de texto con todos los días no lectivos
             String texto = "";
@@ -590,20 +587,9 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
 
             }
 
-
-
         } catch (ParseException ex) {
             System.out.println("Fecha no validas");
         }
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -670,8 +656,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         } catch (ParseException ex) {
             jTextAreaDiasNoLectivos.setForeground(MyConstants.CONFLICTIVE_ITEM);
         }
-
-
+        dk.getDP().getConfigProyecto().setGruposPorDefecto(jTextGruposPorDefecto.getText());
 
     }
 

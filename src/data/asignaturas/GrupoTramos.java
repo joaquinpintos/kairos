@@ -50,6 +50,7 @@ public class GrupoTramos implements Serializable {
     public void add(Tramo tr) {
         tr.setParent(this);
         vectorTramos.add(tr);
+        updateAsigAulaStatus();
         setDirty(true);
     }
 

@@ -84,6 +84,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
                 jTextNombreAsignatura.requestFocus();
             }
         });
+        jTextGrupos.setText(dataProyecto.getConfigProyecto().getGruposPorDefecto());
     }
 
     /**

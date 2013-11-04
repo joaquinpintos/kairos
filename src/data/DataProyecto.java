@@ -42,7 +42,8 @@ public class DataProyecto implements Serializable {
     private Horario horario;
     //  private ListaSegmentos listaSegmentos;
     //Datos generales sobre el proyecto
-    private String nombreProyecto;
+    private ConfigProyecto configProyecto;
+   
     //private MainWindow mainWindow;
     //Clase con los datos del calendario académico: Días lectivos, inicio/fin, etc.
     //Para cada aula representa por su hash nombre@mañana/tarde, asocia un objeto de 
@@ -81,6 +82,7 @@ public class DataProyecto implements Serializable {
         dataRestricciones = new DataRestricciones(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
         status = DataKairos.STATUS_PROJECT_NO_SOLUTION;
+        configProyecto=new ConfigProyecto(this);
     }
 
     /**
@@ -99,18 +101,10 @@ public class DataProyecto implements Serializable {
      *
      * @return
      */
-    public String getNombreProyecto() {
-        return nombreProyecto;
-    }
-
     /**
      *
      * @param nombreProyecto
      */
-    public void setNombreProyecto(String nombreProyecto) {
-        this.nombreProyecto = nombreProyecto;
-        setDirty(true);
-    }
 
     /**
      *
@@ -459,6 +453,10 @@ public class DataProyecto implements Serializable {
             }
         }
         return resul;
+    }
+
+    public ConfigProyecto getConfigProyecto() {
+        return configProyecto;
     }
     
 }

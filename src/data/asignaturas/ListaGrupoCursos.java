@@ -67,33 +67,60 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
 
     @Override
     public void dataEvent(Object obj, int type) {
+        
         if (obj instanceof Grupo) {
             Grupo gr = (Grupo) obj;
-            GrupoCursos gc = grupoCursoQueContiene(gr);
-            switch (type) {
-                case DataProyectoListener.ADD:
-                    //Miro si no hay ya un grupoCurso que pueda contener esto
-                    if (gc == null) {
-                        this.add(gr);//Creo nuevo grupoCurso a partir de este
-                    } else {
-                        gc.addGrupo(gr);
-                    }
-
-                    break;
-                case DataProyectoListener.REMOVE:
-                    if (gc != null) {
-                        removeGrupo(gc, gr);
-                    }
-                    else
-                    {//Busco a lo bestia
-                        removeGrupo(gr);
-                    }
-                    break;
-                case DataProyectoListener.MODIFY:
-                    gc = grupoCursoQueContiene(gr);
+            dataEventGrupo(gr, type);
+        }
+        if (obj instanceof Asignatura) {
+            Asignatura asig = (Asignatura) obj;
+            dataEventAsignatura(asig, type);
+        }
+        if (obj instanceof Curso) {
+            Curso cur = (Curso) obj;
+            dataEventCurso(cur, type);
+        }
+        if (obj instanceof Carrera) {
+            Carrera car = (Carrera) obj;
+            for (Curso cur : car.getCursos()) {
+                dataEventCurso(cur, type);
             }
         }
+    }
 
+    protected void dataEventCurso(Curso cur, int type) {
+        for (Asignatura asig : cur.getAsignaturas()) {
+            dataEventAsignatura(asig, type);
+        }
+    }
+
+    protected void dataEventAsignatura(Asignatura asig, int type) {
+        for (Grupo gr : asig.getGrupos().getGrupos()) {
+            dataEventGrupo(gr, type);
+        }
+    }
+
+    protected void dataEventGrupo(Grupo gr, int type) {
+        GrupoCursos gc = grupoCursoQueContiene(gr);
+        switch (type) {
+            case DataProyectoListener.ADD:
+                //Miro si no hay ya un grupoCurso que pueda contener esto
+                if (gc == null) {
+                    this.add(gr);//Creo nuevo grupoCurso a partir de este
+                } else {
+                    gc.addGrupo(gr);
+                }
+                break;
+            case DataProyectoListener.REMOVE:
+                if (gc != null) {
+                    removeGrupo(gc, gr);
+                } else {//Busco a lo bestia
+                    removeGrupo(gr);
+                }
+                break;
+            case DataProyectoListener.MODIFY:
+                gc = grupoCursoQueContiene(gr);
+        }
     }
 
     /**
@@ -117,12 +144,10 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
         }
         return resul;
     }
-    private void removeGrupo(Grupo gr)
-    {
-        for (GrupoCursos gcu:grupoCursos)
-        {
-            if (gcu.getGrupos().contains(gr))
-            {
+
+    private void removeGrupo(Grupo gr) {
+        for (GrupoCursos gcu : grupoCursos) {
+            if (gcu.getGrupos().contains(gr)) {
                 removeGrupo(gcu, gr);
                 break;
             }
@@ -142,6 +167,10 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
     @Override
     public String toString() {
         return "ListaGrupoCursos{" + "grupoCursos=" + grupoCursos.size() + '}';
+    }
+
+    private void rebuildAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
