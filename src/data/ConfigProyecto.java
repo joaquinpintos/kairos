@@ -22,6 +22,7 @@ public class ConfigProyecto {
 
     public ConfigProyecto(DataProyecto dataProyecto) {
         this.dataProyecto = dataProyecto;
+        gruposPorDefecto="";
     }
 
     public String getNombreProyecto() {
@@ -41,14 +42,29 @@ public class ConfigProyecto {
     }
 
     public void dataToDOM(Document documentoXML, Node parent) {
-        añadeNodo(parent, "grupos_por-Defecto", gruposPorDefecto);
-        
-        
+        añadeNodo(parent, "grupos_por_defecto", gruposPorDefecto);
     }
     //Esta función añade un nodo simple de texto con nombreNodo y valo
     private void añadeNodo(Node parent, String nombreNodo, String valor) {
         Element el = parent.getOwnerDocument().createElement(nombreNodo);
         el.appendChild(parent.getOwnerDocument().createTextNode(valor));
         parent.appendChild(el);
+    }
+    public void parseXMLConfig(Element parent)
+    {
+        Element nodo=buscaPrimerElementoConNombre(parent, "grupos_por_defecto");
+        gruposPorDefecto=nodo.getTextContent();
+    }
+    
+    //Devuelve el primer nodo hijo de parent con nombre especificado.
+    private Element buscaPrimerElementoConNombre(Element parent, String nombre) {
+        org.w3c.dom.NodeList nodeList = parent.getElementsByTagName(nombre);
+        Element resul;
+        if (nodeList != null && nodeList.getLength() > 0) {
+            resul = (Element) nodeList.item(0);
+        } else {
+            resul = null;
+        }
+        return resul;
     }
 }

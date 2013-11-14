@@ -16,7 +16,7 @@ import java.io.Serializable;
  *
  * @author david
  */
-public class Casilla implements Comparable<Casilla>, Serializable{
+public class Casilla implements Comparable<Casilla>, Serializable {
 
     private Aula aula;
     private Hora hora;
@@ -214,6 +214,9 @@ public class Casilla implements Comparable<Casilla>, Serializable{
     }
 
     /**
+     * Devuelve true si las dos casillas (this y c) pertenecen al mismo instante
+     * de tiempo. Lo que compara es que el tiempo inicial sea el mismo, junto
+     * con el día de la semana.
      *
      * @param c
      * @return

@@ -4,7 +4,6 @@
  */
 package loader;
 
-import data.CalendarioAcademico;
 import data.DataProyecto;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
@@ -113,8 +112,15 @@ public class XMLDataLoaderWriter {
         String nombreProyecto = rootElement.getAttribute("nombre");
         dataProyecto.getConfigProyecto().setNombreProyecto(nombreProyecto);
 
+        //Datos de configuración del proyecto
+        org.w3c.dom.NodeList nodeList = rootElement.getElementsByTagName("config");
+         if (nodeList != null && nodeList.getLength() > 0) {
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                dataProyecto.getConfigProyecto().parseXMLConfig((Element)nodeList.item(i));
+            }
+        }
         //Leo datos profesores
-        org.w3c.dom.NodeList nodeList = rootElement.getElementsByTagName("profesorado");
+         nodeList = rootElement.getElementsByTagName("profesorado");
         if (nodeList != null && nodeList.getLength() > 0) {
             DOMLoaderProfesores domlp = new DOMLoaderProfesores(null, dataProyecto);
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -305,5 +311,15 @@ public class XMLDataLoaderWriter {
         el.appendChild(parent.getOwnerDocument().createTextNode(nombreCorto));
         return el;
     }
-
+  //Devuelve el primer nodo hijo de parent con nombre especificado.
+    private Element buscaPrimerElementoConNombre(Element parent, String nombre) {
+        org.w3c.dom.NodeList nodeList = parent.getElementsByTagName(nombre);
+        Element resul;
+        if (nodeList != null && nodeList.getLength() > 0) {
+            resul = (Element) nodeList.item(0);
+        } else {
+            resul = null;
+        }
+        return resul;
+    }
 }

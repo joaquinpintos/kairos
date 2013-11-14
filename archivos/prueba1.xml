@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <proyecto nombre="2º Cuatrimestre 2013/2014">
+    <config>
+        <grupos_por_defecto>1,2,3</grupos_por_defecto>
+    </config>
     <calendario_académico>
         <periodo_lectivo>
-            <inicio>14/01/2014</inicio>
-            <fin>07/06/2014</fin>
+            <inicio>13/11/2013</inicio>
+            <fin>28/11/2013</fin>
         </periodo_lectivo>
         <horario_aulas>
             <horario_mañana>

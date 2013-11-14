@@ -120,8 +120,8 @@ public class RGrupoNoUbicuo extends Restriccion implements Serializable {
         //LLegados a este punto, tengo dos hashmaps con grupocursohash
         //y asociado a cada uno un hashmap de hashaula->array de segmentos vacío
         //ahora vamos a llenar los array de segmentos
-        rellenaConSegmentos(dataMañana);
-        rellenaConSegmentos(dataTarde);
+        calculaSegmentos(dataMañana);
+        calculaSegmentos(dataTarde);
     }
 
     /**
@@ -180,7 +180,7 @@ public class RGrupoNoUbicuo extends Restriccion implements Serializable {
      *
      * @param dataTarde
      */
-    private void rellenaConSegmentos(HashMap<String, HashMap<String, ArrayList<Integer[]>>> dataTarde) {
+    private void calculaSegmentos(HashMap<String, HashMap<String, ArrayList<Integer[]>>> dataTarde) {
 
         for (String hash : dataTarde.keySet()) {
             for (String hashAula : dataTarde.get(hash).keySet()) {

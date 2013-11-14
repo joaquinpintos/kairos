@@ -6,6 +6,7 @@ package gui.DatosEditor;
 
 import data.CalendarioAcademico;
 import data.DataKairos;
+import data.DataProyecto;
 import data.MyConstants;
 import data.RangoHoras;
 import gui.AbstractMainWindow;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.xml.bind.DataBindingException;
 
 /**
  *
@@ -73,8 +75,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jCheckMiercoles.addActionListener(myActionListener);
         jCheckJueves.addActionListener(myActionListener);
         jCheckViernes.addActionListener(myActionListener);
-        jTextFinPeriodoLectivo.addActionListener(myActionListener);
-        jTextInicioPeriodoLectivo.addActionListener(myActionListener);
+        jXDateInicioPeriodoLectivo.addActionListener(myActionListener);
+        jXDateFinPeriodoLectivo.addActionListener(myActionListener);
         jButAceptar.addActionListener(myActionListener);
     }
 
@@ -97,8 +99,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextInicioPeriodoLectivo = new javax.swing.JTextField();
-        jTextFinPeriodoLectivo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaDiasNoLectivos = new javax.swing.JTextArea();
@@ -135,6 +135,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jLabel19 = new javax.swing.JLabel();
         jTextGruposPorDefecto = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
+        jXDateInicioPeriodoLectivo = new org.jdesktop.swingx.JXDatePicker();
+        jXDateFinPeriodoLectivo = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
@@ -153,7 +155,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jCheckJueves.setNextFocusableComponent(jCheckViernes);
 
         jCheckViernes.setText("Viernes");
-        jCheckViernes.setNextFocusableComponent(jTextInicioPeriodoLectivo);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -162,10 +163,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jLabel3.setText("Inicio:");
 
         jLabel4.setText("Fin:");
-
-        jTextInicioPeriodoLectivo.setNextFocusableComponent(jTextFinPeriodoLectivo);
-
-        jTextFinPeriodoLectivo.setNextFocusableComponent(jTextAreaDiasNoLectivos);
 
         jLabel5.setText("Días no lectivos:");
 
@@ -267,13 +264,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                         .addGap(98, 98, 98))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFinPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextInicioPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -286,7 +276,15 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                             .addComponent(jLabDesgMartes)
                             .addComponent(jLabDesgMiercoles)
                             .addComponent(jLabDesgJueves)
-                            .addComponent(jLabDesgViernes))
+                            .addComponent(jLabDesgViernes)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jXDateFinPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jXDateInicioPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -295,9 +293,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                     .addComponent(jLabel12)
                     .addComponent(jLabel17)
                     .addComponent(jLabel6)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextGruposPorDefecto, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextGruposPorDefecto)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel20)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -351,51 +348,37 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jCheckLunes)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckMartes)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckMiercoles)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckJueves)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckViernes))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel12)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jTextHoraMañanaInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextHoraMañanaFin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel9))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jTextHoraMañanaInicio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextHoraMañanaFin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel10))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel17)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jTextHoraTardeInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextHoraTardeFin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel13))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jTextHoraTardeInicio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextHoraTardeFin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel14))))
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextHoraMañanaInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextHoraMañanaFin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextHoraMañanaInicio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextHoraMañanaFin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextHoraTardeInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextHoraTardeFin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel13))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextHoraTardeInicio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextHoraTardeFin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -406,14 +389,14 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                                 .addComponent(jButAceptar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jTextInicioPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jXDateInicioPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jTextFinPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jXDateFinPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -432,7 +415,20 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                                 .addComponent(jLabDesgJueves)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabDesgViernes)
-                                .addGap(0, 4, Short.MAX_VALUE)))
+                                .addGap(0, 3, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCheckLunes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckMartes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckMiercoles)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckJueves)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckViernes)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
 
@@ -481,7 +477,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea jTextAreaDiasNoLectivos;
-    private javax.swing.JTextField jTextFinPeriodoLectivo;
     private javax.swing.JTextField jTextGruposPorDefecto;
     private javax.swing.JTextField jTextHoraMañanaFin1;
     private javax.swing.JTextField jTextHoraMañanaFin2;
@@ -491,7 +486,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     private javax.swing.JTextField jTextHoraTardeFin2;
     private javax.swing.JTextField jTextHoraTardeInicio1;
     private javax.swing.JTextField jTextHoraTardeInicio2;
-    private javax.swing.JTextField jTextInicioPeriodoLectivo;
+    private org.jdesktop.swingx.JXDatePicker jXDateFinPeriodoLectivo;
+    private org.jdesktop.swingx.JXDatePicker jXDateInicioPeriodoLectivo;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -500,40 +496,43 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     @Override
     public void updateData() {
         try {
+            DataProyecto dp=dk.getDP();
             //Cambio titulo ventana
-            mainwindow.setTitle("Kairos - " + dk.getDP().getConfigProyecto().getNombreProyecto());
+            mainwindow.setTitle("Kairos - " + dp.getConfigProyecto().getNombreProyecto());
 
             //Cambio textos horas aulas
-            jTextHoraMañanaInicio1.setText(dk.getDP().getMañana1().getInicio().toString());
-            jTextHoraMañanaFin1.setText(dk.getDP().getMañana1().getFin().toString());
-            jTextHoraMañanaInicio2.setText(dk.getDP().getMañana2().getInicio().toString());
-            jTextHoraMañanaFin2.setText(dk.getDP().getMañana2().getFin().toString());
-            jTextHoraTardeInicio1.setText(dk.getDP().getTarde1().getInicio().toString());
-            jTextHoraTardeFin1.setText(dk.getDP().getTarde1().getFin().toString());
-            jTextHoraTardeInicio2.setText(dk.getDP().getTarde2().getInicio().toString());
-            jTextHoraTardeFin2.setText(dk.getDP().getTarde2().getFin().toString());
+            jTextHoraMañanaInicio1.setText(dp.getMañana1().getInicio().toString());
+            jTextHoraMañanaFin1.setText(dp.getMañana1().getFin().toString());
+            jTextHoraMañanaInicio2.setText(dp.getMañana2().getInicio().toString());
+            jTextHoraMañanaFin2.setText(dp.getMañana2().getFin().toString());
+            jTextHoraTardeInicio1.setText(dp.getTarde1().getInicio().toString());
+            jTextHoraTardeFin1.setText(dp.getTarde1().getFin().toString());
+            jTextHoraTardeInicio2.setText(dp.getTarde2().getInicio().toString());
+            jTextHoraTardeFin2.setText(dp.getTarde2().getFin().toString());
 
             // Marco/desmarco casillas de días lectivos semanales
-            jCheckLunes.setSelected(dk.getDP().getDiasSemanaLectivos().contains(1));
-            jCheckMartes.setSelected(dk.getDP().getDiasSemanaLectivos().contains(2));
-            jCheckMiercoles.setSelected(dk.getDP().getDiasSemanaLectivos().contains(3));
-            jCheckJueves.setSelected(dk.getDP().getDiasSemanaLectivos().contains(4));
-            jCheckViernes.setSelected(dk.getDP().getDiasSemanaLectivos().contains(5));
+            jCheckLunes.setSelected(dp.getDiasSemanaLectivos().contains(1));
+            jCheckMartes.setSelected(dp.getDiasSemanaLectivos().contains(2));
+            jCheckMiercoles.setSelected(dp.getDiasSemanaLectivos().contains(3));
+            jCheckJueves.setSelected(dp.getDiasSemanaLectivos().contains(4));
+            jCheckViernes.setSelected(dp.getDiasSemanaLectivos().contains(5));
 
             //Cambio campos inicio/final periodo lectivo
-            jTextInicioPeriodoLectivo.setText(dk.getDP().getCalendarioAcadémico().getStrInicio());
-            jTextFinPeriodoLectivo.setText(dk.getDP().getCalendarioAcadémico().getStrFin());
+            jXDateInicioPeriodoLectivo.setDate(dp.getCalendarioAcadémico().getInicio().getTime());
+            jXDateFinPeriodoLectivo.setDate(dp.getCalendarioAcadémico().getFin().getTime());
 
             //Creo cuadro de texto con todos los días no lectivos
             String texto = "";
-            for (int n = 0; n < dk.getDP().getCalendarioAcadémico().getDiasNoLectivos().size(); n++) {
-                texto += dk.getDP().getCalendarioAcadémico().getDiasNoLectivos().get(n) + "  ";
-                texto += dk.getDP().getCalendarioAcadémico().getDescripcionDiasNoLectivos().get(n) + "\n";
+            for (int n = 0; n < dp.getCalendarioAcadémico().getDiasNoLectivos().size(); n++) {
+                texto += dp.getCalendarioAcadémico().getDiasNoLectivos().get(n) + "  ";
+                texto += dp.getCalendarioAcadémico().getDescripcionDiasNoLectivos().get(n) + "\n";
             }
             jTextAreaDiasNoLectivos.setText(texto);
             calculaDiasLectivosTotales();
+            jTextGruposPorDefecto.setText(dp.getConfigProyecto().getGruposPorDefecto());
         } catch (Exception ex) {
-        };
+        }
+        
     }
 
     private void calculaDiasLectivosTotales() {
@@ -546,8 +545,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jLabDesgViernes.setText("");
         jLabResulDias.setText("");
         try {
-            cal.setInicio(jTextInicioPeriodoLectivo.getText());
-            cal.setFin(jTextFinPeriodoLectivo.getText());
+            cal.setInicio(jXDateInicioPeriodoLectivo.getDate());
+            cal.setFin(jXDateFinPeriodoLectivo.getDate());
             if (cal.getInicio().compareTo(cal.getFin()) > 0) {
                 throw new ParseException("Fecha final es menor que la fecha inicial", 0);
             };
@@ -622,19 +621,10 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         }
 
         dk.getDP().setDiasSemanaLectivos(ar);
-        try {
-            dk.getDP().getCalendarioAcadémico().setInicio(jTextInicioPeriodoLectivo.getText());
-            jTextInicioPeriodoLectivo.setForeground(Color.BLACK);
-        } catch (ParseException ex) {
-            jTextInicioPeriodoLectivo.setForeground(MyConstants.CONFLICTIVE_ITEM);
-        }
-        try {
-
-            dk.getDP().getCalendarioAcadémico().setFin(jTextFinPeriodoLectivo.getText());
-            jTextFinPeriodoLectivo.setForeground(Color.BLACK);
-        } catch (ParseException ex) {
-            jTextFinPeriodoLectivo.setForeground(MyConstants.CONFLICTIVE_ITEM);
-        }
+        dk.getDP().getCalendarioAcadémico().setInicio(jXDateInicioPeriodoLectivo.getDate());
+        jXDateInicioPeriodoLectivo.setForeground(Color.BLACK);
+        dk.getDP().getCalendarioAcadémico().setFin(jXDateFinPeriodoLectivo.getDate());
+        jXDateFinPeriodoLectivo.setForeground(Color.BLACK);
         CalendarioAcademico cal = dk.getDP().getCalendarioAcadémico();
         //Parseo el texto de los días no lectivos
 

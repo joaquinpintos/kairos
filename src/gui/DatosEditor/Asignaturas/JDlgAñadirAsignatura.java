@@ -57,6 +57,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         this.asigNueva = asigEdit;
         this.dataProyecto = dataProyecto;
         this.createNew = createNew;
+        jCheckCrearGrupos.setSelected(true);
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";

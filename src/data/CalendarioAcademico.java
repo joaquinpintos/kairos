@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -43,13 +44,12 @@ public class CalendarioAcademico implements Serializable {
         this.finPeriodoLectivo = new GregorianCalendar();
         diasNoLectivos = new ArrayList<String>();
         descripcionDiasNoLectivos = new ArrayList<String>();
-        mañana1=new RangoHoras();
-        mañana2=new RangoHoras();
-        tarde1=new RangoHoras();
-        tarde2=new RangoHoras();
+        mañana1 = new RangoHoras();
+        mañana2 = new RangoHoras();
+        tarde1 = new RangoHoras();
+        tarde2 = new RangoHoras();
 
     }
-
 
     /**
      *
@@ -134,7 +134,6 @@ public class CalendarioAcademico implements Serializable {
         ArrayList<GregorianCalendar> resul = new ArrayList<GregorianCalendar>();
         GregorianCalendar c1 = (GregorianCalendar) inicioPeriodoLectivo.clone();
 
-
         ArrayList<Integer> diasLectivos = normalizaDiasLectivosSemana(diasSemanaLectivos);
         int day;
         String strDia;
@@ -161,26 +160,10 @@ public class CalendarioAcademico implements Serializable {
 
     /**
      *
-     * @param inicio
-     */
-    public void setInicio(GregorianCalendar inicio) {
-        this.inicioPeriodoLectivo = inicio;
-    }
-
-    /**
-     *
      * @return
      */
     public GregorianCalendar getFin() {
         return finPeriodoLectivo;
-    }
-
-    /**
-     *
-     * @param fin
-     */
-    public void setFin(GregorianCalendar fin) {
-        this.finPeriodoLectivo = fin;
     }
 
     /**
@@ -241,6 +224,14 @@ public class CalendarioAcademico implements Serializable {
         this.inicioPeriodoLectivo.setTime(formatoFechas.parse(strInicio));
     }
 
+    public void setInicio(Date inicio) {
+        this.inicioPeriodoLectivo.setTime(inicio);
+    }
+
+    public void setInicio(GregorianCalendar inicio) {
+        this.inicioPeriodoLectivo = inicio;
+    }
+
     /**
      *
      * @param strFin
@@ -248,6 +239,16 @@ public class CalendarioAcademico implements Serializable {
      */
     public void setFin(String strFin) throws ParseException {
         this.finPeriodoLectivo.setTime(formatoFechas.parse(strFin));
+    }
+
+    public void setFin(Date fin) {
+        if (fin != null) {
+            this.finPeriodoLectivo.setTime(fin);
+        }
+    }
+
+    public void setFin(GregorianCalendar fin) {
+        this.finPeriodoLectivo = fin;
     }
 
     /**
@@ -330,9 +331,6 @@ public class CalendarioAcademico implements Serializable {
         añadeNodo(nodePeriodoLectivo, "inicio", formatoFechas.format(inicioPeriodoLectivo.getTime()));
         añadeNodo(nodePeriodoLectivo, "fin", formatoFechas.format(finPeriodoLectivo.getTime()));
 
-
-
-
         //Creo el nodo con el horario de aulas
         Element eleHorarioAulas = documentoXML.createElement("horario_aulas");
         Node nodeHorarioAulas = parent.appendChild(eleHorarioAulas);
@@ -350,7 +348,6 @@ public class CalendarioAcademico implements Serializable {
         escribeTramo(nodeHorarioTarde, "tramo_2", tarde2);
 
         //Ahora escribo los días de la semana lectivos 1=lunes, ...5=viernes
-
         //dias_semana_lectivos
         Element eleDiasSemanaLectivos = documentoXML.createElement("dias_semana_lectivos");
         Node nodeDiasSemanaLectivos = parent.appendChild(eleDiasSemanaLectivos);
@@ -358,7 +355,6 @@ public class CalendarioAcademico implements Serializable {
         for (int dia : diasSemanaLectivos) {
             añadeNodo(nodeDiasSemanaLectivos, "dia", String.valueOf(dia));
         }
-
 
         //Ahora los días no lectivos dentro del periodo, sin contar sábados ni domingos
         //<diasNoLectivos> <dia descripcion="">fecha</dia>
@@ -372,11 +368,6 @@ public class CalendarioAcademico implements Serializable {
             eleDia.setTextContent(strDia);
             nodeDiasNoLectivos.appendChild(eleDia);
         }
-
-
-
-
-
 
     }
 
