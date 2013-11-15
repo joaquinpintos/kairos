@@ -20,7 +20,8 @@ import gui.DatosEditor.JIntTreeProfesores;
 import gui.DatosEditor.JIntWelcome;
 import gui.DatosEditor.Restricciones.JIntRestricciones;
 import gui.HorarioEditor.JIntHorarioEditor;
-import gui.HorarioEditor.jDlgPrintHorario;
+import gui.printDialogs.JDlgPrintHojaDeFirma;
+import gui.printDialogs.jDlgPrintHorario;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -71,6 +72,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected AbstractAction creaPDFAction;
     private File lastFileUsed;
     private JIntHorarioEditor jIntHorarioEditor2;
+    protected AbstractAction creaPDFHojasDeFirmaAction;
 
     public AbstractMainWindow() throws Exception {
         super();
@@ -266,7 +268,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
         dk.getDP().getDataAsignaturas().addListener(dk.getDP().getDataAsignaturas().getListaGrupoCursos());
         //dk.getDP().getDataAsignaturas().getListaGrupoCursos().addListener(jIntTreeAulas);
-        
 
         dk.getDP().getDataAsignaturas().addListener(jIntEditorDocencia);
     }
@@ -378,9 +379,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
                     }
                 } catch (FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "No puedo cargar este fichero", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "Archivo no encontrado", "Error al guardar", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "No puedo cargar este fichero", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "I/O Error", "Error", JOptionPane.ERROR_MESSAGE);
                 } finally {
                 }
             }
@@ -396,30 +397,35 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 FileOutputStream fisal;
                 mainWindow.borraListeners();
-                try {
-                    JFileChooser fc = new JFileChooser(lastFileUsed);
-                    fc.setDialogTitle("Guardar como...");
-                    FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos kairos", "krs");
-                    fc.setFileFilter(filt);
-                    int valorDevuelto = fc.showSaveDialog(null);
+                JFileChooser fc = new JFileChooser(lastFileUsed);
+                fc.setDialogTitle("Guardar como...");
+                FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos kairos", "krs");
+                fc.setFileFilter(filt);
+                int valorDevuelto = fc.showSaveDialog(null);
 
-                    if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
-                        if ((!fc.getSelectedFile().exists()) || (JOptionPane.showConfirmDialog(rootPane, "El fichero existe, ¿sobreescribir?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
-                            setLastFileUsed(fc.getSelectedFile());
+                if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
+                    if ((!fc.getSelectedFile().exists()) || (JOptionPane.showConfirmDialog(rootPane, "El fichero existe, ¿sobreescribir?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                        setLastFileUsed(fc.getSelectedFile());
+                        fisal = null;
+                        try {
                             fisal = new FileOutputStream(lastFileUsed);
-                            ObjectOutputStream oos = new ObjectOutputStream(fisal);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(AbstractMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        ObjectOutputStream oos;
+                        try {
+                            oos = new ObjectOutputStream(fisal);
                             oos.writeObject(dk.getDP());
                             oos.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(AbstractMainWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
+
                     }
-                } catch (FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error al guardar este fichero.", "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "Error al guardar. Probablemente no tenga permisos para escribir en el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-                } finally {
                 }
             }
         }
+
         class ImportarXMLAction extends AbstractAction {
 
             public ImportarXMLAction() {
@@ -439,7 +445,15 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
                     if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                         dk.clear();
-                        boolean cargaCorrecta = loadXMLFromFile(fc.getSelectedFile());
+                        File fichero = fc.getSelectedFile();
+                        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
+                        xmldlw.setFile(fichero);
+                        boolean resul = xmldlw.load(fichero);
+                        //Reconstruyo hashmap de profesores, util para asignaciones
+                        if (resul) {
+                            dk.getDP().reconstruyeHashMapProfesor();
+                        }
+                        boolean cargaCorrecta = resul;
                         if (!cargaCorrecta) {
                             JOptionPane.showMessageDialog(null, "Error al cargar los datos.");
                         }
@@ -455,6 +469,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
+
         class ExportarXMLAction extends AbstractAction {
 
             public ExportarXMLAction() {
@@ -471,7 +486,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                     boolean guardadoCorrecto = true;
                     try {
-                        guardadoCorrecto = saveToFile(fc.getSelectedFile());
+                        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
+                        xmldlw.setFile(fc.getSelectedFile());
+                        guardadoCorrecto = xmldlw.save();
 
                     } catch (IOException ex) {
                         Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
@@ -489,9 +506,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         importarXMLAction = new ImportarXMLAction();
         exportarXMLAction = new ExportarXMLAction();
 
-        class CreaPDFAction extends AbstractAction {
+        class CreaPDFHorariosAction extends AbstractAction {
 
-            public CreaPDFAction() {
+            public CreaPDFHorariosAction() {
                 super("Imprimir calendarios", null);
             }
 
@@ -502,36 +519,22 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 dlg.setVisible(true);
             }
         }
-        creaPDFAction = new CreaPDFAction();
+        creaPDFAction = new CreaPDFHorariosAction();
+        
+        class CreaPDFHojasDeFirmaAction extends AbstractAction {
 
-    }
+            public CreaPDFHojasDeFirmaAction() {
+                super("Imprimir hojas de firma", null);
+            }
 
-    /**
-     *
-     * @param fichero
-     * @return
-     * @throws IOException
-     */
-    public boolean saveToFile(File fichero) throws IOException {
-        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
-        xmldlw.setFile(fichero);
-        return xmldlw.save();
-    }
-
-    /**
-     *
-     * @param fichero
-     * @return
-     */
-    public boolean loadXMLFromFile(File fichero) {
-        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
-        xmldlw.setFile(fichero);
-        boolean resul = xmldlw.load(fichero);
-        //Reconstruyo hashmap de profesores, util para asignaciones
-        if (resul) {
-            dk.getDP().reconstruyeHashMapProfesor();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDlgPrintHojaDeFirma dlg = new JDlgPrintHojaDeFirma(mainWindow, true, dk.getDP());
+                dlg.setLocationRelativeTo(null);
+                dlg.setVisible(true);
+            }
         }
-        return resul;
+        creaPDFHojasDeFirmaAction = new CreaPDFHojasDeFirmaAction();
     }
 
     /**

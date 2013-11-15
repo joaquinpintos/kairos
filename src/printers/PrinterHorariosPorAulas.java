@@ -22,7 +22,7 @@ import java.util.HashMap;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class PrinterHorariosPorAulas extends AbstractPrinter {
+public class PrinterHorariosPorAulas extends AbstractHorariosPrinter {
 
     private HashMap<AulaMT, DatosHojaHorario> data;
     private int numFilasTarde = 1;

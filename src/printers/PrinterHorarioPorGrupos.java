@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class PrinterHorarioPorGrupos extends AbstractPrinter {
+public class PrinterHorarioPorGrupos extends AbstractHorariosPrinter {
 
     /**
      *

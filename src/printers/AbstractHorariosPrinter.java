@@ -11,7 +11,6 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -24,24 +23,21 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-abstract public class AbstractPrinter {
+abstract public class AbstractHorariosPrinter {
 
     private File fileDst;
     private boolean variosDocumentos;
     private final DataProyecto dataProyecto;
-    private ArrayList<Object> cabeceras;
-    private ArrayList<DatosHojaHorario> hojasHorarios;
-    private ArrayList<Object> piesDePagina;
-    private ArrayList<Object> parNombreDocumento;
+    private final ArrayList<Object> cabeceras;
+    private final ArrayList<DatosHojaHorario> hojasHorarios;
+    private final ArrayList<Object> piesDePagina;
+    private final ArrayList<Object> parNombreDocumento;
     private float alturaCeldas;
     /**
      *
@@ -58,7 +54,7 @@ abstract public class AbstractPrinter {
      * @param fileDst
      * @param variosDocumentos
      */
-    public AbstractPrinter(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) {
+    public AbstractHorariosPrinter(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) {
         this.alturaRecreos = 10;
         this.alturaSepMañanaTarde = 25;
         this.rotated = false;

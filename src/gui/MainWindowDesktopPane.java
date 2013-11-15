@@ -25,6 +25,7 @@ import javax.swing.KeyStroke;
 public class MainWindowDesktopPane extends AbstractMainWindow {
 
     private final ArrayList<AbstractAction> actionsViewFrame;
+    private JMenuItem creaPDFHojaFirmaMenuItem;
 
     /**
      * Creates new form MainWindow
@@ -33,7 +34,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      */
     public MainWindowDesktopPane() throws Exception {
         super();
-        actionsViewFrame=new ArrayList<AbstractAction>();
+        actionsViewFrame = new ArrayList<AbstractAction>();
         initComponents();
         jDesktopPane.setBackground(MyConstants.BACKGROUND_APP_COLOR);
         createInternalFrames();
@@ -51,7 +52,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private void initComponents() {
 
         jDesktopPane = new JDesktopPane();
-                setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         createJMenus();
 
@@ -80,6 +81,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         importXMLMenuItem = new javax.swing.JMenuItem();
         exportXMLMenuItem = new javax.swing.JMenuItem();
         creaPDFMenuItem = new javax.swing.JMenuItem();
+        creaPDFHojaFirmaMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         //editMenu = new javax.swing.JMenu();
         //cutMenuItem = new javax.swing.JMenuItem();
@@ -93,9 +95,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         viewMenu = new javax.swing.JMenu();
         viewMenu.setMnemonic('V');
         viewMenu.setText("Ver");
-        
-        
-        
+
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
@@ -123,6 +123,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         creaPDFMenuItem.setAction(creaPDFAction);
         fileMenu.add(creaPDFMenuItem);
 
+        creaPDFHojaFirmaMenuItem.setAction(creaPDFHojasDeFirmaAction);
+        fileMenu.add(creaPDFHojaFirmaMenuItem);
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -153,9 +155,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 //        deleteMenuItem.setMnemonic('d');
 //        deleteMenuItem.setText("Delete");
 //        editMenu.add(deleteMenuItem);
-
         //menuBar.add(editMenu);
-
         menuBar.add(viewMenu);
         helpMenu.setMnemonic('h');
         helpMenu.setText("Help");
@@ -169,7 +169,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JDlgAbout dlg=new JDlgAbout(null, true);
+                JDlgAbout dlg = new JDlgAbout(null, true);
                 dlg.setLocationRelativeTo(null);
                 dlg.setVisible(true);
             }
@@ -251,22 +251,19 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         super.setProjectStatus(status);
         switch (status) {
             case DataKairos.STATUS_NO_PROJECT: {
-                for (AbstractAction ac:actionsViewFrame)
-                {
+                for (AbstractAction ac : actionsViewFrame) {
                     ac.setEnabled(false);
                 }
                 break;
             }
             case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
-                for (AbstractAction ac:actionsViewFrame)
-                {
+                for (AbstractAction ac : actionsViewFrame) {
                     ac.setEnabled(true);
                 }
                 break;
             }
             case DataKairos.STATUS_PROJECT_SOLUTION: {
-                 for (AbstractAction ac:actionsViewFrame)
-                {
+                for (AbstractAction ac : actionsViewFrame) {
                     ac.setEnabled(true);
                 }
                 break;

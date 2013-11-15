@@ -126,26 +126,32 @@ public class CalendarioAcademico implements Serializable {
 
     }
 
+    public ArrayList<GregorianCalendar> getArrayDiasLectivos() {
+        {
+            return getArrayDiasLectivos((GregorianCalendar) inicioPeriodoLectivo.clone(), (GregorianCalendar) finPeriodoLectivo.clone());
+        }
+    }
+
     /**
      *
      * @return
      */
-    public ArrayList<GregorianCalendar> getArrayDiasLectivos() {
+    public ArrayList<GregorianCalendar> getArrayDiasLectivos(GregorianCalendar parInicio, GregorianCalendar parFin) {
         ArrayList<GregorianCalendar> resul = new ArrayList<GregorianCalendar>();
-        GregorianCalendar c1 = (GregorianCalendar) inicioPeriodoLectivo.clone();
+        GregorianCalendar inicio = (GregorianCalendar) parInicio.clone();
 
         ArrayList<Integer> diasLectivos = normalizaDiasLectivosSemana(diasSemanaLectivos);
         int day;
         String strDia;
-        GregorianCalendar fin = (GregorianCalendar) finPeriodoLectivo.clone();
+        GregorianCalendar fin = (GregorianCalendar) parFin.clone();
         fin.add(GregorianCalendar.DAY_OF_MONTH, 1);
-        while (!c1.equals(fin)) {
-            day = c1.get(GregorianCalendar.DAY_OF_WEEK); //Obtiene día de la semana
-            strDia = formatoFechas.format(c1.getTime());
+        while (!inicio.equals(fin)) {
+            day = inicio.get(GregorianCalendar.DAY_OF_WEEK); //Obtiene día de la semana
+            strDia = formatoFechas.format(inicio.getTime());
             if (diasLectivos.contains(day) && (!diasNoLectivos.contains(strDia))) {
-                resul.add((GregorianCalendar) c1.clone());
+                resul.add((GregorianCalendar) inicio.clone());
             }
-            c1.add(GregorianCalendar.DAY_OF_MONTH, 1);//Añado un día al bucle
+            inicio.add(GregorianCalendar.DAY_OF_MONTH, 1);//Añado un día al bucle
         }
         return resul;
     }

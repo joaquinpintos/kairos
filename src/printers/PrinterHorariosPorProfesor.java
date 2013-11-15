@@ -22,7 +22,7 @@ import java.util.HashMap;
  *
  * @author pdi
  */
-public class PrinterHorariosPorProfesor extends AbstractPrinter {
+public class PrinterHorariosPorProfesor extends AbstractHorariosPrinter {
 
     private HashMap<Profesor, DatosHojaHorario> data;
 

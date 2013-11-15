@@ -2,11 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.HorarioEditor;
+package gui.printDialogs;
 
 import com.itextpdf.text.DocumentException;
 import data.DataProyecto;
-import data.MyConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -19,7 +18,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.KeyStroke;
-import printers.AbstractPrinter;
+import printers.AbstractHorariosPrinter;
 import printers.PrinterHorarioPorGrupos;
 import printers.PrinterHorariosPorAulas;
 import printers.PrinterHorariosPorProfesor;
@@ -366,7 +365,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
         return resul;
     }
 
-    private void setConfig(AbstractPrinter pr) {
+    private void setConfig(AbstractHorariosPrinter pr) {
         int numFilasMañana = dataProyecto.getMañana1().duracion() + dataProyecto.getMañana2().duracion();
         numFilasMañana = (numFilasMañana * 60) / dataProyecto.getMinutosPorCasilla();
         int numFilasTarde = dataProyecto.getTarde1().duracion() + dataProyecto.getTarde2().duracion();

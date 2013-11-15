@@ -26,17 +26,19 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-RProfesorMaximoHorasPorDia r;
+    RProfesorMaximoHorasPorDia r;
+
     /**
      * Creates new form JDlgProfesorMaximoHoras
-     * @param parent 
+     *
+     * @param parent
      * @param modal
-     * @param r  
+     * @param r
      */
     public JDlgProfesorMaximoHoras(java.awt.Frame parent, boolean modal, RProfesorMaximoHorasPorDia r) {
         super(parent, modal);
         initComponents();
-        this.r=r;
+        this.r = r;
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -49,10 +51,8 @@ RProfesorMaximoHorasPorDia r;
                 doClose(RET_CANCEL);
             }
         });
-        jTextMaximoHoras.setText(r.getNumMaximoHoras()+"");
-        
-        
-        
+        jTextMaximoHoras.setText(r.getNumMaximoHoras() + "");
+
     }
 
     /**
@@ -141,7 +141,7 @@ RProfesorMaximoHorasPorDia r;
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
-    
+
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         doClose(RET_CANCEL);
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -152,19 +152,18 @@ RProfesorMaximoHorasPorDia r;
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-    
+
     private void doClose(int retStatus) {
-        if (retStatus==RET_OK)
-        {
+        if (retStatus == RET_OK) {
             r.setNumMaximoHoras(Integer.valueOf(jTextMaximoHoras.getText()));
         }
-        
+
         returnStatus = retStatus;
         setVisible(false);
         dispose();
     }
 
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;

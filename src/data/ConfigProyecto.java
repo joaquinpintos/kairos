@@ -6,6 +6,7 @@
 
 package data;
 
+import java.io.Serializable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,7 +15,7 @@ import org.w3c.dom.Node;
  * Almacena y gestiona variables relativas a la configuración del proyecto
  * @author usuario
  */
-public class ConfigProyecto {
+public class ConfigProyecto implements Serializable{
      private String nombreProyecto;
     //Este string almacena los grupos por defecto cuando se incluye una asignatura nueva
     private String gruposPorDefecto;
