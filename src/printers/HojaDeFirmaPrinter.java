@@ -8,10 +8,13 @@ package printers;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.CalendarioAcademico;
 import data.DataProyecto;
 import data.Hora;
+import data.MyConstants;
 import data.aulas.Aula;
 import data.horarios.HorarioItem;
 import java.io.File;
@@ -65,7 +68,7 @@ public class HojaDeFirmaPrinter {
     private void creaHojaDeFirma(Document doc, GregorianCalendar dia) {
         try {
             creaCabecera(doc, dia);
-            creaCuerpo(dia);
+            creaCuerpo(doc, dia);
         } catch (DocumentException ex) {
             Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,25 +81,50 @@ public class HojaDeFirmaPrinter {
         par.setAlignment(Paragraph.ALIGN_CENTER);
     }
 
-    private void creaCuerpo(GregorianCalendar dia) {
+    private void creaCuerpo(Document doc, GregorianCalendar dia) {
         //TODO: Falta comprobar que h sea del dia en cuestion
-        int diaSemana=dia.get(GregorianCalendar.DAY_OF_WEEK);
+      
+            
+            
+            
+            
+        ArrayList<Integer> diasDeLaSemana=new ArrayList<Integer>();
+        diasDeLaSemana.add(GregorianCalendar.MONDAY);
+        diasDeLaSemana.add(GregorianCalendar.TUESDAY);
+        diasDeLaSemana.add(GregorianCalendar.WEDNESDAY);
+        diasDeLaSemana.add(GregorianCalendar.THURSDAY);
+        diasDeLaSemana.add(GregorianCalendar.FRIDAY);
+        int aux = dia.get(GregorianCalendar.DAY_OF_WEEK);
+        //Lunes->1, Martes-2,...,Viernes->5
+        int diaSemana = diasDeLaSemana.indexOf(aux)+1;
+
         ArrayList<HorarioItem> data = new ArrayList<HorarioItem>();
         ArrayList<HorarioItem> horarios = dp.getHorario().getHorarios();
         for (HorarioItem h : horarios) {
-            if (h.getAula().equals(aula)) {
+            if ((diaSemana == h.getDiaSemana()) && (h.getAula().equals(aula))&&(!h.isHuecoLibre())) {
                 data.add(h);
             }
         }
-        Collections.sort(data,new ComparatorHorarioItems());
-        
-        for (HorarioItem h:data)
-        {
-            
+
+        Collections.sort(data, new ComparatorHorarioItems());
+
+        PdfPTable t = new PdfPTable(3);
+        t.addCell("Asignatura");
+        t.addCell("Firma");
+        t.addCell("Incidencias");
+        for (HorarioItem h : data) {
+            t.addCell(h.getAsignatura().getNombre()+" "+h.getRangoHoras());
+            t.addCell(h.getProfesor().toString());
+            t.addCell("");
         }
-        
-        
+        try {
+            doc.add(t);
+        } catch (DocumentException ex) {
+            Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
+
 }
 
 class ComparatorHorarioItems implements Comparator<HorarioItem> {

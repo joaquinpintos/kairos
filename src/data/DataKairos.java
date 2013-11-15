@@ -64,7 +64,6 @@ public class DataKairos {
         dataProyecto.getDataRestricciones().add(new RProfesorNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RGrupoNoUbicuo(dataProyecto));
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
-        //TODO: ¿Pueden hacer falta más restricciones, por ejemplo grupos no ubicuos?
     }
 
     public int getStatus() {
