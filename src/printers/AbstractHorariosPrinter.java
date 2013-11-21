@@ -104,10 +104,10 @@ abstract public class AbstractHorariosPrinter {
      * @param tamañoTabla Tamaño deseado de la tabla en centímetros
      */
     public void setTamañoTablaTurnoSimple(float tamañoTabla) {
-        int numFilas1 = dataProyecto.getMañana1().duracion();
-        numFilas1 += dataProyecto.getMañana1().duracion();
-        int numFilas2 = dataProyecto.getTarde1().duracion();
-        numFilas2 += dataProyecto.getTarde2().duracion();
+        int numFilas1 = dataProyecto.getMañana1().getDuracionHoras();
+        numFilas1 += dataProyecto.getMañana1().getDuracionHoras();
+        int numFilas2 = dataProyecto.getTarde1().getDuracionHoras();
+        numFilas2 += dataProyecto.getTarde2().getDuracionHoras();
         int maxNumFilas = (Math.max(numFilas1, numFilas2) * 60) / dataProyecto.getMinutosPorCasilla();
         setAlturaCeldas((tamañoTabla * CM_TO_POINT - alturaRecreos) / (maxNumFilas + 1));
     }
@@ -117,10 +117,10 @@ abstract public class AbstractHorariosPrinter {
      * @param tamañoTabla
      */
     public void setTamañoTablaTurnoDoble(float tamañoTabla) {
-        int maxNumFilas = dataProyecto.getMañana1().duracion();
-        maxNumFilas += dataProyecto.getMañana2().duracion();
-        maxNumFilas += dataProyecto.getTarde1().duracion();
-        maxNumFilas += dataProyecto.getTarde2().duracion();
+        int maxNumFilas = dataProyecto.getMañana1().getDuracionHoras();
+        maxNumFilas += dataProyecto.getMañana2().getDuracionHoras();
+        maxNumFilas += dataProyecto.getTarde1().getDuracionHoras();
+        maxNumFilas += dataProyecto.getTarde2().getDuracionHoras();
         maxNumFilas = (maxNumFilas * 60) / dataProyecto.getMinutosPorCasilla();
         setAlturaCeldas((tamañoTabla * CM_TO_POINT - alturaRecreos - alturaSepMañanaTarde) / (maxNumFilas + 1));
     }

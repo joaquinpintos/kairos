@@ -44,7 +44,7 @@ public class HorarioItem implements Serializable {
     private int numeroSegmento;
     private int numcasilla;
     private int nivelConflictivo;
-    private int numeroDeCasillasQueOcupa;
+    private final int numeroDeCasillasQueOcupa;
 
     /**
      *

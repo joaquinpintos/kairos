@@ -366,9 +366,9 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
     }
 
     private void setConfig(AbstractHorariosPrinter pr) {
-        int numFilasMañana = dataProyecto.getMañana1().duracion() + dataProyecto.getMañana2().duracion();
+        int numFilasMañana = dataProyecto.getMañana1().getDuracionHoras() + dataProyecto.getMañana2().getDuracionHoras();
         numFilasMañana = (numFilasMañana * 60) / dataProyecto.getMinutosPorCasilla();
-        int numFilasTarde = dataProyecto.getTarde1().duracion() + dataProyecto.getTarde2().duracion();
+        int numFilasTarde = dataProyecto.getTarde1().getDuracionHoras() + dataProyecto.getTarde2().getDuracionHoras();
         numFilasTarde = (numFilasTarde * 60) / dataProyecto.getMinutosPorCasilla();
         pr.setTextoTitulo(jTextTitle.getText());
         dataProyecto.setTituloPaginasImprimir(jTextTitle.getText());

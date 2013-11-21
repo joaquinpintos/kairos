@@ -232,7 +232,7 @@ public class DraggableHorarioItemComponent extends JPanel {
 
                     }
                 } catch (NullPointerException ex) {
-                };
+                }
 //                System.out.println("Mouse dragged on " + position.toString());
             }
         });
@@ -359,7 +359,7 @@ public class DraggableHorarioItemComponent extends JPanel {
         Casilla c = lc.get(numCasillaDst);
         h.setNumcasilla(numCasillaDst);
         h.setDiaSemana(c.getDiaSemana());
-        int dur = h.getRangoHoras().duracion();
+        int dur = h.getRangoHoras().getDuracionMinutos();
         h.setRangoHoras(new RangoHoras(c.getHora(), dur));
 
     }

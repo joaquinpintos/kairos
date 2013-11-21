@@ -70,6 +70,7 @@ public class JTreeGrupoCursoDropListener implements DropTargetListener {
         } catch (IOException ex) {
             Logger.getLogger(JIntTreeAulas.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
+        } catch (ClassCastException ex) {
         }
 
     }

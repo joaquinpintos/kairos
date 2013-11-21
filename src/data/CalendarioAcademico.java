@@ -459,9 +459,9 @@ public class CalendarioAcademico implements Serializable {
      */
     public double getTotalHorasLectivasPorSemana(boolean tarde) {
         if (tarde) {
-            return diasSemanaLectivos.size() * (tarde1.duracion() + tarde2.duracion());
+            return diasSemanaLectivos.size() * (tarde1.getDuracionHoras() + tarde2.getDuracionHoras());
         } else {
-            return diasSemanaLectivos.size() * (mañana1.duracion() + mañana2.duracion());
+            return diasSemanaLectivos.size() * (mañana1.getDuracionHoras() + mañana2.getDuracionHoras());
         }
     }
 }
