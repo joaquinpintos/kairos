@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.printDialogs;
 
 import data.DataProyecto;
@@ -11,6 +10,7 @@ import data.aulas.Aula;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -39,13 +39,14 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
 
     /**
      * Creates new form JDlgPrintHojaDeFirma
+     *
      * @param dataProyecto
      * @param parent
      * @param modal
      */
-    public JDlgPrintHojaDeFirma(java.awt.Frame parent, boolean modal,DataProyecto dataProyecto) {
+    public JDlgPrintHojaDeFirma(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto) {
         super(parent, modal);
-        this.dataProyecto=dataProyecto;
+        this.dataProyecto = dataProyecto;
         initComponents();
 
         // Close the dialog when Esc is pressed
@@ -60,12 +61,11 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
             }
         });
         //Relleno combo con datos de aulas
-        for (Aula aula:dataProyecto.getDataAulas().getAulas())
-        {
-            jComboAulas.addItem(aula);
+        ArrayList<Aula> listData = new ArrayList<Aula>();
+        for (Aula aula : dataProyecto.getDataAulas().getAulas()) {
+            listData.add(aula);
         }
-        AutoCompleteDecorator.decorate(jComboAulas);
-        
+        JListAulas.setListData(listData.toArray());
     }
 
     /**
@@ -90,8 +90,8 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         jXDateFinal = new org.jdesktop.swingx.JXDatePicker();
-        jXLabel3 = new org.jdesktop.swingx.JXLabel();
-        jComboAulas = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        JListAulas = new javax.swing.JList();
 
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -130,14 +130,19 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
             }
         });
 
-        jXLabel3.setText("Aula:");
+        jScrollPane1.setViewportView(JListAulas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 93, Short.MAX_VALUE)
+                        .addComponent(cancelButton)
+                        .addGap(26, 26, 26)
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,21 +150,13 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
                                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jXDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jComboAulas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jXDateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(cancelButton)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jXDateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, okButton});
@@ -168,22 +165,22 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jXDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jXDateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXDateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboAulas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(okButton))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(okButton)
+                    .addComponent(cancelButton))
+                .addContainerGap())
         );
 
         getRootPane().setDefaultButton(okButton);
@@ -213,18 +210,17 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
     private void jXDateFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDateFinalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jXDateFinalActionPerformed
-    
+
     private void doClose(int retStatus) {
         returnStatus = retStatus;
         File fileDst = null;
-        if (retStatus==RET_OK)
-        {
-             JFileChooser fc = new JFileChooser(dataProyecto.getPathForPDF());
-                fc.setDialogTitle("Elige el nombre del archivo a guardar:");
+        if (retStatus == RET_OK) {
+            JFileChooser fc = new JFileChooser(dataProyecto.getPathForPDF());
+            fc.setDialogTitle("Elige el nombre del archivo a guardar:");
             int valorDevuelto = fc.showOpenDialog(this);
 
             if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
-                  fileDst = fc.getSelectedFile();
+                fileDst = fc.getSelectedFile();
                 dataProyecto.setPathForPDF(fileDst);
             }
             GregorianCalendar fechaInicio = new GregorianCalendar();
@@ -232,25 +228,24 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
             fechaInicio.setTime(jXDateInicio.getDate());
             fechaFinal.setTime(jXDateFinal.getDate());
             //Código para generar un pdf con las hojas de firma
-            Aula aula=(Aula) jComboAulas.getSelectedItem();
-            HojaDeFirmaPrinter printer=new HojaDeFirmaPrinter(dataProyecto, fileDst, aula, fechaInicio, fechaFinal);
+            ArrayList<Aula> aulas = new ArrayList<Aula>(JListAulas.getSelectedValuesList());
+            HojaDeFirmaPrinter printer = new HojaDeFirmaPrinter(dataProyecto, fileDst, aulas, fechaInicio, fechaFinal);
             printer.imprime();
         }
-        
-        
+
         setVisible(false);
         dispose();
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList JListAulas;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JComboBox jComboAulas;
+    private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jXDateFinal;
     private org.jdesktop.swingx.JXDatePicker jXDateInicio;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
-    private org.jdesktop.swingx.JXLabel jXLabel3;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 

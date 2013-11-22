@@ -21,6 +21,7 @@ import org.w3c.dom.Node;
  * @author david
  */
 public class CalendarioAcademico implements Serializable {
+
     //Array con los días de la semana lectivos 1=lunes,...,5=viernes
     private ArrayList<Integer> diasSemanaLectivos;
     GregorianCalendar inicioPeriodoLectivo, finPeriodoLectivo;
@@ -464,4 +465,29 @@ public class CalendarioAcademico implements Serializable {
             return diasSemanaLectivos.size() * (mañana1.getDuracionHoras() + mañana2.getDuracionHoras());
         }
     }
+
+    public String nombreDiaSemana(GregorianCalendar dia) {
+        String resul = "";
+        switch (dia.get(GregorianCalendar.DAY_OF_WEEK)) {
+            case GregorianCalendar.MONDAY:
+                resul = MyConstants.DIAS_SEMANA[0];
+                break;
+            case GregorianCalendar.TUESDAY:
+                resul = MyConstants.DIAS_SEMANA[1];
+                break;
+            case GregorianCalendar.WEDNESDAY:
+                resul = MyConstants.DIAS_SEMANA[2];
+                break;
+            case GregorianCalendar.THURSDAY:
+                resul = MyConstants.DIAS_SEMANA[3];
+                break;
+            case GregorianCalendar.FRIDAY:
+                resul = MyConstants.DIAS_SEMANA[4];
+                break;
+            default:
+                break;
+        }
+        return resul;
+    }
+
 }

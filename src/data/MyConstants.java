@@ -6,7 +6,6 @@ package data;
 
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**

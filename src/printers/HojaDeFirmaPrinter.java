@@ -5,11 +5,11 @@
  */
 package printers;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,6 +18,7 @@ import data.DataProyecto;
 import data.Hora;
 import data.aulas.Aula;
 import data.horarios.HorarioItem;
+import data.profesores.Profesor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,14 +35,14 @@ import java.util.logging.Logger;
  */
 public class HojaDeFirmaPrinter {
 
-    Aula aula;
+    ArrayList<Aula> aulas;
     GregorianCalendar inicio;
     GregorianCalendar fin;
     private final DataProyecto dp;
     private final File fileDst;
 
-    public HojaDeFirmaPrinter(DataProyecto dataProyecto, File fileDst, Aula aula, GregorianCalendar inicio, GregorianCalendar fin) {
-        this.aula = aula;
+    public HojaDeFirmaPrinter(DataProyecto dataProyecto, File fileDst, ArrayList<Aula> aulas, GregorianCalendar inicio, GregorianCalendar fin) {
+        this.aulas = aulas;
         this.inicio = inicio;
         this.fin = fin;
         this.dp = dataProyecto;
@@ -58,53 +59,44 @@ public class HojaDeFirmaPrinter {
             Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
         doc.open();
+        for (Aula aula:aulas){
         ArrayList<GregorianCalendar> dias = dp.getCalendarioAcadémico().getArrayDiasLectivos(inicio, fin);
         for (GregorianCalendar dia : dias) {
-            creaHojaDeFirma(doc, dia);
+            creaHojaDeFirma(doc, aula,dia);
             doc.newPage();
-        }
+        }}
         doc.close();
     }
 
-    private void creaHojaDeFirma(Document doc, GregorianCalendar dia) {
+    private void creaHojaDeFirma(Document doc, Aula aula,GregorianCalendar dia) {
+        ArrayList<HorarioItem> data = calculaClasesEsteDia(aula,dia);
         try {
-            creaCabecera(doc, dia);
-            creaCuerpo(doc, dia);
+            if (!data.isEmpty()) {
+                creaCabecera(doc, aula,dia);
+                creaCuerpo(doc, dia, data);
+            }
         } catch (DocumentException ex) {
             Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void creaCabecera(Document doc, GregorianCalendar dia) throws DocumentException {
+    private void creaCabecera(Document doc, Aula aula, GregorianCalendar dia) throws DocumentException {
         CalendarioAcademico cal = dp.getCalendarioAcadémico();
         Font font = new Font(Font.FontFamily.HELVETICA, 16);
-        Paragraph par = new Paragraph("Hoja de firma para aula " + aula.getNombre() + " correspondiente al día " + cal.format(dia),font);
+        Font fontbold = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+        String diaSemana = cal.nombreDiaSemana(dia);
+        Paragraph par = new Paragraph();
+        par.add(new Phrase("Hoja de firma para aula ", font));
+        par.add(new Phrase(aula.getNombre(), fontbold));
+        par.add(new Phrase(" correspondiente al día ", font));
+        par.add(new Phrase(diaSemana + " " + cal.format(dia), fontbold));
 
         par.setAlignment(Paragraph.ALIGN_CENTER);
         boolean add = doc.add(par);
         par.setAlignment(Paragraph.ALIGN_CENTER);
     }
 
-    private void creaCuerpo(Document doc, GregorianCalendar dia) {
-        //TODO: Falta comprobar que h sea del dia en cuestion
-
-        ArrayList<Integer> diasDeLaSemana = new ArrayList<Integer>();
-        diasDeLaSemana.add(GregorianCalendar.MONDAY);
-        diasDeLaSemana.add(GregorianCalendar.TUESDAY);
-        diasDeLaSemana.add(GregorianCalendar.WEDNESDAY);
-        diasDeLaSemana.add(GregorianCalendar.THURSDAY);
-        diasDeLaSemana.add(GregorianCalendar.FRIDAY);
-        int aux = dia.get(GregorianCalendar.DAY_OF_WEEK);
-        //Lunes->1, Martes-2,...,Viernes->5
-        int diaSemana = diasDeLaSemana.indexOf(aux) + 1;
-
-        ArrayList<HorarioItem> data = new ArrayList<HorarioItem>();
-        ArrayList<HorarioItem> horarios = dp.getHorario().getHorarios();
-        for (HorarioItem h : horarios) {
-            if ((diaSemana == h.getDiaSemana()) && (h.getAula().equals(aula)) && (!h.isHuecoLibre())) {
-                data.add(h);
-            }
-        }
+    private void creaCuerpo(Document doc, GregorianCalendar dia, ArrayList<HorarioItem> data) {
 
         Collections.sort(data, new ComparatorHorarioItems());
 
@@ -112,17 +104,17 @@ public class HojaDeFirmaPrinter {
         t.setSpacingBefore(15f);
         t.setSpacingAfter(10f);
         t.setWidthPercentage(100);
-        Font font = new Font(Font.FontFamily.HELVETICA, 14);
-        PdfPCell c = new PdfPCell(new Paragraph("Asignatura", font));
+        Font fontbold = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+        PdfPCell c = new PdfPCell(new Paragraph("Asignatura", fontbold));
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         c.setPadding(5);
         t.addCell(c);
-        c = new PdfPCell(new Paragraph("Firma", font));
+        c = new PdfPCell(new Paragraph("Firma", fontbold));
         c.setPadding(5);
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         c.setPadding(5);
         t.addCell(c);
-        c = new PdfPCell(new Paragraph("Incidencias", font));
+        c = new PdfPCell(new Paragraph("Incidencias", fontbold));
         c.setPadding(5);
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         t.addCell(c);
@@ -137,15 +129,38 @@ public class HojaDeFirmaPrinter {
 
     }
 
+    protected ArrayList<HorarioItem> calculaClasesEsteDia(Aula aula,GregorianCalendar dia) {
+        ArrayList<Integer> diasDeLaSemana = new ArrayList<Integer>();
+        diasDeLaSemana.add(GregorianCalendar.MONDAY);
+        diasDeLaSemana.add(GregorianCalendar.TUESDAY);
+        diasDeLaSemana.add(GregorianCalendar.WEDNESDAY);
+        diasDeLaSemana.add(GregorianCalendar.THURSDAY);
+        diasDeLaSemana.add(GregorianCalendar.FRIDAY);
+        int aux = dia.get(GregorianCalendar.DAY_OF_WEEK);
+        //Lunes->1, Martes-2,...,Viernes->5
+        int diaSemana = diasDeLaSemana.indexOf(aux) + 1;
+        ArrayList<HorarioItem> data = new ArrayList<HorarioItem>();
+        ArrayList<HorarioItem> horarios = dp.getHorario().getHorarios();
+        for (HorarioItem h : horarios) {
+            if ((diaSemana == h.getDiaSemana()) && (h.getAula().equals(aula)) && (!h.isHuecoLibre())) {
+                data.add(h);
+            }
+        }
+        return data;
+    }
+
     protected void creaFilaFirma(PdfPTable t, HorarioItem h) {
-        Paragraph p = new Paragraph(h.getRangoHoras() + "\n" + h.getAsignatura().getNombre());
+        Font font = new Font(Font.FontFamily.HELVETICA, 14);
+        Font fontProfe = new Font(Font.FontFamily.HELVETICA, 10);
+        Paragraph p = new Paragraph(h.getRangoHoras() + "\n" + h.getAsignatura().getNombre(), font);
         PdfPCell c = new PdfPCell(p);
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         c.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         c.setPadding(5);
         c.setFixedHeight(60);
         t.addCell(c);
-        p = new Paragraph(h.getProfesor().toString() + ":");
+        String nombreProfesor = h.getProfesor().getNombre() + " " + h.getProfesor().getApellidos();
+        p = new Paragraph(nombreProfesor + ":", fontProfe);
         c = new PdfPCell(p);
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         c.setPadding(5);

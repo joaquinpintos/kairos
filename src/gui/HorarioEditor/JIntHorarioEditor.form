@@ -248,19 +248,6 @@
                 <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.RigidArea"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButCalcularHorasCreditos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButCalcularHorasCreditosActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButCrearPDF">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jButton2"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabPeso">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jLabel1"/>

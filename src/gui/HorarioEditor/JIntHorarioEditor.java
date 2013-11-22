@@ -10,7 +10,6 @@ import data.DataProyectoListener;
 import data.MyConstants;
 import data.horarios.Horario;
 import gui.DatosEditor.DataGUIInterface;
-import gui.MainWindowTabbed;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -100,8 +99,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jPanel2 = new javax.swing.JPanel();
         jButVolverAOptimizar = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
-        jButCalcularHorasCreditos = new javax.swing.JButton();
-        jButCrearPDF = new javax.swing.JButton();
         jLabPeso = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
 
@@ -189,17 +186,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jPanel2.add(jButVolverAOptimizar);
         jPanel2.add(filler2);
 
-        jButCalcularHorasCreditos.setText("jButton1");
-        jButCalcularHorasCreditos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButCalcularHorasCreditosActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButCalcularHorasCreditos);
-
-        jButCrearPDF.setText("jButton2");
-        jPanel2.add(jButCrearPDF);
-
         jLabPeso.setText("jLabel1");
         jPanel2.add(jLabPeso);
 
@@ -243,15 +229,11 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         updateData();
     }//GEN-LAST:event_jButVolverAOptimizarActionPerformed
 
-    private void jButCalcularHorasCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButCalcularHorasCreditosActionPerformed
-    }//GEN-LAST:event_jButCalcularHorasCreditosActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
-    private javax.swing.JButton jButCalcularHorasCreditos;
-    private javax.swing.JButton jButCrearPDF;
     private javax.swing.JButton jButVolverAOptimizar;
     private javax.swing.JLabel jLabPeso;
     private javax.swing.JList jListAulas;
@@ -497,6 +479,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainWindow.getjIntgenGenetic().setVisible(true);
                 mainWindow.switchToComponent(mainWindow.getjIntgenGenetic());
                 try {
                     mainWindow.getjIntgenGenetic().doGenetic(dk.getDP().getHorario().getSolucion());
@@ -525,13 +508,13 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
             }
         }
         CalculaHorasAsignaturasAction calculaHorasAsignadasAction = new CalculaHorasAsignaturasAction();
-        jButCalcularHorasCreditos.setAction(calculaHorasAsignadasAction);
+//        jButCalcularHorasCreditos.setAction(calculaHorasAsignadasAction);
     }
 }
 
 class JListRestriccionesModel extends AbstractListModel<Restriccion> {
 
-    private ArrayList<Restriccion> data;
+    private final ArrayList<Restriccion> data;
 
     public JListRestriccionesModel() {
         this.data = new ArrayList<Restriccion>();
