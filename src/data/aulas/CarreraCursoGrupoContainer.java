@@ -11,12 +11,12 @@ import java.io.Serializable;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class CarreraCursoGrupoContainer implements Comparable<CarreraCursoGrupoContainer>,Serializable {
+public class CarreraCursoGrupoContainer implements Comparable<CarreraCursoGrupoContainer>, Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String hash;
     private String nombre;
     private String aulaNombre;
-    
 
     /**
      *
@@ -98,15 +98,10 @@ public class CarreraCursoGrupoContainer implements Comparable<CarreraCursoGrupoC
         return true;
     }
 
-   
-
-   
-
     @Override
     public int compareTo(CarreraCursoGrupoContainer o) {
         return nombre.compareTo(o.getNombre());
     }
-
 
     /**
      *

@@ -34,6 +34,11 @@ public class MainWindowTabbed extends AbstractMainWindow {
         });
     }
 
+    /**
+     *
+     * @param nombre
+     * @param tab
+     */
     @Override
     protected void addTab(String nombre, JInternalFrame tab) {
         jTabPrincipal.add(nombre, tab);
@@ -170,6 +175,10 @@ public class MainWindowTabbed extends AbstractMainWindow {
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     *
+     * @param dataIF
+     */
     @Override
     public void switchToComponent(DataGUIInterface dataIF) {
         jTabPrincipal.setSelectedComponent((Component) dataIF);

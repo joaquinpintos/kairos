@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 public class Aula implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     String nombre;
     private final ListaAsignaciones asignacionesMañana;
     private final ListaAsignaciones asignacionesTarde;
@@ -70,7 +71,6 @@ public class Aula implements Serializable {
         return resul;
     }
 
-
     /**
      *
      * @return
@@ -86,8 +86,6 @@ public class Aula implements Serializable {
     public ListaAsignaciones getAsignacionesTarde() {
         return asignacionesTarde;
     }
-
-
 
     @Override
     public int hashCode() {
@@ -124,9 +122,8 @@ public class Aula implements Serializable {
      * @param value
      */
     public void setDirty(boolean value) {
-        try {
-        parent.setDirty(value);
-        } catch (NullPointerException e) {
+        if (parent != null) {
+            parent.setDirty(value);
         }
     }
 }

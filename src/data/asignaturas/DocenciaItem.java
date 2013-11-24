@@ -10,13 +10,14 @@ import java.io.Serializable;
  *
  * @author david
  */
-public class DocenciaItem implements Comparable,Serializable{
+public class DocenciaItem implements Comparable, Serializable {
 
-    private Carrera carrera;
-    private Curso curso;
-    private Asignatura asignatura;
-    private Grupo grupo;
-    private Tramo tramo;
+    private static final long serialVersionUID = 1L;
+    private final Carrera carrera;
+    private final Curso curso;
+    private final Asignatura asignatura;
+    private final Grupo grupo;
+    private final Tramo tramo;
 
     /**
      *
@@ -31,14 +32,13 @@ public class DocenciaItem implements Comparable,Serializable{
 //        this.asignatura = asignatura;
 //        this.grupo = grupo;
 //    }
-
     /**
      *
      * @param tr
-     * 
+     *
      */
     public DocenciaItem(Tramo tr) {
-        this.tramo=tr;
+        this.tramo = tr;
         this.grupo = tr.getParent().getParent();
         this.asignatura = this.grupo.getParent();
         this.curso = this.asignatura.getParent();
@@ -66,13 +66,6 @@ public class DocenciaItem implements Comparable,Serializable{
         return carrera;
     }
 
-    /**
-     *
-     * @param carrera
-     */
-    public void setCarrera(Carrera carrera) {
-        this.carrera = carrera;
-    }
 
     /**
      *
@@ -82,13 +75,6 @@ public class DocenciaItem implements Comparable,Serializable{
         return curso;
     }
 
-    /**
-     *
-     * @param curso
-     */
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
 
     /**
      *
@@ -98,13 +84,6 @@ public class DocenciaItem implements Comparable,Serializable{
         return asignatura;
     }
 
-    /**
-     *
-     * @param asignatura
-     */
-    public void setAsignatura(Asignatura asignatura) {
-        this.asignatura = asignatura;
-    }
 
     /**
      *
@@ -114,16 +93,32 @@ public class DocenciaItem implements Comparable,Serializable{
         return grupo;
     }
 
-    /**
-     *
-     * @param grupo
-     */
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
-    }
 
     @Override
     public int compareTo(Object o) {
-         return this.toString().compareTo(o.toString());
+        return this.toString().compareTo(o.toString());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + (this.tramo != null ? this.tramo.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DocenciaItem other = (DocenciaItem) obj;
+        if (this.tramo != other.tramo && (this.tramo == null || !this.tramo.equals(other.tramo))) {
+            return false;
+        }
+        return true;
+    }
+
 }

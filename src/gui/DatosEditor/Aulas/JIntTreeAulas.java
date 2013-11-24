@@ -101,6 +101,10 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         return jTreeAulas;
     }
     
+    /**
+     *
+     * @return
+     */
     public JTree getjTreeGrupoCursos() {
         return jTreeGrupoCursos;
     }

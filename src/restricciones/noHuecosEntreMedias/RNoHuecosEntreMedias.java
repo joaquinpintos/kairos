@@ -4,9 +4,7 @@
  */
 package restricciones.noHuecosEntreMedias;
 
-import data.MyConstants;
 import data.genetic.Asignacion;
-import data.genetic.ListaCasillas;
 import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
@@ -14,18 +12,17 @@ import java.util.HashMap;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import data.restricciones.Restriccion;
-import java.io.Serializable;
 
 /**
  * Comprueba que no haya huecos entre medias ni haya menos de 3 horas por clase
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RNoHuecosEntreMedias extends Restriccion implements Serializable {
+public class RNoHuecosEntreMedias extends Restriccion {
 
     private boolean tramoConHuecosEsteDia;
     private boolean diasPocoOcupados;
-    private HashMap<String, Integer> numeroCasillasPorDia;
+    final private HashMap<String, Integer> numeroCasillasPorDia;
     private boolean tramoConHuecosGlobal;
     private boolean penalizarHuecos;
     private boolean penalizarPocasClases;
@@ -40,13 +37,14 @@ public class RNoHuecosEntreMedias extends Restriccion implements Serializable {
         this.penalizarHuecos = true;
         this.penalizarPocasClases = true;
         setUnique(true);//Restricción única. No puede repetirse.
+        numeroCasillasPorDia = new HashMap<String, Integer>();
     }
 
     @Override
     public void inicializarDatos() {
         //Para cada aula, calculo cuántos casillas contiene cada día
         //VERSION-DEPENDENT: Depende de que cada día tenga el mísmo número de casillas!
-        numeroCasillasPorDia = new HashMap<String, Integer>();
+        numeroCasillasPorDia.clear();
         int numDiasPorSemana = dataProyecto.getDiasSemanaLectivos().size();
         for (String hashAula : dataProyecto.getMapDatosPorAula().keySet()) {
             int numCasillas = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas().size();
@@ -69,8 +67,8 @@ public class RNoHuecosEntreMedias extends Restriccion implements Serializable {
         double coef = 1.3;
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
             Asignacion asig = posibleSolucion.getMapAsignaciones().get(hashAula);
-            int numCasillas = asig.getNumCasillas();
-            int num2 = asig.getAsignaciones().size();
+//            int numCasillas = asig.getNumCasillas();
+//            int num2 = asig.getAsignaciones().size();
             int state;
             //state 0: en casillas libres de principio mañana/tarde
             //paso a 1 si encuentro casilla ocupada
@@ -79,7 +77,7 @@ public class RNoHuecosEntreMedias extends Restriccion implements Serializable {
             //state 2: en casillas libres de fin mañana/tarde
             //Si casilla libre aquí, falla test en este turno
             //0, 1 y 2
-            ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
+//            ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
             ListaSegmentos ls = dataProyecto.getMapDatosPorAula().get(hashAula).getListaSegmentos();
             Segmento s;
             tramoConHuecosEsteDia = false;

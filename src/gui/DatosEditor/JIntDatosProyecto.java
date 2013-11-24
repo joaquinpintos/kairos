@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.xml.bind.DataBindingException;
 
 /**
  *
@@ -67,9 +66,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                 calculaDiasLectivosTotales();
             }
         }
-        MyChangeListener myChangeListener = new MyChangeListener();
         MyActionListener myActionListener = new MyActionListener();
-        //jCheckLunes.addChangeListener(myChangeListener);
         jCheckLunes.addActionListener(myActionListener);
         jCheckMartes.addActionListener(myActionListener);
         jCheckMiercoles.addActionListener(myActionListener);
@@ -495,7 +492,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
      */
     @Override
     public void updateData() {
-        try {
             DataProyecto dp=dk.getDP();
             //Cambio titulo ventana
             mainwindow.setTitle("Kairos - " + dp.getConfigProyecto().getNombreProyecto());
@@ -520,18 +516,14 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
             //Cambio campos inicio/final periodo lectivo
             jXDateInicioPeriodoLectivo.setDate(dp.getCalendarioAcadémico().getInicio().getTime());
             jXDateFinPeriodoLectivo.setDate(dp.getCalendarioAcadémico().getFin().getTime());
-
-            //Creo cuadro de texto con todos los días no lectivos
-            String texto = "";
+            StringBuilder texto = new StringBuilder();
             for (int n = 0; n < dp.getCalendarioAcadémico().getDiasNoLectivos().size(); n++) {
-                texto += dp.getCalendarioAcadémico().getDiasNoLectivos().get(n) + "  ";
-                texto += dp.getCalendarioAcadémico().getDescripcionDiasNoLectivos().get(n) + "\n";
+                texto.append(dp.getCalendarioAcadémico().getDiasNoLectivos().get(n)).append("  ");
+                texto.append(dp.getCalendarioAcadémico().getDescripcionDiasNoLectivos().get(n)).append("\n");
             }
-            jTextAreaDiasNoLectivos.setText(texto);
+            jTextAreaDiasNoLectivos.setText(texto.toString());
             calculaDiasLectivosTotales();
             jTextGruposPorDefecto.setText(dp.getConfigProyecto().getGruposPorDefecto());
-        } catch (Exception ex) {
-        }
         
     }
 
@@ -549,7 +541,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
             cal.setFin(jXDateFinPeriodoLectivo.getDate());
             if (cal.getInicio().compareTo(cal.getFin()) > 0) {
                 throw new ParseException("Fecha final es menor que la fecha inicial", 0);
-            };
+            }
             ArrayList<GregorianCalendar> resul = cal.getArrayDiasLectivos();
             jLabResulDias.setText("" + resul.size());
 
@@ -601,7 +593,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
             dk.getDP().setTarde1(new RangoHoras(jTextHoraTardeInicio1.getText(), jTextHoraTardeFin1.getText()));
             dk.getDP().setTarde2(new RangoHoras(jTextHoraTardeInicio2.getText(), jTextHoraTardeFin2.getText()));
         } catch (NumberFormatException ex) {
-        };
+        }
         //Guardo ahora en un array los días lectivos semanales
         ArrayList<Integer> ar = new ArrayList<Integer>();
         if (jCheckLunes.isSelected()) {
@@ -657,13 +649,5 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     @Override
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainwindow = mainWindow;
-    }
-
-    private void desmarcaErrores() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void marcaErrorFechas(String fechas_de_iniciofin_no_válidas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

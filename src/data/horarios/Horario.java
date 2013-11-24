@@ -15,11 +15,12 @@ import java.util.HashMap;
  *
  * @author david
  */
-public class Horario  implements Serializable{
+public class Horario implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<HorarioItem> horarios;
     private PosibleSolucion solucion;
-    private HashMap<String, HashMap<Integer, HorarioItem>> mapAulasSegmentoToHorarioItem;
+    private final HashMap<String, HashMap<Integer, HorarioItem>> mapAulasSegmentoToHorarioItem;
 //    private HashMap<Integer,HorarioItem> mapHashCodeToHorarioItem;
 
     /**
@@ -38,7 +39,6 @@ public class Horario  implements Serializable{
      *
      * @return the value of dataProyecto
      */
-
     public PosibleSolucion getSolucion() {
         return solucion;
     }
@@ -118,15 +118,14 @@ public class Horario  implements Serializable{
 
         mapAulasSegmentoToHorarioItem.get(hashAula).put(k, item);
     }
-    
+
     /**
      *
      * @param hashAula
      * @param numSegmento
      * @return
      */
-    public HorarioItem getHorarioItemFor(String hashAula, int numSegmento)
-    {
+    public HorarioItem getHorarioItemFor(String hashAula, int numSegmento) {
         return mapAulasSegmentoToHorarioItem.get(hashAula).get(numSegmento);
     }
 
@@ -143,7 +142,7 @@ public class Horario  implements Serializable{
      */
     public void clear() {
         horarios.clear();
-        solucion=null;
+        solucion = null;
         mapAulasSegmentoToHorarioItem.clear();
     }
 
@@ -154,5 +153,5 @@ public class Horario  implements Serializable{
     public void setSolucion(PosibleSolucion solucion) {
         this.solucion = solucion;
     }
-    
+
 }

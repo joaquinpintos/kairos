@@ -5,7 +5,6 @@
 package data.asignaturas;
 
 import data.DataProyectoListener;
-import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
@@ -18,6 +17,7 @@ import java.util.Collections;
  */
 public class Carrera implements Serializable, Teachable {
 
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private DataAsignaturas parent;
     private final ArrayList<Curso> cursos;
@@ -30,7 +30,7 @@ public class Carrera implements Serializable, Teachable {
     public Carrera(String nombre) {
         this.nombre = nombre;
         this.cursos = new ArrayList<Curso>();
-        algunoSinAula=true;
+        algunoSinAula = true;
     }
 
     /**
@@ -102,9 +102,8 @@ public class Carrera implements Serializable, Teachable {
     }
 
     void setDirty(boolean value) {
-        try {
+        if (parent != null) {
             parent.setDirty(value);
-        } catch (NullPointerException e) {
         }
     }
 
@@ -116,6 +115,10 @@ public class Carrera implements Serializable, Teachable {
         this.parent = parent;
     }
 
+    /**
+     *
+     * @param profesor
+     */
     @Override
     public void setDocente(Profesor profesor) {
         for (Curso c : cursos) {
@@ -123,6 +126,9 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeDocente() {
         for (Curso c : cursos) {
@@ -130,10 +136,19 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
+    /**
+     *
+     * @param obj
+     * @param type
+     */
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }
 
+    /**
+     *
+     * @param aula
+     */
     @Override
     public void asignaAula(AulaMT aula) {
         for (Curso c : cursos) {
@@ -141,6 +156,9 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeAula() {
         for (Curso c : cursos) {
@@ -148,6 +166,9 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
+    /**
+     *
+     */
     public void updateAsigAulaStatus() {
         boolean resul = false;
         for (Curso c : cursos) {
@@ -161,16 +182,19 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
 
     void removeAllCursos() {
         ArrayList<Curso> cursosClone = (ArrayList<Curso>) cursos.clone();
-        for (Curso cu:cursosClone)
-        {
+        for (Curso cu : cursosClone) {
             removeCurso(cu);
         }
-            
+
     }
 }

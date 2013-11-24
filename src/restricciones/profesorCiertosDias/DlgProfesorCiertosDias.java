@@ -36,9 +36,10 @@ public class DlgProfesorCiertosDias extends javax.swing.JDialog {
 
     /**
      * Creates new form DlgProfesorCiertosDias
+     *
      * @param parent
      * @param modal
-     * @param rProfesorCiertosDias  
+     * @param rProfesorCiertosDias
      */
     public DlgProfesorCiertosDias(java.awt.Frame parent, boolean modal, RProfesorCiertosDias rProfesorCiertosDias) {
         super(parent, modal);
@@ -69,14 +70,15 @@ public class DlgProfesorCiertosDias extends javax.swing.JDialog {
         jTextJueves.setText(r.getRangos().get(4).toString());
         jTextViernes.setText(r.getRangos().get(5).toString());
         dataProfesoresCombo = r.getDataProyecto().getDataProfesores().getTodosProfesores();
-        for (Profesor p:dataProfesoresCombo) jComboProfesores.addItem(p);
+        for (Profesor p : dataProfesoresCombo) {
+            jComboProfesores.addItem(p);
+        }
         AutoCompleteDecorator.decorate(jComboProfesores);
 //        AutoCompleteSupport.install(jComboProfesores, GlazedLists.eventList(profesoresCombo));
         if (r.getProfesor() != null) {
             jComboProfesores.setSelectedItem(r.getProfesor());
         }
         jTextObservaciones.setText(r.getObservaciones());
-
 
         this.addKeyListener(new KeyListener() {
             @Override
@@ -296,8 +298,6 @@ public class DlgProfesorCiertosDias extends javax.swing.JDialog {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
 
-
-
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -313,23 +313,19 @@ public class DlgProfesorCiertosDias extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void doClose(int retStatus) {
-        try {
-            if (retStatus == RET_OK) {
-                r.setProfesor((Profesor) jComboProfesores.getSelectedItem());
-                r.setPuedeEstosDias(jRadPuedeEstosDias.isSelected());
-                r.setLunes(jTextLunes.getText());
-                r.setMartes(jTextMartes.getText());
-                r.setMiercoles(jTextMiercoles.getText());
-                r.setJueves(jTextJueves.getText());
-                r.setViernes(jTextViernes.getText());
-                r.setObservaciones(jTextObservaciones.getText());
-            }
-            returnStatus = retStatus;
-            setVisible(false);
-            dispose();
-        } catch (Exception e) {//Si hay alguna excepción, no dejo cerrar la ventanica
-            System.out.println("Error al editar el profesor!");
+        if (retStatus == RET_OK) {
+            r.setProfesor((Profesor) jComboProfesores.getSelectedItem());
+            r.setPuedeEstosDias(jRadPuedeEstosDias.isSelected());
+            r.setLunes(jTextLunes.getText());
+            r.setMartes(jTextMartes.getText());
+            r.setMiercoles(jTextMiercoles.getText());
+            r.setJueves(jTextJueves.getText());
+            r.setViernes(jTextViernes.getText());
+            r.setObservaciones(jTextObservaciones.getText());
         }
+        returnStatus = retStatus;
+        setVisible(false);
+        dispose();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

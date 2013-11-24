@@ -139,6 +139,10 @@ public class DraggableHorarioItemComponent extends JPanel {
         }
     }
 
+    /**
+     *
+     * @param markLevel
+     */
     public void setMarkLevel(int markLevel) {
         h.setMarkLevel(markLevel);
         drawConflictivo();

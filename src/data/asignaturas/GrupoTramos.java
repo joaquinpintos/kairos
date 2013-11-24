@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class GrupoTramos implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<Tramo> vectorTramos;
     private Grupo parent;
     private boolean algunoSinAula;
@@ -94,14 +95,27 @@ public class GrupoTramos implements Serializable {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public Grupo getParent() {
         return parent;
     }
 
+    /**
+     *
+     * @param parent
+     */
     public void setParent(Grupo parent) {
         this.parent = parent;
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     public Tramo getNotAssigned(int index) {
         Tramo resul = null;
         int visibleIndex = -1;
@@ -118,6 +132,10 @@ public class GrupoTramos implements Serializable {
         return resul;
     }
 
+    /**
+     *
+     * @return
+     */
     public int sizeNotAssigned() {
         int visibleCount = 0;
         for (Tramo tr : vectorTramos) {
@@ -128,6 +146,9 @@ public class GrupoTramos implements Serializable {
         return visibleCount;
     }
 
+    /**
+     *
+     */
     public void updateAsigAulaStatus() {
         boolean resul = false;
         for (Tramo tr : vectorTramos) {
@@ -143,10 +164,19 @@ public class GrupoTramos implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
 
+    /**
+     *
+     * @param obj
+     * @param type
+     */
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }

@@ -7,7 +7,6 @@ package data.horarios;
 import data.DataProyecto;
 import data.Hora;
 import data.RangoHoras;
-import data.horarios.HorarioItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -211,12 +210,11 @@ public class DatosHojaHorario {
                 {
                     boolean hayQueRellenar = true;
                     //Hago un bucle "para arriba" a ver si pertenece a un horarioitem largo
-                    LoopRellenar:
                     for (int n = 1; n <=numFila; n++) {
                         HorarioItem h2 = retrieveData(numDia, numFila - n);
                         if ((h2 != null) && (h2.getNumeroDeCasillasQueOcupa() > n)) {
                             hayQueRellenar = false;
-                            break LoopRellenar;
+                            break;
                         }
                     }
                     if (hayQueRellenar) {
@@ -236,25 +234,25 @@ public class DatosHojaHorario {
 
     @Override
     public String toString() {
-        String resul = "";
+        StringBuilder resul = new StringBuilder("");
         for (int numFila = 0; numFila < rangosHoras.size(); numFila++) {
-            resul += rangosHoras.get(numFila) + "\t";
+            resul.append(rangosHoras.get(numFila)).append("\t");
             for (int dia = 1; dia < 6; dia++) {
                 HorarioItem h = retrieveData(dia, numFila);
                 if (h == null) {
-                    resul += "null\t";
+                    resul.append("null\t");
                 } else {
                     if (h.isHuecoLibre()) {
-                        resul += "libr\t";
+                        resul.append("libr\t");
                     } else {
-                        resul += h.getProfesor().getNombreCorto() + "\t";
+                        resul.append(h.getProfesor().getNombreCorto()).append("\t");
                     }
 
                 }
             }
-            resul += "\n";
+            resul.append("\n");
         }
-        return resul;
+        return resul.toString();
     }
 
     /**

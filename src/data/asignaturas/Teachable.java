@@ -6,7 +6,6 @@
 
 package data.asignaturas;
 
-import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 
@@ -15,9 +14,27 @@ import data.profesores.Profesor;
  * @author david
  */
 public interface Teachable {
+
+    /**
+     *
+     * @param profesor
+     */
     public void setDocente(Profesor profesor);
+
+    /**
+     *
+     */
     public void removeDocente();
+
+    /**
+     *
+     * @param aula
+     */
     public void asignaAula(AulaMT aula);
+
+    /**
+     *
+     */
     public void removeAula();
     
 }

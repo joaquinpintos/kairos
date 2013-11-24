@@ -21,11 +21,16 @@ import java.util.ArrayList;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class GrupoCursos implements DataProyectoListener, Serializable, Teachable {
-
+private static final long serialVersionUID = 1L;
     private final ArrayList<Grupo> grupos;
     private final String nombreGrupo;
     private final Curso curso;
 
+    /**
+     *
+     * @param nombreGrupo
+     * @param curso
+     */
     public GrupoCursos(String nombreGrupo, Curso curso) {
         this.nombreGrupo = nombreGrupo;
         this.curso = curso;
@@ -41,22 +46,44 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNombreGrupo() {
         return nombreGrupo;
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     public Grupo get(int index) {
         return grupos.get(index);
     }
 
+    /**
+     *
+     * @return
+     */
     public int size() {
         return grupos.size();
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     public int indexOf(Object o) {
         return grupos.indexOf(o);
     }
 
+    /**
+     *
+     * @return
+     */
     public Curso getCurso() {
         return curso;
     }
@@ -84,6 +111,10 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
         }
     }
 
+    /**
+     *
+     * @param gr
+     */
     public void addGrupo(Grupo gr) {
         if (gr.getNombre().equals(nombreGrupo)) {
             add(gr);
@@ -96,6 +127,10 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
         }
     }
 
+    /**
+     *
+     * @param gr
+     */
     public void removeGrupo(Grupo gr) {
         grupos.remove(gr);
     }
@@ -126,10 +161,18 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Grupo> getGrupos() {
         return grupos;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean algunoSinAula() {
         boolean resul = false;
         for (Grupo gr : grupos) {
@@ -141,14 +184,25 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
         return resul;
     }
 
+    /**
+     *
+     * @param profesor
+     */
     @Override
     public void setDocente(Profesor profesor) {
     }
 
+    /**
+     *
+     */
     @Override
     public void removeDocente() {
     }
 
+    /**
+     *
+     * @param aula
+     */
     @Override
     public void asignaAula(AulaMT aula) {
         for (Grupo gr : grupos) {
@@ -156,6 +210,9 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeAula() {
         for (Grupo gr : grupos) {

@@ -12,8 +12,9 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ListaAsignaciones  implements Serializable {
+public class ListaAsignaciones implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     ArrayList<Tramo> tramos;
     private final int index;
     private final Aula aula;
@@ -32,9 +33,10 @@ public class ListaAsignaciones  implements Serializable {
         this.aula = aula;
     }
 
-
-  
-
+    /**
+     *
+     * @return
+     */
     public Aula getAula() {
         return aula;
     }
@@ -57,7 +59,7 @@ public class ListaAsignaciones  implements Serializable {
 
     @Override
     public String toString() {
-        String resul = "";
+        String resul;
         if (esTarde()) {
             resul = "Tarde";
         } else {
@@ -96,25 +98,22 @@ public class ListaAsignaciones  implements Serializable {
      * Añade a esta lista de asignaciones TODOS los grupos con hash el indicado
      * por la variable cont.
      *
-     * @return  
+     * @return
      */
-
     public Boolean esTarde() {
         return tarde;
     }
-
 
     /**
      *
      * @return
      */
     public double getHorasOcupadas() {
-        double resul=0;
-        for (Tramo c:tramos)
-        {
-            resul+=c.getMinutos()/60F;
+        double resul = 0;
+        for (Tramo c : tramos) {
+            resul += c.getMinutos() / 60F;
         }
-            return resul;
+        return resul;
     }
 
     /**
@@ -124,6 +123,5 @@ public class ListaAsignaciones  implements Serializable {
     public boolean isEmpty() {
         return tramos.isEmpty();
     }
-    
-    
+
 }

@@ -18,6 +18,7 @@ import java.io.Serializable;
  */
 public class Casilla implements Comparable<Casilla>, Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Aula aula;
     private Hora hora;
     private int diaSemana;//Entre 1 y 5
@@ -211,6 +212,36 @@ public class Casilla implements Comparable<Casilla>, Serializable {
             }
         }
         return resul;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.aula != null ? this.aula.hashCode() : 0);
+        hash = 97 * hash + (this.hora != null ? this.hora.hashCode() : 0);
+        hash = 97 * hash + this.diaSemana;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Casilla other = (Casilla) obj;
+        if (this.aula != other.aula && (this.aula == null || !this.aula.equals(other.aula))) {
+            return false;
+        }
+        if (this.hora != other.hora && (this.hora == null || !this.hora.equals(other.hora))) {
+            return false;
+        }
+        if (this.diaSemana != other.diaSemana) {
+            return false;
+        }
+        return true;
     }
 
     /**

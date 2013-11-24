@@ -25,6 +25,11 @@ public abstract class Restriccion implements Serializable {
     /**
      *
      */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     protected long peso;
     //importancia: 1,2, o 3 (rojo, amarillo o verde)
     /**
@@ -95,8 +100,9 @@ public abstract class Restriccion implements Serializable {
     /**
      * Lanza el diálogo de configuración. Devuelve true si se han actualizad los
      * datos y false si se ha cancelado
+     *
      * @param parent
-     * @return  
+     * @return
      */
     abstract public boolean lanzarDialogoDeConfiguracion(Object parent);
 
@@ -371,7 +377,7 @@ public abstract class Restriccion implements Serializable {
      * @param parent Nodo padre
      * @param nombreNodo Nombre del nodo a crear
      * @param intValor Valor entero a incluir en el nodo, convertido en cadena
-     * @return  
+     * @return
      */
     public Node creaNodoSimpleConTexto(Node parent, String nombreNodo, int intValor) {
         return creaNodoSimpleConTexto(parent, nombreNodo, String.valueOf(intValor));

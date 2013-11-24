@@ -8,42 +8,73 @@ package data.asignaturas;
 import data.AbstractDataSets;
 import data.DataProyecto;
 import data.DataProyectoListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoListener, Serializable {
+public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoListener {
 
+    private static final long serialVersionUID = 1L;
     private final ArrayList<GrupoCursos> grupoCursos;
 
+    /**
+     *
+     * @param dataProyecto
+     */
     public ListaGrupoCursos(DataProyecto dataProyecto) {
         super(dataProyecto);
         grupoCursos = new ArrayList<GrupoCursos>();
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     public GrupoCursos get(int index) {
         return grupoCursos.get(index);
     }
 
+    /**
+     *
+     * @return
+     */
     public int size() {
         return grupoCursos.size();
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     public int indexOf(Object o) {
         return grupoCursos.indexOf(o);
     }
 
+    /**
+     *
+     * @param gr
+     */
     public void add(Grupo gr) {
         this.add(gr.getNombre(), gr.getParent().getParent());
     }
 
+    /**
+     *
+     * @param nombreGrupo
+     * @param curso
+     */
     public void add(String nombreGrupo, Curso curso) {
         this.add(new GrupoCursos(nombreGrupo, curso));
     }
 
+    /**
+     *
+     * @param e
+     */
     public void add(GrupoCursos e) {
         boolean noEsta = true;
         for (GrupoCursos gc : grupoCursos) {
@@ -60,6 +91,10 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
         fireDataEvent(e, ADD);
     }
 
+    /**
+     *
+     * @param gc
+     */
     public void remove(GrupoCursos gc) {
         grupoCursos.remove(gc);
         fireDataEvent(gc, REMOVE);
@@ -67,7 +102,7 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
 
     @Override
     public void dataEvent(Object obj, int type) {
-        
+
         if (obj instanceof Grupo) {
             Grupo gr = (Grupo) obj;
             dataEventGrupo(gr, type);
@@ -88,18 +123,33 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
         }
     }
 
+    /**
+     *
+     * @param cur
+     * @param type
+     */
     protected void dataEventCurso(Curso cur, int type) {
         for (Asignatura asig : cur.getAsignaturas()) {
             dataEventAsignatura(asig, type);
         }
     }
 
+    /**
+     *
+     * @param asig
+     * @param type
+     */
     protected void dataEventAsignatura(Asignatura asig, int type) {
         for (Grupo gr : asig.getGrupos().getGrupos()) {
             dataEventGrupo(gr, type);
         }
     }
 
+    /**
+     *
+     * @param gr
+     * @param type
+     */
     protected void dataEventGrupo(Grupo gr, int type) {
         GrupoCursos gc = grupoCursoQueContiene(gr);
         switch (type) {
@@ -119,7 +169,10 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
                 }
                 break;
             case DataProyectoListener.MODIFY:
-                gc = grupoCursoQueContiene(gr);
+//                gc = grupoCursoQueContiene(gr);
+                break;
+            default:
+                break;
         }
     }
 
@@ -133,7 +186,7 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
     private GrupoCursos grupoCursoQueContiene(Grupo gr) {
         GrupoCursos resul = null;
         try {
-            Curso c = gr.getParent().getParent();
+//            Curso c = gr.getParent().getParent();
             for (GrupoCursos gc : grupoCursos) {
                 if ((gc.getNombreGrupo().equals(gr.getNombre())) && (gc.getCurso().equals(gr.getParent().getParent()))) {
                     resul = gc;
@@ -169,8 +222,8 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
         return "ListaGrupoCursos{" + "grupoCursos=" + grupoCursos.size() + '}';
     }
 
-    private void rebuildAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    private void rebuildAll() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
 }

@@ -4,7 +4,6 @@
  */
 package loader;
 
-import data.DataKairos;
 import data.DataProyecto;
 import data.aulas.Aula;
 import java.io.File;
@@ -96,9 +95,8 @@ public class DOMLoaderAulas {
             isOk = false;
         } catch (IOException ex) {
             isOk = false;
-        } finally {
-            return isOk;
         }
+        return isOk;
     }
 
     private void buildDocumentStructure() {

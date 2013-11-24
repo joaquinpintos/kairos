@@ -16,23 +16,45 @@ import javax.swing.tree.TreeNode;
  */
 public class InvisibleNode extends DefaultMutableTreeNode {
 
-  protected boolean isVisible;
+    /**
+     *
+     */
+    protected boolean isVisible;
 
-  public InvisibleNode() {
+    /**
+     *
+     */
+    public InvisibleNode() {
     this(null);
   }
 
-  public InvisibleNode(Object userObject) {
+    /**
+     *
+     * @param userObject
+     */
+    public InvisibleNode(Object userObject) {
     this(userObject, true, true);
   }
 
-  public InvisibleNode(Object userObject, boolean allowsChildren,
+    /**
+     *
+     * @param userObject
+     * @param allowsChildren
+     * @param isVisible
+     */
+    public InvisibleNode(Object userObject, boolean allowsChildren,
       boolean isVisible) {
     super(userObject, allowsChildren);
     this.isVisible = isVisible;
   }
 
-  public TreeNode getChildAt(int index, boolean filterIsActive) {
+    /**
+     *
+     * @param index
+     * @param filterIsActive
+     * @return
+     */
+    public TreeNode getChildAt(int index, boolean filterIsActive) {
     if (!filterIsActive) {
       return super.getChildAt(index);
     }
@@ -58,7 +80,12 @@ public class InvisibleNode extends DefaultMutableTreeNode {
     //return (TreeNode)children.elementAt(index);
   }
 
-  public int getChildCount(boolean filterIsActive) {
+    /**
+     *
+     * @param filterIsActive
+     * @return
+     */
+    public int getChildCount(boolean filterIsActive) {
     if (!filterIsActive) {
       return super.getChildCount();
     }
@@ -78,11 +105,19 @@ public class InvisibleNode extends DefaultMutableTreeNode {
     return count;
   }
 
-  public void setVisible(boolean visible) {
+    /**
+     *
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
     this.isVisible = visible;
   }
 
-  public boolean isVisible() {
+    /**
+     *
+     * @return
+     */
+    public boolean isVisible() {
     return isVisible;
   }
 

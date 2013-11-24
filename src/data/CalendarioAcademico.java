@@ -22,6 +22,7 @@ import org.w3c.dom.Node;
  */
 public class CalendarioAcademico implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     //Array con los días de la semana lectivos 1=lunes,...,5=viernes
     private ArrayList<Integer> diasSemanaLectivos;
     GregorianCalendar inicioPeriodoLectivo, finPeriodoLectivo;
@@ -126,6 +127,10 @@ public class CalendarioAcademico implements Serializable {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<GregorianCalendar> getArrayDiasLectivos() {
         {
             return getArrayDiasLectivos((GregorianCalendar) inicioPeriodoLectivo.clone(), (GregorianCalendar) finPeriodoLectivo.clone());
@@ -133,8 +138,12 @@ public class CalendarioAcademico implements Serializable {
     }
 
     /**
+     * Calcula array de dias lectivos, obviando los festivos, sábados y
+     * domingos.
      *
-     * @return
+     * @param parInicio Dia de inicio
+     * @param parFin Dia final
+     * @return Array con los días lectivos
      */
     public ArrayList<GregorianCalendar> getArrayDiasLectivos(GregorianCalendar parInicio, GregorianCalendar parFin) {
         ArrayList<GregorianCalendar> resul = new ArrayList<GregorianCalendar>();
@@ -230,10 +239,18 @@ public class CalendarioAcademico implements Serializable {
         this.inicioPeriodoLectivo.setTime(formatoFechas.parse(strInicio));
     }
 
+    /**
+     *
+     * @param inicio
+     */
     public void setInicio(Date inicio) {
         this.inicioPeriodoLectivo.setTime(inicio);
     }
 
+    /**
+     *
+     * @param inicio
+     */
     public void setInicio(GregorianCalendar inicio) {
         this.inicioPeriodoLectivo = inicio;
     }
@@ -247,12 +264,20 @@ public class CalendarioAcademico implements Serializable {
         this.finPeriodoLectivo.setTime(formatoFechas.parse(strFin));
     }
 
+    /**
+     *
+     * @param fin
+     */
     public void setFin(Date fin) {
         if (fin != null) {
             this.finPeriodoLectivo.setTime(fin);
         }
     }
 
+    /**
+     *
+     * @param fin
+     */
     public void setFin(GregorianCalendar fin) {
         this.finPeriodoLectivo = fin;
     }
@@ -466,6 +491,11 @@ public class CalendarioAcademico implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param dia
+     * @return
+     */
     public String nombreDiaSemana(GregorianCalendar dia) {
         String resul = "";
         switch (dia.get(GregorianCalendar.DAY_OF_WEEK)) {

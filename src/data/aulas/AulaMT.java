@@ -15,6 +15,7 @@ import java.io.Serializable;
  */
 public class AulaMT implements Serializable, Comparable<AulaMT> {
 
+    private static final long serialVersionUID = 1L;
     private Aula aula;
     private Boolean esTarde;
     private int markType;
@@ -122,6 +123,10 @@ public class AulaMT implements Serializable, Comparable<AulaMT> {
         return this.toString().compareTo(o.toString());
     }
 
+    /**
+     *
+     * @param aThis
+     */
     public void asignaTramo(Tramo aThis) {
         ListaAsignaciones asig;
         if (esTarde) {

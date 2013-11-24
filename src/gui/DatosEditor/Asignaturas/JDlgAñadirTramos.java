@@ -262,7 +262,12 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private int returnStatus = RET_CANCEL;
-      public void addTramosToGrupo(Grupo gr) {
+
+    /**
+     *
+     * @param gr
+     */
+    public void addTramosToGrupo(Grupo gr) {
         int numHoras, numClases;
         Tramo tr;
         try {

@@ -6,6 +6,7 @@ package genetic.crossovers;
 
 import data.genetic.Asignacion;
 import data.genetic.PosibleSolucion;
+import java.util.Random;
 
 /**
  *
@@ -22,6 +23,7 @@ public class PermutationCrossover implements Crossover {
      */
     @Override
     public PosibleSolucion cruce(PosibleSolucion p1, PosibleSolucion p2) {
+        Random r=new Random();
         PosibleSolucion hijo=new PosibleSolucion();
         for (String hashAula : p1.getMapAsignaciones().keySet()) {
             Asignacion s1 = p1.getAsignacion(hashAula);
@@ -29,7 +31,7 @@ public class PermutationCrossover implements Crossover {
 
             int numSegmentos = s1.getNumSegmentos();
             Asignacion resul = new Asignacion(s1.getDatosPorAula());
-            int corte = (int) (Math.random() * numSegmentos);
+            int corte = r.nextInt(numSegmentos);//(int) (Math.random() * numSegmentos);
             for (int k = 0; k < corte; k++) {
                 resul.getAsignaciones().add(s1.get(k));//Hasta aquí copio de la primera solución.
                 // resul.setGenDefectuoso(k);

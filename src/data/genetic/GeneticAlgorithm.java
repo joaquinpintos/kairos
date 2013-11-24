@@ -24,8 +24,8 @@ public class GeneticAlgorithm {
     private final Crossover cruzador;
     private final ArrayList<Restriccion> restricciones;
     private final DataProyecto dataProyecto;
-    private ListaSegmentos listaSegmentos;
-    private ListaCasillas listaCasillas;
+//    private ListaSegmentos listaSegmentos;
+//    private ListaCasillas listaCasillas;
     private int tamañoManada;
     private int max_iter;
     private final Mutator mutator;
@@ -33,7 +33,7 @@ public class GeneticAlgorithm {
     private int numElitismo;
     private double probabilidadMutacion;
     private int numIter;
-    private ArrayList<Restriccion> restriccionesFallidas;
+    private final ArrayList<Restriccion> restriccionesFallidas;
     private int nivelCritico;
     private PosibleSolucion solucionInicial;
     private AbstractMainWindow mainWindow;
@@ -101,6 +101,7 @@ public class GeneticAlgorithm {
         this.mutator = mutator;
         tamañoManada = 50;
         numElitismo = 5;
+        restriccionesFallidas=new ArrayList<Restriccion>();
     }
 
     /**
@@ -117,6 +118,7 @@ public class GeneticAlgorithm {
         restricciones = new ArrayList<Restriccion>();
         tamañoManada = 50;
         numElitismo = 5;
+        restriccionesFallidas=new ArrayList<Restriccion>();
 
     }
 
@@ -129,7 +131,7 @@ public class GeneticAlgorithm {
             r.inicializarDatos();
         }
         manada = new ArrayList<PosibleSolucion>();
-        restriccionesFallidas = new ArrayList<Restriccion>();
+        restriccionesFallidas.clear();
         setDebug(false);
         generaManadaInicial();
     }
@@ -154,7 +156,7 @@ public class GeneticAlgorithm {
             s.update();//Actualizo datos internos de las soluciones
         }
         calculaPesosManada();
-            //Ahora selecciono los mejores y los cruzo.
+        //Ahora selecciono los mejores y los cruzo.
         //Primero los ordeno de menos peso a más peso
         Collections.sort(manada, new SolucionesComparator());
         //Optimo
@@ -170,20 +172,29 @@ public class GeneticAlgorithm {
         }
         calcularSiguienteGeneracion();
         numIter++;
-        System.out.println("Optimo: "+optimo.getPeso());
+        System.out.println("Optimo: " + optimo.getPeso());
         return continueLoop;
     }
 
+    /**
+     *
+     * @return
+     */
     public PosibleSolucion getSolucion() {
         //Finalizado el bucle, genero horario con la mejor solución hallada.
         //Antes refresco los datos internos de las soluciones
-        optimo.setDataProyecto(dataProyecto);
+        if (optimo != null) {
+            optimo.setDataProyecto(dataProyecto);
         optimo.update();//Actualizo datos internos de las soluciones
         calculaPesosPosibleSolucion(optimo);
-//        geneticInformer.finalizado(this);
-        return optimo;
     }
+//        geneticInformer.finalizado(this);
+    return optimo ;
+}
 
+    /**
+     *
+     */
     protected void generaManadaInicial() {
         nivelCritico = 3;//Al principio nivel verde
         int nnInicial = 0;
@@ -192,7 +203,7 @@ public class GeneticAlgorithm {
             nnInicial = 1;
         }
         for (int nn = nnInicial; nn < tamañoManada; nn++) {
-            boolean add = manada.add(PosibleSolucion.generador(dataProyecto));
+            manada.add(PosibleSolucion.generador(dataProyecto));
         }
     }
 
@@ -325,9 +336,9 @@ public class GeneticAlgorithm {
         this.numElitismo = numElitismo;
     }
 
-    private void dbg(Object a) {
-        System.out.println(a);
-    }
+//    private void dbg(Object a) {
+//        System.out.println(a);
+//    }
 
     /**
      *
@@ -350,12 +361,11 @@ public class GeneticAlgorithm {
      * @return
      */
     public String getDescripcionRestriccionesFallidas() {
-        //TODO: Da error de concurrentException ya aque mientras se rellena este array se actualiza en otro thread
-        String resul = "";
+        StringBuilder resul = new StringBuilder();
         for (Restriccion r : restriccionesFallidas) {
-            resul += r.descripcion() + "\n";
+            resul.append(r.descripcion()).append("\n");
         }
-        return resul;
+        return resul.toString();
 
     }
 
@@ -411,9 +421,14 @@ public class GeneticAlgorithm {
         this.mainWindow = mainWindow;
     }
 
+    /**
+     *
+     */
     public void runMainLoop() {
         while (runSingleLoop()){};
-    }
+    
+
+}
 }
 
 /**

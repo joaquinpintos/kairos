@@ -16,8 +16,9 @@ import java.util.List;
  */
 public class Departamento implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String nombre;
-    private ArrayList<Profesor> profesores;
+    private final ArrayList<Profesor> profesores;
     DataProfesores parent;
 
     /**
@@ -106,9 +107,8 @@ public class Departamento implements Serializable {
      * @param value
      */
     public void setDirty(boolean value) {
-        try {
+        if (parent != null) {
             parent.setDirty(value);
-        } catch (NullPointerException e) {
         }
     }
 }

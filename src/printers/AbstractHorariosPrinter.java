@@ -435,8 +435,7 @@ abstract public class AbstractHorariosPrinter {
      */
     protected Paragraph getParagraphForAsignatura(HorarioItem h) {
         Font font = new Font(Font.FontFamily.HELVETICA, 6);
-        Paragraph p = null;
-        p = new Paragraph(h.getAsignatura().getNombre(), font);
+        Paragraph p = new Paragraph(h.getAsignatura().getNombre(), font);
 //        BaseFont bf;
 //        try {
 //            bf = BaseFont.createFont(

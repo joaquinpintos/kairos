@@ -19,7 +19,6 @@ import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
 import data.restricciones.Restriccion;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,14 +30,14 @@ import org.w3c.dom.Node;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RGrupoNoUbicuo extends Restriccion implements Serializable {
-
+public class RGrupoNoUbicuo extends Restriccion {
+    private static final long serialVersionUID = 1L;
     //hashGrupoCurso->lista de hashaulas, y cada hashaula->lista de [segmentos,duracion]
     //A cada grupo le asigna una lista de hashaulas donde imparte.
     //y a cada hashaula, una lista de [segmento,duracion] 
-    HashMap<String, HashMap<String, ArrayList<Integer[]>>> dataMañana;
-    HashMap<String, HashMap<String, ArrayList<Integer[]>>> dataTarde;
-    HashSet<String> gruposConflictivos; //Esto solo sirve para mostrar los grupos que no cumplan las restricciones
+    final HashMap<String, HashMap<String, ArrayList<Integer[]>>> dataMañana;
+    final HashMap<String, HashMap<String, ArrayList<Integer[]>>> dataTarde;
+    final HashSet<String> gruposConflictivos; //Esto solo sirve para mostrar los grupos que no cumplan las restricciones
     long suma;
 
     /**
@@ -46,6 +45,9 @@ public class RGrupoNoUbicuo extends Restriccion implements Serializable {
      */
     public RGrupoNoUbicuo() {
         super(null);
+        this.gruposConflictivos = new HashSet<String>();
+        dataMañana = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
+        dataTarde = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
     }
 
     /**
@@ -54,6 +56,9 @@ public class RGrupoNoUbicuo extends Restriccion implements Serializable {
      */
     public RGrupoNoUbicuo(DataProyecto dataProyecto) {
         super(dataProyecto);
+        this.gruposConflictivos = new HashSet<String>();
+        dataMañana = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
+        dataTarde = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
     }
 
     @Override
@@ -90,9 +95,9 @@ public class RGrupoNoUbicuo extends Restriccion implements Serializable {
         //Fase 1: Calculo de dataMañana y dataTarde
         //Tendré 0, 1 y 2 grupos conflictivos. Calculo y elimino grupos no conflictivos
         //Tengo que contar para cada grupo cuántos aulas tiene de mañana y de tarde
-        dataMañana = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
-        dataTarde = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
-        gruposConflictivos = new HashSet<String>();
+        dataMañana.clear();
+        dataTarde.clear();
+        gruposConflictivos.clear();
 
         //Separo en segmentos de mañana y de tarde
         for (String p : mapGrupoToAulas.keySet()) {
@@ -199,7 +204,7 @@ public class RGrupoNoUbicuo extends Restriccion implements Serializable {
         }
     }
 
-private void sumaPesos(PosibleSolucion posibleSolucion, HashMap<String, HashMap<String, ArrayList<Integer[]>>> data, double coef) {
+    private void sumaPesos(PosibleSolucion posibleSolucion, HashMap<String, HashMap<String, ArrayList<Integer[]>>> data, double coef) {
 //Calculo la función peso para los datos de mañana o tarde
         for (String hash : data.keySet()) {
             ArrayList<Casilla> casillasConflictivas = new ArrayList<Casilla>();
@@ -262,7 +267,7 @@ private void sumaPesos(PosibleSolucion posibleSolucion, HashMap<String, HashMap<
      * @return
      */
     @Override
-        public String getMensajeError() {
+    public String getMensajeError() {
         return "Grupos con clase solapadas: " + gruposConflictivos;
     }
 
@@ -271,7 +276,7 @@ private void sumaPesos(PosibleSolucion posibleSolucion, HashMap<String, HashMap<
      * @param parent
      */
     @Override
-        public void writeConfig(Node parent) {
+    public void writeConfig(Node parent) {
         //Nada que configurar!!
     }
 
@@ -280,7 +285,7 @@ private void sumaPesos(PosibleSolucion posibleSolucion, HashMap<String, HashMap<
      * @param parent
      */
     @Override
-        public void readConfig(Element parent) {
+    public void readConfig(Element parent) {
         //Nada que configurar!!
     }
 }

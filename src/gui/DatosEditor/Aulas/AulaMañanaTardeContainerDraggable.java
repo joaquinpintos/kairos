@@ -33,6 +33,10 @@ public class AulaMañanaTardeContainerDraggable implements Transferable {
         this.cont = cont;
     }
 
+    /**
+     *
+     * @param la
+     */
     public AulaMañanaTardeContainerDraggable(ListaAsignaciones la) {
         this.cont = new AulaMT(la.getAula(), la.esTarde());
     }

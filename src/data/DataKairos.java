@@ -66,10 +66,18 @@ public class DataKairos {
         dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStatus() {
         return status;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setStatus(int status) {
         this.status = status;
     }

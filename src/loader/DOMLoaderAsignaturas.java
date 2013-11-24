@@ -4,7 +4,6 @@
  */
 package loader;
 
-import data.DataKairos;
 import data.DataProyecto;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
@@ -15,7 +14,6 @@ import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.genetic.DatosPorAula;
 import data.profesores.Profesor;
-import java.io.File;
 import java.util.HashMap;
 import org.w3c.dom.Element;
 
@@ -25,7 +23,6 @@ import org.w3c.dom.Element;
  */
 public class DOMLoaderAsignaturas {
 
-    org.w3c.dom.Document dom;
     private final DataProyecto dataProyecto;
 
     /**
@@ -161,7 +158,7 @@ public class DOMLoaderAsignaturas {
         Element elemAula = buscaPrimerElementoConNombre(parent, "aula");
         if (elemAula != null) {
             HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
-            DatosPorAula dat = map.get(elemAula.getTextContent());
+            map.get(elemAula.getTextContent());
             Aula aula=dataProyecto.getAulaPorHash(elemAula.getTextContent());
             tr.asignaAula(new AulaMT(aula,elemAula.getTextContent().contains("@T")));
         }

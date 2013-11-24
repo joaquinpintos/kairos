@@ -5,6 +5,7 @@
 package genetic.mutators;
 
 import data.genetic.PosibleSolucion;
+import java.util.Random;
 
 /**
  *
@@ -15,7 +16,28 @@ public abstract class Mutator {
     /**
      *
      */
+    protected Random random;
+
+    /**
+     *
+     */
     protected double factorMutacion;
+
+    /**
+     *
+     */
+    public Mutator() {
+        this.random = new Random();
+    }
+
+    /**
+     *
+     * @param factorMutacion
+     */
+    public Mutator(double factorMutacion) {
+        this.random = new Random();
+        this.factorMutacion = factorMutacion;
+    }
 
     /**
      *

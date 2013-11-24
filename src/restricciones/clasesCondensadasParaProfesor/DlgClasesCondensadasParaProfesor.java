@@ -21,7 +21,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  */
 public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
 
-    private RClasesCondensadasParaProfesor r;
+    private final RClasesCondensadasParaProfesor r;
     /**
      * A return status code - returned if Cancel button has been pressed
      */

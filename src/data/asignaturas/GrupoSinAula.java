@@ -16,6 +16,10 @@ public final class GrupoSinAula {
     private final Grupo grupo;
     private final ArrayList<Tramo> tramosSinAula;
 
+    /**
+     *
+     * @param grupo
+     */
     public GrupoSinAula(Grupo grupo) {
         this.grupo = grupo;
         tramosSinAula = new ArrayList<Tramo>();
@@ -24,14 +28,27 @@ public final class GrupoSinAula {
         }
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     public Tramo get(int index) {
         return tramosSinAula.get(index);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNombre() {
         return grupo.getNombre();
     }
 
+    /**
+     *
+     * @param tr
+     */
     public void add(Tramo tr) {
         if (!tr.tieneAula()) {
             if (!tramosSinAula.contains(tr)) {
@@ -40,10 +57,18 @@ public final class GrupoSinAula {
         }
     }
 
+    /**
+     *
+     * @param tr
+     */
     public void remove(Tramo tr) {
         tramosSinAula.remove(tr);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNombreAsignatura() {
         return grupo.getParent().getNombre();
     }

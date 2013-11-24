@@ -15,7 +15,7 @@ import data.genetic.PosibleSolucion;
 public class SwapMutator extends Mutator {
 
     /**
-     *
+     * Constructor por defecto
      */
     public SwapMutator() {
     }
@@ -55,7 +55,10 @@ public class SwapMutator extends Mutator {
      */
     public void changeIndex(Asignacion asig, int n1) {
         int numSegmentos = asig.getNumSegmentos();
-        int n2 = (int) (Math.random() * numSegmentos);
+        int n2 = random.nextInt(numSegmentos);
+        if (n2 == numSegmentos) {
+            n2--;
+        }
 
         int valor1 = asig.get(n1);
         int valor2 = asig.get(n2);

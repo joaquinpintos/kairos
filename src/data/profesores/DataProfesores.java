@@ -7,7 +7,6 @@ package data.profesores;
 import data.AbstractDataSets;
 import data.DataProyecto;
 import data.DataProyectoListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -15,8 +14,9 @@ import java.util.ArrayList;
  *
  * @author david
  */
-public class DataProfesores extends AbstractDataSets implements Serializable {
+public class DataProfesores extends AbstractDataSets {
 
+    private static final long serialVersionUID = 1L;
     private final ArrayList<Departamento> departamentos;
 
     /**
@@ -133,5 +133,5 @@ public class DataProfesores extends AbstractDataSets implements Serializable {
         }
         return resul;
     }
-  
+
 }

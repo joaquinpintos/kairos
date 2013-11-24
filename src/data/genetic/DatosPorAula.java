@@ -15,20 +15,21 @@ import java.io.Serializable;
  *
  * @author david
  */
-public class DatosPorAula   implements Serializable{
+public class DatosPorAula implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ListaCasillas listaCasillas;
     private ListaSegmentos listaSegmentos;
     private String hashAula;
     private Aula aula;
-    private  int minutosPorCasilla;
+    private int minutosPorCasilla;
 
     /**
      *
      * @param minutosPorCasilla
      */
     public DatosPorAula(int minutosPorCasilla) {
-        this.minutosPorCasilla=minutosPorCasilla;
+        this.minutosPorCasilla = minutosPorCasilla;
         listaCasillas = new ListaCasillas(minutosPorCasilla);
         listaSegmentos = new ListaSegmentos();
     }
@@ -42,7 +43,6 @@ public class DatosPorAula   implements Serializable{
         this.listaCasillas = listaCasillas;
         this.listaSegmentos = listaSegmentos;
     }
-
 
     /**
      *
@@ -91,9 +91,8 @@ public class DatosPorAula   implements Serializable{
     }
 
     /**
-     * Añade nuevos segmentos marcados como "huecos libres"
-     * hasta completar el tiempo disponible en casillas con 
-     * el tiempo de segmentos a llenar.
+     * Añade nuevos segmentos marcados como "huecos libres" hasta completar el
+     * tiempo disponible en casillas con el tiempo de segmentos a llenar.
      */
     void rellenaSegmentosConHuecosLibres() {
         int duracionSegmentos = listaSegmentos.getMinutosTotales();
@@ -101,7 +100,7 @@ public class DatosPorAula   implements Serializable{
         int duracionUnaCasilla = listaCasillas.minutosPorCasilla();
 
         while (duracionSegmentos < duracionCasillas) {
-            Segmento s = new Segmento(null, 1,minutosPorCasilla);
+            Segmento s = new Segmento(null, 1, minutosPorCasilla);
             s.setHuecoLibre(true);
             listaSegmentos.add(s);
             duracionSegmentos += duracionUnaCasilla;

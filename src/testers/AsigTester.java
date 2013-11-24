@@ -169,18 +169,6 @@ public class AsigTester {
         dbg("Total " + calendarioAcadémico.getArrayDiasLectivos() + " días lectivos");
     }
 
-    /**
-     *
-     * @param texto
-     * @return
-     */
-    public ArrayList<String> creaArrayDiasFestivos(String texto) {
-        ArrayList<String> resul = new ArrayList<String>();
-        String[] lineas = texto.split("\n");
-
-
-        return resul;
-    }
 
     /**
      *

@@ -12,10 +12,11 @@ import java.util.HashMap;
  *
  * @author david
  */
-public final class PosibleSolucion implements Serializable{
+public final class PosibleSolucion implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private long peso;
-    private HashMap<String, Asignacion> asignaciones;
+    private final HashMap<String, Asignacion> asignaciones;
     private DataProyecto dataProyecto;
 
     /**
@@ -92,9 +93,9 @@ public final class PosibleSolucion implements Serializable{
      */
     public static PosibleSolucion generador(DataProyecto dataProyecto) {
         PosibleSolucion newps = new PosibleSolucion();
-       // System.out.println(stDataProyecto.getMapDatosPorAula().values());
+        // System.out.println(stDataProyecto.getMapDatosPorAula().values());
         for (DatosPorAula da : dataProyecto.getMapDatosPorAula().values()) {
-           // System.out.println("Genero datos para aula " + da.getHashAula());
+            // System.out.println("Genero datos para aula " + da.getHashAula());
             newps.addAsignacion(da.getHashAula(), Asignacion.generador(da));
         }
         return newps;

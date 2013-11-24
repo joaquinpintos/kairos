@@ -63,17 +63,53 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private JIntRestricciones jIntRestricciones;
     private JIntGenetic jIntgenGenetic;
     private JIntHorarioEditor jIntHorarioEditor;
+
+    /**
+     *
+     */
     protected ArrayList<JInternalFrame> listaTabs;
+
+    /**
+     *
+     */
     protected AbstractAction cargarProyectoAction;
+
+    /**
+     *
+     */
     protected AbstractAction guardarProyectoAction;
+
+    /**
+     *
+     */
     protected AbstractAction guardarProyectoComoAction;
+
+    /**
+     *
+     */
     protected AbstractAction importarXMLAction;
+
+    /**
+     *
+     */
     protected AbstractAction exportarXMLAction;
+
+    /**
+     *
+     */
     protected AbstractAction creaPDFAction;
     private File lastFileUsed;
     private JIntHorarioEditor jIntHorarioEditor2;
+
+    /**
+     *
+     */
     protected AbstractAction creaPDFHojasDeFirmaAction;
 
+    /**
+     *
+     * @throws Exception
+     */
     public AbstractMainWindow() throws Exception {
         super();
         dirty = false;
@@ -86,6 +122,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         registraListeners();
     }
 
+    /**
+     *
+     * @throws Exception
+     * @throws TooManyListenersException
+     */
     protected void createInternalFrames() throws Exception, TooManyListenersException {
         //Añado los paneles que necesito
 //        jIntWelcome = new JIntWelcome(dk);
@@ -215,6 +256,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         return jIntgenGenetic;
     }
 
+    /**
+     *
+     * @param nombre
+     * @param tab
+     */
     abstract protected void addTab(String nombre, JInternalFrame tab);
 
     /**
@@ -293,8 +339,15 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         return lastFileUsed;
     }
 
+    /**
+     *
+     * @param dataIF
+     */
     abstract public void switchToComponent(DataGUIInterface dataIF);
 
+    /**
+     *
+     */
     public final void creaAcciones() {
         final AbstractMainWindow mainWindow = this;
         class CargarProyectoAction extends AbstractAction {
@@ -545,6 +598,10 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         this.lastFileUsed = lastFileUsed;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setProjectStatus(int status) {
         switch (status) {
             case DataKairos.STATUS_NO_PROJECT: {

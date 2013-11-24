@@ -7,13 +7,13 @@ package data.asignaturas;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author david
  */
-public class ListaGrupos  implements Serializable {
+public class ListaGrupos implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<Grupo> grupos;
 
     /**

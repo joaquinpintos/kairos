@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class AbstractDataSets implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private DataProyecto dataProyecto;
     private final ArrayList<DataProyectoListener> listeners;
 

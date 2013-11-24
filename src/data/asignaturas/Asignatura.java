@@ -17,6 +17,7 @@ import java.util.Collections;
  */
 public class Asignatura implements Serializable, Comparable<Asignatura>, Teachable {
 
+    private static final long serialVersionUID = 1L;
     private String nombre; //Nombre completo
     private String nombreCorto;//Nombre corto del curso
     private Curso parent;//Curso al que pertenece
@@ -185,14 +186,14 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         this.colorEnTablaDeHorarios = colorEnTablaDeHorarios;
     }
 
-    /**
-     *
-     */
-    public synchronized void removeAllGrupos() {
-        for (Grupo gr : grupos.getGrupos()) {
-            this.removeGrupo(gr);
-        }
-    }
+//    /**
+//     *
+//     */
+//    public synchronized void removeAllGrupos() {
+//        for (Grupo gr : grupos.getGrupos()) {
+//            this.removeGrupo(gr);
+//        }
+//    }
 
     /**
      *
@@ -215,18 +216,47 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         return this.nombre.compareTo(o.getNombre());
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + (this.nombre != null ? this.nombre.hashCode() : 0);
+        hash = 23 * hash + (this.parent != null ? this.parent.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Asignatura other = (Asignatura) obj;
+        if ((this.nombre == null) ? (other.nombre != null) : !this.nombre.equals(other.nombre)) {
+            return false;
+        }
+        if (this.parent != other.parent && (this.parent == null || !this.parent.equals(other.parent))) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      *
      * @param value
      */
     public void setDirty(boolean value) {
-        try {
+        if (parent != null) {
             parent.setDirty(value);
-        } catch (NullPointerException e) {
         }
 
     }
 
+    /**
+     *
+     * @param profesor
+     */
     @Override
     public void setDocente(Profesor profesor) {
         for (Grupo gr : grupos.getGrupos()) {
@@ -234,6 +264,9 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeDocente() {
         for (Grupo gr : grupos.getGrupos()) {
@@ -241,10 +274,19 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         }
     }
 
+    /**
+     *
+     * @param obj
+     * @param type
+     */
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }
 
+    /**
+     *
+     * @param aula
+     */
     @Override
     public void asignaAula(AulaMT aula) {
         for (Grupo gr : grupos.getGrupos()) {
@@ -259,6 +301,9 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         }
     }
 
+    /**
+     *
+     */
     public void updateAsigAulaStatus() {
         boolean resul = false;
         for (Grupo gr : grupos.getGrupos()) {
@@ -274,6 +319,10 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean algunoSinAula() {
         return algunoSinAula;
     }

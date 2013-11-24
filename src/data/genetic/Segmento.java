@@ -22,14 +22,17 @@ import java.io.Serializable;
  */
 public class Segmento implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     int duracion;//duracion en minutos
     private final int numeroDeCasillasQueOcupa;
     private boolean huecoLibre; //True si el segmento no se refiere a una clase, sino a un hueco libre
     private final Tramo tramo;
 
     /**
-     * Representa un segmento de ocupación. Unidad atómica de docencia, que debe de ubicarse en una casilla.
-     * @param Tramo
+     * Representa un segmento de ocupación. Unidad atómica de docencia, que debe
+     * de ubicarse en una casilla.
+     *
+     * @param tramo
      * @param numeroDeCasillasQueOcupa
      * @param minutosPorCasilla
      */

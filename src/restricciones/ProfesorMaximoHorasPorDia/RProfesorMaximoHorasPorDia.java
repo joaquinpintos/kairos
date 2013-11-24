@@ -5,7 +5,6 @@
 package restricciones.ProfesorMaximoHorasPorDia;
 
 import data.DataProyecto;
-import data.Hora;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
@@ -14,7 +13,6 @@ import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
 import data.profesores.Profesor;
 import data.restricciones.Restriccion;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import org.w3c.dom.Element;
@@ -24,8 +22,9 @@ import org.w3c.dom.Node;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RProfesorMaximoHorasPorDia extends Restriccion implements Serializable {
+public class RProfesorMaximoHorasPorDia extends Restriccion {
 
+    private static final long serialVersionUID = 1L;
     private int numMaximoHoras;
     private HashSet<Profesor> listaProfesoresConflictivos;
     private HashMap<String, Integer> numeroCasillasPorDia;
@@ -34,7 +33,7 @@ public class RProfesorMaximoHorasPorDia extends Restriccion implements Serializa
     private Integer numMaximoCasillas;
 
     /**
-     *
+     * Constructor por defecto
      */
     public RProfesorMaximoHorasPorDia() {
         this(null);
@@ -79,8 +78,8 @@ public class RProfesorMaximoHorasPorDia extends Restriccion implements Serializa
         long suma = 100;
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
             Asignacion asig = posibleSolucion.getMapAsignaciones().get(hashAula);
-            int numCasillas = asig.getNumCasillas();
-            int num2 = asig.getAsignaciones().size();
+//            int numCasillas = asig.getNumCasillas();
+//            int num2 = asig.getAsignaciones().size();
             ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
             ListaSegmentos ls = dataProyecto.getMapDatosPorAula().get(hashAula).getListaSegmentos();
             Segmento s;
@@ -88,9 +87,9 @@ public class RProfesorMaximoHorasPorDia extends Restriccion implements Serializa
             for (int dia = 0; dia < dataProyecto.getDiasSemanaLectivos().size(); dia++) {
                 for (int numCasilla = numCasillasPorDia * dia; numCasilla < numCasillasPorDia * (dia + 1); numCasilla++) {
                     int numSegmento = asig.getQueSegmentoHayEnCasilla(numCasilla);
-                    Casilla c = lc.get(numCasilla);
-                    Hora hora = c.getHora();
-                    int diaSemana = c.getDiaSemana();
+//                    Casilla c = lc.get(numCasilla);
+//                    Hora hora = c.getHora();
+//                    int diaSemana = c.getDiaSemana();
 
                     s = ls.get(numSegmento);
                     if (!s.isHuecoLibre()) {

@@ -17,6 +17,7 @@ import java.io.Serializable;
  */
 public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private final GrupoTramos tramosGrupoCompleto;
     private Asignatura parent;
@@ -170,6 +171,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         return this.getParent().getParent().getParent() + " - " + this.getParent().getParent() + " - Grupo " + this.getNombre();
 
     }
+    public String getNombreGrupoCursoYCarrera(){
+        return "G"+this.getNombre()+" "+this.getParent().getParent().getNombre()+" "+this.getParent().getParent().getParent().toString();
+    }
 
     /**
      *
@@ -199,17 +203,45 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         return this.nombre.compareTo(o.getNombre());
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + (this.nombre != null ? this.nombre.hashCode() : 0);
+        hash = 89 * hash + (this.parent != null ? this.parent.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Grupo other = (Grupo) obj;
+        if ((this.nombre == null) ? (other.nombre != null) : !this.nombre.equals(other.nombre)) {
+            return false;
+        }
+        if (this.parent != other.parent && (this.parent == null || !this.parent.equals(other.parent))) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      *
      * @param value
      */
     public void setDirty(boolean value) {
-        try {
+        if (parent != null) {
             parent.setDirty(value);
-        } catch (NullPointerException e) {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeDocente() {
         for (Tramo tr : tramosGrupoCompleto.getTramos()) {
@@ -217,6 +249,10 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         }
     }
 
+    /**
+     *
+     * @param aula
+     */
     @Override
     public void asignaAula(AulaMT aula) {
         for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
@@ -224,6 +260,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeAula() {
         for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
@@ -232,18 +271,32 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         updateAsigAulaStatus();
     }
 
+    /**
+     *
+     */
     public void updateAsigAulaStatus() {
         if (tramosGrupoCompleto.algunoSinAula() != algunoSinAula) {
             algunoSinAula = tramosGrupoCompleto.algunoSinAula();
-            parent.updateAsigAulaStatus();
+            if (parent != null) {
+                parent.updateAsigAulaStatus();
+            }
         }
 
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
 
+    /**
+     *
+     * @param obj
+     * @param type
+     */
     public void fireDataEvent(Object obj, int type) {
         try {
             getParent().fireDataEvent(obj, type);

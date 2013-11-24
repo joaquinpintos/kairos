@@ -7,9 +7,7 @@ package data.restricciones;
 import data.AbstractDataSets;
 import data.DataProyecto;
 import data.DataProyectoListener;
-import java.io.Serializable;
 import java.util.ArrayList;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
 import restricciones.ProfesorMaximoHorasPorDia.RProfesorMaximoHorasPorDia;
@@ -23,11 +21,12 @@ import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DataRestricciones extends AbstractDataSets implements Serializable {
+public class DataRestricciones extends AbstractDataSets {
 
+    private static final long serialVersionUID = 1L;
     private final ArrayList<Restriccion> listaRestricciones;
     private ArrayList<Restriccion> restriccionesDisponibles;
-    Document documentoXML;
+//    Document documentoXML;
 
     /**
      *
@@ -70,7 +69,7 @@ public class DataRestricciones extends AbstractDataSets implements Serializable 
     }
 
     /**
-     *
+     * Borra todas las restricciones
      */
     public void clear() {
         this.listaRestricciones.clear();

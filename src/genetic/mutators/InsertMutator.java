@@ -15,9 +15,10 @@ import data.genetic.PosibleSolucion;
 public class InsertMutator extends Mutator {
 
     /**
-     *
+     * Constructor por defecto
      */
     public InsertMutator() {
+        super();
     }
 
     /**
@@ -26,12 +27,10 @@ public class InsertMutator extends Mutator {
      */
     @Override
     public void mutate(PosibleSolucion s) {
-        for (Asignacion asig: s.getMapAsignaciones().values()) {
+        for (Asignacion asig : s.getMapAsignaciones().values()) {
             mutateAsignacion(asig);
         }
     }
-
-    
 
     /**
      *
@@ -39,7 +38,7 @@ public class InsertMutator extends Mutator {
      */
     public void mutateAsignacion(Asignacion asig) {
         for (int k = 0; k < asig.size(); k++) {
-            if ((Math.random() < factorMutacion)) {
+            if ((random.nextFloat() < factorMutacion)) {
                 //if ((Math.random() < factorMutacion) || (s.isGenDefectuoso(k)))
                 insertIndex(asig, k);
             }
@@ -54,7 +53,7 @@ public class InsertMutator extends Mutator {
      */
     public void insertIndex(Asignacion asig, int n1) {
         int numSegmentos = asig.getNumSegmentos();
-        int n2 = (int) (Math.random() * numSegmentos);
+        int n2 = random.nextInt(numSegmentos);
 
         if (n2 == numSegmentos) {
             n2--;

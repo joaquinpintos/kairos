@@ -13,9 +13,7 @@ import data.genetic.Asignacion;
 import data.genetic.Casilla;
 import data.genetic.DatosPorAula;
 import data.genetic.ListaCasillas;
-import data.genetic.ListaSegmentos;
 import data.genetic.Segmento;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,16 +24,18 @@ import java.util.logging.Logger;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RClasesCondensadasParaProfesor extends Restriccion implements Serializable   {
+public class RClasesCondensadasParaProfesor extends Restriccion {
 
+    private static final long serialVersionUID = 1L;
     private Profesor profesor;
-    private HashMap<String, ArrayList<Integer>> segmentosImpartidos; //Segmentos impartidos por el profesor
-    private int numeroMaximoDias = 3;
+    private final HashMap<String, ArrayList<Integer>> segmentosImpartidos; //Segmentos impartidos por el profesor
+    private int numeroMaximoDias;
 
     /**
-     *
+     * Constructor por defecto
      */
     public RClasesCondensadasParaProfesor() {
+        this.numeroMaximoDias = 3;
         segmentosImpartidos = new HashMap<String, ArrayList<Integer>>();
     }
 
@@ -74,7 +74,8 @@ public class RClasesCondensadasParaProfesor extends Restriccion implements Seria
      * @param numeroMaximoDias
      */
     public void setNumeroMaximoDias(int numeroMaximoDias) {
-        this.numeroMaximoDias = numeroMaximoDias;setDirty(true);
+        this.numeroMaximoDias = numeroMaximoDias;
+        setDirty(true);
     }
 
     /**
@@ -93,7 +94,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion implements Seria
             Asignacion asig = posibleSolucion.getAsignacion(hashAula);
             ArrayList<Integer> segImpart = segmentosImpartidos.get(hashAula);
             ListaCasillas lc = dataProyecto.getDatosPorAula(hashAula).getListaCasillas();
-            ListaSegmentos ls = dataProyecto.getDatosPorAula(hashAula).getListaSegmentos();
+//            ListaSegmentos ls = dataProyecto.getDatosPorAula(hashAula).getListaSegmentos();
             for (int n = 0; n < segImpart.size(); n++) {
                 Casilla cas = lc.get(asig.enQueCasillaEstaSegmento(segImpart.get(n)));
 
@@ -114,7 +115,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion implements Seria
     }
 
     private void marcaTodaDocenciaComoConflictiva(PosibleSolucion posibleSolucion) {
-        HashSet<Integer> diasQueImparte = new HashSet<Integer>();
+//        HashSet<Integer> diasQueImparte = new HashSet<Integer>();
         for (String hashAula : segmentosImpartidos.keySet()) {
             Asignacion asig = posibleSolucion.getAsignacion(hashAula);
             ArrayList<Integer> segImpart = segmentosImpartidos.get(hashAula);
@@ -162,6 +163,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion implements Seria
      *
      * @return
      */
+    @Override
     public String mensajeDeAyuda() {
         return "Penaliza si los días en los que se reparte la docencia de un profesor supera un máximo dado.";
     }
@@ -192,7 +194,8 @@ public class RClasesCondensadasParaProfesor extends Restriccion implements Seria
         if (profesor == null) {
             throw new Exception("");
         }
-        this.profesor = profesor;setDirty(true);
+        this.profesor = profesor;
+        setDirty(true);
     }
 
     /**

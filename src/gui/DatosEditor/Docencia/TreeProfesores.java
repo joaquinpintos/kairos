@@ -13,5 +13,9 @@ import javax.swing.JTree;
  */
 public interface TreeProfesores {
 
+    /**
+     *
+     * @return
+     */
     public JTree getjTreeProfesores();
 }

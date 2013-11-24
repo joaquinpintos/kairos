@@ -30,6 +30,7 @@ import java.math.BigInteger;
  */
 public class DataProyecto implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private File pathForPDF; //Ruta para guardar los PDF
     private final DataProfesores dataProfesores;
     private final DataAsignaturas dataAsignaturas;
@@ -42,8 +43,8 @@ public class DataProyecto implements Serializable {
     private Horario horario;
     //  private ListaSegmentos listaSegmentos;
     //Datos generales sobre el proyecto
-    private ConfigProyecto configProyecto;
-   
+    private final ConfigProyecto configProyecto;
+
     //private MainWindow mainWindow;
     //Clase con los datos del calendario académico: Días lectivos, inicio/fin, etc.
     //Para cada aula representa por su hash nombre@mañana/tarde, asocia un objeto de 
@@ -70,6 +71,7 @@ public class DataProyecto implements Serializable {
      * Constructor por defecto
      */
     public DataProyecto() {
+
         this.dataProfesores = new DataProfesores(this);
         this.dataAsignaturas = new DataAsignaturas(this);
         this.dataAulas = new DataAulas(this);
@@ -82,7 +84,7 @@ public class DataProyecto implements Serializable {
         dataRestricciones = new DataRestricciones(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
         status = DataKairos.STATUS_PROJECT_NO_SOLUTION;
-        configProyecto=new ConfigProyecto(this);
+        configProyecto = new ConfigProyecto(this);
     }
 
     /**
@@ -105,7 +107,6 @@ public class DataProyecto implements Serializable {
      *
      * @param nombreProyecto
      */
-
     /**
      *
      * @return
@@ -294,6 +295,7 @@ public class DataProyecto implements Serializable {
     public ArrayList<ListaSegmentos> getSegmentosProfesor(Profesor pr) {
         return mapSegmentosImpartidosPorProfesor.get(pr);
     }
+
     /**
      *
      * @return
@@ -351,7 +353,6 @@ public class DataProyecto implements Serializable {
     public DataAsignacionAulas getAsignacionAulas() {
         return dataAsignacionAulas;
     }
-
 
     /**
      *
@@ -434,14 +435,27 @@ public class DataProyecto implements Serializable {
         this.dirty = dirty;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStatus() {
         return status;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setStatus(int status) {
         this.status = status;
     }
 
+    /**
+     *
+     * @param hashAula
+     * @return
+     */
     public Aula getAulaPorHash(String hashAula) {
         Aula resul = null;
         boolean tarde = hashAula.contains("@T");
@@ -455,8 +469,12 @@ public class DataProyecto implements Serializable {
         return resul;
     }
 
+    /**
+     *
+     * @return
+     */
     public ConfigProyecto getConfigProyecto() {
         return configProyecto;
     }
-    
+
 }

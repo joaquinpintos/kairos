@@ -4,7 +4,6 @@
  */
 package loader;
 
-import data.DataKairos;
 import data.DataProyecto;
 import data.restricciones.Restriccion;
 import java.io.File;
@@ -19,7 +18,7 @@ import org.w3c.dom.NodeList;
  */
 public class DOMLoaderRestricciones {
 
-    private File file;
+    private final File file;
     private final DataProyecto dataProyecto;
 
     /**

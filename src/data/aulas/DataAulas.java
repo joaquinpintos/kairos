@@ -7,7 +7,6 @@ package data.aulas;
 import data.AbstractDataSets;
 import data.DataProyecto;
 import data.DataProyectoListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.w3c.dom.Element;
@@ -17,8 +16,8 @@ import org.w3c.dom.Node;
  *
  * @author david
  */
-public class DataAulas extends AbstractDataSets implements Serializable {
-
+public class DataAulas extends AbstractDataSets  {
+    private static final long serialVersionUID = 1L;
     private final ArrayList<Aula> aulas;
     //hashGrupoCurso--->Aula@M/T
     private final ArrayList<AulaMT> aulaContainers;
@@ -102,7 +101,7 @@ public class DataAulas extends AbstractDataSets implements Serializable {
     private void nodoAula(Node parent, Aula aula) {
         Element elemAula = parent.getOwnerDocument().createElement("aula");
         elemAula.setAttribute("nombre", aula.getNombre());
-        Node nodeAula = parent.appendChild(elemAula);
+        parent.appendChild(elemAula);
     }
 
     /**
@@ -115,16 +114,16 @@ public class DataAulas extends AbstractDataSets implements Serializable {
 
 
 
-    private Aula buscaAula(String hashBuscado, Boolean esTarde) {
-        Aula resul = null;
-        for (Aula a : getDataProyecto().getDataAulas().getAulas()) {
-            if (a.getHash(esTarde) == null ? hashBuscado == null : a.getHash(esTarde).equals(hashBuscado)) {
-                resul = a;
-                break;
-            }
-        }
-        return resul;
-    }
+//    private Aula buscaAula(String hashBuscado, Boolean esTarde) {
+//        Aula resul = null;
+//        for (Aula a : getDataProyecto().getDataAulas().getAulas()) {
+//            if (a.getHash(esTarde) == null ? hashBuscado == null : a.getHash(esTarde).equals(hashBuscado)) {
+//                resul = a;
+//                break;
+//            }
+//        }
+//        return resul;
+//    }
 
     
      /**

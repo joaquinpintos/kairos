@@ -72,6 +72,10 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         pack();
     }
 
+    /**
+     *
+     * @throws IllegalArgumentException
+     */
     protected void createJMenus() throws IllegalArgumentException {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -205,6 +209,11 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private JMenuItem creaPDFMenuItem;
     // End of variables declaration                   
 
+    /**
+     *
+     * @param title
+     * @param tab
+     */
     @Override
     protected void addTab(String title, final JInternalFrame tab) {
         tab.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -242,10 +251,18 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
     }
 
+    /**
+     *
+     * @param dataif
+     */
     @Override
     public void switchToComponent(DataGUIInterface dataif) {
     }
 
+    /**
+     *
+     * @param status
+     */
     @Override
     public void setProjectStatus(int status) {
         super.setProjectStatus(status);

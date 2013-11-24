@@ -4,27 +4,28 @@
  */
 package data.genetic;
 
-import data.MyConstants;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Guarda la lista de casillas disponibles para alojar los segmentos.
+ *
  * @author david
  */
-public class ListaCasillas  implements Serializable{
+public class ListaCasillas implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<Casilla> casillas;
-    private int minutosPorCasilla;
+    private final int minutosPorCasilla;
 
     /**
      *
      * @param casillas
      * @param minutosPorCasilla
      */
-    public ListaCasillas(ArrayList<Casilla> casillas,int minutosPorCasilla) {
+    public ListaCasillas(ArrayList<Casilla> casillas, int minutosPorCasilla) {
         this.casillas = casillas;
-        this.minutosPorCasilla=minutosPorCasilla;
+        this.minutosPorCasilla = minutosPorCasilla;
     }
 
     /**
@@ -33,7 +34,7 @@ public class ListaCasillas  implements Serializable{
      */
     public ListaCasillas(int minutosPorCasilla) {
         casillas = new ArrayList<Casilla>();
-        this.minutosPorCasilla=minutosPorCasilla;
+        this.minutosPorCasilla = minutosPorCasilla;
     }
 
     /**
@@ -44,7 +45,6 @@ public class ListaCasillas  implements Serializable{
     public Casilla get(int n) {
         return casillas.get(n);
     }
-    
 
     /**
      *

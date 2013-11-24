@@ -13,5 +13,10 @@ import javax.swing.JTree;
  * @author usuario
  */
 public interface TreeAsignaturas {
+
+    /**
+     *
+     * @return
+     */
     public JTree getjTreeAsignaturas();
 }

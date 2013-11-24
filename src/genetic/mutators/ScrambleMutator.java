@@ -16,11 +16,12 @@ import java.util.Collections;
 public class ScrambleMutator extends Mutator {
 
     /**
-     *
+     * Constructor por defecto
      */
     public ScrambleMutator() {
         super();
     }
+
     /**
      *
      * @param s
@@ -31,6 +32,7 @@ public class ScrambleMutator extends Mutator {
             mutateAsignacion(asig);
         }
     }
+
     /**
      *
      * @param asig
@@ -47,7 +49,10 @@ public class ScrambleMutator extends Mutator {
 
     private void scrambleIndex(Asignacion asig, int n1) {
         int numSegmentos = asig.getNumSegmentos();
-        int n2 = (int) (Math.random() * numSegmentos);
+        int n2 = random.nextInt(numSegmentos);
+        if (n2 == numSegmentos) {
+            n2--;
+        }
 
         int nn1 = Math.min(n1, n2);
         int nn2 = Math.max(n1, n2);

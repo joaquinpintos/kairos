@@ -29,14 +29,14 @@ import java.util.HashSet;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RProfesorNoUbicuo extends Restriccion implements Serializable {
+public class RProfesorNoUbicuo extends Restriccion  {
 
     //profesor->lista de hashaulas, y cada hashaula->lista de [segmentos,duracion]
     //A cada profesor le asigna una lista de hashaulas donde imparte.
     //y a cada hashaula, una lista de [segmento,duracion] 
     HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>> dataMañana;
     HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>> dataTarde;
-    HashSet<Profesor> profesoresConflictivos;
+    private final HashSet<Profesor> profesoresConflictivos;
     long suma;
 
     /**
@@ -44,6 +44,7 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
      */
     public RProfesorNoUbicuo() {
         super(null);
+        profesoresConflictivos=new HashSet<Profesor>();
     }
 
     /**
@@ -52,6 +53,7 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
      */
     public RProfesorNoUbicuo(DataProyecto dataProyecto) {
         super(dataProyecto);
+        profesoresConflictivos=new HashSet<Profesor>();
     }
 
     @Override
@@ -74,7 +76,7 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
             for (Tramo d : docencia) {
                 GrupoTramos a = d.getParent();
                 Grupo b = a.getParent();
-                String hashGrupoCurso = b.getHashCarreraGrupoCurso();
+//                String hashGrupoCurso = b.getHashCarreraGrupoCurso();
                 String hashAula = d.getAulaMT().getHash();
                 dd.add(hashAula);
                 mapProfesorToAulas.put(p, dd);
@@ -86,7 +88,7 @@ public class RProfesorNoUbicuo extends Restriccion implements Serializable {
         //Tengo que contar para cada profesor cuántos aulas tiene de mañana y de tarde
         dataMañana = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
         dataTarde = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
-        profesoresConflictivos = new HashSet<Profesor>();
+        profesoresConflictivos.clear();
         for (Profesor p : mapProfesorToAulas.keySet()) {
             HashMap<String, ArrayList<Integer[]>> aulaToSegmentosMañana = new HashMap<String, ArrayList<Integer[]>>();
             HashMap<String, ArrayList<Integer[]>> aulaToSegmentosTarde = new HashMap<String, ArrayList<Integer[]>>();

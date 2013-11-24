@@ -19,11 +19,12 @@ import org.w3c.dom.Document;
  */
 public class DataAsignacionAulas implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Document documentoXML;
     private File lastFileUsed;
-    private ArrayList<DataProyectoListener> listeners;
-    HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesMañana;
-    HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesTarde;
+    private final ArrayList<DataProyectoListener> listeners;
+    final HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesMañana;
+    final HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesTarde;
     private final DataProyecto dataProyecto;
 
     /**
@@ -31,6 +32,7 @@ public class DataAsignacionAulas implements Serializable {
      * @param dataProyecto
      */
     public DataAsignacionAulas(DataProyecto dataProyecto) {
+
         asignacionesMañana = new HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>>();
         asignacionesTarde = new HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>>();
         listeners = new ArrayList<DataProyectoListener>();
@@ -107,7 +109,6 @@ public class DataAsignacionAulas implements Serializable {
             }
         }
         setDirty(true);
-
 
     }
 
@@ -186,16 +187,14 @@ public class DataAsignacionAulas implements Serializable {
 
         setDirty(true);
 
-
     }
 
     private Aula buscaAula(HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignaciones, String hashBuscado, Boolean esTarde) {
         Aula resul = null;
-        MainLoop:
         for (Aula a : dataProyecto.getDataAulas().getAulas()) {
             if (a.getHash(esTarde) == null ? hashBuscado == null : a.getHash(esTarde).equals(hashBuscado)) {
                 resul = a;
-                break MainLoop;
+                break;
             }
         }
         return resul;
@@ -316,7 +315,7 @@ public class DataAsignacionAulas implements Serializable {
      * @param value
      */
     public void setDirty(boolean value) {
-       try {
+        try {
             dataProyecto.setDirty(value);
         } catch (NullPointerException e) {
         }

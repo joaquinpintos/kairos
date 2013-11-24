@@ -24,9 +24,9 @@ import java.util.HashMap;
  */
 public class PrinterHorariosPorAulas extends AbstractHorariosPrinter {
 
-    private HashMap<AulaMT, DatosHojaHorario> data;
-    private int numFilasTarde = 1;
-    private int numFilasMañana = 1;
+    private final HashMap<AulaMT, DatosHojaHorario> data;
+//    private int numFilasTarde ;
+//    private int numFilasMañana;
 
     /**
      *
@@ -63,10 +63,10 @@ public class PrinterHorariosPorAulas extends AbstractHorariosPrinter {
                 DatosHojaHorario dat = new DatosHojaHorario(getDataProyecto());
                 if (h.isEsTarde()) {
                     dat.setTarde(false);//TODO: Poner opción de quitar recreos
-                    numFilasTarde = dat.getRangosHoras().size();
+//                    numFilasTarde = dat.getRangosHoras().size();
                 } else {
                     dat.setMañana(false);
-                    numFilasMañana = dat.getRangosHoras().size();
+//                    numFilasMañana = dat.getRangosHoras().size();
                 }
                 data.put(cont, dat);
             }

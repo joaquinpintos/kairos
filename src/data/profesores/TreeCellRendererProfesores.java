@@ -5,7 +5,6 @@
 package data.profesores;
 
 import data.MyConstants;
-import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTree;
@@ -64,10 +63,18 @@ public class TreeCellRendererProfesores extends JLabel implements TreeCellRender
         this.setText(texto);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isMostrarHorasDocencia() {
         return mostrarHorasDocencia;
     }
 
+    /**
+     *
+     * @param mostrarHorasDocencia
+     */
     public void setMostrarHorasDocencia(boolean mostrarHorasDocencia) {
         this.mostrarHorasDocencia = mostrarHorasDocencia;
     }

@@ -17,10 +17,17 @@ import java.io.IOException;
  */
 public class TramoDraggable implements Transferable {
 
+    /**
+     *
+     */
     final static public DataFlavor MY_FLAVOR = new DataFlavor(Tramo.class, "Kairos/Tramo");
 
     Tramo cont;
 
+    /**
+     *
+     * @param cont
+     */
     public TramoDraggable(Tramo cont) {
         this.cont = cont;
     }

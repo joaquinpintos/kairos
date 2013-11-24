@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class ArrayRangoHoras implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<RangoHoras> data;
 
     /**
@@ -49,13 +50,13 @@ public class ArrayRangoHoras implements Serializable {
     @Override
     public String toString() {
         Boolean first = true;
-        StringBuffer resul = new StringBuffer();
+        StringBuilder resul = new StringBuilder();
         for (RangoHoras r : data) {
             if (!first) {
                 resul.append(", ");
             }
             first = false;
-             resul.append(r.toString());
+            resul.append(r.toString());
         }
         return resul.toString();
     }

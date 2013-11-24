@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-
 /**
  *
  * @author david
  */
-
 public class ComparatorDiasSemana implements Comparator, Serializable {
 
-    private ArrayList<String> dias;
+    private static final long serialVersionUID = 1L;
+    private final ArrayList<String> dias;
 
     /**
      *

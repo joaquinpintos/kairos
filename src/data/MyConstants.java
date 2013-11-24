@@ -60,6 +60,9 @@ public class MyConstants {
      */
     public static final ImageIcon CLOCK_ICON = new ImageIcon("images/clock.png");
     
+    /**
+     *
+     */
     public static final ImageIcon TRAMO_ICON = new ImageIcon("images/clock.png");
     /**
      *
@@ -105,54 +108,18 @@ public class MyConstants {
      *
      */
     public static final Color UNSELECTED_ITEM_LIST = new Color(255, 255, 255);
-    /**
-     *
-     */
     public static final Color SIN_DOCENCIA_ASIGNADA = Color.RED;
-    /**
-     *
-     */
     public static final Color CON_DOCENCIA_ASIGNADA = Color.BLUE;
-    /**
-     *
-     */
     public static final Color CONFLICTIVE_ITEM = Color.RED;
-    /**
-     *
-     */
     public static final Color NON_CONFLICTIVE_ITEM = Color.BLACK;
-    /**
-     *
-     */
     public static final Color DIA_NO_LECTIVO = new Color(200, 200, 200);
-    /**
-     *
-     */
     public static final Color FONDO_CASILLA_HORARIO = new Color(215, 215, 215);
-    /**
-     *
-     */
     public static final Color HORARIO_HORAS_COLOR = new Color(220, 220, 220);
-    /**
-     *
-     */
     public static final Font NEGRITA_FONT = new Font("ARIAL", Font.BOLD, 12);
-    /**
-     *
-     */
     public static final Font NORMAL_FONT = new Font("ARIAL", Font.PLAIN, 12);
 
-    /**
-     *
-     */
     public static final Color NON_SELECTED_CONFLICTIVE_ITEM = new Color(255, 210, 210);
-    /**
-     *
-     */
     public static final Color SELECTED_CONFLICTIVE_ITEM = Color.RED;
-    /**
-     *
-     */
     public static final Color[] coloresAsignaturas = {
         new Color(255, 165, 96),
         new Color(107, 255, 99),
@@ -161,5 +128,6 @@ public class MyConstants {
         new Color(153, 221, 146),
         new Color(101, 196, 255)
     };
+
     public static final Color BACKGROUND_APP_COLOR=Color.gray;
 }

@@ -17,9 +17,16 @@ import java.io.IOException;
  */
 public class ProfesorDraggable implements Transferable {
 
+    /**
+     *
+     */
     final static public DataFlavor MY_FLAVOR = new DataFlavor(ProfesorDraggable.class, "Kairos/Profesor");
     private final Profesor cont;
 
+    /**
+     *
+     * @param cont
+     */
     public ProfesorDraggable(Profesor cont) {
         this.cont = cont;
     }

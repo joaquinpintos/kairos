@@ -5,8 +5,7 @@
 package data.aulas;
 
 import data.RangoHoras;
-import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,21 +13,21 @@ import java.util.Vector;
  */
 public class ListaRangosHoras {
 
-    private Vector<RangoHoras> rangos;
+    private ArrayList<RangoHoras> rangos;
     private Aula parent;
 
     /**
      *
      */
     public ListaRangosHoras() {
-        rangos = new Vector<RangoHoras>();
+        rangos = new ArrayList<RangoHoras>();
     }
 
     /**
      *
      * @param rangos
      */
-    public ListaRangosHoras(Vector<RangoHoras> rangos) {
+    public ListaRangosHoras(ArrayList<RangoHoras> rangos) {
         this.rangos = rangos;
     }
 
@@ -36,7 +35,7 @@ public class ListaRangosHoras {
      *
      * @return
      */
-    public Vector<RangoHoras> getRangos() {
+    public ArrayList<RangoHoras> getRangos() {
         return rangos;
     }
 
@@ -44,7 +43,7 @@ public class ListaRangosHoras {
      *
      * @param rangos
      */
-    public void setRangos(Vector<RangoHoras> rangos) {
+    public void setRangos(ArrayList<RangoHoras> rangos) {
         this.rangos = rangos;
     }
 

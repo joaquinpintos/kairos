@@ -24,6 +24,10 @@ public class TreeModelGrupoCursos implements TreeModel {
     private final DataKairos dk;
     ArrayList<TreeModelListener> listeners;
 
+    /**
+     *
+     * @param dk
+     */
     public TreeModelGrupoCursos(DataKairos dk) {
         this.dk = dk;
         this.listeners = new ArrayList<TreeModelListener>();

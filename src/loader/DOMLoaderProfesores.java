@@ -4,14 +4,15 @@
  */
 package loader;
 
-import data.DataKairos;
 import data.DataProyecto;
-import data.profesores.DataProfesores;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
 import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -22,7 +23,7 @@ public class DOMLoaderProfesores {
     private File file;
     private Departamento currentDepartamento;
     private Profesor currentProfesor;
-    org.w3c.dom.Document dom;
+    private org.w3c.dom.Document dom;
     private final DataProyecto dataProyecto;
 
     /**
@@ -32,7 +33,7 @@ public class DOMLoaderProfesores {
      */
     public DOMLoaderProfesores(File file, DataProyecto dataProyecto) {
         this.file = file;
-        this.dataProyecto=dataProyecto;
+        this.dataProyecto = dataProyecto;
     }
 
     /**
@@ -50,8 +51,6 @@ public class DOMLoaderProfesores {
     public void setFile(File file) {
         this.file = file;
     }
-
-
 
     /**
      *
@@ -109,18 +108,26 @@ public class DOMLoaderProfesores {
             db = dbf.newDocumentBuilder();
             dom = db.parse(file);
             buildDocumentStructure();
-        } catch (Exception ex) {
+        } catch (ParserConfigurationException ex) {
+            dbg("Excepción al parsear " + ex.getMessage());
+            isOk = false;
+        } catch (SAXException ex) {
+            dbg("Excepción al parsear " + ex.getMessage());
+            isOk = false;
+        } catch (IOException ex) {
             dbg("Excepción al parsear " + ex.getMessage());
             isOk = false;
         } finally {
-            return isOk;
         }
+        return isOk;
     }
 
     private void buildDocumentStructure() {
-        //A partir del archivo dom construyo los datos de dataProfesores
-        org.w3c.dom.Element rootElement = dom.getDocumentElement();
-        parseProfesores(rootElement);
+        if (dom != null) {
+            //A partir del archivo dom construyo los datos de dataProfesores
+            org.w3c.dom.Element rootElement = dom.getDocumentElement();
+            parseProfesores(rootElement);
+        }
 
     }
 

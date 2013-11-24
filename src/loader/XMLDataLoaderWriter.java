@@ -114,13 +114,13 @@ public class XMLDataLoaderWriter {
 
         //Datos de configuración del proyecto
         org.w3c.dom.NodeList nodeList = rootElement.getElementsByTagName("config");
-         if (nodeList != null && nodeList.getLength() > 0) {
+        if (nodeList != null && nodeList.getLength() > 0) {
             for (int i = 0; i < nodeList.getLength(); i++) {
-                dataProyecto.getConfigProyecto().parseXMLConfig((Element)nodeList.item(i));
+                dataProyecto.getConfigProyecto().parseXMLConfig((Element) nodeList.item(i));
             }
         }
         //Leo datos profesores
-         nodeList = rootElement.getElementsByTagName("profesorado");
+        nodeList = rootElement.getElementsByTagName("profesorado");
         if (nodeList != null && nodeList.getLength() > 0) {
             DOMLoaderProfesores domlp = new DOMLoaderProfesores(null, dataProyecto);
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -160,8 +160,7 @@ public class XMLDataLoaderWriter {
         //Leo datos sobre las restricciones
         nodeList = rootElement.getElementsByTagName("restricciones");
         if (nodeList != null && nodeList.getLength() > 0) {
-            DOMLoaderRestricciones domlp = new DOMLoaderRestricciones(null, dataProyecto) {
-            };
+            DOMLoaderRestricciones domlp = new DOMLoaderRestricciones(null, dataProyecto);
             for (int i = 0; i < nodeList.getLength(); i++) {
                 domlp.loadRestricciones((Element) nodeList.item(i));
             }
@@ -188,10 +187,14 @@ public class XMLDataLoaderWriter {
             Transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             Transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             Transformer.transform(src, dest);
-            salida.close();
+
         } catch (TransformerException ex) {
+        }
+        try {
+            salida.close();
         } catch (IOException ex) {
         }
+
     }
 
     /**
@@ -199,9 +202,9 @@ public class XMLDataLoaderWriter {
      * @return
      */
     public Document dataToDOM() {
-        DataProfesores dataProfesores = dataProyecto.getDataProfesores();
-        DataAulas dataAulas = dataProyecto.getDataAulas();
-        DataAsignaturas dataAsignaturas = dataProyecto.getDataAsignaturas();
+//        DataProfesores dataProfesores = dataProyecto.getDataProfesores();
+//        DataAulas dataAulas = dataProyecto.getDataAulas();
+//        DataAsignaturas dataAsignaturas = dataProyecto.getDataAsignaturas();
         TreeSet DOMdepartamentos;
         Document documentoXML = null;
         try {
@@ -214,8 +217,8 @@ public class XMLDataLoaderWriter {
         Element elementRoot = documentoXML.createElement("proyecto");
         elementRoot.setAttribute("nombre", dataProyecto.getConfigProyecto().getNombreProyecto());//Introduzco atributo nombre con nombre del proyecto
         Node nodeRoot = documentoXML.appendChild(elementRoot);
-        Node nodeConfig=nodeRoot.appendChild(documentoXML.createElement("config"));
-        dataProyecto.getConfigProyecto().dataToDOM(documentoXML,nodeConfig);
+        Node nodeConfig = nodeRoot.appendChild(documentoXML.createElement("config"));
+        dataProyecto.getConfigProyecto().dataToDOM(documentoXML, nodeConfig);
         //Grabo todos los datos del calendario académico
         Node nodeCalendarioAcadémico = nodeRoot.appendChild(documentoXML.createElement("calendario_académico"));
         dataProyecto.getCalendarioAcadémico().dataToDOM(documentoXML, nodeCalendarioAcadémico);
@@ -311,15 +314,15 @@ public class XMLDataLoaderWriter {
         el.appendChild(parent.getOwnerDocument().createTextNode(nombreCorto));
         return el;
     }
-  //Devuelve el primer nodo hijo de parent con nombre especificado.
-    private Element buscaPrimerElementoConNombre(Element parent, String nombre) {
-        org.w3c.dom.NodeList nodeList = parent.getElementsByTagName(nombre);
-        Element resul;
-        if (nodeList != null && nodeList.getLength() > 0) {
-            resul = (Element) nodeList.item(0);
-        } else {
-            resul = null;
-        }
-        return resul;
-    }
+//  //Devuelve el primer nodo hijo de parent con nombre especificado.
+//    private Element buscaPrimerElementoConNombre(Element parent, String nombre) {
+//        org.w3c.dom.NodeList nodeList = parent.getElementsByTagName(nombre);
+//        Element resul;
+//        if (nodeList != null && nodeList.getLength() > 0) {
+//            resul = (Element) nodeList.item(0);
+//        } else {
+//            resul = null;
+//        }
+//        return resul;
+//    }
 }

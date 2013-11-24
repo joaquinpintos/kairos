@@ -29,6 +29,8 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
 
     /**
      * Creates new form jIntAsignaciones
+     * @param dk
+     * @throws java.util.TooManyListenersException
      */
     public JIntEditorDocencia(DataKairos dk) throws TooManyListenersException {
         initComponents();
@@ -54,11 +56,19 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
         jTreeAsignaturas.getDropTarget().addDropTargetListener(new JTreeAsignaturasDropListener((TreeAsignaturas) this, dk));
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public JTree getjTreeAsignaturas() {
         return jTreeAsignaturas;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTree getjTreeProfesores() {
         return jTreeProfesores;
     }

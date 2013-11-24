@@ -18,7 +18,6 @@ import data.DataProyecto;
 import data.Hora;
 import data.aulas.Aula;
 import data.horarios.HorarioItem;
-import data.profesores.Profesor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,6 +40,14 @@ public class HojaDeFirmaPrinter {
     private final DataProyecto dp;
     private final File fileDst;
 
+    /**
+     *
+     * @param dataProyecto
+     * @param fileDst
+     * @param aulas
+     * @param inicio
+     * @param fin
+     */
     public HojaDeFirmaPrinter(DataProyecto dataProyecto, File fileDst, ArrayList<Aula> aulas, GregorianCalendar inicio, GregorianCalendar fin) {
         this.aulas = aulas;
         this.inicio = inicio;
@@ -49,6 +56,9 @@ public class HojaDeFirmaPrinter {
         this.fileDst = fileDst;
     }
 
+    /**
+     *
+     */
     public void imprime() {
         Document doc = new Document();
         try {
@@ -92,7 +102,7 @@ public class HojaDeFirmaPrinter {
         par.add(new Phrase(diaSemana + " " + cal.format(dia), fontbold));
 
         par.setAlignment(Paragraph.ALIGN_CENTER);
-        boolean add = doc.add(par);
+        doc.add(par);
         par.setAlignment(Paragraph.ALIGN_CENTER);
     }
 
@@ -129,6 +139,12 @@ public class HojaDeFirmaPrinter {
 
     }
 
+    /**
+     *
+     * @param aula
+     * @param dia
+     * @return
+     */
     protected ArrayList<HorarioItem> calculaClasesEsteDia(Aula aula,GregorianCalendar dia) {
         ArrayList<Integer> diasDeLaSemana = new ArrayList<Integer>();
         diasDeLaSemana.add(GregorianCalendar.MONDAY);
@@ -149,10 +165,17 @@ public class HojaDeFirmaPrinter {
         return data;
     }
 
+    /**
+     *
+     * @param t
+     * @param h
+     */
     protected void creaFilaFirma(PdfPTable t, HorarioItem h) {
         Font font = new Font(Font.FontFamily.HELVETICA, 14);
         Font fontProfe = new Font(Font.FontFamily.HELVETICA, 10);
-        Paragraph p = new Paragraph(h.getRangoHoras() + "\n" + h.getAsignatura().getNombre(), font);
+        String name = h.getRangoHoras() + "\n" + h.getAsignatura().getNombre();
+        name+="\n"+h.getGrupo().getNombreGrupoCursoYCarrera();
+        Paragraph p = new Paragraph(name, font);
         PdfPCell c = new PdfPCell(p);
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         c.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);

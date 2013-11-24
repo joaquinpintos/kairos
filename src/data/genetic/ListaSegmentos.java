@@ -11,8 +11,9 @@ import java.util.ArrayList;
  *
  * @author david
  */
-public class ListaSegmentos  implements Serializable{
+public class ListaSegmentos implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<Segmento> segmentos;
 
     /**
@@ -90,7 +91,9 @@ public class ListaSegmentos  implements Serializable{
     public int getNumeroHuecosLibres() {
         int cuenta = 0;
         for (Segmento s : segmentos) {
-            if (s.isHuecoLibre()) cuenta++;
+            if (s.isHuecoLibre()) {
+                cuenta++;
+            }
         }
         return cuenta;
     }

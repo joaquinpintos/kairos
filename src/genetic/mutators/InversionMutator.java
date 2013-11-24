@@ -17,9 +17,10 @@ import java.util.Collections;
 public class InversionMutator extends Mutator {
 
     /**
-     *
+     * Constructor por defecto
      */
     public InversionMutator() {
+        super();
     }
 
     /**
@@ -53,9 +54,11 @@ public class InversionMutator extends Mutator {
      * @param n1
      */
     public void invertIndex(Asignacion asig, int n1) {
-        int numSegmentos = asig.getNumSegmentos();
-        int n2 = (int) (Math.random() * numSegmentos);
-
+        final int numSegmentos = asig.getNumSegmentos();
+        int n2 = random.nextInt(numSegmentos);
+        if (n2 == numSegmentos) {
+            n2--;
+        }
         int nn1 = Math.min(n1, n2);
         int nn2 = Math.max(n1, n2);
 

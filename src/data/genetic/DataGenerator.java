@@ -26,8 +26,8 @@ import java.util.ArrayList;
  */
 public class DataGenerator {
 
-    ArrayList<Segmento> segmentos;
-    ArrayList<Casilla> casillas;
+//    ArrayList<Segmento> segmentos;
+//    ArrayList<Casilla> casillas;
     private DataAsignaturas dataAsignaturas;
     private DataProfesores dataProfesores;
     private DataAulas dataAulas;
@@ -145,7 +145,9 @@ public class DataGenerator {
             cas.setFinaldeRango(false);
         }
         //Ultima casilla de cada rango la marco como final.
-        cas.setFinaldeRango(true);
+        if (cas != null) {
+            cas.setFinaldeRango(true);
+        }
 
     }
 

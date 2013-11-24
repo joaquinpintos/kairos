@@ -28,6 +28,11 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
     private final TreeAsignaturas parent;
     private final DataKairos dk;
 
+    /**
+     *
+     * @param parent
+     * @param dk
+     */
     public JTreeAsignaturasDropListener(TreeAsignaturas parent, DataKairos dk) {
         this.parent = parent;
         this.dk = dk;

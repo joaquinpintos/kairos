@@ -130,10 +130,18 @@ public class TreeModelAsignaturas implements TreeModel {
     public void removeTreeModelListener(TreeModelListener l) {
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isLlegarHastaTramos() {
         return llegarHastaTramos;
     }
 
+    /**
+     *
+     * @param llegarHastaTramos
+     */
     public void setLlegarHastaTramos(boolean llegarHastaTramos) {
         this.llegarHastaTramos = llegarHastaTramos;
     }

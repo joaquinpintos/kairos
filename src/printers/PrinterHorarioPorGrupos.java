@@ -8,7 +8,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 import data.DataProyecto;
 import data.asignaturas.Grupo;
 import data.aulas.CarreraCursoGrupoContainer;
@@ -19,8 +18,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

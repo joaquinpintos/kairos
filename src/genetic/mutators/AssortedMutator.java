@@ -13,11 +13,11 @@ import java.util.ArrayList;
  */
 public class AssortedMutator extends Mutator {
 
-    int contador;
-    ArrayList<Mutator> mutators;
+    private int contador;
+    private final ArrayList<Mutator> mutators;
 
     /**
-     *
+     * Constructor por defecto
      */
     public AssortedMutator() {
         Mutator m1 = new SwapMutator();

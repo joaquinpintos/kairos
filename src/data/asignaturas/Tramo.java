@@ -15,6 +15,7 @@ import java.io.Serializable;
  */
 public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
 
+    private static final long serialVersionUID = 1L;
     private int minutos;
     private GrupoTramos parent;
     private Profesor profesor;
@@ -58,6 +59,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         this.parent = parent;
     }
 
+    /**
+     *
+     * @return
+     */
     public GrupoTramos getParent() {
         return parent;
     }
@@ -74,6 +79,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
 
     }
 
+    /**
+     *
+     * @param profesor
+     */
     @Override
     public void setDocente(Profesor profesor) {
         this.profesor = profesor;
@@ -83,10 +92,17 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
+    /**
+     *
+     * @return
+     */
     public Profesor getDocente() {
         return profesor;
     }
 
+    /**
+     *
+     */
     @Override
     public void removeDocente() {
         Profesor p = profesor;
@@ -97,6 +113,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isAsignado() {
         return (profesor != null);
     }
@@ -113,6 +133,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return resul;
     }
 
+    /**
+     *
+     * @param aulaMT
+     */
     @Override
     public void asignaAula(AulaMT aulaMT) {
         this.aulaMT = aulaMT;
@@ -121,12 +145,20 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
+    /**
+     *
+     * @param aulaMT
+     * @param batch
+     */
     public void asignaAula(AulaMT aulaMT, boolean batch) {
         //if (this.aulaMT == null) {
         asignaAula(aulaMT);
         //}
     }
 
+    /**
+     *
+     */
     @Override
     public void removeAula() {
         this.aulaMT = null;
@@ -134,18 +166,35 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
+    /**
+     *
+     * @return
+     */
     public AulaMT getAulaMT() {
         return aulaMT;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean tieneAula() {
         return (aulaMT != null);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isTarde() {
         return tarde;
     }
 
+    /**
+     *
+     * @param obj
+     * @param type
+     */
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }

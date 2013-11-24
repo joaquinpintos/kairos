@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 
 /**
  * Clase que representa una posible solución (asignación) de horarios en un
@@ -31,10 +30,11 @@ import java.util.Random;
  */
 public final class Asignacion implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<Integer> asignaciones;
     private ArrayList<Integer> cuantasCasillas;
     private ArrayList<Integer> queCasilla;
-    private HashSet<Integer> segmentosConflictivos;
+    private final HashSet<Integer> segmentosConflictivos;
     private long peso;
     private int numSegmentos;
     //private DataProyecto dataProyecto;
@@ -177,7 +177,7 @@ public final class Asignacion implements Serializable {
      */
     public static Asignacion generador(DatosPorAula datosPorAula) {
         Asignacion nuevaAsignacion = new Asignacion(datosPorAula);
-        Random randomGenerator = new Random();
+//        Random randomGenerator = new Random();
         nuevaAsignacion.setPeso(100000000);//Una solución generada al azar ha de ser mala!!
         for (int k = 0; k < datosPorAula.getListaSegmentos().size(); k++) {
             nuevaAsignacion.getAsignaciones().add(k);
@@ -366,7 +366,8 @@ public final class Asignacion implements Serializable {
     }
 
     /**
-     *
+     * Actualiza los datos internos de la solución. Este método es necesario
+     * llamarlo cada vez que se cambie la asignación.
      */
     public void update() {
         //    reordenaCasillas();
@@ -430,15 +431,14 @@ public final class Asignacion implements Serializable {
         return datosPorAula;
     }
 
-    private int obtainPlaceToPut(int k) {
-        int resul = 0;
-        while (queCasilla.get(resul) < k) {
-            resul++;
-        }
-//if (queCasilla.get(resul)!=k) posibleSolucion.setPeso(posibleSolucion.getPeso()+111);
-        return resul;
-    }
-
+//    private int obtainPlaceToPut(int k) {
+//        int resul = 0;
+//        while (queCasilla.get(resul) < k) {
+//            resul++;
+//        }
+////if (queCasilla.get(resul)!=k) posibleSolucion.setPeso(posibleSolucion.getPeso()+111);
+//        return resul;
+//    }
     /**
      *
      * @param numSegmento

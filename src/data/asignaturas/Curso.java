@@ -6,7 +6,6 @@ package data.asignaturas;
 
 import data.DataProyectoListener;
 import data.MyConstants;
-import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
@@ -20,6 +19,7 @@ import java.util.HashSet;
  */
 public class Curso implements Serializable, Comparable<Curso>, Teachable {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<DataProyectoListener> listeners;
     private String nombre;
     private Carrera parent;
@@ -145,13 +145,42 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         return this.nombre.compareTo(o.getNombre());
     }
 
-    void setDirty(boolean value) {
-//       try {
-        parent.setDirty(value);
-//        } catch (NullPointerException e) {
-//        }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (this.nombre != null ? this.nombre.hashCode() : 0);
+        hash = 37 * hash + (this.parent != null ? this.parent.hashCode() : 0);
+        return hash;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Curso other = (Curso) obj;
+        if ((this.nombre == null) ? (other.nombre != null) : !this.nombre.equals(other.nombre)) {
+            return false;
+        }
+        if (this.parent != other.parent && (this.parent == null || !this.parent.equals(other.parent))) {
+            return false;
+        }
+        return true;
+    }
+
+    void setDirty(boolean value) {
+        if (parent != null) {
+            parent.setDirty(value);
+        }
+    }
+
+    /**
+     *
+     * @param profesor
+     */
     @Override
     public void setDocente(Profesor profesor) {
         for (Asignatura asig : asignaturas) {
@@ -159,6 +188,9 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeDocente() {
         for (Asignatura asig : asignaturas) {
@@ -166,10 +198,19 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
+    /**
+     *
+     * @param obj
+     * @param type
+     */
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }
 
+    /**
+     *
+     * @param aula
+     */
     @Override
     public void asignaAula(AulaMT aula) {
         for (Asignatura asig : asignaturas) {
@@ -177,6 +218,9 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void removeAula() {
         for (Asignatura asig : asignaturas) {
@@ -184,6 +228,9 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
+    /**
+     *
+     */
     public void updateAsigAulaStatus() {
         boolean resul = false;
         for (Asignatura asig : asignaturas) {
@@ -199,6 +246,10 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean algunoSinAula() {
         return algunoSinAula;
     }

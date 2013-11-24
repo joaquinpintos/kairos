@@ -4,8 +4,6 @@
  */
 package data.profesores;
 
-import data.asignaturas.Grupo;
-import data.asignaturas.DocenciaItem;
 import data.asignaturas.Tramo;
 import java.io.Serializable;
 import java.util.Collections;
@@ -18,10 +16,11 @@ import java.util.ArrayList;
  */
 public class Profesor implements Comparable<Profesor>, Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private String apellidos;
     private Departamento departamento;
-    private ArrayList<Tramo> docencia;
+    private final ArrayList<Tramo> docencia;
 
     /**
      *
@@ -166,6 +165,9 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         }
     }
 
+    /**
+     *
+     */
     public void clearDocencia() {
         for (Tramo d : docencia) {
             d.setDocente(null);
@@ -183,7 +185,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         for (Tramo d : docencia) {
             suma += d.getMinutos();
         }
-        return suma/60;
+        return suma / 60;
     }
 
     /**
@@ -196,6 +198,36 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     @Override
     public int compareTo(Profesor o) {
         return this.toString().compareTo(o.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + (this.nombre != null ? this.nombre.hashCode() : 0);
+        hash = 47 * hash + (this.apellidos != null ? this.apellidos.hashCode() : 0);
+        hash = 47 * hash + (this.departamento != null ? this.departamento.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Profesor other = (Profesor) obj;
+        if ((this.nombre == null) ? (other.nombre != null) : !this.nombre.equals(other.nombre)) {
+            return false;
+        }
+        if ((this.apellidos == null) ? (other.apellidos != null) : !this.apellidos.equals(other.apellidos)) {
+            return false;
+        }
+        if (this.departamento != other.departamento && (this.departamento == null || !this.departamento.equals(other.departamento))) {
+            return false;
+        }
+        return true;
     }
 
     /**
