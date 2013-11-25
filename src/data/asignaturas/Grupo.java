@@ -11,7 +11,10 @@ import data.profesores.Profesor;
 import java.io.Serializable;
 
 /**
- * Representa un grupo simple, con sus tramos asociados.
+ * Representa un grupo de alumnos, con sus tramos asociados. Cada grupo se
+ * representa por un nombre (1,2,3, A, B, C,...) y pertenece a una
+ * {@link Asignatura}. A su vez cada grupo contiene una serie de tramos de
+ * docencia, almacenados en un objeto del tipo {@link GrupoTramos}.
  *
  * @author david
  */
@@ -26,6 +29,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     private boolean algunoSinAula;
 
     /**
+     * Constructor. Devuelve un grupo nuevo con nombre dado.
      *
      * @param nombre
      */
@@ -37,6 +41,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
+     * Devuelve el nombre
      *
      * @return
      */
@@ -45,14 +50,20 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
+     * Cambia el nombre del grupo. No puede contener la letra @
      *
      * @param nombre
      */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String nombre) throws IllegalArgumentException {
+        if (!nombre.contains("@")) {
+            this.nombre = nombre;
+        } else {
+            throw new IllegalArgumentException("El nombre no puede contener @");
+        }
     }
 
     /**
+     * Devuelve objeto {@link GrupoTramos} para los tramos de grupo completo.
      *
      * @return
      */
@@ -61,29 +72,31 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
+     * Añade un nuevo {@link Tramo} a los tramos para el grupo completo.
      *
-     * @param tr
+     * @param tramo Tramo a añadir
      */
-    public void addTramoGrupoCompleto(Tramo tr) {
-        tramosGrupoCompleto.add(tr);
-        tr.setParent(tramosGrupoCompleto);
+    public void addTramoGrupoCompleto(Tramo tramo) {
+        tramosGrupoCompleto.add(tramo);
+        tramo.setParent(tramosGrupoCompleto);
         updateAsigAulaStatus();
         setDirty(true);
-        fireDataEvent(tr, DataProyectoListener.ADD);
+        fireDataEvent(tramo, DataProyectoListener.ADD);
     }
 
     /**
+     * Elimina el tramo del grupo de tramos para grupo completo.
      *
-     * @param tr
+     * @param tramo
      */
-    public void removeTramoGrupoCompleto(Tramo tr) {
-        tr.removeAula();
-        tr.removeDocente();
-        tramosGrupoCompleto.remove(tr);
-        tr.setParent(null);
+    public void removeTramoGrupoCompleto(Tramo tramo) {
+        tramo.removeAula();
+        tramo.removeDocente();
+        tramosGrupoCompleto.remove(tramo);
+        tramo.setParent(null);
         updateAsigAulaStatus();
         setDirty(true);
-        fireDataEvent(tr, DataProyectoListener.REMOVE);
+        fireDataEvent(tramo, DataProyectoListener.REMOVE);
     }
 
     @Override
@@ -95,14 +108,14 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
-     *
-     * @return
+     * @return Asignatura a la que pertenece.
      */
     public Asignatura getParent() {
         return parent;
     }
 
     /**
+     * Cambia la asignatura a la que pertenece.
      *
      * @param asignatura
      */
@@ -112,7 +125,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     /**
      *
-     * @return
+     * @return Total de horas de docencia del grupo, sumando todos los tramos.
      */
     public double getTotalHoras() {
         return tramosGrupoCompleto.getTotalHoras();
@@ -122,8 +135,10 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     //AL asignar la docencia a este profesor, actualizo el estado de la asignatura 
     //a la que pertenece
     /**
+     * Asigna docente a grupo. Este procedimiento asigna recursivamente el
+     * docente a todos los tramos a los que pertenece el grupo.
      *
-     * @param profesor
+     * @param profesor Profesor que dará docencia en dicho grupo.
      */
     @Override
     public void setDocente(Profesor profesor) {
@@ -135,64 +150,59 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     /**
      *
-     * @return
+     * @return True si el grupo da sus clases por la tarde. False en caso
+     * contrario.
      */
     public boolean isTarde() {
         return tarde;
     }
 
     /**
+     * Establece si el grupo es de tarde o no.
      *
-     * @param tarde
+     * @param tarde True si el grupo da sus clases por la tarde. False en caso
+     * contrario.
      */
     public void setTarde(boolean tarde) {
         this.tarde = tarde;
     }
 
-    //TODO: En la edición manual se podría mover horarios item de un sitio a otro
     /**
+     * Devuelve un hash que identifica de forma unívoca el {@link Grupo}, {@link Asignatura},
+     * {@link Curso} y {@link Carrera} al que pertenece. Ejemplo:
+     * Primaria@1@Matematicas@A
      *
-     * @return
+     * @return Hash de la forma carrera@curso@asignatura@grupo
      */
-    public String getHashCarreraGrupoCurso() {//Ejemplo  Primaria@1@Matematicas@A
-//        if (!isLibre()) {
+    public String getHashCarreraGrupoCurso() {
         return this.getParent().getParent().getHash() + "@" + this.nombre;
-//        } else {
-//            return "";
-//        }
     }
 
     /**
+     * Devuelve una cadena formateada con el {@link Grupo},
+     * {@link Curso} y {@link Carrera} al que pertenece. Ejemplo: Primaria -1º -
+     * Grupo 1
      *
-     * @return
+     * @return Cadena de la forma carrera - curso - grupo
      */
     public String getNombreConCarrera() {
 
         return this.getParent().getParent().getParent() + " - " + this.getParent().getParent() + " - Grupo " + this.getNombre();
 
     }
-    public String getNombreGrupoCursoYCarrera(){
-        return "G"+this.getNombre()+" "+this.getParent().getParent().getNombre()+" "+this.getParent().getParent().getParent().toString();
-    }
 
     /**
+     * Devuelve una cadena formateada con el {@link Grupo},
+     * {@link Curso} y {@link Carrera} al que pertenece. Ejemplo: G1 1º Primaria
      *
-     * @return
+     * @return Cadena de la forma Ggrupo curso carrera
      */
-    public Aula getAulaAsignada() {
-        return aulaAsignada;
+    public String getNombreGrupoCursoYCarrera() {
+        return "G" + this.getNombre() + " " + this.getParent().getParent().getNombre() + " " + this.getParent().getParent().getParent().toString();
     }
 
     /**
-     *
-     * @param aulaAsignada
-     */
-    public void setAulaAsignada(Aula aulaAsignada) {
-        this.aulaAsignada = aulaAsignada;
-    }
-
-    /**
-     *
+     * Borrra todos los tramos asignados
      */
     public void clearTramos() {
         tramosGrupoCompleto.getTramos().clear();
@@ -230,8 +240,11 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
+     * Marca el grupo como modificado (con efectos a la hora de guardar cambios
+     * o no)
      *
-     * @param value
+     * @param value True si el grupo ha sufrido modificaciones. False en caso
+     * contrario.
      */
     public void setDirty(boolean value) {
         if (parent != null) {
@@ -240,7 +253,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
-     *
+     * Elimina el docente asignado al grupo. Este procedimiento elimina
+     * recursivamente el docente de todos los tramos asociados al grupo.
      */
     @Override
     public void removeDocente() {
@@ -250,8 +264,10 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
+     * Asigna aula al grupo. Este procedimiento asigna recursivamente aula a
+     * todos los tramos asociados al grupo.
      *
-     * @param aula
+     * @param aula Aula a asignar.
      */
     @Override
     public void asignaAula(AulaMT aula) {
@@ -261,6 +277,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
+     * Elimina aula del grupo. Este procedimiento elimina recursivamente el aula
+     * a todos los tramos asociados al grupo.
      *
      */
     @Override
@@ -272,7 +290,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
-     *
+     * 
      */
     public void updateAsigAulaStatus() {
         if (tramosGrupoCompleto.algunoSinAula() != algunoSinAula) {
