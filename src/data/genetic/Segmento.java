@@ -18,11 +18,11 @@ import java.io.Serializable;
  * 1.1, cada segmento está asociado a un tramo, más que a un grupo. Esto implica
  * entre otras cosas que varios profesores compartan la misma asignatura.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Segmento implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     int duracion;//duracion en minutos
     private final int numeroDeCasillasQueOcupa;
     private boolean huecoLibre; //True si el segmento no se refiere a una clase, sino a un hueco libre

@@ -14,11 +14,11 @@ import java.io.Serializable;
 /**
  * Representa una casilla disponible para introducir un segmento.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Casilla implements Comparable<Casilla>, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private Aula aula;
     private Hora hora;
     private int diaSemana;//Entre 1 y 5

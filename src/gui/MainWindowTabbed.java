@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class MainWindowTabbed extends AbstractMainWindow {
 

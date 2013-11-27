@@ -30,7 +30,7 @@ import java.math.BigInteger;
  */
 public class DataProyecto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private File pathForPDF; //Ruta para guardar los PDF
     private final DataProfesores dataProfesores;
     private final DataAsignaturas dataAsignaturas;

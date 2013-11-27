@@ -16,7 +16,7 @@ import javax.swing.DefaultComboBoxModel;
 /**
  * Modelo para un objeto combo de los grupos en los que se impartirá docencia
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class ComboModelDocencia extends DefaultComboBoxModel {
 

@@ -11,7 +11,7 @@ import data.profesores.Profesor;
 
 /**
  * Cualquier clase que implemente esta interfaz es susceptible de ser enseñada: grupos, asignaturas, cursos, tramos, etc.
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public interface Teachable {
 

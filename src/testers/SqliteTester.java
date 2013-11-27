@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class SqliteTester {
 //c = DriverManager.getConnection("jdbc:sqlite:src/release/db.db3");    

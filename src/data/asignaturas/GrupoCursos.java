@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class GrupoCursos implements DataProyectoListener, Serializable, Teachable {
-private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 27112013L;
     private final ArrayList<Grupo> grupos;
     private final String nombreGrupo;
     private final Curso curso;

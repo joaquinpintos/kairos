@@ -15,11 +15,11 @@ import java.util.HashSet;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Curso implements Serializable, Comparable<Curso>, Teachable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ArrayList<DataProyectoListener> listeners;
     private String nombre;
     private Carrera parent;

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Profesor implements Comparable<Profesor>, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private String nombre;
     private String apellidos;
     private Departamento departamento;

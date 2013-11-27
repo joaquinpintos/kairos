@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
  */
 public class RProfesorMaximoHorasPorDia extends Restriccion {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private int numMaximoHoras;
     private HashSet<Profesor> listaProfesoresConflictivos;
     private HashMap<String, Integer> numeroCasillasPorDia;

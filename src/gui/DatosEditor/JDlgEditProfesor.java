@@ -17,7 +17,7 @@ import javax.swing.tree.TreePath;
 
 /**
  *
- * @author David Gutierrez
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com> Gutierrez
  */
 public class JDlgEditProfesor extends javax.swing.JDialog {
 

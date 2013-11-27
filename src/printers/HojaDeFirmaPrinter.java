@@ -75,7 +75,6 @@ public class HojaDeFirmaPrinter {
             creaHojaDeFirma(doc, aula,dia);
             doc.newPage();
         }}
-        doc.close();
     }
 
     private void creaHojaDeFirma(Document doc, Aula aula,GregorianCalendar dia) {

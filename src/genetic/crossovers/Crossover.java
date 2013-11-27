@@ -8,7 +8,7 @@ import data.genetic.PosibleSolucion;
 
 /**
  *
- * @author David Gutierrez
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com> Gutierrez
  */
 public interface Crossover {
 

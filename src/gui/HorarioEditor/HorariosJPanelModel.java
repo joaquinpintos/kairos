@@ -19,7 +19,6 @@ import data.horarios.DatosHojaHorario;
 import gui.AbstractMainWindow;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +30,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 /**
  * Esta clase maneja la representación de horarioitem dentro de un jpanel,

@@ -13,11 +13,11 @@ import java.util.HashMap;
  * Esta clase representa un horario calculado. Almacena un array de HorarioItems
  * así como la solución que la generó
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Horario implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ArrayList<HorarioItem> horarios;
     private PosibleSolucion solucion;
     private final HashMap<String, HashMap<Integer, HorarioItem>> mapAulasSegmentoToHorarioItem;

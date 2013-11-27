@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class CarreraCursoGrupoContainer implements Comparable<CarreraCursoGrupoContainer>, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private String hash;
     private String nombre;
     private String aulaNombre;

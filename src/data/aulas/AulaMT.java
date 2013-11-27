@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 public class AulaMT implements Serializable, Comparable<AulaMT> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private Aula aula;
     private Boolean esTarde;
     private int markType;

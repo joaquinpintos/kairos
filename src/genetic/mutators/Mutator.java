@@ -9,7 +9,7 @@ import java.util.Random;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public abstract class Mutator {
 

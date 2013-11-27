@@ -20,7 +20,7 @@ import javax.swing.JTree;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntEditorDocencia extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas,TreeProfesores {
 
@@ -37,7 +37,7 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
         this.dk = dk;
         TreeModelProfesores mod = new TreeModelProfesores(dk);
         jTreeProfesores.setModel(mod);
-        final TreeCellRendererProfesores rendProf = new TreeCellRendererProfesores();
+        final TreeCellRendererProfesores rendProf = new TreeCellRendererProfesores(dk);
         rendProf.setMostrarHorasDocencia(true);
         jTreeProfesores.setCellRenderer(rendProf);
         jTreeProfesores.setTransferHandler(new JTreeProfesoresTransferHandler());
@@ -49,7 +49,7 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
         TreeModelAsignaturas asigModel = new TreeModelAsignaturas(dk);
         asigModel.setLlegarHastaTramos(true);
         jTreeAsignaturas.setModel(asigModel);
-        jTreeAsignaturas.setCellRenderer(new TreeCellRendererAsignaturas());
+        jTreeAsignaturas.setCellRenderer(new TreeCellRendererAsignaturas(dk));
         jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
         jTreeAsignaturas.setDragEnabled(true);
         jTreeAsignaturas.setDropTarget(new DropTarget());

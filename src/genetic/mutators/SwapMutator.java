@@ -10,7 +10,7 @@ import data.genetic.PosibleSolucion;
 /**
  * Simple mutator
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class SwapMutator extends Mutator {
 

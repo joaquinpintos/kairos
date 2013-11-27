@@ -16,11 +16,11 @@ import java.util.ArrayList;
 /**
  * Un item de la lista de elementos que componen un horario.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class HorarioItem implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     /**
      *
      */

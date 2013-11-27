@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class AssortedMutator extends Mutator {
 

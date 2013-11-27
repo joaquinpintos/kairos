@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoListener {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private final ArrayList<GrupoCursos> grupoCursos;
 
     /**

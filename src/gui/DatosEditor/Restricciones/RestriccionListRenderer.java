@@ -34,7 +34,8 @@ public class RestriccionListRenderer extends DefaultListCellRenderer {
     public RestriccionListRenderer() {
         label = new JLabel();
         label.setOpaque(true);
-        colorIcons = new ImageIcon[]{MyConstants.RED_ICON, MyConstants.YELLOW_ICON, MyConstants.GREEN_ICON};
+        MyConstants mc = new MyConstants();
+        colorIcons = new ImageIcon[]{mc.RED_ICON, mc.YELLOW_ICON, mc.GREEN_ICON};
     }
 
     @Override

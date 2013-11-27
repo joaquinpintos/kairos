@@ -17,7 +17,7 @@ import javax.swing.tree.TreePath;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class TreeModelGrupoCursos implements TreeModel {
 

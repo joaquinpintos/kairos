@@ -15,7 +15,7 @@ import gui.AbstractMainWindow;
 
 /**
  *
- * @author David Gutierrez
+ * @author David
  */
 public class GeneticAlgorithm {
 
@@ -29,7 +29,7 @@ public class GeneticAlgorithm {
     private int tamañoManada;
     private int max_iter;
     private final Mutator mutator;
-    private GeneticInformer geneticInformer;
+//    private GeneticInformer geneticInformer;
     private int numElitismo;
     private double probabilidadMutacion;
     private int numIter;
@@ -37,6 +37,7 @@ public class GeneticAlgorithm {
     private int nivelCritico;
     private PosibleSolucion solucionInicial;
     private AbstractMainWindow mainWindow;
+    private final SolucionesComparator solucionesComparator;
 
     /**
      *
@@ -101,7 +102,8 @@ public class GeneticAlgorithm {
         this.mutator = mutator;
         tamañoManada = 50;
         numElitismo = 5;
-        restriccionesFallidas=new ArrayList<Restriccion>();
+        restriccionesFallidas = new ArrayList<Restriccion>();
+        solucionesComparator = new SolucionesComparator();
     }
 
     /**
@@ -118,8 +120,8 @@ public class GeneticAlgorithm {
         restricciones = new ArrayList<Restriccion>();
         tamañoManada = 50;
         numElitismo = 5;
-        restriccionesFallidas=new ArrayList<Restriccion>();
-
+        restriccionesFallidas = new ArrayList<Restriccion>();
+        solucionesComparator = new SolucionesComparator();
     }
 
     /**
@@ -156,9 +158,10 @@ public class GeneticAlgorithm {
             s.update();//Actualizo datos internos de las soluciones
         }
         calculaPesosManada();
+
         //Ahora selecciono los mejores y los cruzo.
         //Primero los ordeno de menos peso a más peso
-        Collections.sort(manada, new SolucionesComparator());
+        Collections.sort(manada, solucionesComparator);
         //Optimo
         if (manada.get(0).getPeso() < optimo.getPeso()) {
             optimo = manada.get(0).copia();
@@ -172,7 +175,7 @@ public class GeneticAlgorithm {
         }
         calcularSiguienteGeneracion();
         numIter++;
-        System.out.println("Optimo: " + optimo.getPeso());
+//        System.out.println("Optimo: " + optimo.getPeso());
         return continueLoop;
     }
 
@@ -185,12 +188,12 @@ public class GeneticAlgorithm {
         //Antes refresco los datos internos de las soluciones
         if (optimo != null) {
             optimo.setDataProyecto(dataProyecto);
-        optimo.update();//Actualizo datos internos de las soluciones
-        calculaPesosPosibleSolucion(optimo);
-    }
+            optimo.update();//Actualizo datos internos de las soluciones
+            calculaPesosPosibleSolucion(optimo);
+        }
 //        geneticInformer.finalizado(this);
-    return optimo ;
-}
+        return optimo;
+    }
 
     /**
      *
@@ -216,7 +219,6 @@ public class GeneticAlgorithm {
     }
 
     private void calculaPesosManada() {
-        setNivelCritico(3);
         for (PosibleSolucion s : manada) {
 //            if (s.getPeso() == 0) {
             calculaPesosPosibleSolucion(s);
@@ -230,20 +232,30 @@ public class GeneticAlgorithm {
      *
      */
     public void calculaPesosOptimo() {
-        calculaPesosPosibleSolucion(optimo);
+        calculaPesosPosibleSolucion(optimo, true);
     }
 
     private void calculaPesosPosibleSolucion(PosibleSolucion s) {
-        restriccionesFallidas.clear();
+        calculaPesosPosibleSolucion(s, false);
+    }
+
+    private void calculaPesosPosibleSolucion(PosibleSolucion s, boolean detailed) {
+        if (detailed) {
+            restriccionesFallidas.clear();
+        }
         long nuevoPeso = 0;
         long suma;
         for (Restriccion r : restricciones) {
-            r.clearConflictivos();
+            if (detailed) {
+                r.clearConflictivos();
+            }
             suma = r.calculaPeso(s);
             nuevoPeso += suma;
             if (suma > 0) {
-                restriccionesFallidas.add(r);
-                actualizaNivelCritico(r.getImportancia());
+                if (detailed) {
+                    restriccionesFallidas.add(r);
+                    actualizaNivelCritico(r.getImportancia());
+                }
             }
         }
         s.setPeso(nuevoPeso);
@@ -308,22 +320,6 @@ public class GeneticAlgorithm {
      *
      * @return
      */
-    public GeneticInformer getGeneticInformer() {
-        return geneticInformer;
-    }
-
-    /**
-     *
-     * @param geneticInformer
-     */
-    public void setGeneticInformer(GeneticInformer geneticInformer) {
-        this.geneticInformer = geneticInformer;
-    }
-
-    /**
-     *
-     * @return
-     */
     public int getNumElitismo() {
         return numElitismo;
     }
@@ -339,7 +335,6 @@ public class GeneticAlgorithm {
 //    private void dbg(Object a) {
 //        System.out.println(a);
 //    }
-
     /**
      *
      * @return
@@ -391,18 +386,10 @@ public class GeneticAlgorithm {
      *
      * @param nivel
      */
-    public void setNivelCritico(int nivel) {
-        nivelCritico = nivel;
-    }
-
-    /**
-     *
-     * @param nivel
-     */
     public void actualizaNivelCritico(int nivel) {
-        if (nivelCritico > nivel) {
-            setNivelCritico(nivel);
-        }
+//        if (nivelCritico > nivel) {
+        nivelCritico = nivel;
+//        }
     }
 
     /**
@@ -425,16 +412,16 @@ public class GeneticAlgorithm {
      *
      */
     public void runMainLoop() {
-        while (runSingleLoop()){};
-    
+        while (runSingleLoop()) {
+        };
 
-}
+    }
 }
 
 /**
  * Clase para comparar dos soluciones atendiendo a sus pesos.
  *
- * @author David Gutierrez
+ * @author David
  */
 class SolucionesComparator implements Comparator<PosibleSolucion> {
 

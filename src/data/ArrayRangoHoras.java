@@ -8,16 +8,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * Almacena un array de rangos de horas
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class ArrayRangoHoras implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ArrayList<RangoHoras> data;
 
     /**
-     *
+     * Constructor por defecto, creando un array vacío.
      */
     public ArrayRangoHoras() {
         this.data = new ArrayList<RangoHoras>();
@@ -25,15 +26,17 @@ public class ArrayRangoHoras implements Serializable {
 
     /**
      *
-     * @return
+     * @return Tamaño del array
      */
     public int size() {
         return data.size();
     }
 
     /**
+     * Constructor tomando como parámetro una cadena de rangos de horas
+     * separados por comas, de la form 8:00-12:00,15:00-16:30
      *
-     * @param texto
+     * @param texto Cadena con los rangos de horas
      */
     public ArrayRangoHoras(String texto) {
         data = new ArrayList<RangoHoras>();
@@ -63,24 +66,20 @@ public class ArrayRangoHoras implements Serializable {
 
     /**
      *
-     * @return
+     * @return Array de rangos de horas
      */
     public ArrayList<RangoHoras> getData() {
         return data;
     }
 
     /**
+     * Comprueba si un determinado rango horario está contenido en el periodo
+     * horario determinado por este array. Por ejemplo, si el array es
+     * 8:00-12:00,15:00-16:30 entonces dando como parámetro el rango 15:10-16:10
+     * devolverá true.
      *
-     * @param data
-     */
-    public void setData(ArrayList<RangoHoras> data) {
-        this.data = data;
-    }
-
-    /**
-     *
-     * @param rangoHora
-     * @return
+     * @param rangoHora Rango horario a comprobar
+     * @return True si el rango dado está contenido. False en caso contrario.
      */
     public boolean contiene(RangoHoras rangoHora) {
         boolean resul = false;
@@ -94,9 +93,11 @@ public class ArrayRangoHoras implements Serializable {
     }
 
     /**
+     * Comprueba si el rango dado tiene algún instante en común (un minuto como
+     * mínimo) con el array de rangos almacenado.
      *
-     * @param rangoHora
-     * @return
+     * @param rangoHora Rango a comprobar.
+     * @return True si hay coincidencia. False en caso contrario.
      */
     public boolean solapaCon(RangoHoras rangoHora) {
         boolean resul = false;

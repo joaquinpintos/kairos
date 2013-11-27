@@ -12,7 +12,7 @@ import java.util.Collections;
 /**
  * Simple mutator
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class InversionMutator extends Mutator {
 

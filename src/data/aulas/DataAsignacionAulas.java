@@ -19,7 +19,7 @@ import org.w3c.dom.Document;
  */
 public class DataAsignacionAulas implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private Document documentoXML;
     private File lastFileUsed;
     private final ArrayList<DataProyectoListener> listeners;

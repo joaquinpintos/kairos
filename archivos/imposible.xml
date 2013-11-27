@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<proyecto nombre="2º Cuatrimestre 2013/2014">
+    <config>
+        <grupos_por_defecto>1,2,3</grupos_por_defecto>
+    </config>
+    <calendario_académico>
+        <periodo_lectivo>
+            <inicio>13/11/2013</inicio>
+            <fin>28/11/2013</fin>
+        </periodo_lectivo>
+        <horario_aulas>
+            <horario_mañana>
+                <tramo_1>
+                    <inicio>08:15</inicio>
+                    <fin>11:15</fin>
+                </tramo_1>
+                <tramo_2>
+                    <inicio>11:45</inicio>
+                    <fin>14:45</fin>
+                </tramo_2>
+            </horario_mañana>
+            <horario_tarde>
+                <tramo_1>
+                    <inicio>15:00</inicio>
+                    <fin>18:00</fin>
+                </tramo_1>
+                <tramo_2>
+                    <inicio>18:30</inicio>
+                    <fin>21:00</fin>
+                </tramo_2>
+            </horario_tarde>
+        </horario_aulas>
+        <dias_semana_lectivos>
+            <dia>1</dia>
+            <dia>2</dia>
+            <dia>3</dia>
+            <dia>4</dia>
+            <dia>5</dia>
+        </dias_semana_lectivos>
+        <dias_no_lectivos/>
+    </calendario_académico>
+    <profesorado>
+        <departamento nombre="Ciencias Experimentales">
+            <profesores>
+                <profesor>
+                    <nombre>Alvarez</nombre>
+                    <apellidos>Alberto</apellidos>
+                    <nombre_corto>Alberto</nombre_corto>
+                </profesor>
+                <profesor>
+                    <nombre>Maria Luisa</nombre>
+                    <apellidos>Barasona Villarejo</apellidos>
+                    <nombre_corto>Barasona</nombre_corto>
+                </profesor>
+                <profesor>
+                    <nombre>David</nombre>
+                    <apellidos>Gutiérrez Rubio</apellidos>
+                    <nombre_corto>David</nombre_corto>
+                </profesor>
+            </profesores>
+        </departamento>
+    </profesorado>
+    <aulario>
+        <aula nombre="11"/>
+        <aula nombre="12"/>
+    </aulario>
+    <plan_docente>
+        <estudios nombre="Primaria">
+            <cursos>
+                <curso nombre="1º">
+                    <asignatura nombre="Matemáticas">
+                        <grupos>
+                            <grupo nombre="1">
+                                <tramos_grupo_completo>
+                                    <tramo minutos="60">
+                                        <docente>Maria Luisa@Barasona Villarejo</docente>
+                                        <aula>12@M</aula>
+                                    </tramo>
+                                    <tramo minutos="90">
+                                        <docente>Maria Luisa@Barasona Villarejo</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                </tramos_grupo_completo>
+                            </grupo>
+                            <grupo nombre="2">
+                                <tramos_grupo_completo>
+                                    <tramo minutos="60">
+                                        <docente>Maria Luisa@Barasona Villarejo</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                    <tramo minutos="90">
+                                        <docente>David@Gutiérrez Rubio</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                </tramos_grupo_completo>
+                            </grupo>
+                            <grupo nombre="3">
+                                <tramos_grupo_completo>
+                                    <tramo minutos="60">
+                                        <docente>David@Gutiérrez Rubio</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                    <tramo minutos="90">
+                                        <docente>David@Gutiérrez Rubio</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                </tramos_grupo_completo>
+                            </grupo>
+                        </grupos>
+                    </asignatura>
+                    <asignatura nombre="Sociología">
+                        <grupos>
+                            <grupo nombre="1">
+                                <tramos_grupo_completo>
+                                    <tramo minutos="60">
+                                        <docente>Alvarez@Alberto</docente>
+                                        <aula>12@T</aula>
+                                    </tramo>
+                                    <tramo minutos="90">
+                                        <docente>Maria Luisa@Barasona Villarejo</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                </tramos_grupo_completo>
+                            </grupo>
+                            <grupo nombre="2">
+                                <tramos_grupo_completo>
+                                    <tramo minutos="60">
+                                        <docente>Alvarez@Alberto</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                    <tramo minutos="90">
+                                        <docente>Alvarez@Alberto</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                </tramos_grupo_completo>
+                            </grupo>
+                            <grupo nombre="3">
+                                <tramos_grupo_completo>
+                                    <tramo minutos="60">
+                                        <docente>Alvarez@Alberto</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                    <tramo minutos="90">
+                                        <docente>Alvarez@Alberto</docente>
+                                        <aula>11@M</aula>
+                                    </tramo>
+                                </tramos_grupo_completo>
+                            </grupo>
+                        </grupos>
+                    </asignatura>
+                </curso>
+                <curso nombre="2º"/>
+                <curso nombre="3º"/>
+                <curso nombre="4º"/>
+            </cursos>
+        </estudios>
+    </plan_docente>
+    <restricciones>
+        <restriccion>
+            <className>restricciones.profesorNoUbicuo.RProfesorNoUbicuo</className>
+            <config_comun>
+                <nivel>1</nivel>
+            </config_comun>
+            <config_especifico/>
+        </restriccion>
+        <restriccion>
+            <className>restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo</className>
+            <config_comun>
+                <nivel>1</nivel>
+            </config_comun>
+            <config_especifico/>
+        </restriccion>
+        <restriccion>
+            <className>restricciones.profesorCiertosDias.RProfesorCiertosDias</className>
+            <config_comun>
+                <nivel>1</nivel>
+            </config_comun>
+            <config_especifico>
+                <nombre_profesor>David@Gutiérrez Rubio</nombre_profesor>
+                <tipo_restriccion>no puede</tipo_restriccion>
+                <monday>08:00 - 21:00</monday>
+                <tuesday>08:00 - 21:00</tuesday>
+                <wednesday>08:00 - 21:00</wednesday>
+                <thursday>08:00 - 21:00</thursday>
+                <friday>08:00 - 21:00</friday>
+                <comments/>
+            </config_especifico>
+        </restriccion>
+    </restricciones>
+</proyecto>

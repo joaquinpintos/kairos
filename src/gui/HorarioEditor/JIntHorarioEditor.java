@@ -567,7 +567,8 @@ class JListAulasRenderer extends JLabel implements ListCellRenderer<AulaMT> {
     public JListAulasRenderer() {
         //super(MyConstants.AULA_ICON);
         super();
-        this.setIcon(MyConstants.AULA_ICON);
+        MyConstants mc=new MyConstants();
+        this.setIcon(mc.AULA_ICON);
         this.setOpaque(true);
         this.setAlignmentX(LEFT_ALIGNMENT);
         borderSelectedConflictivo = BorderFactory.createLineBorder(Color.RED, 3);

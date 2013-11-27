@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  *
- * @author David Gutierrez
+ * @author David
  */
 public class PermutationCrossover implements Crossover {
 //Este crossover con

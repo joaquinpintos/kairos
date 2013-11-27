@@ -12,11 +12,11 @@ import java.util.ArrayList;
 /**
  * Estructura árbol con lista departamentos -> profesores
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class DataProfesores extends AbstractDataSets {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private final ArrayList<Departamento> departamentos;
 
     /**

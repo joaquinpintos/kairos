@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Aula implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     String nombre;
     private final ListaAsignaciones asignacionesMañana;
     private final ListaAsignaciones asignacionesTarde;

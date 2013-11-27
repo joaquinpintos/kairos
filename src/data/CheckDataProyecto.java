@@ -18,7 +18,7 @@ import java.util.HashSet;
  * ejecutar el algoritmo genético. Los métodos de chequeo devuelven "" si todo
  * va bien y mensaje de error en caso contrario.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class CheckDataProyecto {
 

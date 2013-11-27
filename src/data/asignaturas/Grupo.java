@@ -16,11 +16,11 @@ import java.io.Serializable;
  * {@link Asignatura}. A su vez cada grupo contiene una serie de tramos de
  * docencia, almacenados en un objeto del tipo {@link GrupoTramos}.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private String nombre;
     private final GrupoTramos tramosGrupoCompleto;
     private Asignatura parent;

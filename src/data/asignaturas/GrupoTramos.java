@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class GrupoTramos implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ArrayList<Tramo> vectorTramos;
     private Grupo parent;
     private boolean algunoSinAula;

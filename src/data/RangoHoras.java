@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  * Esta clase representa un rango de horas, ej: 8:00 a 15:30
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class RangoHoras implements Serializable {
 

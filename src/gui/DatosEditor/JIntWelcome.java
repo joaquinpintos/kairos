@@ -27,7 +27,7 @@ import loader.XMLDataLoaderWriter;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public final class JIntWelcome extends javax.swing.JInternalFrame implements DataGUIInterface {
 
@@ -45,8 +45,8 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
     public JIntWelcome(DataKairos dk) {
         initComponents();
         this.dk = dk;
-        jLabel1.setIcon(MyConstants.LOGOGRANDE);
-        jLabel2.setIcon(MyConstants.RELIEVE_KAIROS);
+        jLabel1.setIcon(dk.mc.LOGOGRANDE);
+        jLabel2.setIcon(dk.mc.RELIEVE_KAIROS);
         creaAcciones();
     }
 

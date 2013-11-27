@@ -40,7 +40,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeProfesores {
 
@@ -70,7 +70,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         treeModelProfesores = new TreeModelProfesores(dk);
         treeModelProfesores.addTreeModelListener(createTreeModelListener());
         this.jTreeProfesores.setModel(treeModelProfesores);
-        this.jTreeProfesores.setCellRenderer(new TreeCellRendererProfesores());
+        this.jTreeProfesores.setCellRenderer(new TreeCellRendererProfesores(dk));
 
         //Simple selection
         this.jTreeProfesores.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -337,7 +337,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         class ActionAñadirProfesores extends AbstractAction {
 
             public ActionAñadirProfesores() {
-                super("Añadir nuevo profesor", MyConstants.PROFESOR_ICON);
+                super("Añadir nuevo profesor", dk.mc.PROFESOR_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_N);
             }
 
@@ -366,7 +366,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         class ActionEditarProfesores extends AbstractAction {
 
             public ActionEditarProfesores() {
-                super("Editar profesor", MyConstants.PROFESOR_ICON);
+                super("Editar profesor", dk.mc.PROFESOR_ICON);
             }
 
             @Override
@@ -387,7 +387,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         class ActionQuitarProfesor extends AbstractAction {
 
             public ActionQuitarProfesor() {
-                super("Eliminar profesor", MyConstants.PROFESOR_ICON);
+                super("Eliminar profesor", dk.mc.PROFESOR_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_R);
             }
 
@@ -408,7 +408,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         class ActionEditarDepartamento extends AbstractAction {
 
             public ActionEditarDepartamento() {
-                super("Editar departamento", MyConstants.DEPARTAMENTO_ICON);
+                super("Editar departamento", dk.mc.DEPARTAMENTO_ICON);
             }
 
             @Override
@@ -433,7 +433,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         class ActionAñadirDepartamento extends AbstractAction {
 
             public ActionAñadirDepartamento() {
-                super("Añadir departamento", MyConstants.DEPARTAMENTO_ICON);
+                super("Añadir departamento", dk.mc.DEPARTAMENTO_ICON);
             }
 
             @Override
@@ -452,7 +452,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         class ActionEliminarDepartamento extends AbstractAction {
 
             public ActionEliminarDepartamento() {
-                super("Eliminar departamento", MyConstants.DEPARTAMENTO_ICON);
+                super("Eliminar departamento", dk.mc.DEPARTAMENTO_ICON);
             }
 
             @Override

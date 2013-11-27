@@ -36,7 +36,7 @@ import restricciones.profesorCiertosDias.RProfesorCiertosDias;
 
 /**
  *
- * @author David Gutierrez
+ * @author David
  */
 public class AsigTester {
     //Clase para comprobar si funcionan las asignaturas

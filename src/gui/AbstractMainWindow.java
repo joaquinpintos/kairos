@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import data.DataKairos;
@@ -44,8 +39,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import loader.XMLDataLoaderWriter;
 
 /**
+ * Clase abstracta que maneja la ventana principal
  *
- * @author usuario
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
@@ -69,34 +65,16 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      */
     protected ArrayList<JInternalFrame> listaTabs;
 
-    /**
-     *
-     */
     protected AbstractAction cargarProyectoAction;
 
-    /**
-     *
-     */
     protected AbstractAction guardarProyectoAction;
 
-    /**
-     *
-     */
     protected AbstractAction guardarProyectoComoAction;
 
-    /**
-     *
-     */
     protected AbstractAction importarXMLAction;
 
-    /**
-     *
-     */
     protected AbstractAction exportarXMLAction;
 
-    /**
-     *
-     */
     protected AbstractAction creaPDFAction;
     private File lastFileUsed;
     private JIntHorarioEditor jIntHorarioEditor2;
@@ -128,9 +106,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      * @throws TooManyListenersException
      */
     protected void createInternalFrames() throws Exception, TooManyListenersException {
-        //Añado los paneles que necesito
-//        jIntWelcome = new JIntWelcome(dk);
-//        addTab("Bienvenida", jIntWelcome);
 
         JIntDatosProyecto jIntDatosProyecto = new JIntDatosProyecto(dk);
         addTab("Datos del proyecto", jIntDatosProyecto);
@@ -156,9 +131,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
         jIntHorarioEditor = new JIntHorarioEditor(dk);
         addTab("Horario", jIntHorarioEditor);
-
-//        jIntHorarioEditor2 = new JIntHorarioEditor(dk);
-//        addTab("Horario 2", jIntHorarioEditor2);
     }
 //
 //    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -573,7 +545,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             }
         }
         creaPDFAction = new CreaPDFHorariosAction();
-        
+
         class CreaPDFHojasDeFirmaAction extends AbstractAction {
 
             public CreaPDFHojasDeFirmaAction() {
@@ -614,6 +586,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 importarXMLAction.setEnabled(true);
                 exportarXMLAction.setEnabled(false);
                 creaPDFAction.setEnabled(false);
+                creaPDFHojasDeFirmaAction.setEnabled(false);
                 break;
             }
             case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
@@ -623,6 +596,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 importarXMLAction.setEnabled(true);
                 exportarXMLAction.setEnabled(true);
                 creaPDFAction.setEnabled(false);
+                creaPDFHojasDeFirmaAction.setEnabled(false);
                 break;
             }
             case DataKairos.STATUS_PROJECT_SOLUTION: {
@@ -632,6 +606,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 importarXMLAction.setEnabled(true);
                 exportarXMLAction.setEnabled(true);
                 creaPDFAction.setEnabled(true);
+                creaPDFHojasDeFirmaAction.setEnabled(true);
+                break;
+            }
+            default: {
+                //TODO: Falta poner status computing solution
                 break;
             }
         }

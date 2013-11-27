@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Clase Departamento. Contiene una lista de profesores (Vector)
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Departamento implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private String nombre;
     private final ArrayList<Profesor> profesores;
     DataProfesores parent;

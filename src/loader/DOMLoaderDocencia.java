@@ -6,7 +6,7 @@ package loader;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class DOMLoaderDocencia {
     

@@ -9,7 +9,6 @@ import data.DataKairos;
 import data.MyConstants;
 import data.asignaturas.Grupo;
 import data.asignaturas.GrupoCursos;
-import data.asignaturas.GrupoSinAula;
 import data.asignaturas.ListaGrupoCursos;
 import data.asignaturas.Tramo;
 import java.awt.Component;
@@ -48,7 +47,7 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
         }
         if (value instanceof GrupoCursos) {
             GrupoCursos gc = (GrupoCursos) value;
-            this.setIcon(MyConstants.AULA_ICON);//TODO: Icono incorrecto
+            this.setIcon(dk.mc.AULA_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NEGRITA_FONT);
             if (gc.algunoSinAula()) {
                 this.setForeground(MyConstants.CONFLICTIVE_ITEM);
@@ -59,7 +58,7 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
         }
         if (value instanceof Grupo) {
             Grupo gr = (Grupo) value;
-            this.setIcon(MyConstants.ASIGNATURA_ICON);//TODO: Icono incorrecto
+            this.setIcon(dk.mc.ASIGNATURA_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NEGRITA_FONT);
             if (gr.algunoSinAula()) {
                 this.setForeground(MyConstants.CONFLICTIVE_ITEM);
@@ -73,7 +72,7 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
         }
         if (value instanceof Tramo) {
             Tramo tr = (Tramo) value;
-            this.setIcon(MyConstants.TRAMO_ICON);//TODO: Icono incorrecto
+            this.setIcon(dk.mc.TRAMO_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NORMAL_FONT);
             String aula;
             if (tr.tieneAula()) {

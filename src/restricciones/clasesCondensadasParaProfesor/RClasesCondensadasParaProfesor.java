@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class RClasesCondensadasParaProfesor extends Restriccion {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private Profesor profesor;
     private final HashMap<String, ArrayList<Integer>> segmentosImpartidos; //Segmentos impartidos por el profesor
     private int numeroMaximoDias;

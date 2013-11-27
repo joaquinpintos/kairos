@@ -12,7 +12,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class XMLSAXHandler extends DefaultHandler {
 

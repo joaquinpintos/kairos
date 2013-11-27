@@ -23,7 +23,7 @@ import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
  */
 public class DataRestricciones extends AbstractDataSets {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private final ArrayList<Restriccion> listaRestricciones;
     private ArrayList<Restriccion> restriccionesDisponibles;
 //    Document documentoXML;

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
 import java.awt.Color;
@@ -13,99 +9,94 @@ import javax.swing.ImageIcon;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class MyConstants {
-    //
-    /**
-     *
-     */
-    public static final String[] DIAS_SEMANA = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
 
     /**
-     *
+     * Cadena con los nombres de los días de la semana
      */
-    public static final ImageIcon LOGOGRANDE = new ImageIcon("images/logo.png");
+    public static final String[] DIAS_SEMANA = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
     /**
-     *
+     * Cadena con los nombres de los días de la semana
      */
-    public static final ImageIcon RELIEVE_KAIROS = new ImageIcon("images/kairos.png");
+    public static final String[] XML_DAYS_OF_THE_WEEK = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+
     /**
-     *
+     * Logo del programa. Palabra Kairos
      */
-    public static final ImageIcon GRUPO_ICON = new ImageIcon("images/grupo.png");
+    public final ImageIcon LOGOGRANDE = new ImageIcon(getClass().getResource("/data/images/logo.png"));
     /**
-     *
+     * Relieve de Kairos
      */
-    public static final ImageIcon DEPARTAMENTO_ICON = new ImageIcon("images/door.png");
+    public final ImageIcon RELIEVE_KAIROS =new ImageIcon(getClass().getResource("/data/images/kairos.png"));
     /**
-     *
+     * Icono para los grupos
      */
-    public static final ImageIcon CARRERA_ICON = new ImageIcon("images/birrete.png");
+    public final ImageIcon GRUPO_ICON =new ImageIcon(getClass().getResource("/data/images/grupo.png"));
     /**
-     *
+     * Icono para los departamentos
      */
-    public static final ImageIcon ASIGNATURA_ICON = new ImageIcon("images/asignatura.png");
+    public final ImageIcon DEPARTAMENTO_ICON =new ImageIcon(getClass().getResource("/data/images/door.png"));
     /**
-     *
+     * Icono para las carreras
      */
-    public static final ImageIcon PROFESOR_ICON = new ImageIcon("images/profesor.png");
+    public final ImageIcon CARRERA_ICON =new ImageIcon(getClass().getResource("/data/images/birrete.png"));
     /**
-     *
+     * Icono para las asignaturas
      */
-    public static final ImageIcon CURSO_ICON = new ImageIcon("images/curso.png");
+    public final ImageIcon ASIGNATURA_ICON =new ImageIcon(getClass().getResource("/data/images/asignatura.png"));
     /**
-     *
+     * Icono para los profesores
      */
-    public static final ImageIcon AULA_ICON = new ImageIcon("images/aula.png");
+    public final ImageIcon PROFESOR_ICON =new ImageIcon(getClass().getResource("/data/images/profesor.png"));
     /**
-     *
+     * Icono para los cursos
      */
-    public static final ImageIcon CLOCK_ICON = new ImageIcon("images/clock.png");
-    
+    public final ImageIcon CURSO_ICON =new ImageIcon(getClass().getResource("/data/images/curso.png"));
     /**
-     *
+     * Icono para las aulas
      */
-    public static final ImageIcon TRAMO_ICON = new ImageIcon("images/clock.png");
+    public final ImageIcon AULA_ICON =new ImageIcon(getClass().getResource("/data/images/aula.png"));
     /**
-     *
+     * Icono para los tramos
      */
-    public static final ImageIcon ADD_ICON = new ImageIcon("images/add.png");
+    public final ImageIcon TRAMO_ICON =new ImageIcon(getClass().getResource("/data/images/clock.png"));
     /**
-     *
+     * Icono de añadir
      */
-    public static final ImageIcon REMOVE_ICON = new ImageIcon("images/delete.png");
+    public final ImageIcon ADD_ICON =new ImageIcon(getClass().getResource("/data/images/add.png"));
     /**
-     *
+     * Icono de eliminar
      */
-    public static final ImageIcon RED_ICON = new ImageIcon("images/red.png");
+    public final ImageIcon DELETE_ICON =new ImageIcon(getClass().getResource("/data/images/delete.png"));
     /**
-     *
+     * Icono para bolita roja
      */
-    public static final ImageIcon YELLOW_ICON = new ImageIcon("images/yellow.png");
+    public final ImageIcon RED_ICON =new ImageIcon(getClass().getResource("/data/images/red.png"));
     /**
-     *
+     * Icono para bolita amarilla
      */
-    public static final ImageIcon GREEN_ICON = new ImageIcon("images/green.png");
+    public final ImageIcon YELLOW_ICON =new ImageIcon(getClass().getResource("/data/images/yellow.png"));
     /**
-     *
+     * Icono para bolita verde
      */
-    public static final ImageIcon DELETE_ICON = new ImageIcon("images/delete.png");
+    public final ImageIcon GREEN_ICON =new ImageIcon(getClass().getResource("/data/images/green.png"));
     /**
-     *
+     * Icono de un semáforo con la luz roja encendida
      */
-    public static final ImageIcon RED_TRAFFIC_LIGHT = new ImageIcon("images/redTrafficLight.png");
+    public final ImageIcon RED_TRAFFIC_LIGHT =new ImageIcon(getClass().getResource("/data/images/redTrafficLight.png"));
     /**
-     *
+     * Icono de un semáforo con la luz amarilla encendida
      */
-    public static final ImageIcon YELLOW_TRAFFIC_LIGHT = new ImageIcon("images/yellowTrafficLight.png");
+    public final ImageIcon YELLOW_TRAFFIC_LIGHT =new ImageIcon(getClass().getResource("/data/images/yellowTrafficLight.png"));
     /**
-     *
+     * Icono de un semáforo con la luz verde encendida
      */
-    public static final ImageIcon GREEN_TRAFFIC_LIGHT = new ImageIcon("images/greenTrafficLight.png");
+    public final ImageIcon GREEN_TRAFFIC_LIGHT =new ImageIcon(getClass().getResource("/data/images/greenTrafficLight.png"));
     /**
-     *
+     * Color de fondo para los items seleccionados de una lista
      */
     public static final Color SELECTED_ITEM_LIST = Color.LIGHT_GRAY;
     /**
-     *
+     * Color de fondo para los items no seleccionados de una lista
      */
     public static final Color UNSELECTED_ITEM_LIST = new Color(255, 255, 255);
     public static final Color SIN_DOCENCIA_ASIGNADA = Color.RED;
@@ -129,5 +120,5 @@ public class MyConstants {
         new Color(101, 196, 255)
     };
 
-    public static final Color BACKGROUND_APP_COLOR=Color.gray;
+    public static final Color BACKGROUND_APP_COLOR = Color.gray;
 }

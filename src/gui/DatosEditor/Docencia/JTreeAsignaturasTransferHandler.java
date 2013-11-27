@@ -8,11 +8,8 @@ package gui.DatosEditor.Docencia;
 
 import data.MyConstants;
 import data.asignaturas.Teachable;
-import data.asignaturas.Tramo;
-import data.profesores.Profesor;
 import gui.DatosEditor.Aulas.TeachableDraggable;
 import java.awt.Image;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import javax.swing.JComponent;
@@ -21,7 +18,7 @@ import javax.swing.TransferHandler;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JTreeAsignaturasTransferHandler extends TransferHandler {
      
@@ -38,7 +35,8 @@ public class JTreeAsignaturasTransferHandler extends TransferHandler {
 
     @Override
     public Image getDragImage() {
-        return MyConstants.TRAMO_ICON.getImage();
+        MyConstants mc=new MyConstants();
+        return mc.TRAMO_ICON.getImage();
     }
 
     @Override

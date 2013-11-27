@@ -13,11 +13,11 @@ import java.util.Collections;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Asignatura implements Serializable, Comparable<Asignatura>, Teachable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private String nombre; //Nombre completo
     private String nombreCorto;//Nombre corto del curso
     private Curso parent;//Curso al que pertenece

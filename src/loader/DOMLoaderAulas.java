@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author David Gutierrez
+ * @author David
  */
 public class DOMLoaderAulas {
 

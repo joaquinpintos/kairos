@@ -11,11 +11,11 @@ import java.io.Serializable;
 
 /**
  *
- * @author David Gutierrez
+ * @author David
  */
 public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private int minutos;
     private GrupoTramos parent;
     private Profesor profesor;

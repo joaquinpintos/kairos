@@ -6,7 +6,7 @@ package data.genetic;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class Docencia {
     

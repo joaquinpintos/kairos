@@ -23,7 +23,7 @@ import javax.swing.JComponent;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class DraggableComponent extends JComponent {
 

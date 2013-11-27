@@ -21,7 +21,7 @@ import javax.swing.event.ChangeListener;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface {
 

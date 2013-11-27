@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class DOMLoaderAsignaturas {
 

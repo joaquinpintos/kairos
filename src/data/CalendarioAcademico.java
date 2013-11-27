@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
 import java.io.Serializable;
@@ -18,11 +14,11 @@ import org.w3c.dom.Node;
  * Esta clase almacena datos relativos a las fechas del curso académico, calcula
  * número de días, etc.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class CalendarioAcademico implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     //Array con los días de la semana lectivos 1=lunes,...,5=viernes
     private ArrayList<Integer> diasSemanaLectivos;
     GregorianCalendar inicioPeriodoLectivo, finPeriodoLectivo;
@@ -36,7 +32,7 @@ public class CalendarioAcademico implements Serializable {
     private RangoHoras tarde1, tarde2;
 
     /**
-     *
+     * Constructor por defecto
      */
     public CalendarioAcademico() {
         this.diasSemanaLectivos = new ArrayList<Integer>();
@@ -53,29 +49,32 @@ public class CalendarioAcademico implements Serializable {
     }
 
     /**
+     * Devuelve los días de semana lectivos, en forma de arraylist de integers
      *
-     * @return
+     * @return ArrayList<Integer> con días lectivos 1=lunes,..., 5=viernes
      */
     public ArrayList<Integer> getDiasSemanaLectivos() {
         return diasSemanaLectivos;
     }
 
     /**
+     * Cambia los días de semana lectivos.
      *
-     * @param diasSemanaLectivos
+     * @param diasSemanaLectivos ArrayList<Integer> con días lectivos
+     * 1=lunes,..., 5=viernes
      */
     public void setDiasSemanaLectivos(ArrayList<Integer> diasSemanaLectivos) {
         this.diasSemanaLectivos = diasSemanaLectivos;
     }
 
-    //Marca los días de la semana lectivos, true=lectivo, false=no lectivo
     /**
+     * Marca los días de la semana como lectivos,
      *
-     * @param lunes
-     * @param martes
-     * @param miércoles
-     * @param jueves
-     * @param viernes
+     * @param lunes true=lectivo, false=no lectivo
+     * @param martes true=lectivo, false=no lectivo
+     * @param miércoles true=lectivo, false=no lectivo
+     * @param jueves true=lectivo, false=no lectivo
+     * @param viernes true=lectivo, false=no lectivo
      */
     public void marcaDiasSemanaLectivos(Boolean lunes, Boolean martes, Boolean miércoles, Boolean jueves, Boolean viernes) {
         //Borro todos los datos anteriores
@@ -98,12 +97,14 @@ public class CalendarioAcademico implements Serializable {
         }
     }
 
-    //Normaliza días de la semana. Crea un array con los códigos de los días de la semana de la clase GregorianCalendar.
-    //Internamente el programa usa 1...5 para lunes...viernes. Este programa los traduce a las constantes de GregorianCalendar.
     /**
+     * Normaliza días de la semana. Crea un array con los códigos de los días de
+     * la semana de la clase GregorianCalendar. Internamente el programa usa
+     * 1...5 para lunes...viernes. Este programa los traduce a las constantes de
+     * GregorianCalendar.
      *
-     * @param dias
-     * @return
+     * @param dias Dias de la semana en formato 1=Lunes,...5=Viernes
+     * @return Dias de la semana en constantes de GregorianCalendar
      */
     public ArrayList<Integer> normalizaDiasLectivosSemana(ArrayList<Integer> dias) {
         ArrayList<Integer> resul = new ArrayList<Integer>();
@@ -128,8 +129,10 @@ public class CalendarioAcademico implements Serializable {
     }
 
     /**
+     * Método sobrecargado. Calcula y devuelve un array con todos los días
+     * lectivos, desde el inicio al final del curso
      *
-     * @return
+     * @return Días lectivos, en objetos {@link GregorianCalendar}
      */
     public ArrayList<GregorianCalendar> getArrayDiasLectivos() {
         {
@@ -139,11 +142,11 @@ public class CalendarioAcademico implements Serializable {
 
     /**
      * Calcula array de dias lectivos, obviando los festivos, sábados y
-     * domingos.
+     * domingos, desde los días inicial y final dados.
      *
      * @param parInicio Dia de inicio
      * @param parFin Dia final
-     * @return Array con los días lectivos
+     * @return Array con los días lectivos, en objetos {@link GregorianCalendar}
      */
     public ArrayList<GregorianCalendar> getArrayDiasLectivos(GregorianCalendar parInicio, GregorianCalendar parFin) {
         ArrayList<GregorianCalendar> resul = new ArrayList<GregorianCalendar>();
@@ -167,7 +170,7 @@ public class CalendarioAcademico implements Serializable {
 
     /**
      *
-     * @return
+     * @return Inicio del periodo docente
      */
     public GregorianCalendar getInicio() {
         return inicioPeriodoLectivo;
@@ -175,7 +178,7 @@ public class CalendarioAcademico implements Serializable {
 
     /**
      *
-     * @return
+     * @return Fin del periodo docente
      */
     public GregorianCalendar getFin() {
         return finPeriodoLectivo;
@@ -183,15 +186,17 @@ public class CalendarioAcademico implements Serializable {
 
     /**
      *
-     * @return
+     * @return Días no lectivos en formato texto
      */
     public ArrayList<String> getDiasNoLectivos() {
         return diasNoLectivos;
     }
 
     /**
+     * Cambia los días no lectivos durante todo el periodo académico (sólo
+     * fiestas, no es necesario incluir sábados ni domingos)
      *
-     * @param diasNoLectivos
+     * @param diasNoLectivos Días no lectivos en formato texto
      */
     public void setDiasNoLectivos(ArrayList<String> diasNoLectivos) {
         this.diasNoLectivos = diasNoLectivos;
@@ -347,9 +352,10 @@ public class CalendarioAcademico implements Serializable {
     }
 
     /**
+     * Convierte el objeto en una representación XML
      *
-     * @param documentoXML
-     * @param parent
+     * @param documentoXML Documento XML donde añadir los datos
+     * @param parent Nodo padre donde añadir los datos
      */
     public void dataToDOM(Document documentoXML, Node parent) {
         //Creo nodo con inicio y fin del periodo lectivo
@@ -492,9 +498,11 @@ public class CalendarioAcademico implements Serializable {
     }
 
     /**
+     * Devuelve el nombre del día de la semana en función de las constantes de
+     * GregorianCalendar
      *
-     * @param dia
-     * @return
+     * @param dia Día de la semana dado por una constante de la clase {@link GregorianCalendar}
+     * @return String con el nombre del día de la semana
      */
     public String nombreDiaSemana(GregorianCalendar dia) {
         String resul = "";

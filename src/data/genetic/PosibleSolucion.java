@@ -10,11 +10,11 @@ import java.util.HashMap;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public final class PosibleSolucion implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private long peso;
     private final HashMap<String, Asignacion> asignaciones;
     private DataProyecto dataProyecto;

@@ -4,6 +4,7 @@
  */
 package gui.DatosEditor.Asignaturas;
 
+import data.DataKairos;
 import data.MyConstants;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
@@ -26,13 +27,16 @@ import javax.swing.tree.TreeCellRenderer;
 public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRenderer {
 
     ArrayList<TreeModelListener> listeners;
+    private final DataKairos dk;
 
     /**
      *
+     * @param dk
      */
-    public TreeCellRendererAsignaturas() {
+    public TreeCellRendererAsignaturas(DataKairos dk) {
         super();
         this.setOpaque(true);
+        this.dk=dk;
     }
 
     @Override
@@ -43,13 +47,13 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
         }
         if (value instanceof Carrera) {
             this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-            this.setIcon(MyConstants.CARRERA_ICON);
+            this.setIcon(dk.mc.CARRERA_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Curso) {
             this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-            this.setIcon(MyConstants.CURSO_ICON);
+            this.setIcon(dk.mc.CURSO_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
@@ -57,19 +61,19 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
 //            Asignatura asig=(Asignatura) value;
 //            this.setBackground(asig.getColorEnTablaDeHorarios());
             this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-            this.setIcon(MyConstants.ASIGNATURA_ICON);
+            this.setIcon(dk.mc.ASIGNATURA_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Grupo) {
             this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-            this.setIcon(MyConstants.GRUPO_ICON);
+            this.setIcon(dk.mc.GRUPO_ICON);
             this.setFont(MyConstants.NORMAL_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Tramo) {
             Tramo tr = (Tramo) value;
-            this.setIcon(MyConstants.TRAMO_ICON);
+            this.setIcon(dk.mc.TRAMO_ICON);
             
             if (tr.getDocente() != null) {
                 this.setFont(MyConstants.NORMAL_FONT);

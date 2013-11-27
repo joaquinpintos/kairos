@@ -6,24 +6,12 @@ package gui.DatosEditor.Aulas;
 
 import data.MyConstants;
 import data.asignaturas.Teachable;
-import data.aulas.Aula;
-import data.aulas.AulaMT;
-import data.aulas.ListaAsignaciones;
 import java.awt.Image;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
-import javax.swing.tree.TreePath;
 
 /**
  *
@@ -45,7 +33,8 @@ public class GrupoCursoTransferHandler extends TransferHandler {
 
     @Override
     public Image getDragImage() {
-        return MyConstants.GRUPO_ICON.getImage();
+        MyConstants mc=new MyConstants();
+        return mc.GRUPO_ICON.getImage();
     }
 
     @Override

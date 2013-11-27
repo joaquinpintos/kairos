@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class XMLDataLoaderWriter {
 

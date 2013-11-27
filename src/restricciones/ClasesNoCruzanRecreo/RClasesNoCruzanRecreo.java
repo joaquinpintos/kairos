@@ -22,7 +22,7 @@ import org.w3c.dom.Node;
  */
 public class RClasesNoCruzanRecreo extends Restriccion {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private final HashMap<String, Integer[]> casillaJustoAntesRecreo;
     private final HashMap<String, Integer[]> casillaJustoDespuesRecreo;
     private final HashMap<String, Integer[]> casillaJustoAntesFinalDia;

@@ -23,7 +23,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class RProfesorCiertosDias extends Restriccion {
 
@@ -355,16 +355,14 @@ public class RProfesorCiertosDias extends Restriccion {
         creaNodoTexto(nodo, texto);
 
         //Datos para el lunes
-        int numDia = 1;
-        for (String dia : MyConstants.DIAS_SEMANA) {
+        for (int numDia=1;numDia<=5;numDia++) {
+            String dia=MyConstants.XML_DAYS_OF_THE_WEEK[numDia-1];
             nodo = creaNodoSimple(parent, dia);
-            //TODO: Esto da nullpointer al escribir en XML
             String rango = this.getRangos().get(numDia).toString();
-            numDia++;
             creaNodoTexto(nodo, rango);
         }
 
-        nodo = creaNodoSimple(parent, "observaciones");
+        nodo = creaNodoSimple(parent, "comments");
         creaNodoTexto(nodo, this.getObservaciones());
 
     }
@@ -389,27 +387,27 @@ public class RProfesorCiertosDias extends Restriccion {
         this.setPuedeEstosDias((el.getTextContent().equals("puede")));
 
         //Lee datos del lunes
-        el = buscaPrimerElementoConNombre(parent, "lunes");
+        el = buscaPrimerElementoConNombre(parent, MyConstants.XML_DAYS_OF_THE_WEEK[0]);
         this.setLunes(el.getTextContent());
 
         //Lee datos del martes
-        el = buscaPrimerElementoConNombre(parent, "martes");
+        el = buscaPrimerElementoConNombre(parent, MyConstants.XML_DAYS_OF_THE_WEEK[1]);
         this.setMartes(el.getTextContent());
 
         //Lee datos del miércoles
-        el = buscaPrimerElementoConNombre(parent, "miércoles");
+        el = buscaPrimerElementoConNombre(parent, MyConstants.XML_DAYS_OF_THE_WEEK[2]);
         this.setMiercoles(el.getTextContent());
 
         //Lee datos del jueves
-        el = buscaPrimerElementoConNombre(parent, "jueves");
+        el = buscaPrimerElementoConNombre(parent, MyConstants.XML_DAYS_OF_THE_WEEK[3]);
         this.setJueves(el.getTextContent());
 
         //Lee datos del viernes
-        el = buscaPrimerElementoConNombre(parent, "viernes");
+        el = buscaPrimerElementoConNombre(parent, MyConstants.XML_DAYS_OF_THE_WEEK[4]);
         this.setViernes(el.getTextContent());
 
         //Por último, leo las observaciones
-        el = buscaPrimerElementoConNombre(parent, "observaciones");
+        el = buscaPrimerElementoConNombre(parent, "comments");
         this.setObservaciones(el.getTextContent());
     }
 }

@@ -4,6 +4,7 @@
  */
 package data.profesores;
 
+import data.DataKairos;
 import data.MyConstants;
 import java.awt.Component;
 import javax.swing.JLabel;
@@ -17,13 +18,16 @@ import javax.swing.tree.TreeCellRenderer;
 public class TreeCellRendererProfesores extends JLabel implements TreeCellRenderer {
 
     private boolean mostrarHorasDocencia;
+    private final DataKairos dk;
 
     /**
      *
+     * @param dk
      */
-    public TreeCellRendererProfesores() {
+    public TreeCellRendererProfesores(DataKairos dk) {
         this.mostrarHorasDocencia = false;
         this.setOpaque(true);
+        this.dk=dk;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class TreeCellRendererProfesores extends JLabel implements TreeCellRender
             renderProfesor((Profesor) value);
         } else {
             setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-            this.setIcon(MyConstants.DEPARTAMENTO_ICON);
+            this.setIcon(dk.mc.DEPARTAMENTO_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
@@ -47,7 +51,7 @@ public class TreeCellRendererProfesores extends JLabel implements TreeCellRender
     }
 
     private void renderProfesor(Profesor p) {
-        this.setIcon(MyConstants.PROFESOR_ICON);
+        this.setIcon(dk.mc.PROFESOR_ICON);
         this.setFont(MyConstants.NORMAL_FONT);
         String texto = p.toString();
 

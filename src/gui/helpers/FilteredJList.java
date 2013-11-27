@@ -18,7 +18,7 @@ import javax.swing.event.DocumentListener;
 // inner class provides filter-by-keystroke field 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 
 

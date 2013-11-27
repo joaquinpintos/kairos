@@ -6,7 +6,7 @@ package data.genetic;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 import data.aulas.Aula;
 import java.io.Serializable;
@@ -26,11 +26,11 @@ import java.util.HashSet;
  * array queCasilla especifica cuál es la primera casilla ocupada por el
  * segmento i-ésimo.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public final class Asignacion implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ArrayList<Integer> asignaciones;
     private ArrayList<Integer> cuantasCasillas;
     private ArrayList<Integer> queCasilla;

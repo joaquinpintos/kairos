@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Esta clase construye el conjunto de segmentos y de casillas a partir de los
  * datos introducidos en el programa.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class DataGenerator {
 

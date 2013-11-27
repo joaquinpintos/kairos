@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class MainWindowDesktopPane extends AbstractMainWindow {
 

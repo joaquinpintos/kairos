@@ -184,7 +184,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         class EliminarRestriccionAction extends AbstractAction {
 
             public EliminarRestriccionAction() {
-                super("Eliminar", MyConstants.DELETE_ICON);
+                super("Eliminar", dk.mc.DELETE_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 
             }

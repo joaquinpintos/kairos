@@ -38,7 +38,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas {
     
@@ -81,7 +81,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         model.setLlegarHastaTramos(true);
         jTreeAsignaturas.setModel(model);
         
-        TreeCellRendererAsignaturas treeCellRendererAsignaturas = new TreeCellRendererAsignaturas();
+        TreeCellRendererAsignaturas treeCellRendererAsignaturas = new TreeCellRendererAsignaturas(dk);
         jTreeAsignaturas.setCellRenderer(treeCellRendererAsignaturas);
         jTreeAsignaturas.setTransferHandler(new JTreeAsignaturasTransferHandler());
         jTreeAsignaturas.setDragEnabled(true);
@@ -260,7 +260,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirAsignaturaAction extends AbstractAction {
             
             public AñadirAsignaturaAction() {
-                super("Añadir asignatura", MyConstants.ADD_ICON);
+                super("Añadir asignatura", dk.mc.ADD_ICON);
             }
             
             @Override
@@ -286,7 +286,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EditarAsignaturaAction extends AbstractAction {
             
             public EditarAsignaturaAction() {
-                super("Editar asignatura", MyConstants.ASIGNATURA_ICON);
+                super("Editar asignatura", dk.mc.ASIGNATURA_ICON);
             }
             
             @Override
@@ -303,7 +303,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EliminarAsignaturaAction extends AbstractAction {
             
             public EliminarAsignaturaAction() {
-                super("Eliminar asignatura", MyConstants.REMOVE_ICON);
+                super("Eliminar asignatura", dk.mc.DELETE_ICON);
             }
             
             @Override
@@ -322,7 +322,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirCarreraAction extends AbstractAction {
             
             public AñadirCarreraAction() {
-                super("Añadir carrera", MyConstants.CARRERA_ICON);
+                super("Añadir carrera", dk.mc.CARRERA_ICON);
             }
             
             @Override
@@ -341,7 +341,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EliminarCarreraAction extends AbstractAction {
             
             public EliminarCarreraAction() {
-                super("Eliminar carrera", MyConstants.DELETE_ICON);
+                super("Eliminar carrera", dk.mc.DELETE_ICON);
             }
             
             @Override
@@ -360,7 +360,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirCursosAction extends AbstractAction {
             
             public AñadirCursosAction() {
-                super("Añadir curso", MyConstants.CURSO_ICON);
+                super("Añadir curso", dk.mc.CURSO_ICON);
             }
             
             @Override
@@ -383,7 +383,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EliminarCursoAction extends AbstractAction {
             
             public EliminarCursoAction() {
-                super("Eliminar curso", MyConstants.DELETE_ICON);
+                super("Eliminar curso", dk.mc.DELETE_ICON);
             }
             
             @Override
@@ -402,7 +402,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EditarCursoAction extends AbstractAction {
             
             public EditarCursoAction() {
-                super("Editar curso", MyConstants.CURSO_ICON);
+                super("Editar curso", dk.mc.CURSO_ICON);
             }
             
             @Override
@@ -421,7 +421,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirGrupoAction extends AbstractAction {
             
             public AñadirGrupoAction() {
-                super("Añadir grupo", MyConstants.GRUPO_ICON);
+                super("Añadir grupo", dk.mc.GRUPO_ICON);
             }
             
             @Override
@@ -444,7 +444,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EditarGrupoAction extends AbstractAction {
             
             public EditarGrupoAction() {
-                super("Editar grupo", MyConstants.GRUPO_ICON);
+                super("Editar grupo", dk.mc.GRUPO_ICON);
             }
             
             @Override
@@ -464,7 +464,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EliminarGrupoAction extends AbstractAction {
             
             public EliminarGrupoAction() {
-                super("Eliminar grupo", MyConstants.DELETE_ICON);
+                super("Eliminar grupo", dk.mc.DELETE_ICON);
             }
             
             @Override
@@ -501,7 +501,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirTramosAction extends AbstractAction {
             
             public AñadirTramosAction() {
-                super("Añadir tramos", MyConstants.TRAMO_ICON);
+                super("Añadir tramos", dk.mc.TRAMO_ICON);
             }
             
             @Override
@@ -527,7 +527,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EliminarTramoAction extends AbstractAction {
             
             public EliminarTramoAction() {
-                super("Eliminar tramo", MyConstants.DELETE_ICON);
+                super("Eliminar tramo", dk.mc.DELETE_ICON);
             }
             
             @Override
@@ -547,7 +547,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EliminarAction extends AbstractAction {
             
             public EliminarAction() {
-                super("Eliminar", MyConstants.DELETE_ICON);
+                super("Eliminar", dk.mc.DELETE_ICON);
             }
             
             @Override
@@ -575,7 +575,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirAction extends AbstractAction {
             
             public AñadirAction() {
-                super("Añadir", MyConstants.ADD_ICON);
+                super("Añadir", dk.mc.ADD_ICON);
             }
             
             @Override

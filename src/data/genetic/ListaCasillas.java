@@ -10,11 +10,11 @@ import java.util.ArrayList;
 /**
  * Guarda la lista de casillas disponibles para alojar los segmentos.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class ListaCasillas implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ArrayList<Casilla> casillas;
     private final int minutosPorCasilla;
 

@@ -13,11 +13,11 @@ import java.io.Serializable;
  * hashtags de las aulas distinguen entre mañana y tarde, de forma que cada aula
  * tiene dos versiones diferentes de sí misma.
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class DatosPorAula implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private ListaCasillas listaCasillas;
     private ListaSegmentos listaSegmentos;
     private String hashAula;

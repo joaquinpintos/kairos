@@ -8,7 +8,7 @@ import gui.AbstractMainWindow;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public interface DataGUIInterface {
     /**

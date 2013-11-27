@@ -4,6 +4,7 @@
  */
 package gui.HorarioEditor;
 
+import data.DataKairos;
 import data.MyConstants;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
@@ -27,15 +28,17 @@ public class TreeCellRendererAsignaturasHorasEfectivas extends JLabel implements
 
     ArrayList<TreeModelListener> listeners;
     private final HashMap<Grupo, Integer> horas;
+    private final DataKairos dk;
 
     /**
      *
      * @param horas
      */
-    public TreeCellRendererAsignaturasHorasEfectivas(HashMap<Grupo, Integer> horas) {
+    public TreeCellRendererAsignaturasHorasEfectivas(DataKairos dk,HashMap<Grupo, Integer> horas) {
         super();
         this.horas=horas;
         this.setOpaque(true);
+        this.dk=dk;
     }
 
     @Override
@@ -45,22 +48,22 @@ public class TreeCellRendererAsignaturasHorasEfectivas extends JLabel implements
             this.setText(value.toString());
         }
         if (value instanceof Carrera) {
-            this.setIcon(MyConstants.CARRERA_ICON);
+            this.setIcon(dk.mc.CARRERA_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Curso) {
-            this.setIcon(MyConstants.CURSO_ICON);
+            this.setIcon(dk.mc.CURSO_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Asignatura) {
-            this.setIcon(MyConstants.ASIGNATURA_ICON);
+            this.setIcon(dk.mc.ASIGNATURA_ICON);
             this.setFont(MyConstants.NORMAL_FONT);
             this.setText(value.toString());
         }
         if (value instanceof Grupo) {
-            this.setIcon(MyConstants.GRUPO_ICON);
+            this.setIcon(dk.mc.GRUPO_ICON);
             this.setFont(MyConstants.NORMAL_FONT);
             this.setText(value.toString());
         }

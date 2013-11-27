@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.DatosEditor.Docencia;
 
 import data.MyConstants;
@@ -18,10 +17,10 @@ import javax.swing.TransferHandler;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JTreeProfesoresTransferHandler extends TransferHandler {
-    
+
     @Override
     protected Transferable createTransferable(JComponent c) {
         ProfesorDraggable resul = null;
@@ -35,7 +34,8 @@ public class JTreeProfesoresTransferHandler extends TransferHandler {
 
     @Override
     public Image getDragImage() {
-        return MyConstants.PROFESOR_ICON.getImage();
+        MyConstants mc = new MyConstants();
+        return mc.PROFESOR_ICON.getImage();
     }
 
     @Override

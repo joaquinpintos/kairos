@@ -47,14 +47,14 @@ public class JTreeAulasRenderer extends JLabel implements TreeCellRenderer {
 
 
         if (value instanceof Aula) {
-            this.setIcon(MyConstants.AULA_ICON);
+            this.setIcon(dk.mc.AULA_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
             this.setText("Aula " + ((Aula) value).getNombre());
         }
 
         if (value instanceof ListaAsignaciones) {
             ListaAsignaciones lasig = (ListaAsignaciones) value;
-            this.setIcon(MyConstants.CLOCK_ICON);
+            this.setIcon(dk.mc.TRAMO_ICON);
             CalendarioAcademico cal = dk.getDP().getCalendarioAcadémico();
             this.setText(lasig.toString() + "  (" + (cal.getTotalHorasLectivasPorSemana(lasig.esTarde()) - lasig.getHorasOcupadas()) + " horas libres)");
             if ((cal.getTotalHorasLectivasPorSemana(lasig.esTarde()) - lasig.getHorasOcupadas()) < 0) {

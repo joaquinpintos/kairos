@@ -34,7 +34,7 @@ import testers.AsigTester;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
     
@@ -281,7 +281,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         class AñadirAulaAction extends AbstractAction {
             
             public AñadirAulaAction() {
-                super("Añadir aula", MyConstants.ADD_ICON);
+                super("Añadir aula", dk.mc.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_A);
             }
             
@@ -301,7 +301,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         class EditarAulaAction extends AbstractAction {
             
             public EditarAulaAction() {
-                super("Editar", MyConstants.ADD_ICON);
+                super("Editar", dk.mc.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_E);
             }
             
@@ -322,7 +322,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         class EliminarAulaAction extends AbstractAction {
             
             public EliminarAulaAction() {
-                super("Eliminar", MyConstants.ADD_ICON);
+                super("Eliminar", dk.mc.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_L);
             }
             

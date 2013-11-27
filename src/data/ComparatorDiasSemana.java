@@ -11,11 +11,11 @@ import java.util.Comparator;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class ComparatorDiasSemana implements Comparator, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
     private final ArrayList<String> dias;
 
     /**

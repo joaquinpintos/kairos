@@ -49,7 +49,7 @@ public class JDlgCalculaHorasAsignaturas extends javax.swing.JDialog {
         jTreeAsignaturas.setModel(model);
         horasEfectivas=new HashMap<Grupo, Integer>();
 
-        TreeCellRendererAsignaturasHorasEfectivas treeCellRendererAsignaturas = new TreeCellRendererAsignaturasHorasEfectivas(horasEfectivas);
+        TreeCellRendererAsignaturasHorasEfectivas treeCellRendererAsignaturas = new TreeCellRendererAsignaturasHorasEfectivas(dk,horasEfectivas);
         jTreeAsignaturas.setCellRenderer(treeCellRendererAsignaturas);
 
         // Close the dialog when Esc is pressed

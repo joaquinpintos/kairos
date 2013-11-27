@@ -18,14 +18,14 @@ import org.w3c.dom.Node;
 /**
  * Interfaz de todos los objetos rest
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public abstract class Restriccion implements Serializable {
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 27112013L;
 
     /**
      *

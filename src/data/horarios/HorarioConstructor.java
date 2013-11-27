@@ -16,7 +16,7 @@ import data.genetic.PosibleSolucion;
 
 /**
  *
- * @author david
+ * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class HorarioConstructor {
 
