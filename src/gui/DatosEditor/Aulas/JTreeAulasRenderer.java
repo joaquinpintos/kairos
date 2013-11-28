@@ -4,7 +4,7 @@
  */
 package gui.DatosEditor.Aulas;
 
-import data.CalendarioAcademico;
+import data.AcademicCalendar;
 import data.DataKairos;
 import data.MyConstants;
 import data.aulas.Aula;
@@ -55,7 +55,7 @@ public class JTreeAulasRenderer extends JLabel implements TreeCellRenderer {
         if (value instanceof ListaAsignaciones) {
             ListaAsignaciones lasig = (ListaAsignaciones) value;
             this.setIcon(dk.mc.TRAMO_ICON);
-            CalendarioAcademico cal = dk.getDP().getCalendarioAcadémico();
+            AcademicCalendar cal = dk.getDP().getAcademicCalendar();
             this.setText(lasig.toString() + "  (" + (cal.getTotalHorasLectivasPorSemana(lasig.esTarde()) - lasig.getHorasOcupadas()) + " horas libres)");
             if ((cal.getTotalHorasLectivasPorSemana(lasig.esTarde()) - lasig.getHorasOcupadas()) < 0) {
                  this.setForeground(Color.RED);

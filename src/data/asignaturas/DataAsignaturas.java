@@ -5,7 +5,7 @@
 package data.asignaturas;
 
 import data.AbstractDataSets;
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
 import org.w3c.dom.Document;
@@ -26,7 +26,7 @@ public class DataAsignaturas extends AbstractDataSets {
      *
      * @param dataProyecto
      */
-    public DataAsignaturas(DataProyecto dataProyecto) {
+    public DataAsignaturas(DataProject dataProyecto) {
         super(dataProyecto);
         this.carreras = new ArrayList<Carrera>();
         listaGrupoCursos = new ListaGrupoCursos(dataProyecto);

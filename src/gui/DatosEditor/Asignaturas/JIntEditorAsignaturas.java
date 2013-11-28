@@ -5,7 +5,7 @@
 package gui.DatosEditor.Asignaturas;
 
 import data.DataKairos;
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import data.MyConstants;
 import data.asignaturas.Asignatura;
@@ -42,7 +42,7 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas {
     
-    private DataProyecto dataProyecto;
+    private DataProject dataProyecto;
     private AbstractMainWindow mainWindow;
     private final DataKairos dk;
     private AbstractAction añadirAsignaturaAction;

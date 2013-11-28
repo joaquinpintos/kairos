@@ -8,7 +8,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Grupo;
 import data.aulas.CarreraCursoGrupoContainer;
 import data.horarios.DatosHojaHorario;
@@ -31,7 +31,7 @@ public class PrinterHorarioPorGrupos extends AbstractHorariosPrinter {
      * @param fileDst
      * @param variosDocumentos
      */
-    public PrinterHorarioPorGrupos(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) {
+    public PrinterHorarioPorGrupos(DataProject dataProyecto, File fileDst, boolean variosDocumentos) {
         super(dataProyecto, fileDst, variosDocumentos);
         buildData();
     }

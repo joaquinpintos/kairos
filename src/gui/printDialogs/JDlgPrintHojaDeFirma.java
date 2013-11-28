@@ -5,7 +5,7 @@
  */
 package gui.printDialogs;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.aulas.Aula;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -35,7 +35,7 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      * Creates new form JDlgPrintHojaDeFirma
@@ -44,7 +44,7 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public JDlgPrintHojaDeFirma(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto) {
+    public JDlgPrintHojaDeFirma(java.awt.Frame parent, boolean modal, DataProject dataProyecto) {
         super(parent, modal);
         this.dataProyecto = dataProyecto;
         initComponents();

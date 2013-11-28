@@ -5,7 +5,7 @@
 package gui.HorarioEditor;
 
 import data.DataKairos;
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Grupo;
 import gui.DatosEditor.Asignaturas.TreeCellRendererAsignaturas;
 import gui.DatosEditor.Asignaturas.TreeModelAsignaturas;

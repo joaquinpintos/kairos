@@ -6,7 +6,7 @@
 package data.asignaturas;
 
 import data.AbstractDataSets;
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
      *
      * @param dataProyecto
      */
-    public ListaGrupoCursos(DataProyecto dataProyecto) {
+    public ListaGrupoCursos(DataProject dataProyecto) {
         super(dataProyecto);
         grupoCursos = new ArrayList<GrupoCursos>();
     }

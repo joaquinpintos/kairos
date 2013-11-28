@@ -13,8 +13,8 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import data.CalendarioAcademico;
-import data.DataProyecto;
+import data.AcademicCalendar;
+import data.DataProject;
 import data.Hora;
 import data.aulas.Aula;
 import data.horarios.HorarioItem;
@@ -37,7 +37,7 @@ public class HojaDeFirmaPrinter {
     ArrayList<Aula> aulas;
     GregorianCalendar inicio;
     GregorianCalendar fin;
-    private final DataProyecto dp;
+    private final DataProject dp;
     private final File fileDst;
 
     /**
@@ -48,7 +48,7 @@ public class HojaDeFirmaPrinter {
      * @param inicio
      * @param fin
      */
-    public HojaDeFirmaPrinter(DataProyecto dataProyecto, File fileDst, ArrayList<Aula> aulas, GregorianCalendar inicio, GregorianCalendar fin) {
+    public HojaDeFirmaPrinter(DataProject dataProyecto, File fileDst, ArrayList<Aula> aulas, GregorianCalendar inicio, GregorianCalendar fin) {
         this.aulas = aulas;
         this.inicio = inicio;
         this.fin = fin;
@@ -70,7 +70,7 @@ public class HojaDeFirmaPrinter {
         }
         doc.open();
         for (Aula aula:aulas){
-        ArrayList<GregorianCalendar> dias = dp.getCalendarioAcadémico().getArrayDiasLectivos(inicio, fin);
+        ArrayList<GregorianCalendar> dias = dp.getAcademicCalendar().getArrayDiasLectivos(inicio, fin);
         for (GregorianCalendar dia : dias) {
             creaHojaDeFirma(doc, aula,dia);
             doc.newPage();
@@ -90,7 +90,7 @@ public class HojaDeFirmaPrinter {
     }
 
     private void creaCabecera(Document doc, Aula aula, GregorianCalendar dia) throws DocumentException {
-        CalendarioAcademico cal = dp.getCalendarioAcadémico();
+        AcademicCalendar cal = dp.getAcademicCalendar();
         Font font = new Font(Font.FontFamily.HELVETICA, 16);
         Font fontbold = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
         String diaSemana = cal.nombreDiaSemana(dia);

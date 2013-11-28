@@ -5,7 +5,7 @@
  */
 package restricciones.ClasesNoCruzanRecreo;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.RangoHoras;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
@@ -39,7 +39,7 @@ public class RClasesNoCruzanRecreo extends Restriccion {
      *
      * @param dataProyecto
      */
-    public RClasesNoCruzanRecreo(DataProyecto dataProyecto) {
+    public RClasesNoCruzanRecreo(DataProject dataProyecto) {
         super(dataProyecto);
         casillaJustoAntesRecreo = new HashMap<String, Integer[]>();
         casillaJustoDespuesRecreo = new HashMap<String, Integer[]>();

@@ -5,7 +5,7 @@
 package gui.printDialogs;
 
 import com.itextpdf.text.DocumentException;
-import data.DataProyecto;
+import data.DataProject;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -44,7 +44,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
     private File fileDst;
 
     /**
@@ -53,7 +53,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
      * @param modal
      * @param dataProyecto  
      */
-    public jDlgPrintHorario(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto) {
+    public jDlgPrintHorario(java.awt.Frame parent, boolean modal, DataProject dataProyecto) {
         super(parent, modal);
         initComponents();
         this.dataProyecto = dataProyecto;

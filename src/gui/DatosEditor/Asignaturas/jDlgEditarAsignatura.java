@@ -4,7 +4,7 @@
  */
 package gui.DatosEditor.Asignaturas;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -45,7 +45,7 @@ public class jDlgEditarAsignatura extends javax.swing.JDialog {
      * @param modal 
      * @param dataProyecto  
      */
-    public jDlgEditarAsignatura(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto, Asignatura asigEdit) {
+    public jDlgEditarAsignatura(java.awt.Frame parent, boolean modal, DataProject dataProyecto, Asignatura asigEdit) {
         super(parent, modal);
         initComponents();
         this.asigEdit = asigEdit;

@@ -326,7 +326,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
 //
 //            }
 //        };
-        for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
+        for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
             r.setMarcaCasillasConflictivas(false);//Mientras optimizo, no necesito esto
             geneticAlgorithm.addRestriccion(r);
         }

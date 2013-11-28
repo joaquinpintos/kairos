@@ -34,13 +34,13 @@ public class ListModelRestricciones implements ListModel {
 
     @Override
     public int getSize() {
-        return dk.getDP().getDataRestricciones().getListaRestricciones().size();
+        return dk.getDP().getRestrictionsData().getListaRestricciones().size();
     }
 
 
     @Override
     public Object getElementAt(int index) {
-        return dk.getDP().getDataRestricciones().getListaRestricciones().get(index);
+        return dk.getDP().getRestrictionsData().getListaRestricciones().get(index);
     }
 
     /**

@@ -4,7 +4,7 @@
  */
 package data.horarios;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Grupo;
 import data.profesores.Profesor;
 import data.genetic.Asignacion;
@@ -28,7 +28,7 @@ public class HorarioConstructor {
      * @return
      * @throws Exception  
      */
-    public static Horario constructor(PosibleSolucion sol, DataProyecto dataProyecto) throws Exception {
+    public static Horario constructor(PosibleSolucion sol, DataProject dataProyecto) throws Exception {
         Horario resul = new Horario(sol);
         //Este hashmap me relaciona un hashaula y un numero de segmento con su correspondiente horarioItem
         //Es util para marcar rápidamente los horarioItem conflictivos.

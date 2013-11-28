@@ -290,7 +290,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         long suma = 0;
         jListRestriccionesModel.clear();
         //ArrayList<Restriccion> nuevasRestr = new ArrayList<Restriccion>();
-        for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
+        for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
             r.setDebug(true);
             r.setMarcaCasillasConflictivas(true);
             r.clearConflictivos();
@@ -407,7 +407,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
                 needRecalcularPesos();
             }
         };
-        for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
+        for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
             r.addListener(l);
 
         }

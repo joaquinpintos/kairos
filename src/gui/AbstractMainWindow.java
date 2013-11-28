@@ -1,7 +1,7 @@
 package gui;
 
 import data.DataKairos;
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
@@ -31,6 +31,7 @@ import java.util.TooManyListenersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -60,29 +61,17 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private JIntGenetic jIntgenGenetic;
     private JIntHorarioEditor jIntHorarioEditor;
 
-    /**
-     *
-     */
     protected ArrayList<JInternalFrame> listaTabs;
-
     protected AbstractAction cargarProyectoAction;
-
     protected AbstractAction guardarProyectoAction;
-
     protected AbstractAction guardarProyectoComoAction;
-
-    protected AbstractAction importarXMLAction;
-
     protected AbstractAction exportarXMLAction;
-
+    protected AbstractAction creaPDFHojasDeFirmaAction;
+    protected AbstractAction newProjectAction;
     protected AbstractAction creaPDFAction;
+    protected AbstractAction importarXMLAction;
     private File lastFileUsed;
     private JIntHorarioEditor jIntHorarioEditor2;
-
-    /**
-     *
-     */
-    protected AbstractAction creaPDFHojasDeFirmaAction;
 
     /**
      *
@@ -275,9 +264,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      */
     public final void registraListeners() {
-        dk.getDP().getDataRestricciones().addListener(jIntHorarioEditor);
-        dk.getDP().getDataRestricciones().addListener(jIntHorarioEditor2);
-        dk.getDP().getDataRestricciones().addListener(jIntRestricciones);
+        dk.getDP().getRestrictionsData().addListener(jIntHorarioEditor);
+        dk.getDP().getRestrictionsData().addListener(jIntHorarioEditor2);
+        dk.getDP().getRestrictionsData().addListener(jIntRestricciones);
 
         dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
 
@@ -294,8 +283,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      */
     public void borraListeners() {
-        dk.getDP().getDataRestricciones().clearListeners();
-        dk.getDP().getDataRestricciones().clearListeners();
+        dk.getDP().getRestrictionsData().clearListeners();
+        dk.getDP().getRestrictionsData().clearListeners();
         dk.getDP().getDataAsignaturas().clearListeners();
 
         dk.getDP().getDataProfesores().clearListeners();
@@ -322,6 +311,25 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      */
     public final void creaAcciones() {
         final AbstractMainWindow mainWindow = this;
+        class NewProjectAction extends AbstractAction {
+
+            public NewProjectAction() {
+                super("Nuevo proyecto", null);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (dk.getDP() != null) {
+                    if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Los datos no guardados se perderán ¿Continuar?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                        dk.createNewDP("");
+                        setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
+                    }
+                }
+
+            }
+
+        }
+
         class CargarProyectoAction extends AbstractAction {
 
             public CargarProyectoAction() {
@@ -345,7 +353,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             setLastFileUsed(fc.getSelectedFile());
                             fich = new FileInputStream(lastFileUsed);
                             os = new ObjectInputStream(fich);
-                            DataProyecto o = (DataProyecto) os.readObject();
+                            DataProject o = (DataProject) os.readObject();
                             os.close();
                             dk.setDP(o);
                             registraListeners();
@@ -524,7 +532,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
-
+        newProjectAction = new NewProjectAction();
         cargarProyectoAction = new CargarProyectoAction();
         guardarProyectoAction = new GuardarProyectoAction();
         guardarProyectoComoAction = new GuardarProyectoComoAction();

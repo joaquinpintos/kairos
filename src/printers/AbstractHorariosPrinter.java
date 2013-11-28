@@ -14,7 +14,7 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import data.DataProyecto;
+import data.DataProject;
 import data.MyConstants;
 import data.RangoHoras;
 import data.horarios.DatosHojaHorario;
@@ -33,7 +33,7 @@ abstract public class AbstractHorariosPrinter {
 
     private File fileDst;
     private boolean variosDocumentos;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
     private final ArrayList<Object> cabeceras;
     private final ArrayList<DatosHojaHorario> hojasHorarios;
     private final ArrayList<Object> piesDePagina;
@@ -54,7 +54,7 @@ abstract public class AbstractHorariosPrinter {
      * @param fileDst
      * @param variosDocumentos
      */
-    public AbstractHorariosPrinter(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) {
+    public AbstractHorariosPrinter(DataProject dataProyecto, File fileDst, boolean variosDocumentos) {
         this.alturaRecreos = 10;
         this.alturaSepMañanaTarde = 25;
         this.rotated = false;
@@ -220,7 +220,7 @@ abstract public class AbstractHorariosPrinter {
      *
      * @return
      */
-    public DataProyecto getDataProyecto() {
+    public DataProject getDataProyecto() {
         return dataProyecto;
     }
 

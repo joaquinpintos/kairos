@@ -26,6 +26,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
     private final ArrayList<AbstractAction> actionsViewFrame;
     private JMenuItem creaPDFHojaFirmaMenuItem;
+    private JMenuItem newMenuItem;
 
     /**
      * Creates new form MainWindow
@@ -77,8 +78,10 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      * @throws IllegalArgumentException
      */
     protected void createJMenus() throws IllegalArgumentException {
+        
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        newMenuItem=new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
@@ -100,9 +103,12 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         viewMenu.setMnemonic('V');
         viewMenu.setText("Ver");
 
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
+        fileMenu.setMnemonic('A');
+        fileMenu.setText("Archivo");
 
+        newMenuItem.setAction(newProjectAction);
+        fileMenu.add(newMenuItem);
+        
         openMenuItem.setAction(cargarProyectoAction);
         openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 

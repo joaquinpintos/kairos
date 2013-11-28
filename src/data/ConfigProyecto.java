@@ -21,13 +21,13 @@ public class ConfigProyecto implements Serializable {
     private String nombreProyecto;
     //Este string almacena los grupos por defecto cuando se incluye una asignatura nueva
     private String gruposPorDefecto;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param dataProyecto
      */
-    public ConfigProyecto(DataProyecto dataProyecto) {
+    public ConfigProyecto(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
         gruposPorDefecto = "";
     }

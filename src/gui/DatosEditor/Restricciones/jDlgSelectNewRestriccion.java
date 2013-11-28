@@ -4,7 +4,7 @@
  */
 package gui.DatosEditor.Restricciones;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -35,7 +35,7 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final AbstractAction editarAction;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      * Creates new form jDlgSelectNewRestriccion
@@ -44,7 +44,7 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
      * @param dataProyecto
      * @param editarAction  
      */
-    public jDlgSelectNewRestriccion(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto, AbstractAction editarAction) {
+    public jDlgSelectNewRestriccion(java.awt.Frame parent, boolean modal, DataProject dataProyecto, AbstractAction editarAction) {
         super(parent, modal);
         initComponents();
         this.editarAction = editarAction;
@@ -186,7 +186,7 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
                     setVisible(false);
                     boolean aceptado = rNueva.lanzarDialogoDeConfiguracion(rNueva);
                     if (aceptado) {
-                        dataProyecto.getDataRestricciones().add(rNueva);
+                        dataProyecto.getRestrictionsData().add(rNueva);
                     }
                 } catch (InstantiationException ex) {
                     Logger.getLogger(jDlgSelectNewRestriccion.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,21 +214,21 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
     private int returnStatus = RET_CANCEL;
 }
 class JListNuevasRestricciones implements ListModel<Restriccion> {
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
 
-    public JListNuevasRestricciones(DataProyecto dataProyecto) {
+    public JListNuevasRestricciones(DataProject dataProyecto) {
         this.dataProyecto=dataProyecto;
     }
 
     @Override
     public int getSize() {
-        return dataProyecto.getDataRestricciones().getRestriccionesDisponibles().size();
+        return dataProyecto.getRestrictionsData().getRestriccionesDisponibles().size();
     }
 
     @Override
     public Restriccion getElementAt(int index) {
-        return dataProyecto.getDataRestricciones().getRestriccionesDisponibles().get(index);
+        return dataProyecto.getRestrictionsData().getRestriccionesDisponibles().get(index);
     }
 
     @Override

@@ -5,7 +5,7 @@
 package gui.DatosEditor;
 
 import data.DataKairos;
-import data.DataProyecto;
+import data.DataProject;
 import data.MyConstants;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
@@ -263,7 +263,7 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
 //                            setLastFileUsed(fc.getSelectedFile());
                             fich = new FileInputStream(lastFileUsed);
                             os = new ObjectInputStream(fich);
-                            DataProyecto o = (DataProyecto) os.readObject();
+                            DataProject o = (DataProject) os.readObject();
                              os.close();
                             dk.setDP(o);
                             mainWindow.registraListeners();
@@ -273,13 +273,13 @@ public final class JIntWelcome extends javax.swing.JInternalFrame implements Dat
                             mainWindow.getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
 
 
-                            for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
+                            for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
                                 r.setDataProyecto(dk.getDP());
                             }
                             mainWindow.getjIntHorarioView().needRecalcularPesos();
                             mainWindow.expandAllTrees();
 
-                            for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
+                            for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
                                 r.setDataProyecto(dk.getDP());
                             }
                         }

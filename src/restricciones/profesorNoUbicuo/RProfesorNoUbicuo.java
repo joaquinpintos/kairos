@@ -4,7 +4,7 @@
  */
 package restricciones.profesorNoUbicuo;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Grupo;
 import data.asignaturas.GrupoTramos;
 import data.asignaturas.Tramo;
@@ -51,7 +51,7 @@ public class RProfesorNoUbicuo extends Restriccion  {
      *
      * @param dataProyecto
      */
-    public RProfesorNoUbicuo(DataProyecto dataProyecto) {
+    public RProfesorNoUbicuo(DataProject dataProyecto) {
         super(dataProyecto);
         profesoresConflictivos=new HashSet<Profesor>();
     }

@@ -4,7 +4,7 @@
  */
 package loader;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.restricciones.Restriccion;
 import java.io.File;
 import java.util.logging.Level;
@@ -19,14 +19,14 @@ import org.w3c.dom.NodeList;
 public class DOMLoaderRestricciones {
 
     private final File file;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param file
      * @param dataProyecto
      */
-    public DOMLoaderRestricciones(File file, DataProyecto dataProyecto) {
+    public DOMLoaderRestricciones(File file, DataProject dataProyecto) {
         this.file = file;
         this.dataProyecto=dataProyecto;
     }
@@ -71,7 +71,7 @@ public class DOMLoaderRestricciones {
             Element elConfigEspecifico = buscaPrimerNodoConNombre(element, "config_especifico");
             
             r.readConfig(elConfigEspecifico);
-            dataProyecto.getDataRestricciones().add(r);
+            dataProyecto.getRestrictionsData().add(r);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DOMLoaderRestricciones.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

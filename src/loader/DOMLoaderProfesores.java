@@ -4,7 +4,7 @@
  */
 package loader;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
 import java.io.File;
@@ -24,14 +24,14 @@ public class DOMLoaderProfesores {
     private Departamento currentDepartamento;
     private Profesor currentProfesor;
     private org.w3c.dom.Document dom;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param file
      * @param dataProyecto
      */
-    public DOMLoaderProfesores(File file, DataProyecto dataProyecto) {
+    public DOMLoaderProfesores(File file, DataProject dataProyecto) {
         this.file = file;
         this.dataProyecto = dataProyecto;
     }

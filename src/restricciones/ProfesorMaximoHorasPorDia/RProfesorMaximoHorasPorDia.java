@@ -4,7 +4,7 @@
  */
 package restricciones.ProfesorMaximoHorasPorDia;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
@@ -43,7 +43,7 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      *
      * @param dataProyecto
      */
-    public RProfesorMaximoHorasPorDia(DataProyecto dataProyecto) {
+    public RProfesorMaximoHorasPorDia(DataProject dataProyecto) {
         super(dataProyecto);
         numMaximoHoras = 3; //Valor inicial
         listaProfesoresConflictivos = new HashSet<Profesor>();

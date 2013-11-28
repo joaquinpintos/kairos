@@ -5,7 +5,7 @@
 package data.restricciones;
 
 import data.AbstractDataSets;
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
 import org.w3c.dom.Node;
@@ -21,7 +21,7 @@ import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DataRestricciones extends AbstractDataSets {
+public class RestrictionsData extends AbstractDataSets {
 
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<Restriccion> listaRestricciones;
@@ -32,7 +32,7 @@ public class DataRestricciones extends AbstractDataSets {
      *
      * @param dataProyecto
      */
-    public DataRestricciones(DataProyecto dataProyecto) {
+    public RestrictionsData(DataProject dataProyecto) {
         super(dataProyecto);
         this.listaRestricciones = new ArrayList<Restriccion>();
         populateRestriccionesDisponibles();

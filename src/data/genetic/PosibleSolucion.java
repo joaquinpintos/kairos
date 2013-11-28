@@ -4,7 +4,7 @@
  */
 package data.genetic;
 
-import data.DataProyecto;
+import data.DataProject;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -17,7 +17,7 @@ public final class PosibleSolucion implements Serializable {
     private static final long serialVersionUID = 27112013L;
     private long peso;
     private final HashMap<String, Asignacion> asignaciones;
-    private DataProyecto dataProyecto;
+    private DataProject dataProyecto;
 
     /**
      *
@@ -74,7 +74,7 @@ public final class PosibleSolucion implements Serializable {
      *
      * @return
      */
-    public DataProyecto getDataProyecto() {
+    public DataProject getDataProyecto() {
         return dataProyecto;
     }
 
@@ -82,7 +82,7 @@ public final class PosibleSolucion implements Serializable {
      *
      * @param dataProyecto
      */
-    public void setDataProyecto(DataProyecto dataProyecto) {
+    public void setDataProyecto(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
     }
 
@@ -91,7 +91,7 @@ public final class PosibleSolucion implements Serializable {
      * @param dataProyecto
      * @return
      */
-    public static PosibleSolucion generador(DataProyecto dataProyecto) {
+    public static PosibleSolucion generador(DataProject dataProyecto) {
         PosibleSolucion newps = new PosibleSolucion();
         // System.out.println(stDataProyecto.getMapDatosPorAula().values());
         for (DatosPorAula da : dataProyecto.getMapDatosPorAula().values()) {

@@ -4,7 +4,7 @@
  */
 package data.genetic;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.Hora;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
@@ -32,14 +32,14 @@ public class DataGenerator {
     private DataProfesores dataProfesores;
     private DataAulas dataAulas;
     int minutosCasilla;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param minutosRango
      * @param dataProyecto
      */
-    public DataGenerator(int minutosRango, DataProyecto dataProyecto) {
+    public DataGenerator(int minutosRango, DataProject dataProyecto) {
         this.minutosCasilla = minutosRango;
         this.dataProyecto = dataProyecto;
         this.dataAsignaturas = dataProyecto.getDataAsignaturas();

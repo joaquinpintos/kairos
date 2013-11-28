@@ -4,7 +4,7 @@
  */
 package data.restricciones;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
 import data.genetic.PosibleSolucion;
@@ -51,7 +51,7 @@ public abstract class Restriccion implements Serializable {
     /**
      *
      */
-    protected DataProyecto dataProyecto;
+    protected DataProject dataProyecto;
 
     /**
      *
@@ -70,7 +70,7 @@ public abstract class Restriccion implements Serializable {
      *
      * @param dataProyecto
      */
-    public Restriccion(DataProyecto dataProyecto) {
+    public Restriccion(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
         this.peso = 100;
         this.importancia = 1;
@@ -158,7 +158,7 @@ public abstract class Restriccion implements Serializable {
      *
      * @return
      */
-    public DataProyecto getDataProyecto() {
+    public DataProject getDataProyecto() {
         return dataProyecto;
     }
 
@@ -166,7 +166,7 @@ public abstract class Restriccion implements Serializable {
      *
      * @param dataProyecto
      */
-    public void setDataProyecto(DataProyecto dataProyecto) {
+    public void setDataProyecto(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
     }
 

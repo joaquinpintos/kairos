@@ -4,6 +4,8 @@
  */
 package data;
 
+import java.util.ArrayList;
+import java.util.Date;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
 import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
 import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
@@ -34,7 +36,7 @@ public class DataKairos {
      * que pudieran interferir con el cálculo de la solución
      */
     public static final int STATUS_COMPUTING_SOLUTION = 3;
-    private DataProyecto dataProyecto;
+    private DataProject dataProject;
     public MyConstants mc;
     private int status;
 
@@ -42,16 +44,16 @@ public class DataKairos {
      * Constructor por defecto
      */
     public DataKairos() {
-        dataProyecto = new DataProyecto();
-        mc=new MyConstants();
+        dataProject = new DataProject();
+        mc = new MyConstants();
     }
 
     /**
      *
      * @return Variable de datos de proyecto
      */
-    public DataProyecto getDP() {
-        return dataProyecto;
+    public DataProject getDP() {
+        return dataProject;
     }
 
     /**
@@ -59,34 +61,41 @@ public class DataKairos {
      *
      * @param dataProyecto Nueva variable de datos de proyecto
      */
-    public void setDP(DataProyecto dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public void setDP(DataProject dataProyecto) {
+        this.dataProject = dataProject;
     }
 
     /**
      * Borra todos los datos del objeto de datos del proyecto
      */
     public void clear() {
-        dataProyecto.clear();
+        dataProject.clear();
     }
 
     /**
-     * Crea nuevo proyecto. Además añade algunas restricciones por defecto.
+     * Crea nuevo proyecto. Además añade algunas restricciones y datos por defecto.
      *
      * @param nombre Nombre del proyecto
      */
     public void createNewDP(String nombre) {
-        dataProyecto = new DataProyecto();
-        dataProyecto.getConfigProyecto().setNombreProyecto(nombre);
-        dataProyecto.getDataRestricciones().add(new RProfesorNoUbicuo(dataProyecto));
-        dataProyecto.getDataRestricciones().add(new RGrupoNoUbicuo(dataProyecto));
-        dataProyecto.getDataRestricciones().add(new RClasesNoCruzanRecreo(dataProyecto));
+        dataProject = new DataProject();
+        dataProject.getConfigProyecto().setNombreProyecto(nombre);
+        ArrayList<Integer> dd = new ArrayList<Integer>();
+        dd.add(1);
+        dd.add(2);
+        dd.add(3);
+        dd.add(4);
+        dd.add(5);
+        dataProject.getAcademicCalendar().setDiasSemanaLectivos(dd);
+        dataProject.getRestrictionsData().add(new RProfesorNoUbicuo(dataProject));
+        dataProject.getRestrictionsData().add(new RGrupoNoUbicuo(dataProject));
+        dataProject.getRestrictionsData().add(new RClasesNoCruzanRecreo(dataProject));
     }
 
     /**
      * Devuelve el estado de la aplicación.
      *
-     * @return Estado de la aplicación. Alguna de las variables null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
+     * @return Estado de la aplicación. Alguna de las variables null null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
      *{@link STATUS_PROJECT_SOLUTION} o {@link STATUS_COMPUTING_SOLUTION}
      */
     public int getStatus() {

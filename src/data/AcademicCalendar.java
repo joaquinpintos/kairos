@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class CalendarioAcademico implements Serializable {
+public class AcademicCalendar implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
     //Array con los días de la semana lectivos 1=lunes,...,5=viernes
@@ -34,7 +34,7 @@ public class CalendarioAcademico implements Serializable {
     /**
      * Constructor por defecto
      */
-    public CalendarioAcademico() {
+    public AcademicCalendar() {
         this.diasSemanaLectivos = new ArrayList<Integer>();
         formatoFechas = new SimpleDateFormat("dd/MM/yyyy");
         this.inicioPeriodoLectivo = new GregorianCalendar();

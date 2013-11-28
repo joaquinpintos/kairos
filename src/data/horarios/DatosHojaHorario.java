@@ -4,7 +4,7 @@
  */
 package data.horarios;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.Hora;
 import data.RangoHoras;
 import java.util.ArrayList;
@@ -26,13 +26,13 @@ public class DatosHojaHorario {
     HashMap<Integer, HorarioItem> data;
     private ArrayList<RangoHoras> rangosHoras;
     private HashMap<String, Integer> auxHorasHorario;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param dataProyecto
      */
-    public DatosHojaHorario(DataProyecto dataProyecto) {
+    public DatosHojaHorario(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
         data = new HashMap<Integer, HorarioItem>();
     }

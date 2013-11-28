@@ -5,7 +5,7 @@
 package data.aulas;
 
 import data.AbstractDataSets;
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class DataAulas extends AbstractDataSets  {
      *
      * @param dataProyecto
      */
-    public DataAulas(DataProyecto dataProyecto) {
+    public DataAulas(DataProject dataProyecto) {
         super(dataProyecto);
         this.aulas = new ArrayList<Aula>();
         mapHashToContainers = new HashMap<String, AulaMT>();

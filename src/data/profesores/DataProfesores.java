@@ -5,7 +5,7 @@
 package data.profesores;
 
 import data.AbstractDataSets;
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class DataProfesores extends AbstractDataSets {
      *
      * @param dp
      */
-    public DataProfesores(DataProyecto dp) {
+    public DataProfesores(DataProject dp) {
         super(dp);
         departamentos = new ArrayList<Departamento>();
     }

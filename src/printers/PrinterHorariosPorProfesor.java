@@ -8,7 +8,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
-import data.DataProyecto;
+import data.DataProject;
 import data.horarios.DatosHojaHorario;
 import data.horarios.HorarioItem;
 import data.profesores.Profesor;
@@ -34,7 +34,7 @@ public class PrinterHorariosPorProfesor extends AbstractHorariosPrinter {
      * @throws DocumentException
      * @throws FileNotFoundException
      */
-    public PrinterHorariosPorProfesor(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) throws DocumentException, FileNotFoundException {
+    public PrinterHorariosPorProfesor(DataProject dataProyecto, File fileDst, boolean variosDocumentos) throws DocumentException, FileNotFoundException {
         super(dataProyecto, fileDst, variosDocumentos);
         buildData();
     }

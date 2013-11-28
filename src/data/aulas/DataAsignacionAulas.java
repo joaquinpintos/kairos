@@ -4,7 +4,7 @@
  */
 package data.aulas;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.DataProyectoListener;
 import data.asignaturas.Grupo;
 import java.io.File;
@@ -25,13 +25,13 @@ public class DataAsignacionAulas implements Serializable {
     private final ArrayList<DataProyectoListener> listeners;
     final HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesMañana;
     final HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesTarde;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param dataProyecto
      */
-    public DataAsignacionAulas(DataProyecto dataProyecto) {
+    public DataAsignacionAulas(DataProject dataProyecto) {
 
         asignacionesMañana = new HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>>();
         asignacionesTarde = new HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>>();
@@ -306,7 +306,7 @@ public class DataAsignacionAulas implements Serializable {
      *
      * @return
      */
-    public DataProyecto getDataProyecto() {
+    public DataProject getDataProyecto() {
         return dataProyecto;
     }
 

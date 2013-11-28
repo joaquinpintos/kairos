@@ -4,7 +4,7 @@
  */
 package loader;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
@@ -39,13 +39,13 @@ public class XMLDataLoaderWriter {
 
     private File file;
     org.w3c.dom.Document dom;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param dataProyecto
      */
-    public XMLDataLoaderWriter(DataProyecto dataProyecto) {
+    public XMLDataLoaderWriter(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
         file = new File("./archivos");//TODO cambiar
     }
@@ -221,7 +221,7 @@ public class XMLDataLoaderWriter {
         dataProyecto.getConfigProyecto().dataToDOM(documentoXML, nodeConfig);
         //Grabo todos los datos del calendario académico
         Node nodeCalendarioAcadémico = nodeRoot.appendChild(documentoXML.createElement("calendario_académico"));
-        dataProyecto.getCalendarioAcadémico().dataToDOM(documentoXML, nodeCalendarioAcadémico);
+        dataProyecto.getAcademicCalendar().dataToDOM(documentoXML, nodeCalendarioAcadémico);
 
         //Grabo todos los datos del profesorado
         Node nodeProfesorado = nodeRoot.appendChild(documentoXML.createElement("profesorado"));
@@ -237,7 +237,7 @@ public class XMLDataLoaderWriter {
 
         //Grabo las restricciones
         Node nodeRestricciones = nodeRoot.appendChild(documentoXML.createElement("restricciones"));
-        dataProyecto.getDataRestricciones().dataToDOM(nodeRestricciones);
+        dataProyecto.getRestrictionsData().dataToDOM(nodeRestricciones);
 
         return documentoXML;
     }

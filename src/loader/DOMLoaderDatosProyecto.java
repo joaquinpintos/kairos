@@ -4,7 +4,7 @@
  */
 package loader;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.RangoHoras;
 import java.io.File;
 import java.text.ParseException;
@@ -20,14 +20,14 @@ import org.w3c.dom.Element;
 public class DOMLoaderDatosProyecto {
 
     private final File file;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param file
      * @param dataProyecto
      */
-    public DOMLoaderDatosProyecto(File file, DataProyecto dataProyecto){
+    public DOMLoaderDatosProyecto(File file, DataProject dataProyecto){
         this.file = file;
         this.dataProyecto=dataProyecto;
     }
@@ -62,10 +62,10 @@ public class DOMLoaderDatosProyecto {
             //Nodo inicio
             nodo2 = buscaPrimerElementoConNombre(nodo, "inicio");
             String te = nodo2.getTextContent().trim();
-            dataProyecto.getCalendarioAcadémico().setInicio(te);
+            dataProyecto.getAcademicCalendar().setInicio(te);
             //Nodo fin
             nodo2 = buscaPrimerElementoConNombre(nodo, "fin");
-            dataProyecto.getCalendarioAcadémico().setFin(nodo2.getTextContent().trim());
+            dataProyecto.getAcademicCalendar().setFin(nodo2.getTextContent().trim());
         } catch (ParseException ex) {
             Logger.getLogger(DOMLoaderDatosProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,7 +78,7 @@ public class DOMLoaderDatosProyecto {
                     org.w3c.dom.Element elemDia = (Element) nodeList.item(i);
                     String descripcion = elemDia.getAttribute("descripcion");
                     String strDia = elemDia.getTextContent();
-                    dataProyecto.getCalendarioAcadémico().addDiaNoLectivo(strDia, descripcion);
+                    dataProyecto.getAcademicCalendar().addDiaNoLectivo(strDia, descripcion);
                 }
             }
 

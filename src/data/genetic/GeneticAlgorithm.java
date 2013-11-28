@@ -6,7 +6,7 @@ package data.genetic;
 
 import genetic.crossovers.Crossover;
 import genetic.mutators.Mutator;
-import data.DataProyecto;
+import data.DataProject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,7 +23,7 @@ public class GeneticAlgorithm {
     private PosibleSolucion optimo;
     private final Crossover cruzador;
     private final ArrayList<Restriccion> restricciones;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 //    private ListaSegmentos listaSegmentos;
 //    private ListaCasillas listaCasillas;
     private int tamañoManada;
@@ -94,7 +94,7 @@ public class GeneticAlgorithm {
      * @param restricciones
      * @param dataProyecto
      */
-    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, ArrayList<Restriccion> restricciones, DataProyecto dataProyecto) {
+    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, ArrayList<Restriccion> restricciones, DataProject dataProyecto) {
         this.solucionInicial = null;
         this.cruzador = cruzador;
         this.restricciones = restricciones;
@@ -112,7 +112,7 @@ public class GeneticAlgorithm {
      * @param mutator
      * @param dataProyecto
      */
-    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, DataProyecto dataProyecto) {
+    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, DataProject dataProyecto) {
         this.solucionInicial = null;
         this.cruzador = cruzador;
         this.dataProyecto = dataProyecto;

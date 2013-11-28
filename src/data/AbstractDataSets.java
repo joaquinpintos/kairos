@@ -14,14 +14,14 @@ import java.util.ArrayList;
 public class AbstractDataSets implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
-    private DataProyecto dataProyecto;
+    private DataProject dataProyecto;
     private final ArrayList<DataProyectoListener> listeners;
 
     /**
      *
      * @param dataProyecto
      */
-    public AbstractDataSets(DataProyecto dataProyecto) {
+    public AbstractDataSets(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
         listeners = new ArrayList<DataProyectoListener>();
 
@@ -78,7 +78,7 @@ public class AbstractDataSets implements Serializable {
      *
      * @return
      */
-    public DataProyecto getDataProyecto() {
+    public DataProject getDataProyecto() {
         return dataProyecto;
     }
 
@@ -86,7 +86,7 @@ public class AbstractDataSets implements Serializable {
      *
      * @param dataProyecto
      */
-    public void setDataProyecto(DataProyecto dataProyecto) {
+    public void setDataProyecto(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
     }
 }

@@ -4,7 +4,7 @@
  */
 package gui.DatosEditor.Asignaturas;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -39,7 +39,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final Asignatura asigNueva;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
     private final boolean createNew;
 
     /**
@@ -51,7 +51,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
      * @param asigEdit
      * @param createNew
      */
-    public JDlgAñadirAsignatura(java.awt.Frame parent, boolean modal, DataProyecto dataProyecto, Asignatura asigEdit, boolean createNew) {
+    public JDlgAñadirAsignatura(java.awt.Frame parent, boolean modal, DataProject dataProyecto, Asignatura asigEdit, boolean createNew) {
         super(parent, modal);
         initComponents();
         this.asigNueva = asigEdit;

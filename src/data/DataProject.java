@@ -20,7 +20,7 @@ import data.genetic.PosibleSolucion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import data.restricciones.DataRestricciones;
+import data.restricciones.RestrictionsData;
 import java.io.File;
 import java.math.BigInteger;
 
@@ -28,14 +28,14 @@ import java.math.BigInteger;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DataProyecto implements Serializable {
+public class DataProject implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
     private File pathForPDF; //Ruta para guardar los PDF
     private final DataProfesores dataProfesores;
     private final DataAsignaturas dataAsignaturas;
     private final DataAulas dataAulas;
-    private final CalendarioAcademico calendarioAcadémico;
+    private final AcademicCalendar academicCalendar;
     private final HashMap<String, DatosPorAula> mapDatosPorAula;
     private final DataAsignacionAulas dataAsignacionAulas;
     private HashMap<String, Profesor> mapProfesor;
@@ -53,7 +53,7 @@ public class DataProyecto implements Serializable {
     //la lista de segmentos que pertenecen a ella, divididos por grupos
     private final HashMap<String, ListaSegmentos> mapSegmentosPorAsignaturaGrupo;
     private final HashMap<Profesor, ArrayList<ListaSegmentos>> mapSegmentosImpartidosPorProfesor;
-    private final DataRestricciones dataRestricciones;
+    private final RestrictionsData dataRestricciones;
     //Optimo encontrado, si hubiera alguno
     private PosibleSolucion optimo;
     private String tituloPaginasImprimir;
@@ -70,7 +70,7 @@ public class DataProyecto implements Serializable {
     /**
      * Constructor por defecto
      */
-    public DataProyecto() {
+    public DataProject() {
 
         this.dataProfesores = new DataProfesores(this);
         this.dataAsignaturas = new DataAsignaturas(this);
@@ -80,8 +80,8 @@ public class DataProyecto implements Serializable {
         mapDatosPorAula = new HashMap<String, DatosPorAula>();
         mapSegmentosPorAsignaturaGrupo = new HashMap<String, ListaSegmentos>();
         mapSegmentosImpartidosPorProfesor = new HashMap<Profesor, ArrayList<ListaSegmentos>>();
-        calendarioAcadémico = new CalendarioAcademico();
-        dataRestricciones = new DataRestricciones(this);
+        academicCalendar = new AcademicCalendar();
+        dataRestricciones = new RestrictionsData(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
         status = DataKairos.STATUS_PROJECT_NO_SOLUTION;
         configProyecto = new ConfigProyecto(this);
@@ -184,7 +184,7 @@ public class DataProyecto implements Serializable {
         dataAulas.clear();
         dataAsignaturas.clear();
 //        horario.getHorarios().clear();
-        calendarioAcadémico.clear();
+        academicCalendar.clear();
         dataRestricciones.clear();//=new DataRestricciones(this);//.clear();
         dataAsignacionAulas.clear();
         horario.clear();
@@ -196,7 +196,7 @@ public class DataProyecto implements Serializable {
      * @return
      */
     public RangoHoras getMañana1() {
-        return this.calendarioAcadémico.getMañana1();
+        return this.academicCalendar.getMañana1();
     }
 
     /**
@@ -204,7 +204,7 @@ public class DataProyecto implements Serializable {
      * @param mañana1
      */
     public void setMañana1(RangoHoras mañana1) {
-        this.calendarioAcadémico.setMañana1(mañana1);
+        this.academicCalendar.setMañana1(mañana1);
         setDirty(true);
     }
 
@@ -213,7 +213,7 @@ public class DataProyecto implements Serializable {
      * @return
      */
     public RangoHoras getMañana2() {
-        return this.calendarioAcadémico.getMañana2();
+        return this.academicCalendar.getMañana2();
     }
 
     /**
@@ -221,7 +221,7 @@ public class DataProyecto implements Serializable {
      * @param mañana2
      */
     public void setMañana2(RangoHoras mañana2) {
-        this.calendarioAcadémico.setMañana2(mañana2);
+        this.academicCalendar.setMañana2(mañana2);
         setDirty(true);
     }
 
@@ -230,7 +230,7 @@ public class DataProyecto implements Serializable {
      * @return
      */
     public RangoHoras getTarde1() {
-        return this.calendarioAcadémico.getTarde1();
+        return this.academicCalendar.getTarde1();
     }
 
     /**
@@ -238,7 +238,7 @@ public class DataProyecto implements Serializable {
      * @param tarde1
      */
     public void setTarde1(RangoHoras tarde1) {
-        this.calendarioAcadémico.setTarde1(tarde1);
+        this.academicCalendar.setTarde1(tarde1);
         setDirty(true);
     }
 
@@ -247,7 +247,7 @@ public class DataProyecto implements Serializable {
      * @return
      */
     public RangoHoras getTarde2() {
-        return this.calendarioAcadémico.getTarde2();
+        return this.academicCalendar.getTarde2();
     }
 
     /**
@@ -255,7 +255,7 @@ public class DataProyecto implements Serializable {
      * @param tarde2
      */
     public void setTarde2(RangoHoras tarde2) {
-        this.calendarioAcadémico.setTarde2(tarde2);
+        this.academicCalendar.setTarde2(tarde2);
         setDirty(true);
     }
 
@@ -301,7 +301,7 @@ public class DataProyecto implements Serializable {
      * @return
      */
     public ArrayList<Integer> getDiasSemanaLectivos() {
-        return calendarioAcadémico.getDiasSemanaLectivos();
+        return academicCalendar.getDiasSemanaLectivos();
     }
 
     /**
@@ -309,7 +309,7 @@ public class DataProyecto implements Serializable {
      * @param diasSemanaLectivos
      */
     public void setDiasSemanaLectivos(ArrayList<Integer> diasSemanaLectivos) {
-        this.calendarioAcadémico.setDiasSemanaLectivos(diasSemanaLectivos);
+        this.academicCalendar.setDiasSemanaLectivos(diasSemanaLectivos);
         setDirty(true);
     }
 
@@ -317,15 +317,15 @@ public class DataProyecto implements Serializable {
      *
      * @return
      */
-    public CalendarioAcademico getCalendarioAcadémico() {
-        return calendarioAcadémico;
+    public AcademicCalendar getAcademicCalendar() {
+        return academicCalendar;
     }
 
     /**
      *
      * @return
      */
-    public DataRestricciones getDataRestricciones() {
+    public RestrictionsData getRestrictionsData() {
         return dataRestricciones;
     }
 

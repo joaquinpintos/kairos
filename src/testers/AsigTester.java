@@ -5,8 +5,8 @@
 package testers;
 
 import data.ArrayRangoHoras;
-import data.CalendarioAcademico;
-import data.DataProyecto;
+import data.AcademicCalendar;
+import data.DataProject;
 import data.asignaturas.Carrera;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Curso;
@@ -155,7 +155,7 @@ public class AsigTester {
         c2.add(GregorianCalendar.DAY_OF_MONTH, 29);
         dbg(sdf.format(c2.getTime()));
 
-        CalendarioAcademico calendarioAcadémico = new CalendarioAcademico();
+        AcademicCalendar calendarioAcadémico = new AcademicCalendar();
 
 
         try {
@@ -195,8 +195,8 @@ public class AsigTester {
      * @param dp
      * @throws Exception
      */
-    public void datosRelleno(DataProyecto dp) throws Exception {
-        DataProyecto dataProyecto = dp;
+    public void datosRelleno(DataProject dp) throws Exception {
+        DataProject dataProyecto = dp;
         Departamento dep = new Departamento("Ciencias experimentales");
         Departamento dep2 = new Departamento("Lengua");
         dp.getDataProfesores().addDepartamento(dep2);
@@ -258,7 +258,7 @@ public class AsigTester {
      * @throws Exception
      */
     public void pruebaNuevoTipoDatos() throws Exception {
-        DataProyecto dp = new DataProyecto();
+        DataProject dp = new DataProject();
         datosRelleno(dp);
         DataGenerator dg = new DataGenerator(30, dp);
         dg.generaDatos();
@@ -283,7 +283,7 @@ public class AsigTester {
      * @param dataProyecto
      * @throws Exception
      */
-    public void datosBucleRelleno(DataProyecto dataProyecto) throws Exception {
+    public void datosBucleRelleno(DataProject dataProyecto) throws Exception {
         //Rellena datos usando bucles
         int numProfe = 1;
         Departamento dep;

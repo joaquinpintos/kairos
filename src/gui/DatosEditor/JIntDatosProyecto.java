@@ -4,9 +4,9 @@
  */
 package gui.DatosEditor;
 
-import data.CalendarioAcademico;
+import data.AcademicCalendar;
 import data.DataKairos;
-import data.DataProyecto;
+import data.DataProject;
 import data.MyConstants;
 import data.RangoHoras;
 import gui.AbstractMainWindow;
@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -382,11 +383,11 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                                 .addComponent(jTextGruposPorDefecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel20)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                                 .addComponent(jButAceptar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
                                     .addComponent(jXDateInicioPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -394,15 +395,15 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
                                     .addComponent(jXDateFinPeriodoLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabResulDias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabTotalDiasCalculados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabTotalDiasCalculados))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabDesgLunes)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabDesgMartes)
@@ -412,7 +413,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                                 .addComponent(jLabDesgJueves)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabDesgViernes)
-                                .addGap(0, 3, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -492,44 +493,44 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
      */
     @Override
     public void updateData() {
-            DataProyecto dp=dk.getDP();
-            //Cambio titulo ventana
-            mainwindow.setTitle("Kairos - " + dp.getConfigProyecto().getNombreProyecto());
+        DataProject dp = dk.getDP();
+        //Cambio titulo ventana
+        mainwindow.setTitle("Kairos - " + dp.getConfigProyecto().getNombreProyecto());
 
-            //Cambio textos horas aulas
-            jTextHoraMañanaInicio1.setText(dp.getMañana1().getInicio().toString());
-            jTextHoraMañanaFin1.setText(dp.getMañana1().getFin().toString());
-            jTextHoraMañanaInicio2.setText(dp.getMañana2().getInicio().toString());
-            jTextHoraMañanaFin2.setText(dp.getMañana2().getFin().toString());
-            jTextHoraTardeInicio1.setText(dp.getTarde1().getInicio().toString());
-            jTextHoraTardeFin1.setText(dp.getTarde1().getFin().toString());
-            jTextHoraTardeInicio2.setText(dp.getTarde2().getInicio().toString());
-            jTextHoraTardeFin2.setText(dp.getTarde2().getFin().toString());
+        //Cambio textos horas aulas
+        jTextHoraMañanaInicio1.setText(dp.getMañana1().getInicio().toString());
+        jTextHoraMañanaFin1.setText(dp.getMañana1().getFin().toString());
+        jTextHoraMañanaInicio2.setText(dp.getMañana2().getInicio().toString());
+        jTextHoraMañanaFin2.setText(dp.getMañana2().getFin().toString());
+        jTextHoraTardeInicio1.setText(dp.getTarde1().getInicio().toString());
+        jTextHoraTardeFin1.setText(dp.getTarde1().getFin().toString());
+        jTextHoraTardeInicio2.setText(dp.getTarde2().getInicio().toString());
+        jTextHoraTardeFin2.setText(dp.getTarde2().getFin().toString());
 
-            // Marco/desmarco casillas de días lectivos semanales
-            jCheckLunes.setSelected(dp.getDiasSemanaLectivos().contains(1));
-            jCheckMartes.setSelected(dp.getDiasSemanaLectivos().contains(2));
-            jCheckMiercoles.setSelected(dp.getDiasSemanaLectivos().contains(3));
-            jCheckJueves.setSelected(dp.getDiasSemanaLectivos().contains(4));
-            jCheckViernes.setSelected(dp.getDiasSemanaLectivos().contains(5));
+        // Marco/desmarco casillas de días lectivos semanales
+        jCheckLunes.setSelected(dp.getDiasSemanaLectivos().contains(1));
+        jCheckMartes.setSelected(dp.getDiasSemanaLectivos().contains(2));
+        jCheckMiercoles.setSelected(dp.getDiasSemanaLectivos().contains(3));
+        jCheckJueves.setSelected(dp.getDiasSemanaLectivos().contains(4));
+        jCheckViernes.setSelected(dp.getDiasSemanaLectivos().contains(5));
 
-            //Cambio campos inicio/final periodo lectivo
-            jXDateInicioPeriodoLectivo.setDate(dp.getCalendarioAcadémico().getInicio().getTime());
-            jXDateFinPeriodoLectivo.setDate(dp.getCalendarioAcadémico().getFin().getTime());
-            StringBuilder texto = new StringBuilder();
-            for (int n = 0; n < dp.getCalendarioAcadémico().getDiasNoLectivos().size(); n++) {
-                texto.append(dp.getCalendarioAcadémico().getDiasNoLectivos().get(n)).append("  ");
-                texto.append(dp.getCalendarioAcadémico().getDescripcionDiasNoLectivos().get(n)).append("\n");
-            }
-            jTextAreaDiasNoLectivos.setText(texto.toString());
-            calculaDiasLectivosTotales();
-            jTextGruposPorDefecto.setText(dp.getConfigProyecto().getGruposPorDefecto());
-        
+        //Cambio campos inicio/final periodo lectivo
+        jXDateInicioPeriodoLectivo.setDate(dp.getAcademicCalendar().getInicio().getTime());
+        jXDateFinPeriodoLectivo.setDate(dp.getAcademicCalendar().getFin().getTime());
+        StringBuilder texto = new StringBuilder();
+        for (int n = 0; n < dp.getAcademicCalendar().getDiasNoLectivos().size(); n++) {
+            texto.append(dp.getAcademicCalendar().getDiasNoLectivos().get(n)).append("  ");
+            texto.append(dp.getAcademicCalendar().getDescripcionDiasNoLectivos().get(n)).append("\n");
+        }
+        jTextAreaDiasNoLectivos.setText(texto.toString());
+        calculaDiasLectivosTotales();
+        jTextGruposPorDefecto.setText(dp.getConfigProyecto().getGruposPorDefecto());
+
     }
 
     private void calculaDiasLectivosTotales() {
         //Calculo numero de dias lectivos totales
-        CalendarioAcademico cal = dk.getDP().getCalendarioAcadémico();
+        AcademicCalendar cal = dk.getDP().getAcademicCalendar();
         jLabDesgLunes.setText("");
         jLabDesgMartes.setText("");
         jLabDesgMiercoles.setText("");
@@ -537,49 +538,53 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jLabDesgViernes.setText("");
         jLabResulDias.setText("");
         try {
-            cal.setInicio(jXDateInicioPeriodoLectivo.getDate());
-            cal.setFin(jXDateFinPeriodoLectivo.getDate());
-            if (cal.getInicio().compareTo(cal.getFin()) > 0) {
-                throw new ParseException("Fecha final es menor que la fecha inicial", 0);
-            }
-            ArrayList<GregorianCalendar> resul = cal.getArrayDiasLectivos();
-            jLabResulDias.setText("" + resul.size());
-
-            //Desgloso los días por día de la semana
-            Integer[] desglose = {0, 0, 0, 0, 0};
-
-            for (GregorianCalendar dia : resul) {
-                switch (dia.get(GregorianCalendar.DAY_OF_WEEK)) {
-                    case GregorianCalendar.MONDAY:
-                        desglose[0]++;
-                        break;
-                    case GregorianCalendar.TUESDAY:
-                        desglose[1]++;
-                        break;
-                    case GregorianCalendar.WEDNESDAY:
-                        desglose[2]++;
-                        break;
-                    case GregorianCalendar.THURSDAY:
-                        desglose[3]++;
-                        break;
-                    case GregorianCalendar.FRIDAY:
-                        desglose[4]++;
-                        break;
-                    default:
-                        break;
+            Date a = jXDateInicioPeriodoLectivo.getDate();
+            Date b = jXDateFinPeriodoLectivo.getDate();
+            if ((a != null) && (b != null)) {
+                cal.setInicio(jXDateInicioPeriodoLectivo.getDate());
+                cal.setFin(jXDateFinPeriodoLectivo.getDate());
+                if (cal.getInicio().compareTo(cal.getFin()) > 0) {
+                    throw new ParseException("Fecha final es menor que la fecha inicial", 0);
                 }
+                ArrayList<GregorianCalendar> resul = cal.getArrayDiasLectivos();
+                jLabResulDias.setText("" + resul.size());
 
-                String strDesglose = "";
-                jLabDesgLunes.setText(desglose[0] + " lunes");
-                jLabDesgMartes.setText(desglose[1] + " martes");
-                jLabDesgMiercoles.setText(desglose[2] + " miércoles");
-                jLabDesgJueves.setText(desglose[3] + " jueves");
-                jLabDesgViernes.setText(desglose[4] + " viernes");
+                //Desgloso los días por día de la semana
+                Integer[] desglose = {0, 0, 0, 0, 0};
 
+                for (GregorianCalendar dia : resul) {
+                    switch (dia.get(GregorianCalendar.DAY_OF_WEEK)) {
+                        case GregorianCalendar.MONDAY:
+                            desglose[0]++;
+                            break;
+                        case GregorianCalendar.TUESDAY:
+                            desglose[1]++;
+                            break;
+                        case GregorianCalendar.WEDNESDAY:
+                            desglose[2]++;
+                            break;
+                        case GregorianCalendar.THURSDAY:
+                            desglose[3]++;
+                            break;
+                        case GregorianCalendar.FRIDAY:
+                            desglose[4]++;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    String strDesglose = "";
+                    jLabDesgLunes.setText(desglose[0] + " lunes");
+                    jLabDesgMartes.setText(desglose[1] + " martes");
+                    jLabDesgMiercoles.setText(desglose[2] + " miércoles");
+                    jLabDesgJueves.setText(desglose[3] + " jueves");
+                    jLabDesgViernes.setText(desglose[4] + " viernes");
+
+                }
             }
-
         } catch (ParseException ex) {
-            System.out.println("Fecha no validas");
+            System.err.println("Fechas no validas");
+        } catch (NullPointerException ex) {
         }
 
     }
@@ -613,11 +618,14 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         }
 
         dk.getDP().setDiasSemanaLectivos(ar);
-        dk.getDP().getCalendarioAcadémico().setInicio(jXDateInicioPeriodoLectivo.getDate());
+        try {
+            dk.getDP().getAcademicCalendar().setInicio(jXDateInicioPeriodoLectivo.getDate());
+            dk.getDP().getAcademicCalendar().setFin(jXDateFinPeriodoLectivo.getDate());
+        } catch (NullPointerException ex) {
+        }
         jXDateInicioPeriodoLectivo.setForeground(Color.BLACK);
-        dk.getDP().getCalendarioAcadémico().setFin(jXDateFinPeriodoLectivo.getDate());
         jXDateFinPeriodoLectivo.setForeground(Color.BLACK);
-        CalendarioAcademico cal = dk.getDP().getCalendarioAcadémico();
+        AcademicCalendar cal = dk.getDP().getAcademicCalendar();
         //Parseo el texto de los días no lectivos
 
         String texto = jTextAreaDiasNoLectivos.getText();

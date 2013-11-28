@@ -4,7 +4,7 @@
  */
 package loader;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -23,13 +23,13 @@ import org.w3c.dom.Element;
  */
 public class DOMLoaderAsignaturas {
 
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param dataProyecto
      */
-    public DOMLoaderAsignaturas(DataProyecto dataProyecto) {
+    public DOMLoaderAsignaturas(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
     }
 

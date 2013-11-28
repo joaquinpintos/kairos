@@ -4,7 +4,7 @@
  */
 package loader;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.aulas.Aula;
 import java.io.File;
 import java.io.IOException;
@@ -20,14 +20,14 @@ public class DOMLoaderAulas {
 
     private File file;
     private org.w3c.dom.Document dom;
-    private final DataProyecto dataProyecto;
+    private final DataProject dataProyecto;
 
     /**
      *
      * @param file
      * @param dataProyecto
      */
-    public DOMLoaderAulas(File file, DataProyecto dataProyecto) {
+    public DOMLoaderAulas(File file, DataProject dataProyecto) {
         this.file = file;
         this.dataProyecto=dataProyecto;
     }

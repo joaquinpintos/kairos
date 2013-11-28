@@ -22,13 +22,13 @@ import java.util.HashSet;
  */
 public class CheckDataProyecto {
 
-    DataProyecto dataProyecto;
+    DataProject dataProyecto;
 
     /**
      *
      * @param dataProyecto
      */
-    public CheckDataProyecto(DataProyecto dataProyecto) {
+    public CheckDataProyecto(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
     }
 

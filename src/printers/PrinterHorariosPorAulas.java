@@ -8,7 +8,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
-import data.DataProyecto;
+import data.DataProject;
 import data.aulas.AulaMT;
 import data.horarios.DatosHojaHorario;
 import data.horarios.HorarioItem;
@@ -34,7 +34,7 @@ public class PrinterHorariosPorAulas extends AbstractHorariosPrinter {
      * @param fileDst
      * @param variosDocumentos
      */
-    public PrinterHorariosPorAulas(DataProyecto dataProyecto, File fileDst, boolean variosDocumentos) {
+    public PrinterHorariosPorAulas(DataProject dataProyecto, File fileDst, boolean variosDocumentos) {
         super(dataProyecto, fileDst, variosDocumentos);
         data = new HashMap<AulaMT, DatosHojaHorario>();
         buildData();

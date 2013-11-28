@@ -5,7 +5,7 @@
  */
 package restricciones.grupoNoUbicuo;
 
-import data.DataProyecto;
+import data.DataProject;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -54,7 +54,7 @@ public class RGrupoNoUbicuo extends Restriccion {
      *
      * @param dataProyecto
      */
-    public RGrupoNoUbicuo(DataProyecto dataProyecto) {
+    public RGrupoNoUbicuo(DataProject dataProyecto) {
         super(dataProyecto);
         this.gruposConflictivos = new HashSet<String>();
         dataMañana = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
