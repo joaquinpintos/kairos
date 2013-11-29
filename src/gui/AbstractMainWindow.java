@@ -12,8 +12,8 @@ import gui.DatosEditor.Docencia.JIntEditorDocencia;
 import gui.DatosEditor.JIntDatosProyecto;
 import gui.DatosEditor.JIntGenetic;
 import gui.DatosEditor.JIntTreeProfesores;
-import gui.DatosEditor.JIntWelcome;
 import gui.DatosEditor.Restricciones.JIntRestricciones;
+import gui.HorarioEditor.HorarioEditorMaster;
 import gui.HorarioEditor.JIntHorarioEditor;
 import gui.printDialogs.JDlgPrintHojaDeFirma;
 import gui.printDialogs.jDlgPrintHorario;
@@ -31,7 +31,6 @@ import java.util.TooManyListenersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -52,15 +51,14 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
     private final DataKairos dk;
-    private JIntWelcome jIntWelcome;
+    private JIntDatosProyecto jIntDatosProyecto;
     private JIntTreeProfesores jIntTreeProfesores;
     private JIntEditorAsignaturas jIntTreeAsignaturas;
     private JIntTreeAulas jIntTreeAulas;
     private JIntEditorDocencia jIntEditorDocencia;
     private JIntRestricciones jIntRestricciones;
     private JIntGenetic jIntgenGenetic;
-    private JIntHorarioEditor jIntHorarioEditor;
-
+    private final HorarioEditorMaster horarioEditorMaster;
     protected ArrayList<JInternalFrame> listaTabs;
     protected AbstractAction cargarProyectoAction;
     protected AbstractAction guardarProyectoAction;
@@ -71,7 +69,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected AbstractAction creaPDFAction;
     protected AbstractAction importarXMLAction;
     private File lastFileUsed;
-    private JIntHorarioEditor jIntHorarioEditor2;
 
     /**
      *
@@ -82,11 +79,12 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         dirty = false;
         listaTabs = new ArrayList<JInternalFrame>();
         dk = new DataKairos();
-
+        horarioEditorMaster = new HorarioEditorMaster(dk);
         //Parámetros básicos de la ventana
         this.setTitle("Kairos");
-        creaAcciones();
-        registraListeners();
+        createActions();
+        addListeners();
+
     }
 
     /**
@@ -96,7 +94,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      */
     protected void createInternalFrames() throws Exception, TooManyListenersException {
 
-        JIntDatosProyecto jIntDatosProyecto = new JIntDatosProyecto(dk);
+        jIntDatosProyecto = new JIntDatosProyecto(dk);
         addTab("Datos del proyecto", jIntDatosProyecto);
 
         jIntTreeProfesores = new JIntTreeProfesores(dk);
@@ -118,8 +116,14 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         jIntgenGenetic = new JIntGenetic(dk);
         addTab("Optimizacion", jIntgenGenetic);
 
-        jIntHorarioEditor = new JIntHorarioEditor(dk);
+        JIntHorarioEditor jIntHorarioEditor = new JIntHorarioEditor(dk);
         addTab("Horario", jIntHorarioEditor);
+        JIntHorarioEditor jIntHorarioEditor2 = new JIntHorarioEditor(dk);
+        addTab("Horario2", jIntHorarioEditor2);
+        jIntHorarioEditor2.getjListRestricciones().setVisible(false);
+        horarioEditorMaster.add(jIntHorarioEditor);
+        horarioEditorMaster.add(jIntHorarioEditor2);
+        horarioEditorMaster.setjListRestricciones(jIntHorarioEditor.getjListRestricciones());
     }
 //
 //    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,10 +153,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      * @return
      */
-    public JIntWelcome getjIntWelcome() {
-        return jIntWelcome;
-    }
-
     /**
      *
      * @param jIntWelcome
@@ -205,14 +205,21 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      *
      * @return
      */
-    public JIntHorarioEditor getjIntHorarioView() {
-        return jIntHorarioEditor;
+//    public JIntHorarioEditor getjIntHorarioView() {
+//        return jIntHorarioEditor;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public JIntHorarioEditor getjIntHorarioView2() {
+//        return jIntHorarioEditor2;
+//    }
+    public HorarioEditorMaster getHorarioEditorMaster() {
+        return horarioEditorMaster;
     }
 
-    /**
-     *
-     * @return
-     */
     public JIntGenetic getjIntgenGenetic() {
         return jIntgenGenetic;
     }
@@ -263,9 +270,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     /**
      *
      */
-    public final void registraListeners() {
-        dk.getDP().getRestrictionsData().addListener(jIntHorarioEditor);
-        dk.getDP().getRestrictionsData().addListener(jIntHorarioEditor2);
+    public final void addListeners() {
+        dk.getDP().getRestrictionsData().addListener(horarioEditorMaster);
         dk.getDP().getRestrictionsData().addListener(jIntRestricciones);
 
         dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
@@ -274,7 +280,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
         dk.getDP().getDataAsignaturas().addListener(dk.getDP().getDataAsignaturas().getListaGrupoCursos());
-        //dk.getDP().getDataAsignaturas().getListaGrupoCursos().addListener(jIntTreeAulas);
 
         dk.getDP().getDataAsignaturas().addListener(jIntEditorDocencia);
     }
@@ -309,7 +314,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     /**
      *
      */
-    public final void creaAcciones() {
+    public final void createActions() {
         final AbstractMainWindow mainWindow = this;
         class NewProjectAction extends AbstractAction {
 
@@ -321,8 +326,19 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (dk.getDP() != null) {
                     if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Los datos no guardados se perderán ¿Continuar?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
-                        dk.createNewDP("");
+                        String s = (String) JOptionPane.showInputDialog(
+                                mainWindow,
+                                "Introduce el nombre del proyecto",
+                                "",
+                                JOptionPane.PLAIN_MESSAGE,
+                                null,
+                                null,
+                                "");
+
+                        dk.createNewDP(s);
                         setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
+                        jIntDatosProyecto.updateData();
+
                     }
                 }
 
@@ -356,7 +372,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             DataProject o = (DataProject) os.readObject();
                             os.close();
                             dk.setDP(o);
-                            registraListeners();
+                            addListeners();
 //                            getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
 
 //                            for (Restriccion r : dk.getDP().getDataRestricciones().getListaRestricciones()) {
@@ -366,7 +382,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                                 ((DataGUIInterface) tab).updateData();
                             }
                             expandAllTrees();
-                            getjIntHorarioView().needRecalcularPesos();
+                            horarioEditorMaster.needRecalcularPesos();
                             if (dk.getDP().getHorario().hayUnaSolucion()) {
                                 setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
                             } else {
@@ -374,11 +390,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             }
                         }
                     } catch (FileNotFoundException ex) {
-                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
-                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
                     } finally {
 //                        try {
 //                            os.close();
@@ -524,7 +537,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         guardadoCorrecto = xmldlw.save();
 
                     } catch (IOException ex) {
-                        Logger.getLogger(JIntWelcome.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     if (!guardadoCorrecto) {
                         JOptionPane.showMessageDialog(null, "Error al guardar los datos.");

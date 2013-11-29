@@ -7,8 +7,10 @@ package gui;
 import data.DataKairos;
 import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -27,6 +29,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private final ArrayList<AbstractAction> actionsViewFrame;
     private JMenuItem creaPDFHojaFirmaMenuItem;
     private JMenuItem newMenuItem;
+    private AbstractAction tileAction;
+    private final ArrayList<JInternalFrame> frames;
 
     /**
      * Creates new form MainWindow
@@ -35,11 +39,12 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      */
     public MainWindowDesktopPane() throws Exception {
         super();
+        frames=new ArrayList<JInternalFrame> ();
         actionsViewFrame = new ArrayList<AbstractAction>();
         initComponents();
         jDesktopPane.setBackground(MyConstants.BACKGROUND_APP_COLOR);
         createInternalFrames();
-        registraListeners();
+        addListeners();
         setProjectStatus(DataKairos.STATUS_NO_PROJECT);
     }
 
@@ -54,7 +59,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         jDesktopPane = new JDesktopPane();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        creaAccionesEspecificas();
         createJMenus();
 
         setJMenuBar(menuBar);
@@ -78,10 +83,10 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      * @throws IllegalArgumentException
      */
     protected void createJMenus() throws IllegalArgumentException {
-        
+
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        newMenuItem=new javax.swing.JMenuItem();
+        newMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
@@ -108,7 +113,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         newMenuItem.setAction(newProjectAction);
         fileMenu.add(newMenuItem);
-        
+
         openMenuItem.setAction(cargarProyectoAction);
         openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 
@@ -144,7 +149,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             }
         });
         fileMenu.add(exitMenuItem);
-
+        JMenuItem tileMenuItem = new JMenuItem(tileAction);
+        helpMenu.add(tileMenuItem);
         menuBar.add(fileMenu);
 
 //        editMenu.setMnemonic('e');
@@ -222,6 +228,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      */
     @Override
     protected void addTab(String title, final JInternalFrame tab) {
+        frames.add(tab);
         tab.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         jDesktopPane.add(tab);
         tab.setVisible(false);
@@ -293,4 +300,74 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             }
         }
     }
+
+    public void creaAccionesEspecificas() {
+
+        class TileAction extends AbstractAction {
+
+            private JDesktopPane desk; // the desktop to work with
+
+            public TileAction(JDesktopPane desk) {
+                super("Tile Frames");
+                this.desk = desk;
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                // How many frames do we have?
+                JInternalFrame[] allframes = desk.getAllFrames();
+                ArrayList<JInternalFrame> visibleFrames=new ArrayList<JInternalFrame>();
+                for (JInternalFrame fr:allframes)
+                {
+                    if (fr.isVisible()) visibleFrames.add(fr);
+                }
+                int count = visibleFrames.size();
+                if (count == 0) {
+                    return;
+                }
+
+                // Determine the necessary grid size
+                int sqrt = (int) Math.sqrt(count);
+                int rows = sqrt;
+                int cols = sqrt;
+                if (rows * cols < count) {
+                    cols++;
+                    if (rows * cols < count) {
+                        rows++;
+                    }
+                }
+
+                // Define some initial values for size & location.
+                Dimension size = desk.getSize();
+
+                int w = size.width / cols;
+                int h = size.height / rows;
+                int x = 0;
+                int y = 0;
+
+                // Iterate over the frames, deiconifying any iconified frames and then
+                // relocating & resizing each.
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols && ((i * cols) + j < count); j++) {
+                        JInternalFrame f = visibleFrames.get((i * cols) + j);
+
+                        if (!f.isClosed() && f.isIcon()) {
+                            try {
+                                f.setIcon(false);
+                            } catch (PropertyVetoException ignored) {
+                            }
+                        }
+
+                        desk.getDesktopManager().resizeFrame(f, x, y, w, h);
+                        x += w;
+                    }
+                    y += h; // start the next row
+                    x = 0;
+                }
+            }
+        }
+        tileAction = new TileAction(jDesktopPane);
+
+    }
+
 }

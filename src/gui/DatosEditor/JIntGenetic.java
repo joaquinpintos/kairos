@@ -7,7 +7,6 @@ package gui.DatosEditor;
 import data.CheckDataProyecto;
 import data.DataKairos;
 import data.DataProyectoListener;
-import data.MyConstants;
 import genetic.crossovers.PermutationCrossover;
 import data.genetic.DataGenerator;
 import data.genetic.GeneticAlgorithm;
@@ -23,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
+import gui.HorarioEditor.JIntHorarioEditor;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -361,10 +361,18 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                     dk.getDP().setHorario(HorarioConstructor.constructor(optimo, dk.getDP()));
                     if (dk.getDP().getHorario().hayUnaSolucion()) {
                         mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
-
-                        mainWindow.getjIntHorarioView().recalculaRestricciones();
-                        mainWindow.getjIntHorarioView().updateData();
-                        mainWindow.getjIntHorarioView().getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
+                        mainWindow.getHorarioEditorMaster().recalculaRestricciones();
+                        for (JIntHorarioEditor hv : mainWindow.getHorarioEditorMaster().getEditors()) {
+                            hv.updateData();
+                            hv.getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
+                        }
+//                        mainWindow.getjIntHorarioView().recalculaRestricciones();
+//                        mainWindow.getjIntHorarioView().updateData();
+//                        mainWindow.getjIntHorarioView().getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
+//
+//                        mainWindow.getjIntHorarioView2().recalculaRestricciones();
+//                        mainWindow.getjIntHorarioView2().updateData();
+//                        mainWindow.getjIntHorarioView2().getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
                     } else {
                         mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
                     }
@@ -382,7 +390,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                 GeneticProcessInfo i = informs.get(informs.size() - 1);
                 jLabIteracion.setText("Iteración: " + i.numIter);
                 jLabOptimoGlobal.setText("Óptimo global: " + i.peso);
-                jLabSemaforo.setIcon(trafficLights[i.level-1]);
+                jLabSemaforo.setIcon(trafficLights[i.level - 1]);
 //                jLabSemaforo.setIcon(null);
                 jLabSemaforo.setText(i.level + "");
                 //jLabOptimoPoblacion.setText("Óptimo población: " + optimoManada);

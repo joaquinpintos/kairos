@@ -6,9 +6,7 @@ package gui.HorarioEditor;
 
 import data.aulas.AulaMT;
 import data.DataKairos;
-import data.DataProyectoListener;
 import data.MyConstants;
-import data.horarios.Horario;
 import gui.DatosEditor.DataGUIInterface;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -34,7 +32,7 @@ import javax.swing.border.Border;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, HorarioListener, DataProyectoListener {
+public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, HorarioListener {
 
     private AbstractMainWindow mainWindow;
 //    private final HorariosTableModelPorAula modelHorarios;
@@ -44,6 +42,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
     private final HorariosJPanelModel horariosJPanelModel;
     private AbstractAction volverAOptimizarAction;
     private AbstractAction creaPDFAction;
+    private HorarioEditorMaster master;
 
     /**
      *
@@ -73,6 +72,11 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         //Registro como listener
         registraListener();
         creaAcciones();
+    }
+
+    public void setMaster(HorarioEditorMaster master) {
+        this.master = master;
+        horariosJPanelModel.addListener(master);
     }
 
     /**
@@ -205,23 +209,21 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         horariosJPanelModel.rebuildAll();
         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
         if (r != null) {
-            resaltaItemsConflictivos(r);
+            master.resaltaItemsConflictivos(r);
         } else {
-            resaltaItemsConflictivos(null);
+            master.resaltaItemsConflictivos(null);
         }
 
-        horariosJPanelModel.repaintAllItems();
         mainWindow.repaint();
     }//GEN-LAST:event_jListAulasValueChanged
 
     private void jListRestriccionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListRestriccionesValueChanged
         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
         if (r != null) {
-            resaltaItemsConflictivos(r);
+            master.resaltaItemsConflictivos(r);
         } else {
-            resaltaItemsConflictivos(null);
+            master.resaltaItemsConflictivos(null);
         }
-        horariosJPanelModel.repaintAllItems();
         mainWindow.repaint();
     }//GEN-LAST:event_jListRestriccionesValueChanged
 
@@ -286,25 +288,14 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
     /**
      *
      */
-    public void recalculaRestricciones() {
-        long suma = 0;
-        jListRestriccionesModel.clear();
-        //ArrayList<Restriccion> nuevasRestr = new ArrayList<Restriccion>();
-        for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
-            r.setDebug(true);
-            r.setMarcaCasillasConflictivas(true);
-            r.clearConflictivos();
-            long peso = r.calculaPeso(dk.getDP().getHorario().getSolucion());
-            if (peso > 0) {
-                jListRestriccionesModel.add(r);
-            }
-            suma += peso;
-        }
-        //  jListRestriccionesModel.setData(nuevasRestr);
-
-        jListRestricciones.updateUI();
-        jLabPeso.setText("" + suma);
+    public JListRestriccionesModel getjListRestriccionesModel() {
+        return jListRestriccionesModel;
     }
+
+    public JList<Restriccion> getjListRestricciones() {
+        return jListRestricciones;
+    }
+
 
     /**
      *
@@ -319,7 +310,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
      */
     @Override
     public synchronized void needRecalcularPesos() {
-        System.out.println("[RECALCULAR PESOS]");
         //Primero chequeo si HAY una solución calculada efectivamente.
         if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
             jListRestricciones.updateUI();
@@ -328,29 +318,21 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
                 rSelected = (Restriccion) jListRestricciones.getSelectedValue();
             } catch (IndexOutOfBoundsException ex) {
             }
-            recalculaRestricciones();
+            master.recalculaRestricciones();
             //Intento seleccionar otra vez la misma restriccion
-//            if ((rSelected != null) && (jListRestriccionesModel.contains(rSelected))) {
-//                jListRestricciones.setSelectedValue(rSelected, true);
-//            } else {
-//                jListRestricciones.setSelectedIndex(0);
-//            }
             if (jListRestricciones.getModel().getSize() > 0) {
                 if (jListRestricciones.getSelectedIndex() == -1) {
                     jListRestricciones.setSelectedIndex(0);
                 }
                 //  System.out.println("RESALTA " + ((Restriccion) jListRestricciones.getSelectedValue()));
                 try {
-                    resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
+                    master.resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
                 } catch (java.lang.IndexOutOfBoundsException e) {
-                    System.out.println("Excepción en JInthorarioPOraulas linea 270 más o menos!!");
-                    resaltaItemsConflictivos(null);
+                    master.resaltaItemsConflictivos(null);
                 }
             } else {
-                System.out.println("RESALTA NULL");
-                resaltaItemsConflictivos(null);
+                master.resaltaItemsConflictivos(null);
             }
-            horariosJPanelModel.repaintAllItems();
 
         }
 
@@ -371,31 +353,11 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         return horariosJPanelModel;
     }
 
-    /**
-     * Marca los items en color conflictivo que estén dados por la restriccion
-     *
-     * @param restriccion
-     */
-    private void resaltaItemsConflictivos(Restriccion restriccion) {
-        horariosJPanelModel.clearConflictivos();
-        jListAulasModel.clearConflictivos();
-        if (restriccion != null) {
-
-            for (Restriccion r : jListRestriccionesModel.getData()) {
-//                if (r != restriccion) 
-                {
-                    horariosJPanelModel.marcaConflictivos(r.getCasillasConflictivas(), HorarioItem.SIMPLE_MARK);
-                    jListAulasModel.marcaAulasConSegmentosConflictivos(r.getCasillasConflictivas(), HorarioItem.SIMPLE_MARK);
-                }
-            }
-            System.out.println("Casillas conflictivas: " + restriccion.getCasillasConflictivas());
-            horariosJPanelModel.marcaConflictivos(restriccion.getCasillasConflictivas(), HorarioItem.DOUBLE_MARK);
-            jListAulasModel.marcaAulasConSegmentosConflictivos(restriccion.getCasillasConflictivas(), HorarioItem.DOUBLE_MARK);
-
-            jTableHorario.updateUI();
-            jListAulas.updateUI();
-        }
+    public JList getjListAulas() {
+        return jListAulas;
     }
+
+   
 
     void creaListenersParaRestricciones() {
         RestriccionListener l = new RestriccionListener() {
@@ -404,7 +366,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
                 if (needReinicializarDatos) {
                     r.inicializarDatos();
                 }
-                needRecalcularPesos();
+                master.needRecalcularPesos();
             }
         };
         for (Restriccion r : dk.getDP().getRestrictionsData().getListaRestricciones()) {
@@ -421,31 +383,9 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         return jListAulasModel;
     }
 
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    @Override
-    public void dataEvent(Object obj, int type) {
-        if (dk.getDP().getHorario().hayUnaSolucion()) {
-            if (obj instanceof Restriccion) {
-                //Inicializo datos si se ha modificado o añadido
-                if ((type == DataProyectoListener.ADD) || (type == DataProyectoListener.MODIFY)) {
-                    ((Restriccion) obj).inicializarDatos();
-                }
-                needRecalcularPesos();
-            }
-            if (obj instanceof Horario) {
-                needRecalcularPesos();
-            }
-            //TODO: Implementar eventos por los que se borra la solución actual
-
-        }
-    }
 
     private void registraListener() {
-        horariosJPanelModel.addListener(this);
+        
 
         //Prueba de listener para resize
         jPanelHorarios.addComponentListener(new ComponentListener() {
@@ -509,6 +449,12 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         }
         CalculaHorasAsignaturasAction calculaHorasAsignadasAction = new CalculaHorasAsignaturasAction();
 //        jButCalcularHorasCreditos.setAction(calculaHorasAsignadasAction);
+    }
+
+    void updateAllUIS() {
+        jTableHorario.updateUI();
+        jListAulas.updateUI();
+        jListRestricciones.updateUI();
     }
 }
 

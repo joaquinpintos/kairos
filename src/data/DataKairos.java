@@ -6,6 +6,7 @@ package data;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
 import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
 import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
@@ -87,6 +88,7 @@ public class DataKairos {
         dd.add(4);
         dd.add(5);
         dataProject.getAcademicCalendar().setDiasSemanaLectivos(dd);
+        dataProject.getAcademicCalendar().setInicio(new GregorianCalendar());
         dataProject.getRestrictionsData().add(new RProfesorNoUbicuo(dataProject));
         dataProject.getRestrictionsData().add(new RGrupoNoUbicuo(dataProject));
         dataProject.getRestrictionsData().add(new RClasesNoCruzanRecreo(dataProject));

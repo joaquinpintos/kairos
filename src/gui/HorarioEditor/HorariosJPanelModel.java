@@ -337,12 +337,10 @@ public class HorariosJPanelModel {
         }
     }
 
-    /**
-     *
-     * @param w
-     * @param h
-     */
-    public void relocateItems(int w, int h) {
+    public void relocateItems() {
+        Dimension d = jPanelHorarios.getSize();
+        final int w = d.width;
+        final int h = d.height;
         for (DraggableHorarioItemComponent c : data) {
             HorarioItem hItem = c.getH();
 //            if (!hItem.isHuecoLibre()) {
@@ -427,13 +425,11 @@ public class HorariosJPanelModel {
 
             if (puedoSoltarAqui(draggableItem.getH(), numFila, numColumna)) {
                 effectivelyDropItem(draggableItem, numColumna, numFila, w, h);
-                repaintAllItems();
             } else {
                 System.out.println("No puedo soltar aqui");
             }
-
         }
-        relocateItems(w, h);
+        relocateItems();
     }
 
     /**
@@ -522,7 +518,6 @@ public class HorariosJPanelModel {
                 moveToCelda(dMove, filaA1 + n1, columnaA);
                 n1 += dMove.getH().getNumeroDeCasillasQueOcupa();
                 n2 += dMove.getH().getNumeroDeCasillasQueOcupa();
-                dMove.rebuildContent();
             } else {
                 n2++;
             }
@@ -530,7 +525,6 @@ public class HorariosJPanelModel {
 
         moveToCelda(dSrc, filaB, columnaB);
 
-        dSrc.rebuildContent();
         //Ahora actualizo los datos de la solución
         int numSegmentoSrc = dSrc.getH().getNumeroSegmento();
         ArrayList<Integer> oldAsig = asig.getAsignaciones();
@@ -567,10 +561,8 @@ public class HorariosJPanelModel {
             DraggableHorarioItemComponent dMove = getHorarioItemPorCasilla(numCasillaDst + offset);//data.get(numCasillaDst + n);//Componente a mover
             dMove.moveToCasilla(lc, numCasillaDondeVaDst + offset);
             offset += dMove.getH().getNumeroDeCasillasQueOcupa();
-            dMove.rebuildContent();
         }
         dSrc.moveToCasilla(lc, numCasillaDst);
-        dSrc.rebuildContent();
         //Ahora actualizo los datos de la solución
         ArrayList<Integer> oldAsig = asig.getAsignaciones();
         int index1 = oldAsig.indexOf(numSegmentoSrc);//indice del segmento origen
@@ -756,24 +748,6 @@ public class HorariosJPanelModel {
     /**
      *
      */
-    public void repaintAllItems() {
-//        SwingUtilities.invokeLater(new Runnable() {
-//
-//            @Override
-//            public void run()
-//            {
-
-        for (DraggableHorarioItemComponent hItem : data) {
-            hItem.rebuildContent();
-        }
-//        if (mainWindow != null) {
-//            mainWindow.repaint();
-//        }
-//            }
-//        }
-//        );
-    }
-
     /**
      *
      */
@@ -785,12 +759,13 @@ public class HorariosJPanelModel {
         for (DraggableHorarioItemComponent hItem : data) {
             hItem.setMarkLevel(HorarioItem.NO_MARK);
         }
-        }
-        /**
-         *
-         * @param casillasConflictivas
-         * @param markType
-         */
+    }
+
+    /**
+     *
+     * @param casillasConflictivas
+     * @param markType
+     */
     public void marcaConflictivos(HashMap<String, HashSet<Integer>> casillasConflictivas, int markType) {
 //        System.out.println("[DEBUG] Marco conflictivos "+casillasConflictivas);
 

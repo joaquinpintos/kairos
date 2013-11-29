@@ -25,7 +25,7 @@ public class MainWindowTabbed extends AbstractMainWindow {
         super();
         initComponents();
         createInternalFrames();
-        registraListeners();
+        addListeners();
           jTabPrincipal.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
