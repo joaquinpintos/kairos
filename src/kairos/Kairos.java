@@ -8,6 +8,7 @@ import gui.MainWindowDesktopPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import testers.IteratorTester;
 
 /**
  *
@@ -50,6 +51,8 @@ public class Kairos {
             });
 
         } else {
+            IteratorTester t=new IteratorTester();
+            t.test();
         }
     }
 }

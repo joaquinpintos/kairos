@@ -136,6 +136,9 @@ public class GeneticAlgorithm {
         restriccionesFallidas.clear();
         setDebug(false);
         generaManadaInicial();
+        //Al principio tomo como óptimo una solución cualquiera.
+        optimo = manada.get(0).copia();
+        optimo.setPeso(100000);
     }
 
     /**
@@ -145,11 +148,6 @@ public class GeneticAlgorithm {
      */
     public boolean runSingleLoop() {
         boolean continueLoop = true;
-        //Al principio tomo como óptimo una solución cualquiera.
-        optimo = manada.get(0).copia();
-        //Bucle principal:
-        long optimoValor = 100000;
-        optimo.setPeso(optimoValor);
         buclePrincipal:
 //        while (numIter < max_iter) {
         tamañoManada = manada.size();
@@ -169,11 +167,12 @@ public class GeneticAlgorithm {
         //Calculo el valor óptimo que he ido alcanzando.
 //            optimoValor = optimo.getPeso();
         if (optimo.getPeso() == 0) {//Óptimo alcanzado. No puedo mejorar más
-            optimo = manada.get(0).copia();
+//            optimo = manada.get(0).copia();
             continueLoop = false;
 //                break buclePrincipal;
+        } else {
+            calcularSiguienteGeneracion();
         }
-        calcularSiguienteGeneracion();
         numIter++;
 //        System.out.println("Optimo: " + optimo.getPeso());
         return continueLoop;
@@ -258,7 +257,9 @@ public class GeneticAlgorithm {
                 }
             }
         }
-        s.setPeso(nuevoPeso);
+        if (!detailed) {
+            s.setPeso(nuevoPeso);
+        }
     }
 
     private void calcularSiguienteGeneracion() {

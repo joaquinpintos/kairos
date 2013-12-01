@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <proyecto nombre="2º Cuatrimestre 2013/2014">
+<config>
+<grupos_por_defecto>1,2,3</grupos_por_defecto>
+</config>
 <calendario_académico>
 <periodo_lectivo>
-<inicio>14/01/2014</inicio>
-<fin>07/06/2014</fin>
+<inicio>13/11/2013</inicio>
+<fin>28/11/2013</fin>
 </periodo_lectivo>
 <horario_aulas>
 <horario_mañana>
@@ -45,6 +48,11 @@
 <nombre_corto>Alberto</nombre_corto>
 </profesor>
 <profesor>
+<nombre>Maria Luisa</nombre>
+<apellidos>Barasona Villarejo</apellidos>
+<nombre_corto>Barasona</nombre_corto>
+</profesor>
+<profesor>
 <nombre>David</nombre>
 <apellidos>Gutiérrez Rubio</apellidos>
 <nombre_corto>David</nombre_corto>
@@ -54,12 +62,8 @@
 </profesorado>
 <aulario>
 <aula nombre="11"/>
+<aula nombre="12"/>
 </aulario>
-<asignacion_aulas>
-<asignacionGrupoCompleto aula="11@M" grupocurso="Primaria@1º@2"/>
-<asignacionGrupoCompleto aula="11@M" grupocurso="Primaria@1º@3"/>
-<asignacionGrupoCompleto aula="11@M" grupocurso="Primaria@1º@1"/>
-</asignacion_aulas>
 <plan_docente>
 <estudios nombre="Primaria">
 <cursos>
@@ -69,30 +73,36 @@
 <grupo nombre="1">
 <tramos_grupo_completo>
 <tramo minutos="60">
-<docente>Alvarez@Alberto</docente>
+<docente>Maria Luisa@Barasona Villarejo</docente>
+<aula>12@M</aula>
 </tramo>
 <tramo minutos="90">
-<docente>Alvarez@Alberto</docente>
+<docente>Maria Luisa@Barasona Villarejo</docente>
+<aula>11@M</aula>
 </tramo>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="2">
 <tramos_grupo_completo>
 <tramo minutos="60">
-<docente>Alvarez@Alberto</docente>
+<docente>Maria Luisa@Barasona Villarejo</docente>
+<aula>11@M</aula>
 </tramo>
 <tramo minutos="90">
-<docente>Alvarez@Alberto</docente>
+<docente>David@Gutiérrez Rubio</docente>
+<aula>11@M</aula>
 </tramo>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="3">
 <tramos_grupo_completo>
 <tramo minutos="60">
-<docente>Alvarez@Alberto</docente>
+<docente>David@Gutiérrez Rubio</docente>
+<aula>11@M</aula>
 </tramo>
 <tramo minutos="90">
-<docente>Alvarez@Alberto</docente>
+<docente>David@Gutiérrez Rubio</docente>
+<aula>11@M</aula>
 </tramo>
 </tramos_grupo_completo>
 </grupo>
@@ -103,30 +113,36 @@
 <grupo nombre="1">
 <tramos_grupo_completo>
 <tramo minutos="60">
-<docente>David@Gutiérrez Rubio</docente>
+<docente>Alvarez@Alberto</docente>
+<aula>12@T</aula>
 </tramo>
 <tramo minutos="90">
-<docente>David@Gutiérrez Rubio</docente>
+<docente>Maria Luisa@Barasona Villarejo</docente>
+<aula>11@M</aula>
 </tramo>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="2">
 <tramos_grupo_completo>
 <tramo minutos="60">
-<docente>David@Gutiérrez Rubio</docente>
+<docente>Alvarez@Alberto</docente>
+<aula>11@M</aula>
 </tramo>
 <tramo minutos="90">
-<docente>David@Gutiérrez Rubio</docente>
+<docente>Alvarez@Alberto</docente>
+<aula>11@M</aula>
 </tramo>
 </tramos_grupo_completo>
 </grupo>
 <grupo nombre="3">
 <tramos_grupo_completo>
 <tramo minutos="60">
-<docente>David@Gutiérrez Rubio</docente>
+<docente>Alvarez@Alberto</docente>
+<aula>11@M</aula>
 </tramo>
 <tramo minutos="90">
-<docente>David@Gutiérrez Rubio</docente>
+<docente>Alvarez@Alberto</docente>
+<aula>11@M</aula>
 </tramo>
 </tramos_grupo_completo>
 </grupo>
@@ -151,6 +167,13 @@
 <className>restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo</className>
 <config_comun>
 <nivel>1</nivel>
+</config_comun>
+<config_especifico/>
+</restriccion>
+<restriccion>
+<className>restricciones.noHuecosEntreMedias.RNoHuecosEntreMedias</className>
+<config_comun>
+<nivel>2</nivel>
 </config_comun>
 <config_especifico/>
 </restriccion>

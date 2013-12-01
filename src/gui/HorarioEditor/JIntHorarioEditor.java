@@ -103,7 +103,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jPanel2 = new javax.swing.JPanel();
         jButVolverAOptimizar = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
-        jLabPeso = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
 
         jTableHorario.setModel(new javax.swing.table.DefaultTableModel(
@@ -190,9 +189,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jPanel2.add(jButVolverAOptimizar);
         jPanel2.add(filler2);
 
-        jLabPeso.setText("jLabel1");
-        jPanel2.add(jLabPeso);
-
         jPanel1.add(jPanel2);
         jPanel1.add(filler4);
 
@@ -237,7 +233,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.JButton jButVolverAOptimizar;
-    private javax.swing.JLabel jLabPeso;
     private javax.swing.JList jListAulas;
     private javax.swing.JList jListRestricciones;
     private javax.swing.JPanel jPanel1;
