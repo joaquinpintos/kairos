@@ -33,8 +33,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      *
      * @param nombre
      */
-    public Grupo(String nombre) {
-        this.nombre = nombre;
+    public Grupo(String nombre) throws IllegalArgumentException{
+        setNombre(nombre);
         this.tramosGrupoCompleto = new GrupoTramos(this);
         this.tarde = false;
         algunoSinAula = true;
@@ -54,11 +54,11 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      *
      * @param nombre
      */
-    public void setNombre(String nombre) throws IllegalArgumentException {
+    public final void setNombre(String nombre) throws IllegalArgumentException {
         if (!nombre.contains("@")) {
             this.nombre = nombre;
         } else {
-            throw new IllegalArgumentException("El nombre no puede contener @");
+            throw new IllegalArgumentException("El nombre del grupo no puede contener @");
         }
     }
 

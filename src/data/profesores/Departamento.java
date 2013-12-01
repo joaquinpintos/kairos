@@ -25,8 +25,8 @@ public class Departamento implements Serializable {
      *
      * @param nombre
      */
-    public Departamento(String nombre) {
-        this.nombre = nombre;
+    public Departamento(String nombre) throws IllegalArgumentException {
+        setNombre(nombre);
         profesores = new ArrayList<Profesor>();
     }
 
@@ -42,8 +42,12 @@ public class Departamento implements Serializable {
      *
      * @param nombre
      */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public final void setNombre(String nombre) throws IllegalArgumentException {
+        if (nombre.contains("@")) {
+            throw new IllegalArgumentException("El nombre del departamento no puede contener el carácter @");
+        } else {
+            this.nombre = nombre;
+        }
         setDirty(true);
     }
 

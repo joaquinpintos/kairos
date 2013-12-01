@@ -24,6 +24,31 @@ public class Profesor implements Comparable<Profesor>, Serializable {
 
     /**
      *
+     * @param nombre
+     * @param apellidos
+     * @param nombreCorto
+     */
+    public Profesor(String nombre, String apellidos, String nombreCorto) throws IllegalArgumentException {
+        this(nombre, apellidos, nombreCorto, null);
+    }
+
+    /**
+     *
+     * @param nombre
+     * @param apellidos
+     * @param nombreCorto
+     * @param departamento
+     */
+    public Profesor(String nombre, String apellidos, String nombreCorto, Departamento departamento) throws IllegalArgumentException {
+        setNombre(nombre);
+        this.departamento = departamento;
+        setApellidos(apellidos);
+        this.nombreCorto = nombreCorto;
+        docencia = new ArrayList<Tramo>();
+    }
+
+    /**
+     *
      * @return
      */
     public Departamento getDepartamento() {
@@ -70,38 +95,13 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      *
      * @param nombre
      */
-    public void setNombre(String nombre) {
-
-        this.nombre = nombre;
+    public final void setNombre(String nombre) throws IllegalArgumentException {
+        if (nombre.contains("@")) {
+            throw new IllegalArgumentException("El nombre del profesor no puede contener el carácter @");
+        } else {
+            this.nombre = nombre;
+        }
         setDirty(true);
-    }
-
-    /**
-     *
-     * @param nombre
-     * @param apellidos
-     * @param nombreCorto
-     */
-    public Profesor(String nombre, String apellidos, String nombreCorto) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.nombreCorto = nombreCorto;
-        docencia = new ArrayList<Tramo>();
-    }
-
-    /**
-     *
-     * @param nombre
-     * @param apellidos
-     * @param nombreCorto
-     * @param departamento
-     */
-    public Profesor(String nombre, String apellidos, String nombreCorto, Departamento departamento) {
-        this.nombre = nombre;
-        this.departamento = departamento;
-        this.apellidos = apellidos;
-        this.nombreCorto = nombreCorto;
-        docencia = new ArrayList<Tramo>();
     }
 
     @Override
@@ -125,8 +125,12 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      *
      * @param apellidos
      */
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public final void setApellidos(String apellidos) {
+        if (apellidos.contains("@")) {
+            throw new IllegalArgumentException("Los apellidos del profesor no pueden contener el carácter @");
+        } else {
+            this.apellidos = apellidos;
+        }
         setDirty(true);
     }
 

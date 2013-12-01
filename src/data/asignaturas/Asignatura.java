@@ -33,9 +33,9 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      *
      * @param nombre
      */
-    public Asignatura(String nombre) {
+    public Asignatura(String nombre) throws IllegalArgumentException {
         this.numCreditos = 0;
-        this.nombre = nombre;
+        setNombre(nombre);
         this.nombreCorto = "";
         this.grupos = new ListaGrupos();
         colorEnTablaDeHorarios = new Color(220, 241, 182);//Color inicial. En principio no se usa.
@@ -83,8 +83,12 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      *
      * @param nombre
      */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public final void setNombre(String nombre) throws IllegalArgumentException {
+        if (nombre.contains("@")) {
+            throw new IllegalArgumentException("El nombre de la asignatura no puede contener el carácter @");
+        } else {
+            this.nombre = nombre;
+        }
         setDirty(true);
     }
 
@@ -194,7 +198,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
 //            this.removeGrupo(gr);
 //        }
 //    }
-
     /**
      *
      * @return

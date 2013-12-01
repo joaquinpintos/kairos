@@ -33,8 +33,8 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
      *
      * @param nombre
      */
-    public Curso(String nombre) {
-        this.nombre = nombre;
+    public Curso(String nombre) throws IllegalArgumentException {
+        setNombre(nombre);
         asignaturas = new ArrayList<Asignatura>();
         contaColor = 0;
         asignaturasNOasignadas = new HashSet<Asignatura>();
@@ -98,8 +98,12 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
      *
      * @param nombre
      */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public final void setNombre(String nombre) throws IllegalArgumentException {
+        if (nombre.contains("@")) {
+            throw new IllegalArgumentException("El nombre del curso no puede contener el carácter @");
+        } else {
+            this.nombre = nombre;
+        }
         setDirty(true);
     }
 

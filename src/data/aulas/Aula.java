@@ -22,8 +22,8 @@ public class Aula implements Serializable {
      *
      * @param nombre
      */
-    public Aula(String nombre) {
-        this.nombre = nombre;
+    public Aula(String nombre) throws IllegalArgumentException{
+        setNombre(nombre);
         asignacionesMañana = new ListaAsignaciones(false, 0, this);
         asignacionesTarde = new ListaAsignaciones(true, 1, this);
     }
@@ -48,8 +48,12 @@ public class Aula implements Serializable {
      *
      * @param nombre
      */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public final void setNombre(String nombre) throws IllegalArgumentException{
+        if (nombre.contains("@")) {
+            throw  new IllegalArgumentException("El nombre del aula no puede contener el carácter @");
+        } else {
+            this.nombre = nombre;
+        }
         setDirty(true);
     }
 
