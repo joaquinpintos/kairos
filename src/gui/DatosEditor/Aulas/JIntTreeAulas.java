@@ -6,7 +6,6 @@ package gui.DatosEditor.Aulas;
 
 import data.DataKairos;
 import data.DataProyectoListener;
-import data.MyConstants;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.Aula;
 import data.aulas.DataAulas;
@@ -145,10 +144,10 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel1.setLayout(new java.awt.BorderLayout(10, 10));
 
-        jPanelInferior1.setLayout(new javax.swing.BoxLayout(jPanelInferior1, javax.swing.BoxLayout.X_AXIS));
+        jPanelInferior1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
         jPanelInferior1.add(filler5);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Expandir todo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -228,8 +227,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         updateData();
-        mainWindow.expandTree(jTreeGrupoCursos);
-        mainWindow.expandTree(jTreeAulas);
+        expandTrees();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -322,7 +320,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         class EliminarAulaAction extends AbstractAction {
             
             public EliminarAulaAction() {
-                super("Eliminar", dk.mc.ADD_ICON);
+                super("Eliminar", dk.mc.DELETE_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_L);
             }
             
@@ -437,5 +435,15 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                 tree.expandPath(e.getTreePath());
             }
         };
+    }
+
+    @Override
+    public void expandTrees() {
+          for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
+            jTreeAulas.expandRow(i);
+        }
+            for (int i = 0; i < jTreeGrupoCursos.getRowCount(); i++) {
+            jTreeGrupoCursos.expandRow(i);
+        }
     }
 }

@@ -105,6 +105,11 @@
             <Property name="alignment" type="int" value="2"/>
           </Layout>
           <SubComponents>
+            <Component class="javax.swing.JButton" name="jButEliminarProfesor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Eliminar profesor"/>
+              </Properties>
+            </Component>
             <Component class="javax.swing.JButton" name="jButEditarProfesor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar"/>

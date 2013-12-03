@@ -658,4 +658,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainwindow = mainWindow;
     }
+     @Override
+    public void expandTrees() {
+    }
 }

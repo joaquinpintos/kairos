@@ -451,6 +451,10 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jListAulas.updateUI();
         jListRestricciones.updateUI();
     }
+
+    @Override
+    public void expandTrees() {
+    }
 }
 
 class JListRestriccionesModel extends AbstractListModel<Restriccion> {
@@ -552,4 +556,5 @@ class JListAulasRenderer extends JLabel implements ListCellRenderer<AulaMT> {
         }
         return this;
     }
+    
 }

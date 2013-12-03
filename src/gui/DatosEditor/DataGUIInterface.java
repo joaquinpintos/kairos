@@ -20,4 +20,5 @@ public interface DataGUIInterface {
      * @param mainWindow
      */
     public void setMainWindow(AbstractMainWindow mainWindow);
+    public void expandTrees();
 }

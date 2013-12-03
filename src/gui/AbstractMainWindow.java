@@ -251,21 +251,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     /**
      *
      */
-    public void expandAllTrees() {
-        expandTree(jIntTreeProfesores.getjTreeProfesores());
-        expandTree(jIntTreeAsignaturas.getjTreeAsignaturas());
-        expandTree(jIntTreeAulas.getjTreeAulas());
-    }
-
-    /**
-     *
-     * @param jtree
-     */
-    public void expandTree(JTree jtree) {
-        for (int i = 0; i < jtree.getRowCount(); i++) {
-            jtree.expandRow(i);
-        }
-    }
 
     /**
      *
@@ -380,14 +365,15 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 //                            }
                             for (JInternalFrame tab : listaTabs) {
                                 ((DataGUIInterface) tab).updateData();
+                                ((DataGUIInterface) tab).expandTrees();
                             }
-                            expandAllTrees();
-                            horarioEditorMaster.needRecalcularPesos();
+
                             if (dk.getDP().getHorario().hayUnaSolucion()) {
                                 setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
                             } else {
                                 setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
                             }
+                            horarioEditorMaster.needRecalcularPesos();
                         }
                     } catch (FileNotFoundException ex) {
                     } catch (IOException ex) {
@@ -503,8 +489,10 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         if (!cargaCorrecta) {
                             JOptionPane.showMessageDialog(null, "Error al cargar los datos.");
                         }
-                        mainWindow.refreshAllTabs();
-                        mainWindow.expandAllTrees();
+                         for (JInternalFrame tab : listaTabs) {
+                                ((DataGUIInterface) tab).updateData();
+                                ((DataGUIInterface) tab).expandTrees();
+                            }
                         dk.getDP().setDirty(false);
                         if (dk.getDP().getHorario().hayUnaSolucion()) {
                             mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);

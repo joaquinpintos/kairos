@@ -5,9 +5,6 @@
 package loader;
 
 import data.DataProject;
-import data.asignaturas.DataAsignaturas;
-import data.aulas.DataAulas;
-import data.profesores.DataProfesores;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
 import java.io.File;

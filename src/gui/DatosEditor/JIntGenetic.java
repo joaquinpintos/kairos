@@ -356,13 +356,6 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                             hv.updateData();
                             hv.getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
                         }
-//                        mainWindow.getjIntHorarioView().recalculaRestricciones();
-//                        mainWindow.getjIntHorarioView().updateData();
-//                        mainWindow.getjIntHorarioView().getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
-//
-//                        mainWindow.getjIntHorarioView2().recalculaRestricciones();
-//                        mainWindow.getjIntHorarioView2().updateData();
-//                        mainWindow.getjIntHorarioView2().getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
                     } else {
                         mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
                     }
@@ -418,6 +411,10 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
+
+    @Override
+    public void expandTrees() {
+    }
 }
 //
 //class GeneticWorker extends SwingWorker<PosibleSolucion, Integer> {
@@ -447,5 +444,4 @@ class GeneticProcessInfo {
         this.level = level;
         this.peso = peso;
     }
-
 }

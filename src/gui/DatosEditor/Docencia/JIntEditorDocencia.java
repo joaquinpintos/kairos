@@ -22,13 +22,14 @@ import javax.swing.JTree;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntEditorDocencia extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas,TreeProfesores {
+public class JIntEditorDocencia extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas, TreeProfesores {
 
     private final DataKairos dk;
     private AbstractMainWindow mainWindow;
 
     /**
      * Creates new form jIntAsignaciones
+     *
      * @param dk
      * @throws java.util.TooManyListenersException
      */
@@ -44,8 +45,7 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
         jTreeProfesores.setDragEnabled(true);
         jTreeProfesores.setDropTarget(new DropTarget());
         jTreeProfesores.getDropTarget().addDropTargetListener(new JTreeProfesoresDropListener((TreeProfesores) this, dk));
-    
-        
+
         TreeModelAsignaturas asigModel = new TreeModelAsignaturas(dk);
         asigModel.setLlegarHastaTramos(true);
         jTreeAsignaturas.setModel(asigModel);
@@ -129,8 +129,7 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButExpandirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButExpandirActionPerformed
-        mainWindow.expandTree(jTreeProfesores);
-        mainWindow.expandTree(jTreeAsignaturas);
+      expandTrees();
 
 
     }//GEN-LAST:event_jButExpandirActionPerformed
@@ -163,5 +162,15 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
     public void dataEvent(Object obj, int type) {
         jTreeAsignaturas.updateUI();
         jTreeProfesores.updateUI();
+    }
+
+    @Override
+    public void expandTrees() {
+        for (int i = 0; i < jTreeAsignaturas.getRowCount(); i++) {
+            jTreeAsignaturas.expandRow(i);
+        }
+        for (int i = 0; i < jTreeProfesores.getRowCount(); i++) {
+            jTreeProfesores.expandRow(i);
+        }
     }
 }

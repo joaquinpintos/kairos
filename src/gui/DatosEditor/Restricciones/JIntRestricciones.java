@@ -6,9 +6,7 @@ package gui.DatosEditor.Restricciones;
 
 import data.DataKairos;
 import data.DataProyectoListener;
-import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
-import gui.MainWindowTabbed;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -21,6 +19,7 @@ import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 /**
@@ -30,13 +29,14 @@ import javax.swing.KeyStroke;
 public final class JIntRestricciones extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
 
     private AbstractMainWindow mainWindow;
-    private ListModelRestricciones listModelRestricciones;
+    private final ListModelRestricciones listModelRestricciones;
     private AbstractAction elegirNivelRestricionAction;
     private AbstractAction editarRestriccionAction;
     private AbstractAction eliminarRestriccion;
     private AbstractAction añadirRestriccionAction;
     private MouseListener jListRestriccionesMouseListener;
     private final DataKairos dk;
+    private JPopupMenu jPopupListRestricciones;
 
     /**
      * Creates new form JIntRestricciones
@@ -142,7 +142,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         class EditarRestriccionAction extends AbstractAction {
 
             public EditarRestriccionAction() {
-                super("Editar", null);
+                super("Editar", dk.mc.RESTRICTION_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_D);
             }
 
@@ -167,7 +167,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         class AñadirRestriccionAction extends AbstractAction {
 
             public AñadirRestriccionAction() {
-                super("Añadir nueva", null);
+                super("Añadir nueva", dk.mc.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 
             }
@@ -210,7 +210,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             private final Frame parent;
 
             public ElegirNivelRestriccionAction(Frame parent) {
-                super("Elegir nivel de importancia", null);
+                super("Elegir nivel de importancia", dk.mc.RESTRICTIONLEVEL_ICON);
                 this.parent = parent;
             }
 
@@ -231,6 +231,9 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    doPop(e);
+                }
                 if (e.getClickCount() == 2) {//Al hace doble click se edita la restricción.
                     editarRestriccionAction.actionPerformed(null);
                 }
@@ -242,6 +245,9 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    doPop(e);
+                }
             }
 
             @Override
@@ -250,6 +256,12 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 
             @Override
             public void mouseExited(MouseEvent e) {
+            }
+
+            private void doPop(MouseEvent e) {
+                int ind=jListRestricciones.locationToIndex(e.getPoint());
+                jListRestricciones.setSelectedIndex(ind);
+                jPopupListRestricciones.show(e.getComponent(), e.getX(), e.getY());
             }
         }//End of class JListRestriccionesMouseListener
 
@@ -272,6 +284,12 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
         jButEditarRestriccion.setAction(editarRestriccionAction);
         jButCambiarNivel.setAction(elegirNivelRestricionAction);
         jButEliminarRestriccion.setAction(eliminarRestriccion);
+
+        //Pop up menu 
+        jPopupListRestricciones = new JPopupMenu("Menu");
+        jPopupListRestricciones.add(editarRestriccionAction);
+        jPopupListRestricciones.add(elegirNivelRestricionAction);
+        jPopupListRestricciones.add(eliminarRestriccion);
     }
 
     /**
@@ -289,5 +307,9 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 //            System.out.println(((Restriccion)obj).descripcionCorta());
 //            jListRestricciones.setSelectedValue(obj, true);
 //        }
+    }
+
+    @Override
+    public void expandTrees() {
     }
 }

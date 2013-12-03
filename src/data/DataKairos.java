@@ -63,7 +63,7 @@ public class DataKairos {
      * @param dataProyecto Nueva variable de datos de proyecto
      */
     public void setDP(DataProject dataProyecto) {
-        this.dataProject = dataProject;
+        this.dataProject = dataProyecto;
     }
 
     /**

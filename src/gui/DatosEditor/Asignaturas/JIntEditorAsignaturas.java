@@ -7,7 +7,6 @@ package gui.DatosEditor.Asignaturas;
 import data.DataKairos;
 import data.DataProject;
 import data.DataProyectoListener;
-import data.MyConstants;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -124,8 +123,6 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         jInternalFrame1 = new javax.swing.JInternalFrame();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTreeAsignaturas1 = new javax.swing.JTree();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jButAñadirCarrera1 = new javax.swing.JButton();
@@ -173,10 +170,6 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         getContentPane().add(filler2, java.awt.BorderLayout.LINE_START);
 
         jInternalFrame1.setResizable(true);
-
-        jScrollPane2.setViewportView(jTreeAsignaturas1);
-
-        jInternalFrame1.getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
@@ -234,9 +227,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jTreeAsignaturas;
-    private javax.swing.JTree jTreeAsignaturas1;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -421,7 +412,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class AñadirGrupoAction extends AbstractAction {
             
             public AñadirGrupoAction() {
-                super("Añadir grupo", dk.mc.GRUPO_ICON);
+                super("Añadir grupo", dk.mc.ADD_ICON);
             }
             
             @Override
@@ -483,7 +474,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         class EditarCarreraAction extends AbstractAction {
             
             public EditarCarreraAction() {
-                super("Editar carrera", null);
+                super("Editar carrera", dk.mc.CARRERA_ICON);
             }
             
             @Override
@@ -756,5 +747,11 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     public void dataEvent(Object obj, int type
     ) {
         jTreeAsignaturas.updateUI();
+    }
+     @Override
+    public void expandTrees() {
+          for (int i = 0; i < jTreeAsignaturas.getRowCount(); i++) {
+            jTreeAsignaturas.expandRow(i);
+        }
     }
 }

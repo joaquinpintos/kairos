@@ -59,6 +59,15 @@ public class MyConstants {
      * Icono para los tramos
      */
     public final ImageIcon TRAMO_ICON =new ImageIcon(getClass().getResource("/data/images/clock.png"));
+   /**
+     * Icono para las restricciones
+     */
+    public final ImageIcon RESTRICTION_ICON =new ImageIcon(getClass().getResource("/data/images/restrictionIcon.png"));
+     /**
+     * Icono para el nivel de las restricciones
+     */
+    public final ImageIcon RESTRICTIONLEVEL_ICON =new ImageIcon(getClass().getResource("/data/images/levelIcon.png"));
+    
     /**
      * Icono de añadir
      */
