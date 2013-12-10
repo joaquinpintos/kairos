@@ -167,9 +167,9 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         setMaximizable(true);
         setResizable(true);
         setTitle("Profesores");
-        setMinimumSize(new java.awt.Dimension(300, 33));
+        setMinimumSize(new java.awt.Dimension(500, 33));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(400, 300));
+        setPreferredSize(new java.awt.Dimension(500, 300));
 
         jScrollPane1.setViewportView(jTreeProfesores);
 

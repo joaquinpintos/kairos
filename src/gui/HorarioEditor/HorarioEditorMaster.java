@@ -12,6 +12,7 @@ import data.horarios.HorarioItem;
 import data.restricciones.Restriccion;
 import java.util.ArrayList;
 import javax.swing.JList;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -53,6 +54,16 @@ public class HorarioEditorMaster implements DataProyectoListener {
                 needRelocateItems();
                 needRecalcularPesos();
             }
+             SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if ((jListRestricciones.getSelectedIndex()==-1)&&(jListRestricciones.getModel().getSize()>0))
+                {
+                    jListRestricciones.setSelectedIndex(0);
+                }
+            }
+        });
+            
             //TODO: Implementar eventos por los que se borra la solución actual
 
         }

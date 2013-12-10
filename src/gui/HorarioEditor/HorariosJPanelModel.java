@@ -106,7 +106,7 @@ public class HorariosJPanelModel {
             jPanelHorarios.add(l);
             int x = col2x(n + 1, w, h);
             l.setOpaque(true);
-            l.setBackground(MyConstants.FONDO_CASILLA_HORARIO);
+            l.setBackground(MyConstants.FONDO_CASILLA_DIAS_SEMANA);
             l.setBounds(x, row2y(0, w, h), wCol(w, h), hRow(w, h));
             //TODO: Las rectas se borran inmediatamente
 //            if (dibujaRectasVerticales)
@@ -132,7 +132,7 @@ public class HorariosJPanelModel {
             for (int n = 0; n < horas.size(); n++) {
                 RangoHoras r = horas.get(n);
                 JLabel l = new JLabel(r.toString(), JLabel.CENTER);
-                l.setBackground(MyConstants.FONDO_CASILLA_HORARIO);
+                l.setBackground(MyConstants.FONDO_CASILLA_HORAS);
                 l.setOpaque(true);
                 //l.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                 jPanelHorarios.add(l);

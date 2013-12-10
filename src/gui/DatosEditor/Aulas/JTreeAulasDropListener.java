@@ -9,9 +9,7 @@ import data.asignaturas.Teachable;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.aulas.ListaAsignaciones;
-import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
@@ -19,9 +17,7 @@ import java.awt.dnd.DropTargetListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComponent;
 import javax.swing.JTree;
-import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
 /**
@@ -94,7 +90,7 @@ public class JTreeAulasDropListener implements DropTargetListener {
             System.err.println("Error al hacer drop UnsupportedFlavorException");
         } catch (IOException ex) {
             Logger.getLogger(JIntTreeAulas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullPointerException ex) {
+        } catch (Exception ex) {
         }
 
     }

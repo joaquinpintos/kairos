@@ -114,6 +114,8 @@ public class MyConstants {
     public static final Color NON_CONFLICTIVE_ITEM = Color.BLACK;
     public static final Color DIA_NO_LECTIVO = new Color(200, 200, 200);
     public static final Color FONDO_CASILLA_HORARIO = new Color(215, 215, 215);
+    public static final Color FONDO_CASILLA_DIAS_SEMANA = new Color(190,190,190);
+    public static final Color FONDO_CASILLA_HORAS = new Color(190, 190, 190);
     public static final Color HORARIO_HORAS_COLOR = new Color(220, 220, 220);
     public static final Font NEGRITA_FONT = new Font("ARIAL", Font.BOLD, 12);
     public static final Font NORMAL_FONT = new Font("ARIAL", Font.PLAIN, 12);
