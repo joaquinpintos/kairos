@@ -39,7 +39,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      */
     public MainWindowDesktopPane() throws Exception {
         super();
-        frames=new ArrayList<JInternalFrame> ();
+        frames = new ArrayList<JInternalFrame>();
         actionsViewFrame = new ArrayList<AbstractAction>();
         initComponents();
         jDesktopPane.setBackground(MyConstants.BACKGROUND_APP_COLOR);
@@ -316,10 +316,11 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             public void actionPerformed(ActionEvent ev) {
                 // How many frames do we have?
                 JInternalFrame[] allframes = desk.getAllFrames();
-                ArrayList<JInternalFrame> visibleFrames=new ArrayList<JInternalFrame>();
-                for (JInternalFrame fr:allframes)
-                {
-                    if (fr.isVisible()) visibleFrames.add(fr);
+                ArrayList<JInternalFrame> visibleFrames = new ArrayList<JInternalFrame>();
+                for (JInternalFrame fr : allframes) {
+                    if ((fr.isVisible())&&(fr.isResizable())) {
+                        visibleFrames.add(fr);
+                    }
                 }
                 int count = visibleFrames.size();
                 if (count == 0) {

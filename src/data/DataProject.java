@@ -4,6 +4,9 @@
  */
 package data;
 
+import data.asignaturas.Asignatura;
+import data.asignaturas.Carrera;
+import data.asignaturas.Curso;
 import data.horarios.Horario;
 import data.asignaturas.DataAsignaturas;
 import data.asignaturas.Grupo;
@@ -475,6 +478,43 @@ public class DataProject implements Serializable {
      */
     public ConfigProyecto getConfigProyecto() {
         return configProyecto;
+    }
+
+    /**
+     * Vuelve a asignar colores para las asignaturas de manera que en un aula no
+     * se repitan (a menos que se quede sin colores!)
+     */
+    public void recoloreaAsignaturas() {
+        DataAsignaturas da = dataAsignaturas;
+        HashMap<Asignatura, Integer> aulasAsigToColores = new HashMap<Asignatura, Integer>();
+        for (Carrera ca : dataAsignaturas.getCarreras()) {
+            for (Curso cu : ca.getCursos()) {
+                for (Asignatura asig : cu.getAsignaturas()) {
+                    for (Grupo gr : asig.getGrupos().getGrupos()) {
+                        for (Tramo tr : gr.getTramosGrupoCompleto().getTramos()) {
+                            asignaColor(tr, aulasAsigToColores);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void asignaColor(Tramo tr, HashMap<Asignatura, Integer> colAsig) {
+        Aula aula = tr.getAulaMT().getAula();
+        Asignatura asig = tr.getParent().getParent().getParent();
+        if (!colAsig.containsKey(asig)) {
+            colAsig.put(asig, colAsig.size() % MyConstants.coloresAsignaturas.length);
+        } 
+        int contaColor=colAsig.get(asig);
+        tr.setColorEnTablaDeHorarios(MyConstants.coloresAsignaturas[contaColor]);
+//         contaColor++;
+//        if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
+//            contaColor = 0;
+//        }
+        colAsig.put(asig,contaColor);
+
     }
 
 }

@@ -133,4 +133,9 @@ public class Segmento implements Serializable {
     public int getNumeroDeCasillasQueOcupa() {
         return numeroDeCasillasQueOcupa;
     }
+
+    public Tramo getTramo() {
+        return tramo;
+    }
+    
 }

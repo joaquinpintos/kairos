@@ -8,6 +8,7 @@ import data.MyConstants;
 import data.RangoHoras;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Grupo;
+import data.asignaturas.Tramo;
 import data.aulas.Aula;
 import data.profesores.Profesor;
 import java.io.Serializable;
@@ -34,6 +35,7 @@ public class HorarioItem implements Serializable {
      */
     public final static int DOUBLE_MARK = 2;
     private Profesor profesor;
+    private Tramo tramo;
     private Grupo grupo; //Grupo contiene la información del curso y carrera.
     private Asignatura asignatura;
     private Aula aula;
@@ -342,4 +344,13 @@ public class HorarioItem implements Serializable {
     public String getHashAula() {
         return aula.getHash(esTarde);
     }
+
+    public void setTramo(Tramo tramo) {
+        this.tramo = tramo;
+    }
+
+    public Tramo getTramo() {
+        return tramo;
+    }
+    
 }

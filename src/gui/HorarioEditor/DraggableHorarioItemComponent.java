@@ -97,7 +97,7 @@ public class DraggableHorarioItemComponent extends JPanel {
             this.setOpaque(true);
             BoxLayout la = new BoxLayout(this, BoxLayout.Y_AXIS);
             this.setLayout(la);
-            colorAsig = h.getAsignatura().getColorEnTablaDeHorarios();
+            colorAsig = h.getTramo().getColorEnTablaDeHorarios();
             colorBorde = new Color(colorAsig.getRed() / 2, colorAsig.getGreen() / 2, colorAsig.getBlue() / 2);
 
             this.setBackground(colorAsig);

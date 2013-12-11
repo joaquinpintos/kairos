@@ -349,6 +349,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                     jLabOptimoGlobal.setText("Óptimo global: " + peso);
                     dk.getDP().setOptimo(optimo);
                     dk.getDP().setHorario(HorarioConstructor.constructor(optimo, dk.getDP()));
+                    dk.getDP().recoloreaAsignaturas();
                     if (dk.getDP().getHorario().hayUnaSolucion()) {
                         mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
                         mainWindow.getHorarioEditorMaster().recalculaRestricciones();

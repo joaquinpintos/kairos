@@ -6,6 +6,7 @@ package data.horarios;
 
 import data.DataProject;
 import data.asignaturas.Grupo;
+import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
@@ -48,6 +49,7 @@ public class HorarioConstructor {
                 c = listaCasillas.get(asig.getQueCasilla().get(k));//Primera casilla en la que he colocado el segmento.
                 Grupo g = s.getGrupo();
                 profe = s.getProfesor();
+                Tramo tramo = s.getTramo();
 //                if (!s.isHuecoLibre()) {
                     if (profe == null) {
                         profe = profeNulo;
@@ -57,6 +59,7 @@ public class HorarioConstructor {
                     }
                     boolean esTarde=(hashAula.contains("@T"));
                     HorarioItem item = new HorarioItem(profe, g, g.getParent(), c.getAula(), s.getRangoHoraPuestoEnCasilla(c), esTarde,c.getDiaSemana(),s.isHuecoLibre(),s.getNumeroDeCasillasQueOcupa());
+                    item.setTramo(tramo);
                     item.setNumeroSegmento(asig.getAsignaciones().get(k));
                     item.setNumcasilla(asig.getQueCasilla().get(k));
                     resul.add(item);

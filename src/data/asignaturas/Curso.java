@@ -25,8 +25,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     private Carrera parent;
     private final ArrayList<Asignatura> asignaturas;
     int contaColor;
-    //Aquí guardo las asignaturas que tengan algún grupo no asignado.
-    private final HashSet<Asignatura> asignaturasNOasignadas;
     private boolean algunoSinAula;
 
     /**
@@ -37,7 +35,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         setNombre(nombre);
         asignaturas = new ArrayList<Asignatura>();
         contaColor = 0;
-        asignaturasNOasignadas = new HashSet<Asignatura>();
         algunoSinAula = true;
     }
 
@@ -48,11 +45,11 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public void addAsignatura(Asignatura asig) {
         this.asignaturas.add(asig);
         asig.setCurso(this);
-        asig.setColorEnTablaDeHorarios(MyConstants.coloresAsignaturas[contaColor]);
-        contaColor++;
-        if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
-            contaColor = 0;
-        }
+//        asig.setColorEnTablaDeHorarios(MyConstants.coloresAsignaturas[contaColor]);
+//        contaColor++;
+//        if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
+//            contaColor = 0;
+//        }
         try {
             this.getParent().getParent().fireDataEvent(asig, DataProyectoListener.ADD);
         } catch (NullPointerException e) {
@@ -69,7 +66,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public void removeAsignatura(Asignatura asig) {
         this.asignaturas.remove(asig);
         asig.setCurso(null);
-        asignaturasNOasignadas.remove(asig);
         DataAsignaturas dataAsignaturas = this.getParent().getParent();
         try {
             dataAsignaturas.fireDataEvent(asig, DataProyectoListener.REMOVE);
@@ -136,13 +132,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         return this.getParent().getNombre() + "@" + this.nombre;
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean tieneGruposSinAsignar() {
-        return !asignaturasNOasignadas.isEmpty();
-    }
 
     @Override
     public int compareTo(Curso o) {
@@ -257,4 +246,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
+    
+    
 }

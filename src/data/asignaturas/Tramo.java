@@ -7,6 +7,7 @@ package data.asignaturas;
 import data.DataProyectoListener;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
+import java.awt.Color;
 import java.io.Serializable;
 
 /**
@@ -21,6 +22,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     private Profesor profesor;
     private AulaMT aulaMT;
     private boolean tarde;
+    private Color colorEnTablaDeHorarios;
 
     /**
      *
@@ -28,6 +30,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      */
     public Tramo(int minutos) {
         this.minutos = minutos;
+        colorEnTablaDeHorarios=new Color(255, 255, 255);
     }
 
     /**
@@ -36,6 +39,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      */
     public int getMinutos() {
         return minutos;
+    }
+
+    public Color getColorEnTablaDeHorarios() {
+        return colorEnTablaDeHorarios;
     }
 
     /**
@@ -198,4 +205,12 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }
+     /**
+     *
+     * @param colorEnTablaDeHorarios
+     */
+    public void setColorEnTablaDeHorarios(Color colorEnTablaDeHorarios) {
+        this.colorEnTablaDeHorarios = colorEnTablaDeHorarios;
+    }
+
 }
