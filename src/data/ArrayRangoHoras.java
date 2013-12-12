@@ -24,6 +24,10 @@ public class ArrayRangoHoras implements Serializable {
         this.data = new ArrayList<RangoHoras>();
     }
 
+    public ArrayRangoHoras(ArrayList<RangoHoras> data) {
+        this.data = data;
+    }
+
     /**
      *
      * @return Tamaño del array

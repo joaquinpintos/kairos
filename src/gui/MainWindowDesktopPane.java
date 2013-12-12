@@ -31,6 +31,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private JMenuItem newMenuItem;
     private AbstractAction tileAction;
     private final ArrayList<JInternalFrame> frames;
+    private JMenu toolsMenu;
+    private JMenu windowMenu;
 
     /**
      * Creates new form MainWindow
@@ -95,11 +97,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         creaPDFMenuItem = new javax.swing.JMenuItem();
         creaPDFHojaFirmaMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
-        //editMenu = new javax.swing.JMenu();
-        //cutMenuItem = new javax.swing.JMenuItem();
-        //copyMenuItem = new javax.swing.JMenuItem();
-        //pasteMenuItem = new javax.swing.JMenuItem();
-        //deleteMenuItem = new javax.swing.JMenuItem();
+        toolsMenu = new javax.swing.JMenu();
+        windowMenu = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -111,6 +110,12 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         fileMenu.setMnemonic('A');
         fileMenu.setText("Archivo");
 
+        windowMenu.setMnemonic('n');
+        windowMenu.setText("Ventanas");
+
+        toolsMenu.setMnemonic('H');
+        toolsMenu.setText("Herramientas");
+
         newMenuItem.setAction(newProjectAction);
         fileMenu.add(newMenuItem);
 
@@ -121,25 +126,21 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         saveMenuItem.setAction(guardarProyectoAction);
         saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        fileMenu.add(saveMenuItem);
+        fileMenu.add(guardarProyectoAction);
 
-        saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
-        saveAsMenuItem.setAction(guardarProyectoComoAction);
-        fileMenu.add(saveAsMenuItem);
+        fileMenu.add(guardarProyectoComoAction);
 
-        importXMLMenuItem.setAction(importarXMLAction);
-        fileMenu.add(importXMLMenuItem);
+        fileMenu.add(importarXMLAction);
 
-        exportXMLMenuItem.setAction(exportarXMLAction);
-        fileMenu.add(exportXMLMenuItem);
+        fileMenu.add(exportarXMLAction);
 
-        creaPDFMenuItem.setAction(creaPDFAction);
-        fileMenu.add(creaPDFMenuItem);
+        toolsMenu.add(creaPDFAction);
 
-        creaPDFHojaFirmaMenuItem.setAction(creaPDFHojasDeFirmaAction);
-        fileMenu.add(creaPDFHojaFirmaMenuItem);
+        toolsMenu.add(creaPDFHojasDeFirmaAction);
+
+        toolsMenu.add(buscaHorasLibresAction);
+        
+        
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -150,38 +151,18 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         });
         fileMenu.add(exitMenuItem);
         JMenuItem tileMenuItem = new JMenuItem(tileAction);
-        helpMenu.add(tileMenuItem);
+        windowMenu.add(tileMenuItem);
         menuBar.add(fileMenu);
-
-//        editMenu.setMnemonic('e');
-//        editMenu.setText("Edit");
-//
-//        cutMenuItem.setMnemonic('t');
-//        cutMenuItem.setText("Cut");
-//        editMenu.add(cutMenuItem);
-//
-//        copyMenuItem.setMnemonic('y');
-//        copyMenuItem.setText("Copy");
-//        editMenu.add(copyMenuItem);
-//
-//        pasteMenuItem.setMnemonic('p');
-//        pasteMenuItem.setText("Paste");
-//        editMenu.add(pasteMenuItem);
-//
-//        deleteMenuItem.setMnemonic('d');
-//        deleteMenuItem.setText("Delete");
-//        editMenu.add(deleteMenuItem);
-        //menuBar.add(editMenu);
         menuBar.add(viewMenu);
         helpMenu.setMnemonic('h');
         helpMenu.setText("Help");
 
         contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Contents");
+        contentMenuItem.setText("Ayuda");
         helpMenu.add(contentMenuItem);
 
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
+        aboutMenuItem.setMnemonic('S');
+        aboutMenuItem.setText("Sobre este programa...");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,6 +173,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         });
         helpMenu.add(aboutMenuItem);
 
+        menuBar.add(toolsMenu);
+        menuBar.add(windowMenu);
         menuBar.add(helpMenu);
     }
 
@@ -303,6 +286,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
     public void creaAccionesEspecificas() {
 
+        //<editor-fold defaultstate="collapsed" desc="TileAction">
         class TileAction extends AbstractAction {
 
             private JDesktopPane desk; // the desktop to work with
@@ -318,7 +302,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
                 JInternalFrame[] allframes = desk.getAllFrames();
                 ArrayList<JInternalFrame> visibleFrames = new ArrayList<JInternalFrame>();
                 for (JInternalFrame fr : allframes) {
-                    if ((fr.isVisible())&&(fr.isResizable())) {
+                    if ((fr.isVisible()) && (fr.isResizable())) {
                         visibleFrames.add(fr);
                     }
                 }
@@ -367,8 +351,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
                 }
             }
         }
+//</editor-fold>
         tileAction = new TileAction(jDesktopPane);
-
     }
 
 }

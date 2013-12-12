@@ -5,6 +5,7 @@ import data.DataProject;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
+import gui.BusquedaHorasLibres.JDlgBuscaHorasLilbres;
 import gui.DatosEditor.Asignaturas.JIntEditorAsignaturas;
 import gui.DatosEditor.Aulas.JIntTreeAulas;
 import gui.DatosEditor.DataGUIInterface;
@@ -34,7 +35,6 @@ import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import loader.XMLDataLoaderWriter;
 
@@ -47,6 +47,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
     //Variables globales de aplicación
     boolean dirty;
+    private File lastFileUsed;
     private DataProfesores dataProfesores;
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
@@ -68,7 +69,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected AbstractAction newProjectAction;
     protected AbstractAction creaPDFAction;
     protected AbstractAction importarXMLAction;
-    private File lastFileUsed;
+    protected AbstractAction buscaHorasLibresAction;
 
     /**
      *
@@ -125,30 +126,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         horarioEditorMaster.add(jIntHorarioEditor2);
         horarioEditorMaster.setjListRestricciones(jIntHorarioEditor.getjListRestricciones());
     }
-//
-//    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-//        System.exit(0);
-//    }
-//
-//    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-//
-//        JDlgAbout dlg = new JDlgAbout(this, true);
-//        dlg.setLocationRelativeTo(null);
-//        dlg.setVisible(true);
-//    }
-//
-//    private void cargarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-//        jIntWelcome.getCargarProyectoAction().actionPerformed(evt);
-//    }
-//
-//    private void guardarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-//        jIntWelcome.getGuardarProyectoAction().actionPerformed(evt);
-//    }
-//
-//    private void guardarComoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-//        jIntWelcome.getGuardarProyectoComoAction().actionPerformed(evt);
-//    }
-
     /**
      *
      * @return
@@ -251,7 +228,6 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     /**
      *
      */
-
     /**
      *
      */
@@ -301,6 +277,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      */
     public final void createActions() {
         final AbstractMainWindow mainWindow = this;
+        //<editor-fold defaultstate="collapsed" desc="NewProjectAction">
         class NewProjectAction extends AbstractAction {
 
             public NewProjectAction() {
@@ -330,7 +307,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             }
 
         }
-
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="CargarProyectoAction">
         class CargarProyectoAction extends AbstractAction {
 
             public CargarProyectoAction() {
@@ -388,7 +366,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
-
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="GuardarProyectoAction">
         class GuardarProyectoAction extends AbstractAction {
 
             public GuardarProyectoAction() {
@@ -418,6 +397,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="GuardarProyectoComoAction">
         class GuardarProyectoComoAction extends AbstractAction {
 
             public GuardarProyectoComoAction() {
@@ -457,7 +438,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
-
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="ImportarXMLAction">
         class ImportarXMLAction extends AbstractAction {
 
             public ImportarXMLAction() {
@@ -489,10 +471,10 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         if (!cargaCorrecta) {
                             JOptionPane.showMessageDialog(null, "Error al cargar los datos.");
                         }
-                         for (JInternalFrame tab : listaTabs) {
-                                ((DataGUIInterface) tab).updateData();
-                                ((DataGUIInterface) tab).expandTrees();
-                            }
+                        for (JInternalFrame tab : listaTabs) {
+                            ((DataGUIInterface) tab).updateData();
+                            ((DataGUIInterface) tab).expandTrees();
+                        }
                         dk.getDP().setDirty(false);
                         if (dk.getDP().getHorario().hayUnaSolucion()) {
                             mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
@@ -503,7 +485,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
-
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="ExportarXMLAction">
         class ExportarXMLAction extends AbstractAction {
 
             public ExportarXMLAction() {
@@ -532,13 +515,23 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 }
             }
         }
-        newProjectAction = new NewProjectAction();
-        cargarProyectoAction = new CargarProyectoAction();
-        guardarProyectoAction = new GuardarProyectoAction();
-        guardarProyectoComoAction = new GuardarProyectoComoAction();
-        importarXMLAction = new ImportarXMLAction();
-        exportarXMLAction = new ExportarXMLAction();
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="BuscaHorasLibresAction">
+        class BuscaHorasLibresAction extends AbstractAction {
 
+            public BuscaHorasLibresAction() {
+                super("Buscar horas libres", null);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDlgBuscaHorasLilbres dlg = new JDlgBuscaHorasLilbres(null, true, dk);
+                dlg.setLocationRelativeTo(null);
+                dlg.setVisible(true);
+            }
+        }
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="CreaPDFHorariosAction">
         class CreaPDFHorariosAction extends AbstractAction {
 
             public CreaPDFHorariosAction() {
@@ -552,8 +545,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 dlg.setVisible(true);
             }
         }
-        creaPDFAction = new CreaPDFHorariosAction();
-
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="CreaPDFHojasDeFirmaAction">
         class CreaPDFHojasDeFirmaAction extends AbstractAction {
 
             public CreaPDFHojasDeFirmaAction() {
@@ -567,6 +560,15 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 dlg.setVisible(true);
             }
         }
+//</editor-fold>
+        newProjectAction = new NewProjectAction();
+        cargarProyectoAction = new CargarProyectoAction();
+        guardarProyectoAction = new GuardarProyectoAction();
+        guardarProyectoComoAction = new GuardarProyectoComoAction();
+        importarXMLAction = new ImportarXMLAction();
+        exportarXMLAction = new ExportarXMLAction();
+        buscaHorasLibresAction = new BuscaHorasLibresAction();
+        creaPDFAction = new CreaPDFHorariosAction();
         creaPDFHojasDeFirmaAction = new CreaPDFHojasDeFirmaAction();
     }
 
@@ -595,6 +597,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 exportarXMLAction.setEnabled(false);
                 creaPDFAction.setEnabled(false);
                 creaPDFHojasDeFirmaAction.setEnabled(false);
+                buscaHorasLibresAction.setEnabled(false);
                 break;
             }
             case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
@@ -605,6 +608,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 exportarXMLAction.setEnabled(true);
                 creaPDFAction.setEnabled(false);
                 creaPDFHojasDeFirmaAction.setEnabled(false);
+                buscaHorasLibresAction.setEnabled(false);
                 break;
             }
             case DataKairos.STATUS_PROJECT_SOLUTION: {
@@ -615,6 +619,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                 exportarXMLAction.setEnabled(true);
                 creaPDFAction.setEnabled(true);
                 creaPDFHojasDeFirmaAction.setEnabled(true);
+                buscaHorasLibresAction.setEnabled(true);
                 break;
             }
             default: {
