@@ -27,7 +27,7 @@ public class Carrera implements Serializable, Teachable {
      *
      * @param nombre
      */
-    public Carrera(String nombre) throws IllegalArgumentException{
+    public Carrera(String nombre) throws IllegalArgumentException {
         setNombre(nombre);
         this.cursos = new ArrayList<Curso>();
         algunoSinAula = true;
@@ -45,8 +45,8 @@ public class Carrera implements Serializable, Teachable {
      *
      * @param nombre
      */
-    public final void setNombre(String nombre) throws IllegalArgumentException{
-          if (nombre.contains("@")) {
+    public final void setNombre(String nombre) throws IllegalArgumentException {
+        if (nombre.contains("@")) {
             throw new IllegalArgumentException("El nombre de la carrera no puede contener el carácter @");
         } else {
             this.nombre = nombre;
@@ -146,7 +146,10 @@ public class Carrera implements Serializable, Teachable {
      * @param type
      */
     public void fireDataEvent(Object obj, int type) {
-        getParent().fireDataEvent(obj, type);
+        DataAsignaturas da = this.getParent();
+        if (da != null) {
+            da.fireDataEvent(obj, type);
+        }
     }
 
     /**

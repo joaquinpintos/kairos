@@ -162,7 +162,7 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "Especifica el número máximo de horas que puede dar un profesor al día";
+        return "<html>Especifica el número máximo de horas<br>que puede dar un profesor al día</html>";
     }
 
     /**

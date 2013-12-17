@@ -69,6 +69,8 @@ public class JTreeProfesoresDropListener implements DropTargetListener{
         } catch (IOException ex) {
             Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch (ClassCastException ex)
+        {}
 
         //Operaciones en nodo destino
         TreePath path = parent.getjTreeProfesores().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);

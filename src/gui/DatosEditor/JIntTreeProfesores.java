@@ -28,6 +28,7 @@ import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -339,6 +340,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     }
 
     private void creaAcciones() {
+        //<editor-fold defaultstate="collapsed" desc="ActionAñadirProfesores">
         class ActionAñadirProfesores extends AbstractAction {
 
             public ActionAñadirProfesores() {
@@ -368,6 +370,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 }
             }
         }
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="ActionEditarProfesores">
         class ActionEditarProfesores extends AbstractAction {
 
             public ActionEditarProfesores() {
@@ -389,6 +393,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 updateData();
             }
         }
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="ActionEliminarProfesor">
         class ActionEliminarProfesor extends AbstractAction {
 
             public ActionEliminarProfesor() {
@@ -410,6 +416,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 updateData();
             }
         }
+//</editor-fold>
         class ActionEditarDepartamento extends AbstractAction {
 
             public ActionEditarDepartamento() {
@@ -450,8 +457,13 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 dlg.setVisible(true);
                 if (dlg.getReturnStatus() == JDlgEditDepartamentos.RET_OK) {
                     dk.getDP().getDataProfesores().addDepartamento(d);
+                    dk.getDP().getDataProfesores().fireDataEvent(d, DataProyectoListener.ADD);
                 }
-                updateData();
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        updateData();
+                    }
+                });
             }
         }
         class ActionEliminarDepartamento extends AbstractAction {
@@ -489,7 +501,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         jButAñadirProfesor.setAction(actionAñadirProfesores);
         jButEditarProfesor.setAction(actionEditarProfesores);
         jButEliminarProfesor.setAction(actionEliminarProfesor);
-        
+
         jButAñadirDepartamento.setAction(actionAñadirDepartamento);
         jButEditarDepartamento.setAction(actionEditarDepartamento);
         jButEliminarDepartamento.setAction(actionEliminarDepartamento);

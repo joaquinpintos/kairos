@@ -27,11 +27,12 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
 
     /**
      * Creates new form JDlgEditProfesor
+     *
      * @param parent
-     * @param modal 
+     * @param modal
      * @param profesor
-     * @param treeModel 
-     * @param treePath  
+     * @param treeModel
+     * @param treePath
      */
     public JDlgEditProfesor(java.awt.Frame parent, boolean modal, Profesor profesor, TreeModelProfesores treeModel, TreePath treePath) {
         super(parent, modal);
@@ -49,7 +50,11 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
         for (Departamento dep : treeModel.getDataProfesores().getDepartamentos()) {
             jComboDepartamentos.addItem(dep);
         }
-        jComboDepartamentos.setSelectedItem(this.profesor.getDepartamento());
+        if (this.profesor.getDepartamento() != null) {
+            jComboDepartamentos.setSelectedItem(this.profesor.getDepartamento());
+        } else {
+            jComboDepartamentos.setSelectedIndex(0);
+        }
         updateProfesorAction = new UpdateProfesorAction(this, profesor, treePath);
 //        updateProfesorAction.setEnabled(false);
         jButAceptar.setAction(updateProfesorAction);
@@ -222,8 +227,9 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
     }//GEN-LAST:event_jButAceptarActionPerformed
 
     private void jComboDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboDepartamentosActionPerformed
-        if (updateProfesorAction!=null)
-        updateProfesorAction.setEnabled(jComboDepartamentos.getSelectedItem() != null);
+        if (updateProfesorAction != null) {
+            updateProfesorAction.setEnabled(jComboDepartamentos.getSelectedItem() != null);
+        }
     }//GEN-LAST:event_jComboDepartamentosActionPerformed
     /**
      * @param args the command line arguments
@@ -253,7 +259,6 @@ class UpdateProfesorAction extends AbstractAction {
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
         this.profesor = profe;
         this.treePath = treePath;
-
 
     }
 

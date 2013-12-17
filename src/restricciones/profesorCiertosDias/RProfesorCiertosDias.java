@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package restricciones.profesorCiertosDias;
 
 import data.ArrayRangoHoras;
@@ -224,8 +220,9 @@ public class RProfesorCiertosDias extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "Con esta restricción podemos fijar para un profesor los días que no puede (o solo puede)"
-                + "dar clases, penalizando las asignaturas que no cumplan dicho requisito.";
+        return "<html>Con esta restricción podemos fijar para un profesor<br>"+
+                     "los días que no puede (o solo puede)d ar clases,<br>"+
+                     "penalizando las asignaturas que no cumplan dicho<br>requisito.</html>";
     }
 
     /**

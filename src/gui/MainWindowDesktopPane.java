@@ -18,7 +18,6 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 /**
@@ -143,12 +142,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
-            }
-        });
+        exitMenuItem.setAction(exitAction);
+      
         fileMenu.add(exitMenuItem);
         JMenuItem tileMenuItem = new JMenuItem(tileAction);
         windowMenu.add(tileMenuItem);
@@ -176,12 +171,6 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         menuBar.add(toolsMenu);
         menuBar.add(windowMenu);
         menuBar.add(helpMenu);
-    }
-
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
-            System.exit(0);
-        }
     }
 
     private javax.swing.JMenuItem aboutMenuItem;

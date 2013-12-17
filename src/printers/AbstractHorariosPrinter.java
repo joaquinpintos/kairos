@@ -342,7 +342,8 @@ abstract public class AbstractHorariosPrinter {
             c = new PdfPCell(p);
             c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             c.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            Color col = h.getAsignatura().getColorEnTablaDeHorarios();
+            //Color col = h.getAsignatura().getColorEnTablaDeHorarios();
+            Color col=h.getTramo().getColorEnTablaDeHorarios();
             c.setBackgroundColor(new BaseColor(col.getRed(), col.getGreen(), col.getBlue()));
             c.setPadding(5);
             c.setBorderColor(BaseColor.BLACK);

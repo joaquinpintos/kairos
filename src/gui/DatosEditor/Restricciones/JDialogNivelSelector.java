@@ -11,8 +11,12 @@ import javax.swing.AbstractAction;
 import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.JDialog;
 import javax.swing.JRadioButton;
-import org.w3c.dom.events.MouseEvent;
 import data.restricciones.Restriccion;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -22,12 +26,14 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
 
     Restriccion restriccionEditada;
     private AbstractAction aceptarAction;
+    private AbstractAction cancelAction;
 
     /**
      * Creates new form JDialogNivelSelector
-     * @param r 
+     *
+     * @param r
      * @param parent
-     * @param modal  
+     * @param modal
      */
     public JDialogNivelSelector(Restriccion r, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -46,11 +52,13 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
 
         creaAccionesYListeners();
         jButAceptar.setAction(aceptarAction);
-        
-        
-        
-        
-        
+        // Close the dialog when Esc is pressed
+        String cancelName = "Cancelar";
+        InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
+        ActionMap actionMap = getRootPane().getActionMap();
+        actionMap.put(cancelName, cancelAction);
+        jButCancelar.setAction(cancelAction);
     }
 
     /**
@@ -135,6 +143,7 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
 
     private void creaAccionesYListeners() {
         //Creo clases internas
+        //<editor-fold defaultstate="collapsed" desc="AceptarAction">
         class AceptarAction extends AbstractAction {
 
             private final JDialog dlg;
@@ -162,14 +171,32 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
                 dlg.dispose();
             }
         }
+//</editor-fold>
         aceptarAction = new AceptarAction(this);
-        
-        class JRadMouseListeners implements MouseListener{
+        //<editor-fold defaultstate="collapsed" desc="CancelarAction">
+        class CancelarAction extends AbstractAction {
+
+            private final JDialog dlg;
+
+            public CancelarAction(JDialog dlg) {
+                super("Cancelar",null);
+                this.dlg = dlg;
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dlg.setVisible(false);
+                dlg.dispose();
+            }
+        }
+//</editor-fold>
+        cancelAction = new CancelarAction(this);
+        //<editor-fold defaultstate="collapsed" desc="JRadMouseListeners">
+        class JRadMouseListeners implements MouseListener {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (e.getClickCount()==2)
-                {
+                if (e.getClickCount() == 2) {
                     aceptarAction.actionPerformed(null);
                 }
             }
@@ -189,13 +216,13 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
             }
-            }
-            
-            JRadMouseListeners jRadMouseListener=new JRadMouseListeners();
-            jRadNivel1.addMouseListener(jRadMouseListener);
-            jRadNivel2.addMouseListener(jRadMouseListener);
-            jRadNivel3.addMouseListener(jRadMouseListener);
-            
-        
+        }
+//</editor-fold>
+
+        JRadMouseListeners jRadMouseListener = new JRadMouseListeners();
+        jRadNivel1.addMouseListener(jRadMouseListener);
+        jRadNivel2.addMouseListener(jRadMouseListener);
+        jRadNivel3.addMouseListener(jRadMouseListener);
+
     }
 }

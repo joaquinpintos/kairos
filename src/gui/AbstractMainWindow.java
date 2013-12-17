@@ -20,6 +20,8 @@ import gui.printDialogs.JDlgPrintHojaDeFirma;
 import gui.printDialogs.jDlgPrintHorario;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +34,7 @@ import java.util.TooManyListenersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -70,6 +73,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected AbstractAction creaPDFAction;
     protected AbstractAction importarXMLAction;
     protected AbstractAction buscaHorasLibresAction;
+    protected AbstractAction exitAction;
 
     /**
      *
@@ -126,6 +130,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         horarioEditorMaster.add(jIntHorarioEditor2);
         horarioEditorMaster.setjListRestricciones(jIntHorarioEditor.getjListRestricciones());
     }
+
     /**
      *
      * @return
@@ -243,6 +248,13 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         dk.getDP().getDataAsignaturas().addListener(dk.getDP().getDataAsignaturas().getListaGrupoCursos());
 
         dk.getDP().getDataAsignaturas().addListener(jIntEditorDocencia);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                exitAction.actionPerformed(null);
+            }
+        });
     }
 
     /**
@@ -298,6 +310,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                                 "");
 
                         dk.createNewDP(s);
+                        addListeners();
                         setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
                         jIntDatosProyecto.updateData();
 
@@ -439,6 +452,21 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             }
         }
 //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="ExitAction">
+        class ExitAction extends AbstractAction {
+
+            public ExitAction() {
+                super("Salir", null);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿desea salir?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                    System.exit(0);
+                }
+            }
+        }
+//</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="ImportarXMLAction">
         class ImportarXMLAction extends AbstractAction {
 
@@ -561,10 +589,12 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             }
         }
 //</editor-fold>
+
         newProjectAction = new NewProjectAction();
         cargarProyectoAction = new CargarProyectoAction();
         guardarProyectoAction = new GuardarProyectoAction();
         guardarProyectoComoAction = new GuardarProyectoComoAction();
+        exitAction = new ExitAction();
         importarXMLAction = new ImportarXMLAction();
         exportarXMLAction = new ExportarXMLAction();
         buscaHorasLibresAction = new BuscaHorasLibresAction();
@@ -628,4 +658,5 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
             }
         }
     }
+
 }

@@ -164,7 +164,9 @@ public class RClasesNoCruzanRecreo extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "";
+        return "<html>Esta restricción debería estar siempre activa<br>"+
+               "a menos que no importe que los alumnos se vayan a<br>"+
+               "tomar un cafelito durante la clase.</html>";
     }
 
     /**

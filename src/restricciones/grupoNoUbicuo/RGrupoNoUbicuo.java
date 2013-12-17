@@ -175,7 +175,8 @@ public class RGrupoNoUbicuo extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "Restricción necesaria si las clases de un mismo grupo se desarrollan en diferentes aulas";
+        return "<html>Restricción necesaria si las clases de un mismo<br>"+
+                     "grupo se desarrollan en diferentes aulas</html>";
     }
 
     /**

@@ -260,6 +260,9 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     public final void updateData() {
         jTreeAulas.updateUI();
         jTreeGrupoCursos.updateUI();
+          for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
+            jTreeAulas.expandRow(i);
+        }
     }
 
     /**
@@ -292,7 +295,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                     System.out.println("Added aula " + nuevaAula);
                     dk.getDP().getDataAulas().addAula(nuevaAula);
                 }
-                
+                updateData();
             }
         }//End of class AñadirAula
 

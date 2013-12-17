@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package restricciones.profesorNoUbicuo;
 
 import data.DataProject;
@@ -22,7 +18,6 @@ import java.util.HashMap;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import data.restricciones.Restriccion;
-import java.io.Serializable;
 import java.util.HashSet;
 
 /**
@@ -165,7 +160,7 @@ public class RProfesorNoUbicuo extends Restriccion  {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "A no ser que se invente el profesor\n con el don de la ubicuidad, es mejor\n tener esta restricción siempre activa.";
+        return "<html>A no ser que se invente el profesor<br> con el don de la ubicuidad, es mejor<br> tener esta restricción siempre activa.</html>";
     }
 
     /**

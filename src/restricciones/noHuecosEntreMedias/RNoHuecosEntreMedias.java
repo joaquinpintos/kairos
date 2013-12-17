@@ -182,28 +182,18 @@ public class RNoHuecosEntreMedias extends Restriccion {
         return resul;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String descripcionCorta() {
         return "Penalizar huecos y/o días con pocas clases";
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String mensajeDeAyuda() {
-        return "Esta restricción penaliza las clases con huecos vacíos entre dos asignaturas y/o los días en que haya menos de un número fijado de clases.";
+        return "<html>Esta restricción penaliza las clases con huecos<br>"+ 
+                     "vacíos entre dos asignaturas y/o los días en que<br>"+
+                     "haya menos de un número fijado de clases.</html>";
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String getMensajeError() {
         String resul = "";
@@ -216,45 +206,25 @@ public class RNoHuecosEntreMedias extends Restriccion {
         return resul;
     }
 
-    /**
-     *
-     * @param parent
-     */
     @Override
     protected void writeConfig(Node parent) {
         //Nada que hacer!
     }
 
-    /**
-     *
-     * @param parent
-     */
     @Override
     public void readConfig(Element parent) {
         //Nada que hacer!
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean isPenalizarHuecos() {
         return penalizarHuecos;
     }
 
-    /**
-     *
-     * @param penalizarHuecos
-     */
     public void setPenalizarHuecos(boolean penalizarHuecos) {
         this.penalizarHuecos = penalizarHuecos;
         setDirty(true);
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean isPenalizarPocasClases() {
         return penalizarPocasClases;
     }

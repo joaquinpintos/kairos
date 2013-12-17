@@ -65,6 +65,7 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                 //System.out.println("Cambio!");
                 pasaDatosDeGUIaDataProyecto();
                 calculaDiasLectivosTotales();
+                updateData();
             }
         }
         MyActionListener myActionListener = new MyActionListener();
@@ -526,6 +527,15 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         calculaDiasLectivosTotales();
         jTextGruposPorDefecto.setText(dp.getConfigProyecto().getGruposPorDefecto());
 
+        jTextHoraMañanaInicio1.setText(dp.getAcademicCalendar().getMañana1().getInicio().toString());
+        jTextHoraMañanaFin1.setText(dp.getAcademicCalendar().getMañana1().getFin().toString());
+        jTextHoraMañanaInicio2.setText(dp.getAcademicCalendar().getMañana2().getInicio().toString());
+        jTextHoraMañanaFin2.setText(dp.getAcademicCalendar().getMañana2().getFin().toString());
+        jTextHoraTardeInicio1.setText(dp.getAcademicCalendar().getTarde1().getInicio().toString());
+        jTextHoraTardeFin1.setText(dp.getAcademicCalendar().getTarde1().getFin().toString());
+        jTextHoraTardeInicio2.setText(dp.getAcademicCalendar().getTarde2().getInicio().toString());
+        jTextHoraTardeFin2.setText(dp.getAcademicCalendar().getTarde2().getFin().toString());
+
     }
 
     private void calculaDiasLectivosTotales() {
@@ -658,7 +668,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainwindow = mainWindow;
     }
-     @Override
+
+    @Override
     public void expandTrees() {
     }
 }
