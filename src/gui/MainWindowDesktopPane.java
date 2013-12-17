@@ -18,6 +18,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 /**
@@ -139,8 +140,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         toolsMenu.add(creaPDFHojasDeFirmaAction);
 
         toolsMenu.add(buscaHorasLibresAction);
-        
-        
+
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +179,9 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     }
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
+        if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+            System.exit(0);
+        }
     }
 
     private javax.swing.JMenuItem aboutMenuItem;

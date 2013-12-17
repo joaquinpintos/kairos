@@ -8,6 +8,7 @@ package gui.BusquedaHorasLibres;
 import data.ArrayRangoHoras;
 import data.DataKairos;
 import data.Hora;
+import data.MyConstants;
 import data.RangoHoras;
 import data.horarios.HorarioItem;
 import data.profesores.Profesor;
@@ -39,7 +40,7 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final ArrayList<Profesor> profesores;
-    private final DataKairos dk;
+    protected final DataKairos dk;
     private final int duracionMinima;
 
     /**
@@ -83,7 +84,6 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
     private void initComponents() {
 
         okButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextResultados = new javax.swing.JTextArea();
 
@@ -93,17 +93,10 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
             }
         });
 
-        okButton.setText("OK");
+        okButton.setText("Cerrar");
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
-            }
-        });
-
-        cancelButton.setText("Cancel");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
             }
         });
 
@@ -118,26 +111,19 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 240, Short.MAX_VALUE)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton))
-                    .addComponent(jScrollPane1))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, okButton});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(okButton))
+                .addComponent(okButton)
                 .addContainerGap())
         );
 
@@ -149,10 +135,6 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
-
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        doClose(RET_CANCEL);
-    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * Closes the dialog
@@ -169,7 +151,6 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextResultados;
     private javax.swing.JButton okButton;
@@ -250,13 +231,13 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
         texto.append("Horas sin docencia para los profesores:\n");
         texto.append("======================================:\n");
         for (Profesor p : profesores) {
-            texto.append(p.toString() + "\n");
+            texto.append(p.toString()).append("\n");
         }
         texto.append("-----------------------------");
         for (int dia = 1; dia <= 5; dia++) {
-            texto.append("\n\n" + dk.mc.DIAS_SEMANA[dia - 1] + ":\n");
+            texto.append("\n\n").append(MyConstants.DIAS_SEMANA[dia - 1]).append(":\n");
             for (RangoHoras r : horasDisponibles.get(dia)) {
-                texto.append(r.toString() + "\n");
+                texto.append(r.toString()).append("\n");
             }
         }
         jTextResultados.setText(texto.toString());

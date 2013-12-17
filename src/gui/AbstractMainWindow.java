@@ -51,7 +51,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private DataProfesores dataProfesores;
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
-    private final DataKairos dk;
+    protected final DataKairos dk;
     private JIntDatosProyecto jIntDatosProyecto;
     private JIntTreeProfesores jIntTreeProfesores;
     private JIntEditorAsignaturas jIntTreeAsignaturas;
