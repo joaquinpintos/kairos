@@ -100,7 +100,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                     TreePath selPath = jTreeProfesores.getPathForLocation(e.getX(), e.getY());
                     actionEditarProfesores.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Profesor);
                     actionEliminarProfesor.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Profesor);
-
+                    
+                    actionAñadirProfesores.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Departamento);
                     actionEditarDepartamento.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Departamento);
                     actionEliminarDepartamento.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Departamento);
                 } catch (NullPointerException ex) {
@@ -170,7 +171,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         setTitle("Profesores");
         setMinimumSize(new java.awt.Dimension(500, 33));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(500, 300));
+        setPreferredSize(new java.awt.Dimension(800, 300));
 
         jScrollPane1.setViewportView(jTreeProfesores);
 
@@ -326,7 +327,6 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     @Override
     public void updateData() {
         jTreeProfesores.updateUI();
-        actionAñadirProfesores.setEnabled(!dk.getDP().getDataProfesores().getDepartamentos().isEmpty());
 
     }
 
@@ -417,6 +417,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
             }
         }
 //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="comment">
         class ActionEditarDepartamento extends AbstractAction {
 
             public ActionEditarDepartamento() {
@@ -442,6 +443,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 updateData();
             }
         }
+//</editor-fold>
         class ActionAñadirDepartamento extends AbstractAction {
 
             public ActionAñadirDepartamento() {
@@ -462,6 +464,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
                         updateData();
+                        expandTrees();
                     }
                 });
             }
@@ -493,11 +496,18 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         actionAñadirProfesores = new ActionAñadirProfesores();
         actionEditarProfesores = new ActionEditarProfesores();
         actionEliminarProfesor = new ActionEliminarProfesor();
+        
+        actionAñadirProfesores.setEnabled(false);
+        actionEditarProfesores.setEnabled(false);
+        actionEliminarProfesor.setEnabled(false);
 
         actionEditarDepartamento = new ActionEditarDepartamento();
         actionAñadirDepartamento = new ActionAñadirDepartamento();
         actionEliminarDepartamento = new ActionEliminarDepartamento();
 
+        actionEditarDepartamento.setEnabled(false);
+        actionEliminarDepartamento.setEnabled(false);
+        
         jButAñadirProfesor.setAction(actionAñadirProfesores);
         jButEditarProfesor.setAction(actionEditarProfesores);
         jButEliminarProfesor.setAction(actionEliminarProfesor);

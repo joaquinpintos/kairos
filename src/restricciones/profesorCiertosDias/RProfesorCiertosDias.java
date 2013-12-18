@@ -106,7 +106,7 @@ public class RProfesorCiertosDias extends Restriccion {
     public long calculaPeso(PosibleSolucion posibleSolucion) {
         setPeso(0);
         double coef = 1.3;
-        long suma = 100;
+        long suma = getSuma();
 
         for (String hashAula : segmentosConflictivos.keySet()) {
             Asignacion asig = posibleSolucion.getAsignacion(hashAula);

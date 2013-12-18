@@ -122,6 +122,23 @@ public abstract class Restriccion implements Serializable {
         this.peso = peso;
     }
 
+    public long getSuma() {
+        long resul = 100;
+        switch (importancia) {
+            case 1:
+                resul = 200;
+                break;
+            case 2:
+                resul = 150;
+                break;
+            case 3:
+                resul = 100;
+                break;
+
+        }
+        return resul;
+    }
+
     /**
      *
      * @param suma

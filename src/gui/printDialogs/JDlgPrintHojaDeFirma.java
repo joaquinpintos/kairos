@@ -18,7 +18,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.KeyStroke;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import printers.HojaDeFirmaPrinter;
 
 /**
@@ -66,6 +65,10 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
             listData.add(aula);
         }
         JListAulas.setListData(listData.toArray());
+        int end = JListAulas.getModel().getSize() - 1;
+        if (end >= 0) {
+            JListAulas.setSelectionInterval(0, end);
+        }
     }
 
     /**

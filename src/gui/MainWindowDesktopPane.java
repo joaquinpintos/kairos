@@ -220,6 +220,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             public void actionPerformed(ActionEvent e) {
                 if (!tab.isVisible()) {
                     tab.setVisible(true);
+                    ((DataGUIInterface)tab).updateData();
                 } else {
                     if (tab.isSelected()) {
                         tab.setVisible(false);
@@ -251,7 +252,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      * @param status
      */
     @Override
-    public void setProjectStatus(int status) {
+    public final void setProjectStatus(int status) {
         super.setProjectStatus(status);
         switch (status) {
             case DataKairos.STATUS_NO_PROJECT: {

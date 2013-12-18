@@ -25,7 +25,7 @@ public class TreeCellRendererProfesores extends JLabel implements TreeCellRender
      * @param dk
      */
     public TreeCellRendererProfesores(DataKairos dk) {
-        this.mostrarHorasDocencia = false;
+        this.mostrarHorasDocencia = true;
         this.setOpaque(true);
         this.dk=dk;
     }

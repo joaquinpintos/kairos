@@ -62,7 +62,7 @@ public class RNoHuecosEntreMedias extends Restriccion {
         int numMinimoCasillasOcupadas = (60 * numMinimoHorassOcupadas) / dataProyecto.getMinutosPorCasilla();
         tramoConHuecosGlobal = false;
         diasPocoOcupados = false;
-        int suma = 100;
+        long suma = getSuma();
         setPeso(0);
         double coef = 1.3;
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {

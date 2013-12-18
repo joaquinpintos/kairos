@@ -75,7 +75,7 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
         clearConflictivos();
         setPeso(0);
         double coef = 1.3;
-        long suma = 100;
+        long suma = getSuma();
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
             Asignacion asig = posibleSolucion.getMapAsignaciones().get(hashAula);
 //            int numCasillas = asig.getNumCasillas();

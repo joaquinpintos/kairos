@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -68,14 +69,19 @@ public class HojaDeFirmaPrinter {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ArrayList<GregorianCalendar> dias = dp.getAcademicCalendar().getArrayDiasLectivos(inicio, fin);
+if (dias.size()>0){
         doc.open();
         for (Aula aula:aulas){
-        ArrayList<GregorianCalendar> dias = dp.getAcademicCalendar().getArrayDiasLectivos(inicio, fin);
         for (GregorianCalendar dia : dias) {
             creaHojaDeFirma(doc, aula,dia);
             doc.newPage();
         }}
         doc.close();
+}
+else
+    JOptionPane.showMessageDialog(null, "<html>No se ha obtenido ningún día válido. Revisa los días no lectivos<br>"
+                                       +"y el inicio y fin del periodo académico</html>","Error",JOptionPane.ERROR_MESSAGE);
     }
 
     private void creaHojaDeFirma(Document doc, Aula aula,GregorianCalendar dia) {
@@ -171,7 +177,7 @@ public class HojaDeFirmaPrinter {
      * @param h
      */
     protected void creaFilaFirma(PdfPTable t, HorarioItem h) {
-        Font font = new Font(Font.FontFamily.HELVETICA, 14);
+        Font font = new Font(Font.FontFamily.HELVETICA, 12);
         Font fontProfe = new Font(Font.FontFamily.HELVETICA, 10);
         String name = h.getRangoHoras() + "\n" + h.getAsignatura().getNombre();
         name+="\n"+h.getGrupo().getNombreGrupoCursoYCarrera();

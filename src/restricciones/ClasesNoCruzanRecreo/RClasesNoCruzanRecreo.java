@@ -93,7 +93,7 @@ public class RClasesNoCruzanRecreo extends Restriccion {
     @Override
     public long calculaPeso(PosibleSolucion posibleSolucion) {
         setPeso(0);
-        long suma = 100;
+        long suma = getSuma();
         double coef = 1.3;
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
             Asignacion asig = posibleSolucion.getAsignacion(hashAula);

@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import testers.AsigTester;
@@ -263,6 +264,9 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
           for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
             jTreeAulas.expandRow(i);
         }
+           for (int i = 0; i < jTreeGrupoCursos.getRowCount(); i++) {
+            jTreeGrupoCursos.expandRow(i);
+        }
     }
 
     /**
@@ -412,8 +416,13 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      */
     @Override
     public void dataEvent(Object obj, int type) {
-        jTreeAulas.updateUI();
-        jTreeGrupoCursos.updateUI();
+        SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateData();
+                    }
+                });
+       
     }
     
     private TreeModelListener createTreeModelListener(final JTree tree) {

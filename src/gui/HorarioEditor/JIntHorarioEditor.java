@@ -128,6 +128,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         setResizable(true);
+        setPreferredSize(new java.awt.Dimension(900, 675));
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
         jListAulas.setPreferredSize(new java.awt.Dimension(150, 0));

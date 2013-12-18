@@ -150,9 +150,10 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         this.docencia.add(docenciaItem);
         if (docenciaItem.getDocente() != this) {
             docenciaItem.setDocente(this);
+            setDirty(true);
         }
         ordenaDocencia();
-        setDirty(true);
+        
     }
 
     /**

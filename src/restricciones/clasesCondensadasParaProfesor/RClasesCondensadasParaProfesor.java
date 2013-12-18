@@ -87,7 +87,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
     public long calculaPeso(PosibleSolucion posibleSolucion) {
         clearConflictivos();
         setPeso(0);
-        long suma = 100;
+        long suma = getSuma();
         double coef = 1.3;
         HashSet<Integer> diasQueImparte = new HashSet<Integer>();
         for (String hashAula : segmentosImpartidos.keySet()) {

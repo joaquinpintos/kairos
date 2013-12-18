@@ -136,7 +136,7 @@ public class RGrupoNoUbicuo extends Restriccion {
      */
     @Override
     public long calculaPeso(PosibleSolucion posibleSolucion) {
-        suma = 100;
+        suma = getSuma();
         setPeso(0);
         double coef = 1.3;
         gruposConflictivos.clear();
