@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.TooManyListenersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
@@ -81,6 +83,12 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      */
     public AbstractMainWindow() throws Exception {
         super();
+        try {
+            super.setIconImage(ImageIO.read(getClass().getClassLoader().getResource("data/images/appIcon.png")));
+        } catch (IOException e) {
+            System.err.println("Error al cargar icono");
+        }
+        
         dirty = false;
         listaTabs = new ArrayList<JInternalFrame>();
         dk = new DataKairos();

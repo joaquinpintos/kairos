@@ -331,14 +331,14 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                 contador = 0;
                 jTogInterrumpido.setSelected(false);
                 jTogInterrumpido.setEnabled(true);
-                do 
-                {
-                     publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
+                dk.setStatus(DataKairos.STATUS_COMPUTING_SOLUTION);
+                while ((!jTogInterrumpido.isSelected()) && (geneticAlgorithm.runSingleLoop())) {
+                    publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
                 }
-                while ((!jTogInterrumpido.isSelected()) && (geneticAlgorithm.runSingleLoop())); 
-                  publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
+                publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
                 jTogInterrumpido.setSelected(false);
                 jTogInterrumpido.setEnabled(false);
+                dk.setStatus(DataKairos.STATUS_PROJECT_SOLUTION);
                 return geneticAlgorithm.getSolucion();
             }
 
