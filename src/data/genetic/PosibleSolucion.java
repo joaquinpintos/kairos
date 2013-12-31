@@ -5,6 +5,7 @@
 package data.genetic;
 
 import data.DataProject;
+import data.MyConstants;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ public final class PosibleSolucion implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
     private long peso;
+    private int level;//Nivel de incumplimiento de restricciones: rojo, amarillo, verde
     private final HashMap<String, Asignacion> asignaciones;
     private DataProject dataProyecto;
 
@@ -25,6 +27,7 @@ public final class PosibleSolucion implements Serializable {
      */
     public PosibleSolucion(HashMap<String, Asignacion> asignaciones) {
         this.asignaciones = asignaciones;
+        this.level = MyConstants.LEVEL_GREEN;
     }
 
     /**
@@ -32,6 +35,7 @@ public final class PosibleSolucion implements Serializable {
      */
     public PosibleSolucion() {
         asignaciones = new HashMap<String, Asignacion>();
+           this.level = MyConstants.LEVEL_GREEN;
     }
 
     /**
@@ -118,7 +122,7 @@ public final class PosibleSolucion implements Serializable {
         return asignaciones.get(hashAula);
     }
 
-    PosibleSolucion copia() {
+    public PosibleSolucion copia() {
         HashMap<String, Asignacion> nuevasAsignaciones = new HashMap<String, Asignacion>();
         for (String hashAula : asignaciones.keySet()) {
             Asignacion asig = asignaciones.get(hashAula);
@@ -127,6 +131,7 @@ public final class PosibleSolucion implements Serializable {
         PosibleSolucion newps = new PosibleSolucion(nuevasAsignaciones);
         newps.setDataProyecto(dataProyecto);
         newps.setPeso(peso);
+        newps.setLevel(level);
         return newps;
     }
 
@@ -138,5 +143,22 @@ public final class PosibleSolucion implements Serializable {
             Asignacion asig = asignaciones.get(hashAula);
             asig.update();
         }
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void updateLevel(int newLevel) {
+        
+        if (newLevel < level) {
+//            System.out.println("New level: "+level+" to "+newLevel);
+            level = newLevel;
+        }
+        if (level<1) level=1;
     }
 }

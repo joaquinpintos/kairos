@@ -331,9 +331,12 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                 contador = 0;
                 jTogInterrumpido.setSelected(false);
                 jTogInterrumpido.setEnabled(true);
-                while ((!jTogInterrumpido.isSelected()) && (geneticAlgorithm.runSingleLoop())) {
-                    publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
+                do 
+                {
+                     publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
                 }
+                while ((!jTogInterrumpido.isSelected()) && (geneticAlgorithm.runSingleLoop())); 
+                  publish(new GeneticProcessInfo(geneticAlgorithm.getNumIter(), geneticAlgorithm.getNivelCritico(), geneticAlgorithm.getOptimo().getPeso()));
                 jTogInterrumpido.setSelected(false);
                 jTogInterrumpido.setEnabled(false);
                 return geneticAlgorithm.getSolucion();
@@ -381,7 +384,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                 contador++;
                 if (contador == 10) {
                     contador = 0;
-                    geneticAlgorithm.calculaPesosOptimo();
+//                    geneticAlgorithm.calculaRestriccionesIncumplidasOptimo();
                     jTextRestriccionesNoCumplidas.setText(geneticAlgorithm.getDescripcionRestriccionesFallidas());
                 }
             }

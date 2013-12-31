@@ -95,7 +95,7 @@ public abstract class Restriccion implements Serializable {
      * @param posibleSolucion
      * @return
      */
-    abstract public long calculaPeso(PosibleSolucion posibleSolucion);
+    abstract  public long calculaPeso(PosibleSolucion posibleSolucion);
 
     /**
      * Lanza el diálogo de configuración. Devuelve true si se han actualizad los

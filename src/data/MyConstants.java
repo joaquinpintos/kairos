@@ -132,4 +132,9 @@ public class MyConstants {
     };
 
     public static final Color BACKGROUND_APP_COLOR = Color.gray;
+    
+    //Niveles críticos al evaluar restricciones para una solución
+    public static final int LEVEL_RED=1;
+    public static final int LEVEL_YELLOW=2;
+    public static final int LEVEL_GREEN=3;
 }

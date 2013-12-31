@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ArrayRangoHoras implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
-    private ArrayList<RangoHoras> data;
+    private final ArrayList<RangoHoras> data;
 
     /**
      * Constructor por defecto, creando un array vacío.
@@ -24,6 +24,10 @@ public class ArrayRangoHoras implements Serializable {
         this.data = new ArrayList<RangoHoras>();
     }
 
+    /**
+     * Constructor especificando array
+     * @param data
+     */
     public ArrayRangoHoras(ArrayList<RangoHoras> data) {
         this.data = data;
     }

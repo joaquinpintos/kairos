@@ -7,6 +7,7 @@ package data.genetic;
 import genetic.crossovers.Crossover;
 import genetic.mutators.Mutator;
 import data.DataProject;
+import data.MyConstants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -165,16 +166,12 @@ public class GeneticAlgorithm {
             optimo = manada.get(0).copia();
         }
         //Calculo el valor óptimo que he ido alcanzando.
-//            optimoValor = optimo.getPeso();
         if (optimo.getPeso() == 0) {//Óptimo alcanzado. No puedo mejorar más
-//            optimo = manada.get(0).copia();
             continueLoop = false;
-//                break buclePrincipal;
         } else {
             calcularSiguienteGeneracion();
         }
         numIter++;
-//        System.out.println("Optimo: " + optimo.getPeso());
         return continueLoop;
     }
 
@@ -219,10 +216,7 @@ public class GeneticAlgorithm {
 
     private void calculaPesosManada() {
         for (PosibleSolucion s : manada) {
-//            if (s.getPeso() == 0) {
             calculaPesosPosibleSolucion(s);
-            //System.out.println(s.getAsignaciones()+"-->"+s.getPeso());
-            //          }
         }
 
     }
@@ -242,6 +236,7 @@ public class GeneticAlgorithm {
         if (detailed) {
             restriccionesFallidas.clear();
         }
+        s.setLevel(MyConstants.LEVEL_GREEN);
         long nuevoPeso = 0;
         long suma;
         for (Restriccion r : restricciones) {
@@ -251,15 +246,14 @@ public class GeneticAlgorithm {
             suma = r.calculaPeso(s);
             nuevoPeso += suma;
             if (suma > 0) {
+                s.updateLevel(r.getImportancia());
                 if (detailed) {
                     restriccionesFallidas.add(r);
-                    actualizaNivelCritico(r.getImportancia());
                 }
             }
         }
-        if (!detailed) {
             s.setPeso(nuevoPeso);
-        }
+//            System.out.println("Nuevo level: "+s.getLevel());
     }
 
     private void calcularSiguienteGeneracion() {
@@ -341,6 +335,7 @@ public class GeneticAlgorithm {
      * @return
      */
     public PosibleSolucion getOptimo() {
+//        System.out.println("Peso optimo[alg]:"+optimo.getPeso());
         return optimo;
     }
 
@@ -380,17 +375,7 @@ public class GeneticAlgorithm {
      * @return
      */
     public int getNivelCritico() {
-        return nivelCritico;
-    }
-
-    /**
-     *
-     * @param nivel
-     */
-    public void actualizaNivelCritico(int nivel) {
-//        if (nivelCritico > nivel) {
-        nivelCritico = nivel;
-//        }
+        return optimo.getLevel();
     }
 
     /**
@@ -417,6 +402,19 @@ public class GeneticAlgorithm {
         };
 
     }
+
+//    public void calculaRestriccionesIncumplidasOptimo() {
+//        long suma;
+//        restriccionesFallidas.clear();
+//        for (Restriccion r : restricciones) {
+//            r.clearConflictivos();
+//            suma = r.calculaPeso(optimo);
+//            if (suma > 0) {
+//                restriccionesFallidas.add(r);
+//                actualizaNivelCritico(r.getImportancia());
+//            }
+//        }
+//    }
 }
 
 /**
