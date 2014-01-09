@@ -107,9 +107,11 @@ public class DraggableHorarioItemComponent extends JPanel {
                 nombre = h.getAsignatura().getNombre();
             }
             JLabel l1 = new JLabel(nombre, JLabel.CENTER);
+            l1.setFont(MyConstants.NORMAL_FONT);
             l1.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.add(l1);
             JLabel l2 = new JLabel("G" + h.getGrupo().getNombre() + " (" + h.getProfesor().getNombreCorto() + ")", JLabel.CENTER);
+            l2.setFont(MyConstants.NORMAL_FONT);
             l2.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.add(l2);
 

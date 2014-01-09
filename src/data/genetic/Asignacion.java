@@ -43,7 +43,6 @@ public final class Asignacion implements Serializable {
     private PosibleSolucion posibleSolucion;
     private String hashAula;
     private final DatosPorAula datosPorAula;
-    private final int numCasillas;
 
     /**
      *
@@ -54,7 +53,6 @@ public final class Asignacion implements Serializable {
         this.hashAula = datosPorAula.getHashAula();
         asignaciones = new ArrayList<Integer>();
         this.numSegmentos = datosPorAula.getListaSegmentos().size();
-        this.numCasillas = datosPorAula.getListaCasillas().size();
         this.minutosCasilla = datosPorAula.getListaCasillas().minutosPorCasilla();
         asignaciones = new ArrayList<Integer>();
         cuantasCasillas = new ArrayList<Integer>();
@@ -469,11 +467,4 @@ public final class Asignacion implements Serializable {
         return segmentosConflictivos;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getNumCasillas() {
-        return numCasillas;
-    }
 }

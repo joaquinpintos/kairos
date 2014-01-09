@@ -112,9 +112,9 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -194,8 +194,8 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
             boolean terminado = false;
 
             while (!terminado) {
+                terminado = true;
                 for (int n = 0; n < ran.size() - 1; n++) {
-                    terminado = true;
                     RangoHoras r1 = ran.get(n);
                     RangoHoras r2 = ran.get(n + 1);
                     if (r1.getFin().equals(r2.getInicio())) {

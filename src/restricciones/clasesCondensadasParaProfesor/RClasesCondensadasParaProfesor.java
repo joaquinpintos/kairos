@@ -147,7 +147,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
      */
     @Override
     public String descripcion() {
-        return "El profesor " + profesor + " no puede dar sus clases en más de " + numeroMaximoDias + " días";
+        return "<html>El profesor <b>" + profesor + "</b> no puede dar sus clases en más de <b>" + numeroMaximoDias + "</b> días</html>";
     }
 
     /**
@@ -175,7 +175,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
      */
     @Override
     public String getMensajeError() {
-        return "El profesor " + profesor + " reparte su docencia en más de " + numeroMaximoDias + " días";
+        return "<html>El profesor <b>" + profesor + "</b> reparte su docencia en más de <b>" + numeroMaximoDias + "</b> días</html>";
     }
 
     /**

@@ -26,7 +26,6 @@ public class RestrictionsData extends AbstractDataSets {
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<Restriccion> listaRestricciones;
     private ArrayList<Restriccion> restriccionesDisponibles;
-//    Document documentoXML;
 
     /**
      *
@@ -35,7 +34,7 @@ public class RestrictionsData extends AbstractDataSets {
     public RestrictionsData(DataProject dataProyecto) {
         super(dataProyecto);
         this.listaRestricciones = new ArrayList<Restriccion>();
-        populateRestriccionesDisponibles();
+        this.restriccionesDisponibles=new ArrayList<Restriccion>();
     }
 
     /**
@@ -88,22 +87,6 @@ public class RestrictionsData extends AbstractDataSets {
         setDirty(true);
         return resul;
     }
-
-    /**
-     * Llena la lista de restricciones disponibles. Este método sólo debería
-     * usarse una vez al crearse el objeto.
-     */
-    private void populateRestriccionesDisponibles() {
-        restriccionesDisponibles = new ArrayList<Restriccion>();
-        restriccionesDisponibles.add(new RNoHuecosEntreMedias());
-        restriccionesDisponibles.add(new RProfesorNoUbicuo());
-        restriccionesDisponibles.add(new RGrupoNoUbicuo());
-        restriccionesDisponibles.add(new RProfesorCiertosDias());
-        restriccionesDisponibles.add(new RClasesCondensadasParaProfesor());
-        restriccionesDisponibles.add(new RClasesNoCruzanRecreo());
-        restriccionesDisponibles.add(new RProfesorMaximoHorasPorDia());
-    }
-
     /**
      *
      * @return

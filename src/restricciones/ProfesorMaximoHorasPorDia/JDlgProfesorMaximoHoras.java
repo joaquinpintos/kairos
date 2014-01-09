@@ -51,7 +51,8 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
                 doClose(RET_CANCEL);
             }
         });
-        jTextMaximoHoras.setText(r.getNumMaximoHoras() + "");
+//        jTextMaximoHoras.setText(r.getNumMaximoHoras() + "");
+        jSpinNumeroHoras.setValue(r.getNumMaximoHoras());
 
     }
 
@@ -74,7 +75,7 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextMaximoHoras = new javax.swing.JTextField();
+        jSpinNumeroHoras = new javax.swing.JSpinner();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -98,6 +99,8 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
 
         jLabel1.setText("Máximo de horas por día:");
 
+        jSpinNumeroHoras.setModel(new javax.swing.SpinnerNumberModel(5, 1, 12, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,7 +111,7 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextMaximoHoras, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
+                        .addComponent(jSpinNumeroHoras))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(cancelButton)))
@@ -125,8 +128,8 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextMaximoHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                    .addComponent(jSpinNumeroHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))
@@ -155,7 +158,8 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
 
     private void doClose(int retStatus) {
         if (retStatus == RET_OK) {
-            r.setNumMaximoHoras(Integer.valueOf(jTextMaximoHoras.getText()));
+//            r.setNumMaximoHoras(Integer.valueOf(jTextMaximoHoras.getText()));
+            r.setNumMaximoHoras((Integer)jSpinNumeroHoras.getValue());
         }
 
         returnStatus = retStatus;
@@ -167,7 +171,7 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextMaximoHoras;
+    private javax.swing.JSpinner jSpinNumeroHoras;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
     private int returnStatus = RET_CANCEL;

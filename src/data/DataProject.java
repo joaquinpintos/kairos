@@ -505,10 +505,10 @@ public class DataProject implements Serializable {
         Aula aula = tr.getAulaMT().getAula();
         Asignatura asig = tr.getParent().getParent().getParent();
         if (!colAsig.containsKey(asig)) {
-            colAsig.put(asig, colAsig.size() % MyConstants.coloresAsignaturas.length);
+            colAsig.put(asig, colAsig.size() % MyConstants.COLORES_ASIGNATURAS.length);
         } 
         int contaColor=colAsig.get(asig);
-        tr.setColorEnTablaDeHorarios(MyConstants.coloresAsignaturas[contaColor]);
+        tr.setColorEnTablaDeHorarios(MyConstants.COLORES_ASIGNATURAS[contaColor]);
 //         contaColor++;
 //        if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
 //            contaColor = 0;

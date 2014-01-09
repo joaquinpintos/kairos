@@ -9,6 +9,8 @@ import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -87,8 +89,35 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
             public void keyReleased(KeyEvent e) {
             }
         });
+        jListRestriccionesDisponibles.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                 if (e.getClickCount() == 2) {//Al hace doble click se edita la restricción.
+                     doClose(RET_OK);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
     }
 
+    
+    
     /**
      * @return the return status of this dialog - one of RET_OK or RET_CANCEL
      */

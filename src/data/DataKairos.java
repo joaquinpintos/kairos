@@ -4,11 +4,16 @@
  */
 package data;
 
+import data.restricciones.Restriccion;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
+import restricciones.ProfesorMaximoHorasPorDia.RProfesorMaximoHorasPorDia;
+import restricciones.clasesCondensadasParaProfesor.RClasesCondensadasParaProfesor;
 import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
+import restricciones.noHuecosEntreMedias.RNoHuecosEntreMedias;
+import restricciones.profesorCiertosDias.RProfesorCiertosDias;
 import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
 
 /**
@@ -46,6 +51,7 @@ public class DataKairos {
      */
     public DataKairos() {
         dataProject = new DataProject();
+        populateRestricciones();
         mc = new MyConstants();
     }
 
@@ -80,6 +86,7 @@ public class DataKairos {
      */
     public void createNewDP(String nombre) {
         dataProject = new DataProject();
+        populateRestricciones();
         dataProject.getConfigProyecto().setNombreProyecto(nombre);
         ArrayList<Integer> dd = new ArrayList<Integer>();
         dd.add(1);
@@ -113,6 +120,17 @@ public class DataKairos {
      */
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    private void populateRestricciones() {
+        ArrayList<Restriccion> restriccionesDisponibles = dataProject.getRestrictionsData().getRestriccionesDisponibles();
+        restriccionesDisponibles.add(new RNoHuecosEntreMedias());
+        restriccionesDisponibles.add(new RProfesorNoUbicuo());
+        restriccionesDisponibles.add(new RGrupoNoUbicuo());
+        restriccionesDisponibles.add(new RProfesorCiertosDias());
+        restriccionesDisponibles.add(new RClasesCondensadasParaProfesor());
+        restriccionesDisponibles.add(new RClasesNoCruzanRecreo());
+        restriccionesDisponibles.add(new RProfesorMaximoHorasPorDia());
     }
 
 }

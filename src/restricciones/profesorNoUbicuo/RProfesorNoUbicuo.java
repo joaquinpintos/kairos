@@ -251,7 +251,8 @@ public class RProfesorNoUbicuo extends Restriccion  {
      */
     @Override
     public String getMensajeError() {
-        return "Profesores con clase solapadas: " + profesoresConflictivos;
+         ArrayList<Profesor> p=new ArrayList(profesoresConflictivos);
+        return "<html>Profesores con clase solapadas: " + formatTeachersList(p)+"<html>";
     }
 
     /**

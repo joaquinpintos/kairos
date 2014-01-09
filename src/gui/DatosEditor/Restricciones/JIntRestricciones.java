@@ -138,7 +138,8 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
      */
     public void creaAccionesYListeners() {
 
-        //Acción para editar la restricción
+        //<editor-fold defaultstate="collapsed" desc="EditarRestriccionAction">
+//Acción para editar la restricción
         class EditarRestriccionAction extends AbstractAction {
 
             public EditarRestriccionAction() {
@@ -161,9 +162,11 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                 }
             }
         }
+//</editor-fold>
         editarRestriccionAction = new EditarRestriccionAction();
 
         //Necesito definir esto despues de editarRestriccionAction porque hago referencia a él.
+        //<editor-fold defaultstate="collapsed" desc="AñadirRestriccionAction">
         class AñadirRestriccionAction extends AbstractAction {
 
             public AñadirRestriccionAction() {
@@ -179,8 +182,10 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                 dlg.setVisible(true);
             }
         }
+//</editor-fold>
         añadirRestriccionAction = new AñadirRestriccionAction();
 
+        //<editor-fold defaultstate="collapsed" desc="EliminarRestriccionAction">
         class EliminarRestriccionAction extends AbstractAction {
 
             public EliminarRestriccionAction() {
@@ -202,9 +207,11 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                 }
             }
         }
+//</editor-fold>
         eliminarRestriccion = new EliminarRestriccionAction();
 
         //Acción para elegir el nivel de la restricción
+        //<editor-fold defaultstate="collapsed" desc="ElegirNivelRestriccionAction">
         class ElegirNivelRestriccionAction extends AbstractAction {
 
             private final Frame parent;
@@ -224,16 +231,16 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                 }
             }
         }
+//</editor-fold>
         elegirNivelRestricionAction = new ElegirNivelRestriccionAction(mainWindow);
 
         //Listener para detectar doble click en la lista de restricciones.
+        //<editor-fold defaultstate="collapsed" desc="JListRestriccionesMouseListener">
         class JListRestriccionesMouseListener implements MouseListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    doPop(e);
-                }
+
                 if (e.getClickCount() == 2) {//Al hace doble click se edita la restricción.
                     editarRestriccionAction.actionPerformed(null);
                 }
@@ -241,6 +248,9 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 
             @Override
             public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    doPop(e);
+                }
             }
 
             @Override
@@ -259,11 +269,12 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             }
 
             private void doPop(MouseEvent e) {
-                int ind=jListRestricciones.locationToIndex(e.getPoint());
+                int ind = jListRestricciones.locationToIndex(e.getPoint());
                 jListRestricciones.setSelectedIndex(ind);
                 jPopupListRestricciones.show(e.getComponent(), e.getX(), e.getY());
             }
         }//End of class JListRestriccionesMouseListener
+//</editor-fold>
 
         //Mapeo la tecla DEL para borrar la restricción
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);

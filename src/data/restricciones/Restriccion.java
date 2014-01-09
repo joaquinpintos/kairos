@@ -5,11 +5,15 @@
 package data.restricciones;
 
 import data.DataProject;
+import data.MyConstants;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
 import data.genetic.PosibleSolucion;
+import data.profesores.Profesor;
 import gui.HorarioEditor.RestriccionListener;
+import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import org.w3c.dom.Element;
@@ -95,7 +99,7 @@ public abstract class Restriccion implements Serializable {
      * @param posibleSolucion
      * @return
      */
-    abstract  public long calculaPeso(PosibleSolucion posibleSolucion);
+    abstract public long calculaPeso(PosibleSolucion posibleSolucion);
 
     /**
      * Lanza el diálogo de configuración. Devuelve true si se han actualizad los
@@ -170,6 +174,40 @@ public abstract class Restriccion implements Serializable {
      * @return
      */
     abstract public String getMensajeError();
+
+    public String formatTeachersList(ArrayList<Profesor> data) {
+        StringBuilder sb = new StringBuilder();
+        int numColor = 0;
+        int numTotalColors = MyConstants.COLORES_PROFESORES.length - 1;
+
+        int numProfes = data.size();
+
+        for (int n = 0; n < numProfes; n++) {
+            Profesor p = data.get(n);
+            if (n > 0) {
+
+                if (n < numProfes - 1) {
+                    sb.append(", ");
+                } else {
+                    sb.append(" y ");
+                }
+            }
+
+            Color col = MyConstants.COLORES_PROFESORES[numColor];
+            String hex = String.format("#%02x%02x%02x", col.getRed(), col.getGreen(), col.getBlue());
+            sb.append("<b><span>");
+//            sb.append("<b><font color=\"").append(hex).append("\">");
+            sb.append(p.getNombre()).append(" ").append(p.getApellidos());
+            sb.append("</span></b>");
+            numColor++;
+            if (numColor > numTotalColors) {
+                numColor = 0;
+            }
+
+        }
+
+        return sb.toString();
+    }
 
     /**
      *
@@ -347,12 +385,12 @@ public abstract class Restriccion implements Serializable {
      * @param parent
      */
     public void writeRestriccion(Node parent) {
-        Node nodo = creaNodoSimple(parent, "restriccion");
+        Node nodo = creaNodoSimple(parent, "restriction");
         escribeNombreDeLaClase(nodo);
-        Node nodoComun = creaNodoSimple(nodo, "config_comun");
-        Node nodo2 = creaNodoSimple(nodoComun, "nivel");
+        Node nodoComun = creaNodoSimple(nodo, "common_config");
+        Node nodo2 = creaNodoSimple(nodoComun, "level");
         creaNodoTexto(nodo2, this.getImportancia() + "");
-        Node nodoEspecifico = creaNodoSimple(nodo, "config_especifico");
+        Node nodoEspecifico = creaNodoSimple(nodo, "specific_config");
         writeConfig(nodoEspecifico);
     }
 

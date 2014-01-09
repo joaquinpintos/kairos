@@ -20,10 +20,10 @@ import data.restricciones.Restriccion;
 public class RestriccionListRenderer extends DefaultListCellRenderer {
 
     private static final long serialVersionUID = -7799441088157759804L;
-    private JLabel label;
-    private Color textSelectionColor = Color.BLACK;
-    private Color textNonSelectionColor = Color.BLACK;
-    private ImageIcon[] colorIcons;
+    private final JLabel label;
+    private final Color textSelectionColor = Color.BLACK;
+    private final Color textNonSelectionColor = Color.BLACK;
+    private final ImageIcon[] colorIcons;
     private boolean muestraMensajesDeError = false;
     private boolean descripcionesCortas = false;
 
@@ -57,7 +57,7 @@ public class RestriccionListRenderer extends DefaultListCellRenderer {
      * @param selected
      */
     public void muestraDescripcionLarga(Restriccion r, boolean selected) {
-        label.setFont(MyConstants.NEGRITA_FONT);
+        label.setFont(MyConstants.NORMAL_FONT);
         label.setIcon(colorIcons[r.getImportancia() - 1]);
         if (muestraMensajesDeError) {
             label.setText(r.getMensajeError());

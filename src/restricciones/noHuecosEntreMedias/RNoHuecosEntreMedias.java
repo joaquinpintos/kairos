@@ -172,14 +172,14 @@ public class RNoHuecosEntreMedias extends Restriccion {
      */
     @Override
     public String descripcion() {
-        String resul = "";
+        String resul = "<html>";
         if (penalizarHuecos) {
             resul += "No puede haber huecos libres entre clases. ";
         }
         if (penalizarPocasClases) {
-            resul += "No puede haber días con menos de " + numMinimoHorassOcupadas + " horas ocupadas";
+            resul += "No puede haber días con menos de <b>" + numMinimoHorassOcupadas + "</b> horas ocupadas";
         }
-        return resul;
+        return resul+"</html>";
     }
 
     @Override
@@ -196,14 +196,15 @@ public class RNoHuecosEntreMedias extends Restriccion {
 
     @Override
     public String getMensajeError() {
-        String resul = "";
+        String resul = "<html>";
+        
         if (diasPocoOcupados) {
-            resul += "Hay dias con menos de " + numMinimoHorassOcupadas + " horas de clase. ";
+            resul += "Hay dias con menos de <b>" + numMinimoHorassOcupadas + "</b> horas de clase. ";
         }
         if (tramoConHuecosGlobal) {
             resul += "Hay tramos de clases con huecos en medio";
         }
-        return resul;
+        return resul+"</html>";
     }
 
     @Override

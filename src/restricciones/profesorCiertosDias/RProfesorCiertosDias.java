@@ -176,7 +176,7 @@ public class RProfesorCiertosDias extends Restriccion {
      */
     @Override
     public String descripcion() {
-        StringBuffer resul = new StringBuffer();
+        StringBuilder resul = new StringBuilder("<html>");
         String nombreProfesor;
         if (profesor != null) {
             nombreProfesor = profesor.getApellidos() + ", " + profesor.getNombre();
@@ -185,9 +185,9 @@ public class RProfesorCiertosDias extends Restriccion {
         }
         //resul += "(" + this.getImportancia() + ") ";
         if (puedeEstosDias) {
-            resul.append("El profesor ").append(nombreProfesor).append(" SOLO puede estos días: ");
+            resul.append("El profesor <b>").append(nombreProfesor).append("</b> SOLO puede estos días: ");
         } else {
-            resul.append("El profesor ").append(nombreProfesor).append(" NO puede estos días: ");
+            resul.append("El profesor <b>").append(nombreProfesor).append("</b> NO puede estos días: ");
         }
 
         boolean first = true;
@@ -198,11 +198,11 @@ public class RProfesorCiertosDias extends Restriccion {
                     resul.append(", ");
                 }
 
-                resul.append(inicialesSemana[dia - 1]).append(": ").append(rangos.get(dia).toString()).append("  ");
+                resul.append("<b>").append(inicialesSemana[dia - 1]).append("</b>: ").append(rangos.get(dia).toString()).append("  ");
             }
             first = false;
         }
-        return resul.toString();
+        return resul.append("</html>").toString();
     }
 
     /**

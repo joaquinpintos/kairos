@@ -6,27 +6,19 @@ package gui.HorarioEditor;
 
 import data.aulas.AulaMT;
 import data.DataKairos;
-import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
-import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import data.restricciones.Restriccion;
 import gui.DatosEditor.Restricciones.RestriccionListRenderer;
-import data.horarios.HorarioItem;
 import gui.AbstractMainWindow;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 
 /**
  *
@@ -164,6 +156,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
         jPanel1.add(filler1);
 
+        jListRestricciones.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jListRestricciones.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -503,59 +496,4 @@ class JListRestriccionesModel extends AbstractListModel<Restriccion> {
     public boolean contains(Restriccion rSelected) {
         return data.contains(rSelected);
     }
-}
-
-class JListAulasRenderer extends JLabel implements ListCellRenderer<AulaMT> {
-
-    Border borderSelectedConflictivo;
-    Border borderAulaSelected;
-
-    public JListAulasRenderer() {
-        //super(MyConstants.AULA_ICON);
-        super();
-        MyConstants mc=new MyConstants();
-        this.setIcon(mc.AULA_ICON);
-        this.setOpaque(true);
-        this.setAlignmentX(LEFT_ALIGNMENT);
-        borderSelectedConflictivo = BorderFactory.createLineBorder(Color.RED, 3);
-        borderAulaSelected = BorderFactory.createLineBorder(Color.BLACK, 2);
-    }
-
-    @Override
-    public Component getListCellRendererComponent(JList list, AulaMT data, int index, boolean isSelected, boolean cellHasFocus) {
-        if (isSelected) {
-//            this.setBackground(MyConstants.SELECTED_ITEM_LIST);
-            this.setBorder(borderAulaSelected);
-        } else {
-//            this.setBackground(Color.WHITE);
-            this.setBorder(null);
-        }
-
-        this.setText(data.toString());
-//        if (data.getTieneSegmentosConflictivos()) {
-//            this.setForeground(MyConstants.CONFLICTIVE_ITEM);
-//        } else {
-//            this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-//        }
-        switch (data.getTieneSegmentosConflictivos()) {
-            case HorarioItem.NO_MARK:
-                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-//                this.setBorder(null);
-                this.setBackground(Color.white);
-                break;
-            case HorarioItem.SIMPLE_MARK:
-                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-//                this.setBorder(null);
-                this.setBackground(MyConstants.NON_SELECTED_CONFLICTIVE_ITEM);
-                break;
-            case HorarioItem.DOUBLE_MARK:
-                this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-//                this.setBorder(borderSelectedConflictivo);
-                this.setBackground(MyConstants.SELECTED_CONFLICTIVE_ITEM);
-                break;
-
-        }
-        return this;
-    }
-    
 }

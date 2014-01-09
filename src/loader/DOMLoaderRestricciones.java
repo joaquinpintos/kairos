@@ -36,7 +36,7 @@ public class DOMLoaderRestricciones {
      * @param rootElement
      */
     public void loadRestricciones(Element rootElement) {
-        NodeList nodeList = rootElement.getElementsByTagName("restriccion");
+        NodeList nodeList = rootElement.getElementsByTagName("restriction");
         if (nodeList != null && nodeList.getLength() > 0) {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 this.loadRestriccion((Element) nodeList.item(i));
@@ -61,14 +61,14 @@ public class DOMLoaderRestricciones {
             Restriccion r = (Restriccion) c.newInstance();
             r.setDataProyecto(dataProyecto);
             //Leo variables comunes a cada restriccion. En este caso el nivel (rojo, amarillo, verde)
-            Element elConfigComun = buscaPrimerNodoConNombre(element, "config_comun");
+            Element elConfigComun = buscaPrimerNodoConNombre(element, "common_config");
             
-            el = buscaPrimerNodoConNombre(elConfigComun, "nivel");
+            el = buscaPrimerNodoConNombre(elConfigComun, "level");
             int nivel = Integer.valueOf(el.getTextContent());
             r.setImportancia(nivel);
             //Llamo al método sobreescrito de la clase específica
             //Para leer los datos de configuración.
-            Element elConfigEspecifico = buscaPrimerNodoConNombre(element, "config_especifico");
+            Element elConfigEspecifico = buscaPrimerNodoConNombre(element, "specific_config");
             
             r.readConfig(elConfigEspecifico);
             dataProyecto.getRestrictionsData().add(r);

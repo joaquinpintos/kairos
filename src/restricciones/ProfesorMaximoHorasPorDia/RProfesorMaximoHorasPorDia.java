@@ -13,6 +13,7 @@ import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
 import data.profesores.Profesor;
 import data.restricciones.Restriccion;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import org.w3c.dom.Element;
@@ -72,6 +73,7 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
     @Override
     public long calculaPeso(PosibleSolucion posibleSolucion) {
         clasesPorDiaProfesor.clear();
+        listaProfesoresConflictivos.clear();
         clearConflictivos();
         setPeso(0);
         double coef = 1.3;
@@ -144,7 +146,7 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      */
     @Override
     public String descripcion() {
-        return "Los profesores no pueden dar más de " + numMaximoHoras + " horas de clas por día";
+        return "<html>Los profesores no pueden dar más de <b>" + numMaximoHoras + "</b> horas de clase por día</html>";
     }
 
     /**
@@ -171,7 +173,9 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      */
     @Override
     public String getMensajeError() {
-        return "Los profesores " + listaProfesoresConflictivos + " dan más de " + numMaximoHoras + " horas algún día";
+       ArrayList<Profesor> p=new ArrayList(listaProfesoresConflictivos);
+       boolean plural=(p.size()>1);
+        return "<html>"+(plural?"Los":"El")+" profesor"+(plural?"es ":" ") + formatTeachersList(p) + " da"+(plural?"n":"")+" más de <b>" + numMaximoHoras + "</b> horas algún día</html>";
     }
 
     /**
