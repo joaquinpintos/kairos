@@ -409,6 +409,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         ObjectOutputStream oos = new ObjectOutputStream(fisal);
                         oos.writeObject(dk.getDP());
                         oos.close();
+                        dk.getDP().setDirty(false);
 
                     }
                 } catch (FileNotFoundException ex) {
@@ -452,6 +453,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             oos = new ObjectOutputStream(fisal);
                             oos.writeObject(dk.getDP());
                             oos.close();
+                            dk.getDP().setDirty(false);
                         } catch (IOException ex) {
                             Logger.getLogger(AbstractMainWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
