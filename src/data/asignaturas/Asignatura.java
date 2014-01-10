@@ -329,4 +329,16 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
+
+    void clearDocente() {
+        for (Grupo gr : grupos.getGrupos()) {
+            gr.clearDocente();
+        }
+    }
+
+    void clearAulasAsignadas() {
+        for (Grupo gr : grupos.getGrupos()) {
+            gr.clearAulasAsignadas();
+        }
+    }
 }

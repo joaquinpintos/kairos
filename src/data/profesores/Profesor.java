@@ -173,7 +173,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     /**
      *
      */
-    public void clearDocencia() {
+    protected void clearDocencia() {//protected para hacer que la docencia se borre desde DataProfesores
         for (Tramo d : docencia) {
             d.setDocente(null);
         }

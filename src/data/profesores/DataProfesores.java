@@ -134,4 +134,8 @@ public class DataProfesores extends AbstractDataSets {
         return resul;
     }
 
+    public void clearDocenciaProfesor(Profesor p) {
+        p.clearDocencia();
+        fireDataEvent(p, DataProyectoListener.MODIFY);
+    }
 }

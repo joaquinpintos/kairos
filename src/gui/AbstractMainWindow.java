@@ -88,7 +88,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         } catch (IOException e) {
             System.err.println("Error al cargar icono");
         }
-        
+
         dirty = false;
         listaTabs = new ArrayList<JInternalFrame>();
         dk = new DataKairos();
@@ -249,6 +249,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         dk.getDP().getRestrictionsData().addListener(jIntRestricciones);
 
         dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
+        dk.getDP().getDataProfesores().addListener(jIntTreeAsignaturas);
+        dk.getDP().getDataProfesores().addListener(jIntTreeAulas);
 
         dk.getDP().getDataAulas().addListener(jIntTreeAulas);
         dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);

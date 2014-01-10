@@ -24,7 +24,7 @@ import java.util.HashSet;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RProfesorNoUbicuo extends Restriccion  {
+public class RProfesorNoUbicuo extends Restriccion {
 
     //profesor->lista de hashaulas, y cada hashaula->lista de [segmentos,duracion]
     //A cada profesor le asigna una lista de hashaulas donde imparte.
@@ -39,7 +39,7 @@ public class RProfesorNoUbicuo extends Restriccion  {
      */
     public RProfesorNoUbicuo() {
         super(null);
-        profesoresConflictivos=new HashSet<Profesor>();
+        profesoresConflictivos = new HashSet<Profesor>();
     }
 
     /**
@@ -48,7 +48,7 @@ public class RProfesorNoUbicuo extends Restriccion  {
      */
     public RProfesorNoUbicuo(DataProject dataProyecto) {
         super(dataProyecto);
-        profesoresConflictivos=new HashSet<Profesor>();
+        profesoresConflictivos = new HashSet<Profesor>();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class RProfesorNoUbicuo extends Restriccion  {
         //Hacer una lista de segmentos conflictivos para cada aula
         //Comparar las casillas de dichos segmentos a ver si coinciden
         //en día y hora.
-        
+
         //Fase 1: Calculo de mapProfesorToAulas
         HashMap<Profesor, ArrayList<String>> mapProfesorToAulas;
         mapProfesorToAulas = new HashMap<Profesor, ArrayList<String>>();
@@ -72,13 +72,14 @@ public class RProfesorNoUbicuo extends Restriccion  {
                 GrupoTramos a = d.getParent();
                 Grupo b = a.getParent();
 //                String hashGrupoCurso = b.getHashCarreraGrupoCurso();
-                String hashAula = d.getAulaMT().getHash();
+                String hashAula = null;
+                hashAula = d.getAulaMT().getHash();
                 dd.add(hashAula);
                 mapProfesorToAulas.put(p, dd);
             }
         }
         //Fase 1: Calculo de dataMañana y dataTarde
-        
+
         //Tendré 0, 1 y 2 grupos conflictivos. Calculo y elimino profesores no conflictivos
         //Tengo que contar para cada profesor cuántos aulas tiene de mañana y de tarde
         dataMañana = new HashMap<Profesor, HashMap<String, ArrayList<Integer[]>>>();
@@ -105,11 +106,9 @@ public class RProfesorNoUbicuo extends Restriccion  {
             }
         }
 
-
         //LLegados a este punto, tengo dos hashmaps con profesores
         //y asociado a cada uno un hashmap de hashaula->array de segmentos vacío
         //ahora vamos a llenar los array de segmentos
-
         rellenaConSegmentos(dataMañana);
         rellenaConSegmentos(dataTarde);
     }
@@ -214,33 +213,33 @@ public class RProfesorNoUbicuo extends Restriccion  {
             //(aquí asumo que todas las casillas tienen igual duración)
             //y luego comparo cada una con la siguiente.
             Collections.sort(casillasConflictivas);
-            
-            //Ahora que están ordenadas
 
+            //Ahora que están ordenadas
             for (int n = 0; n < casillasConflictivas.size() - 1; n++) {
                 Casilla c1 = casillasConflictivas.get(n);
                 Casilla c2 = casillasConflictivas.get(n + 1);
                 if (c1.mismoInstante(c2)) {
                     sumaPeso(suma);
                     suma *= coef;
-                    if (marcaCasillasConflictivas){
-                    //Para marcarla, necesito saber el inicio real del segmento
-                    Asignacion asig = posibleSolucion.getAsignacion(c1.getHashAula());
-                    ListaCasillas lc = dataProyecto.getDatosPorAula(c1.getHashAula()).getListaCasillas();
-                    int nc1 = lc.getCasillas().indexOf(c1);
-                    int ns1 = asig.getQueSegmentoHayEnCasilla(nc1);
-                    int c1real = asig.enQueCasillaEstaSegmento(ns1);
+                    if (marcaCasillasConflictivas) {
+                        //Para marcarla, necesito saber el inicio real del segmento
+                        Asignacion asig = posibleSolucion.getAsignacion(c1.getHashAula());
+                        ListaCasillas lc = dataProyecto.getDatosPorAula(c1.getHashAula()).getListaCasillas();
+                        int nc1 = lc.getCasillas().indexOf(c1);
+                        int ns1 = asig.getQueSegmentoHayEnCasilla(nc1);
+                        int c1real = asig.enQueCasillaEstaSegmento(ns1);
 
-                     asig=posibleSolucion.getAsignacion(c2.getHashAula());
-                    lc = dataProyecto.getDatosPorAula(c2.getHashAula()).getListaCasillas();
-                    int nc2 = lc.getCasillas().indexOf(c2);
-                    int ns2 = asig.getQueSegmentoHayEnCasilla(nc2);
-                    int c2real = asig.enQueCasillaEstaSegmento(ns2);
-                    
-                    marcaCasillaComoConflictiva(c1.getHashAula(), c1real);
-                    marcaCasillaComoConflictiva(c2.getHashAula(), c2real);
-                    profesoresConflictivos.add(p);
-                }}
+                        asig = posibleSolucion.getAsignacion(c2.getHashAula());
+                        lc = dataProyecto.getDatosPorAula(c2.getHashAula()).getListaCasillas();
+                        int nc2 = lc.getCasillas().indexOf(c2);
+                        int ns2 = asig.getQueSegmentoHayEnCasilla(nc2);
+                        int c2real = asig.enQueCasillaEstaSegmento(ns2);
+
+                        marcaCasillaComoConflictiva(c1.getHashAula(), c1real);
+                        marcaCasillaComoConflictiva(c2.getHashAula(), c2real);
+                        profesoresConflictivos.add(p);
+                    }
+                }
             }
         }//End of for Profesor p...
     }
@@ -251,8 +250,8 @@ public class RProfesorNoUbicuo extends Restriccion  {
      */
     @Override
     public String getMensajeError() {
-         ArrayList<Profesor> p=new ArrayList(profesoresConflictivos);
-        return "<html>Profesores con clase solapadas: " + formatTeachersList(p)+"<html>";
+        ArrayList<Profesor> p = new ArrayList(profesoresConflictivos);
+        return "<html>Profesores con clase solapadas: " + formatTeachersList(p) + "<html>";
     }
 
     /**

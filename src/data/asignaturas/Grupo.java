@@ -33,7 +33,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      *
      * @param nombre
      */
-    public Grupo(String nombre) throws IllegalArgumentException{
+    public Grupo(String nombre) throws IllegalArgumentException {
         setNombre(nombre);
         this.tramosGrupoCompleto = new GrupoTramos(this);
         this.tarde = false;
@@ -175,7 +175,9 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      * @return Hash de la forma carrera@curso@asignatura@grupo
      */
     public String getHashCarreraGrupoCurso() {
-        return this.getParent().getParent().getHash() + "@" + this.nombre;
+        Asignatura a = this.getParent();
+        Curso b = a.getParent();
+        return b.getHash() + "@" + this.nombre;
     }
 
     /**
@@ -290,7 +292,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     /**
-     * 
+     *
      */
     public void updateAsigAulaStatus() {
         if (tramosGrupoCompleto.algunoSinAula() != algunoSinAula) {
@@ -319,6 +321,18 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         try {
             getParent().fireDataEvent(obj, type);
         } catch (NullPointerException e) {
+        }
+    }
+
+    void clearDocente() {
+        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
+            tr.removeDocente();
+        }
+    }
+
+    void clearAulasAsignadas() {
+        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
+            tr.removeAula();
         }
     }
 }

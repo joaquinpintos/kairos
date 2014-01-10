@@ -64,6 +64,9 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
      * @param asig
      */
     public void removeAsignatura(Asignatura asig) {
+        //TODO: BUG!! AL remover NO se elimina la docencia ni las aulas!!!
+        asig.clearDocente();
+        asig.clearAulasAsignadas();
         this.asignaturas.remove(asig);
         asig.setCurso(null);
         DataAsignaturas dataAsignaturas = this.getParent().getParent();
