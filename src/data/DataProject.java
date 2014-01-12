@@ -485,7 +485,7 @@ public class DataProject implements Serializable {
      * se repitan (a menos que se quede sin colores!)
      */
     public void recoloreaAsignaturas() {
-        DataAsignaturas da = dataAsignaturas;
+//        DataAsignaturas da = dataAsignaturas;
         HashMap<Asignatura, Integer> aulasAsigToColores = new HashMap<Asignatura, Integer>();
         for (Carrera ca : dataAsignaturas.getCarreras()) {
             for (Curso cu : ca.getCursos()) {
@@ -502,7 +502,7 @@ public class DataProject implements Serializable {
     }
 
     private void asignaColor(Tramo tr, HashMap<Asignatura, Integer> colAsig) {
-        Aula aula = tr.getAulaMT().getAula();
+//        Aula aula = tr.getAulaMT().getAula();
         Asignatura asig = tr.getParent().getParent().getParent();
         if (!colAsig.containsKey(asig)) {
             colAsig.put(asig, colAsig.size() % MyConstants.COLORES_ASIGNATURAS.length);

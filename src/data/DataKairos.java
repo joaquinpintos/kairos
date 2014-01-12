@@ -4,9 +4,12 @@
  */
 package data;
 
+import static data.DataKairos.STATUS_COMPUTING_SOLUTION;
+import static data.DataKairos.STATUS_NO_PROJECT;
+import static data.DataKairos.STATUS_PROJECT_NO_SOLUTION;
+import static data.DataKairos.STATUS_PROJECT_SOLUTION;
 import data.restricciones.Restriccion;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
 import restricciones.ProfesorMaximoHorasPorDia.RProfesorMaximoHorasPorDia;
