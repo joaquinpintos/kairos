@@ -7,6 +7,7 @@ package gui;
 import data.DataKairos;
 import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
+import gui.HorarioEditor.JIntHorarioEditor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -33,6 +34,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private final ArrayList<JInternalFrame> frames;
     private JMenu toolsMenu;
     private JMenu windowMenu;
+    private AbstractAction tileHorariosAction;
+    private AbstractAction tileDocenciaAction;
 
     /**
      * Creates new form MainWindow
@@ -143,10 +146,12 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.setAction(exitAction);
-      
+
         fileMenu.add(exitMenuItem);
         JMenuItem tileMenuItem = new JMenuItem(tileAction);
         windowMenu.add(tileMenuItem);
+        windowMenu.add(tileHorariosAction);
+        windowMenu.add(tileDocenciaAction);
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
         helpMenu.setMnemonic('h');
@@ -220,7 +225,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             public void actionPerformed(ActionEvent e) {
                 if (!tab.isVisible()) {
                     tab.setVisible(true);
-                    ((DataGUIInterface)tab).updateData();
+                    ((DataGUIInterface) tab).updateData();
                 } else {
                     if (tab.isSelected()) {
                         tab.setVisible(false);
@@ -284,7 +289,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             private JDesktopPane desk; // the desktop to work with
 
             public TileAction(JDesktopPane desk) {
-                super("Tile Frames");
+                super("Mosaico");
                 this.desk = desk;
             }
 
@@ -295,56 +300,102 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
                 ArrayList<JInternalFrame> visibleFrames = new ArrayList<JInternalFrame>();
                 for (JInternalFrame fr : allframes) {
                     if ((fr.isVisible()) && (fr.isResizable())) {
+                        //TODO: Mosaico no funciona para frames maximizados
                         visibleFrames.add(fr);
                     }
                 }
-                int count = visibleFrames.size();
-                if (count == 0) {
-                    return;
+                tileFrames(visibleFrames);
+            }
+
+        }
+//</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="TileActionHorarios">
+        class TileHorariosAction extends AbstractAction {
+
+            private JDesktopPane desk; // the desktop to work with
+
+            public TileHorariosAction(JDesktopPane desk) {
+                super("Mosaico de horarios");
+                this.desk = desk;
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                // How many frames do we have?
+                ArrayList<JInternalFrame> visibleFrames = new ArrayList<JInternalFrame>();
+                for (JIntHorarioEditor fr : horarioEditorMaster.getEditors()) {
+                    fr.setVisible(true);
+                    visibleFrames.add(fr);
                 }
-
-                // Determine the necessary grid size
-                int sqrt = (int) Math.sqrt(count);
-                int rows = sqrt;
-                int cols = sqrt;
-                if (rows * cols < count) {
-                    cols++;
-                    if (rows * cols < count) {
-                        rows++;
-                    }
-                }
-
-                // Define some initial values for size & location.
-                Dimension size = desk.getSize();
-
-                int w = size.width / cols;
-                int h = size.height / rows;
-                int x = 0;
-                int y = 0;
-
-                // Iterate over the frames, deiconifying any iconified frames and then
-                // relocating & resizing each.
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols && ((i * cols) + j < count); j++) {
-                        JInternalFrame f = visibleFrames.get((i * cols) + j);
-
-                        if (!f.isClosed() && f.isIcon()) {
-                            try {
-                                f.setIcon(false);
-                            } catch (PropertyVetoException ignored) {
-                            }
-                        }
-
-                        desk.getDesktopManager().resizeFrame(f, x, y, w, h);
-                        x += w;
-                    }
-                    y += h; // start the next row
-                    x = 0;
-                }
+                tileFrames(visibleFrames);
+            }
+        }
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="TileDocenciaAction">
+        class TileDocenciaAction extends AbstractAction {
+            
+            private JDesktopPane desk; // the desktop to work with
+            
+            public TileDocenciaAction(JDesktopPane desk) {
+                super("Mosaico de profesores y asignaturas");
+                this.desk = desk;
+            }
+            
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                // How many frames do we have?
+                ArrayList<JInternalFrame> visibleFrames = new ArrayList<JInternalFrame>();
+                jIntTreeProfesores.setVisible(true);
+                visibleFrames.add(jIntTreeProfesores);
+                jIntTreeAsignaturas.setVisible(true);
+                visibleFrames.add(jIntTreeAsignaturas);
+                tileFrames(visibleFrames);
             }
         }
 //</editor-fold>
         tileAction = new TileAction(jDesktopPane);
+        tileHorariosAction = new TileHorariosAction(jDesktopPane);
+        tileDocenciaAction=new TileDocenciaAction(jDesktopPane);
     }
 
+    protected void tileFrames(ArrayList<JInternalFrame> visibleFrames) {
+        int count = visibleFrames.size();
+        if (count > 0) {
+            // Determine the necessary grid size
+            int sqrt = (int) Math.sqrt(count);
+            int rows = sqrt;
+            int cols = sqrt;
+            if (rows * cols < count) {
+                cols++;
+                if (rows * cols < count) {
+                    rows++;
+                }
+            }
+            // Define some initial values for size & location.
+            Dimension size = jDesktopPane.getSize();
+            int w = size.width / cols;
+            int h = size.height / rows;
+            int x = 0;
+            int y = 0;
+            // Iterate over the frames, deiconifying any iconified frames and then
+            // relocating & resizing each.
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols && ((i * cols) + j < count); j++) {
+                    JInternalFrame f = visibleFrames.get((i * cols) + j);
+                    if (!f.isClosed() && f.isIcon()) {
+                        try {
+                            f.setIcon(false);
+                        } catch (PropertyVetoException ignored) {
+                        }
+                    }
+
+                    jDesktopPane.getDesktopManager().resizeFrame(f, x, y, w, h);
+                    x += w;
+                }
+                y += h; // start the next row
+                x = 0;
+            }
+        }
+    }
 }

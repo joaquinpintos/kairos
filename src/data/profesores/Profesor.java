@@ -162,20 +162,15 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      */
     public void removeDocencia(Tramo docenciaItem) {
         if (docenciaItem != null) {
-            this.docencia.remove(docenciaItem);
-            if (docenciaItem.getDocente() != null) {
-                docenciaItem.setDocente(null);
-                setDirty(true);
-            }
+           docenciaItem.removeDocente();
         }
     }
-
     /**
      *
      */
     protected void clearDocencia() {//protected para hacer que la docencia se borre desde DataProfesores
         for (Tramo d : docencia) {
-            d.setDocente(null);
+            d.removeDocente();
         }
         docencia.clear();
         setDirty(true);

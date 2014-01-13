@@ -92,6 +92,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      */
     @Override
     public void setDocente(Profesor profesor) {
+        removeDocente();
         this.profesor = profesor;
         if (profesor != null) {
             profesor.addDocencia(this);
@@ -114,9 +115,9 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     public void removeDocente() {
         Profesor p = profesor;
         profesor = null;
-        if (p != null) {
-            p.removeDocencia(this);
-        }
+//        if (p != null) {
+//            p.removeDocencia(this);
+//        }
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 

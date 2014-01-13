@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,11 +31,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.TooManyListenersException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -57,14 +53,14 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
     protected final DataKairos dk;
-    private JIntDatosProyecto jIntDatosProyecto;
-    private JIntTreeProfesores jIntTreeProfesores;
-    private JIntEditorAsignaturas jIntTreeAsignaturas;
-    private JIntTreeAulas jIntTreeAulas;
-    private JIntEditorDocencia jIntEditorDocencia;
-    private JIntRestricciones jIntRestricciones;
-    private JIntGenetic jIntgenGenetic;
-    private final HorarioEditorMaster horarioEditorMaster;
+    protected JIntDatosProyecto jIntDatosProyecto;
+    protected JIntTreeProfesores jIntTreeProfesores;
+    protected JIntEditorAsignaturas jIntTreeAsignaturas;
+    protected JIntTreeAulas jIntTreeAulas;
+    protected JIntEditorDocencia jIntEditorDocencia;
+    protected JIntRestricciones jIntRestricciones;
+    protected JIntGenetic jIntgenGenetic;
+    protected final HorarioEditorMaster horarioEditorMaster;
     protected ArrayList<JInternalFrame> listaTabs;
     protected AbstractAction cargarProyectoAction;
     protected AbstractAction guardarProyectoAction;
@@ -350,7 +346,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos kairos", "krs");
                         fc.setFileFilter(filt);
                         fc.setDialogTitle("Elige archivo a cargar");
-                        int valorDevuelto = fc.showSaveDialog(null);
+                        int valorDevuelto = fc.showOpenDialog(null);
 
                         if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                             setLastFileUsed(fc.getSelectedFile());
@@ -359,6 +355,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             DataProject o = (DataProject) os.readObject();
                             os.close();
                             dk.setDP(o);
+                            o.setDirty(false);
                             addListeners();
 //                            getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
 
@@ -375,7 +372,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             } else {
                                 setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);
                             }
-                            horarioEditorMaster.needRecalcularPesos();
+//                            horarioEditorMaster.needRecalcularPesos();
                         }
                     } catch (FileNotFoundException ex) {
                         JOptionPane.showMessageDialog(rootPane, "Archivo no encontrado", "Error al cargar", JOptionPane.ERROR_MESSAGE);

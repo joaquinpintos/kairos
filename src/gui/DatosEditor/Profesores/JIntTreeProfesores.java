@@ -6,6 +6,7 @@ package gui.DatosEditor.Profesores;
 
 import data.DataKairos;
 import data.DataProyectoListener;
+import data.asignaturas.Teachable;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
 import data.profesores.TreeCellRendererProfesores;
@@ -13,16 +14,23 @@ import data.profesores.TreeModelProfesores;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.Asignaturas.TreeCellRendererAsignaturas;
 import gui.DatosEditor.Asignaturas.TreeModelAsignaturas;
+import gui.DatosEditor.Aulas.TeachableDraggable;
 import gui.DatosEditor.DataGUIInterface;
 import gui.DatosEditor.Docencia.JTreeProfesoresDropListener;
 import gui.DatosEditor.Docencia.JTreeProfesoresTransferHandler;
 import gui.DatosEditor.Docencia.TreeProfesores;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.TooManyListenersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +54,7 @@ import javax.swing.tree.TreeSelectionModel;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeProfesores {
-
+private Profesor profesorMostradoEnDocencia;
     private final DataKairos dk;
     Profesor selectedProfesor;
     Departamento selectedDpto;
@@ -74,7 +82,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         treeCellRendererDocenciaProfesor.setPrintTeachersName(false);
         treeCellRendererDocenciaProfesor.setPrintTotalHorasGrupos(false);
         jTreeDocenciaProfesor.setCellRenderer(treeCellRendererDocenciaProfesor);
-
+        jTreeDocenciaProfesor.setDropTarget(new DropTarget());
+        implementaDropListenerDocencia();
         //Modelo para el árbol
         treeModelProfesores = new TreeModelProfesores(dk);
         treeModelProfesores.addTreeModelListener(createTreeModelListener());
@@ -303,18 +312,32 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
             public void valueChanged(TreeSelectionEvent tse) {
                 TreePath path = tse.getPath();
                 selectItems(path);
-                System.out.println("Selected: " + path.getLastPathComponent().toString());
-                Profesor p = (Profesor) path.getLastPathComponent();
-                TreeModelAsignaturas modAsig = new TreeModelAsignaturas(dk);
-                modAsig.setLlegarHastaTramos(true);
-                FilteredTreeModel mod = new FilteredTreeModel(modAsig, p);
-                jTreeDocenciaProfesor.setModel(mod);
-                treeCellRendererDocenciaProfesor.setPersonalizedRoot("Docencia para el profesor "+p);
-                jTreeDocenciaProfesor.updateUI();
-                for (int i = 0; i < jTreeDocenciaProfesor.getRowCount(); i++) {
-                    jTreeDocenciaProfesor.expandRow(i);
+                final Object l = path.getLastPathComponent();
+//                System.out.println("Selected: " + path.getLastPathComponent().toString());
+                if (l instanceof Profesor) {
+                    Profesor p = (Profesor) l;
+                    profesorMostradoEnDocencia=p;
+                    updateTreeDocencia(p);
+                } else {
+                    updateTreeDocencia(null);
                 }
 
+            }
+
+            protected void updateTreeDocencia(Profesor p) {
+                if (p != null) {
+                    TreeModelAsignaturas modAsig = new TreeModelAsignaturas(dk);
+                    modAsig.setLlegarHastaTramos(true);
+                    FilteredTreeModel mod = new FilteredTreeModel(modAsig, p);
+                    jTreeDocenciaProfesor.setModel(mod);
+                    treeCellRendererDocenciaProfesor.setPersonalizedRoot("Docencia para el profesor " + p);
+                    jTreeDocenciaProfesor.updateUI();
+                    for (int i = 0; i < jTreeDocenciaProfesor.getRowCount(); i++) {
+                        jTreeDocenciaProfesor.expandRow(i);
+                    }
+                } else {
+                    jTreeDocenciaProfesor.setModel(null);
+                }
             }
         };
     }
@@ -613,6 +636,10 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     @Override
     public void dataEvent(Object obj, int type) {
         jTreeProfesores.updateUI();
+        jTreeDocenciaProfesor.updateUI();
+        for (int i = 0; i < jTreeDocenciaProfesor.getRowCount(); i++) {
+            jTreeDocenciaProfesor.expandRow(i);
+        }
     }
 
     @Override
@@ -620,5 +647,46 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         for (int i = 0; i < jTreeProfesores.getRowCount(); i++) {
             jTreeProfesores.expandRow(i);
         }
+    }
+
+    private void implementaDropListenerDocencia() {
+        try {
+            jTreeDocenciaProfesor.getDropTarget().addDropTargetListener(new DropTargetListener() {
+                
+                @Override
+                public void dragEnter(DropTargetDragEvent dtde) {
+                }
+                
+                @Override
+                public void dragOver(DropTargetDragEvent dtde) {
+                }
+                
+                @Override
+                public void dropActionChanged(DropTargetDragEvent dtde) {
+                }
+                
+                @Override
+                public void dragExit(DropTargetEvent dte) {
+                }
+                
+                @Override
+                public void drop(DropTargetDropEvent dtde) {
+                       Teachable teachable = null;
+        try {
+            teachable = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
+            //Operaciones en nodo destino
+                    teachable.setDocente(profesorMostradoEnDocencia);
+        } catch (UnsupportedFlavorException ex) {
+            Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassCastException ex) {
+        }
+                }
+            });
+        } catch (TooManyListenersException ex) {
+            Logger.getLogger(JIntTreeProfesores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }
