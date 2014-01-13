@@ -174,12 +174,16 @@ public class RangoHoras implements Serializable {
      * @return ArrayList con las horas
      * @throws Exception
      */
-    public ArrayList<RangoHoras> splitRangos(int duracion) throws Exception {
+    public ArrayList<RangoHoras> splitRangos(int duracion) {
         ArrayList<RangoHoras> resul = new ArrayList<RangoHoras>();
-        Hora horaFin = this.fin.copia();
-        horaFin.restaMinutos(duracion);
-        for (Hora hora = this.inicio.copia(); hora.menorIgualQue(horaFin); hora.sumaMinutos(duracion)) {
-            resul.add(new RangoHoras(hora.copia(), duracion));
+        try {
+            Hora horaFin = this.fin.copia();
+            horaFin.restaMinutos(duracion);
+            for (Hora hora = this.inicio.copia(); hora.menorIgualQue(horaFin); hora.sumaMinutos(duracion)) {
+                resul.add(new RangoHoras(hora.copia(), duracion));
+            }
+        } catch (Exception exception) {
+            resul=null;
         }
         return resul;
     }

@@ -37,6 +37,7 @@ public class TreeModelAsignaturas implements TreeModel {
         return dk.getDP().getDataAsignaturas();
     }
 
+   
     @Override
     public Object getChild(Object parent, int index) {
         Object resul = null;
@@ -92,7 +93,7 @@ public class TreeModelAsignaturas implements TreeModel {
 
     @Override
     public boolean isLeaf(Object node) {
-        return (!llegarHastaTramos)&&(node instanceof Grupo) || (llegarHastaTramos && (node instanceof Tramo));
+        return (!llegarHastaTramos) && (node instanceof Grupo) || (llegarHastaTramos && (node instanceof Tramo));
     }
 
     @Override

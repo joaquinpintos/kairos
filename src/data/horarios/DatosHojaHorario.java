@@ -44,15 +44,11 @@ public class DatosHojaHorario {
      */
     public int setMañana(Boolean includeRecreo) {
         rangosHoras = new ArrayList<RangoHoras>();
-        try {
             rangosHoras.addAll(dataProyecto.getMañana1().splitRangos(dataProyecto.getMinutosPorCasilla()));
             if (includeRecreo) {
                 rangosHoras.add(new RangoHoras(dataProyecto.getMañana1().getFin(), dataProyecto.getMañana2().getInicio()));
             }
             rangosHoras.addAll(dataProyecto.getMañana2().splitRangos(dataProyecto.getMinutosPorCasilla()));
-        } catch (Exception ex) {
-            Logger.getLogger(DatosHojaHorario.class.getName()).log(Level.SEVERE, null, ex);
-        }
         calculaIndicesAuxiliaresRangosHoras();
         return rangosHoras.size();
     }

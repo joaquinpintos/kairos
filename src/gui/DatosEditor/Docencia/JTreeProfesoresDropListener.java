@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.DatosEditor.Docencia;
 
 import data.DataKairos;
@@ -25,7 +24,8 @@ import javax.swing.tree.TreePath;
  *
  * @author usuario
  */
-public class JTreeProfesoresDropListener implements DropTargetListener{
+public class JTreeProfesoresDropListener implements DropTargetListener {
+
     private final TreeProfesores parent;
     private final DataKairos dk;
 
@@ -64,23 +64,22 @@ public class JTreeProfesoresDropListener implements DropTargetListener{
         Teachable teachable = null;
         try {
             teachable = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
+            //Operaciones en nodo destino
+            TreePath path = parent.getjTreeProfesores().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
+            if (path != null) {
+                Object obj = path.getLastPathComponent();
+                if (obj instanceof Profesor) {
+                    Profesor prof = (Profesor) obj;
+                    teachable.setDocente(prof);
+                }
+            }
         } catch (UnsupportedFlavorException ex) {
             Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassCastException ex) {
         }
-        catch (ClassCastException ex)
-        {}
 
-        //Operaciones en nodo destino
-        TreePath path = parent.getjTreeProfesores().getPathForLocation(dtde.getLocation().x, dtde.getLocation().y);
-        if (path != null) {
-            Object obj = path.getLastPathComponent();
-            if (obj instanceof Profesor) {
-                Profesor prof=(Profesor) obj;
-                teachable.setDocente(prof);
-            }
-        }
     }
- 
+
 }

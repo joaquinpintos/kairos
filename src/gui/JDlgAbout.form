@@ -29,7 +29,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="okButton" alignment="2" min="-2" pref="67" max="-2" attributes="0"/>
+                  <Component id="okButton" alignment="2" min="-2" pref="84" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="2" min="-2" max="-2" attributes="0"/>

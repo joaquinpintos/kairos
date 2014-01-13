@@ -80,6 +80,7 @@ public class Carrera implements Serializable, Teachable {
      */
     public void removeCurso(Curso curso) {
         this.cursos.remove(curso);
+        curso.removeAllAsignaturas();
         curso.setParent(null);
         fireDataEvent(curso, DataProyectoListener.REMOVE);
         setDirty(true);
@@ -202,6 +203,5 @@ public class Carrera implements Serializable, Teachable {
         for (Curso cu : cursosClone) {
             removeCurso(cu);
         }
-
     }
 }

@@ -9,6 +9,7 @@ import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -61,6 +62,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      * @param gr
      */
     public void removeGrupo(Grupo gr) {
+        gr.removeAllTramos();
         this.grupos.getGrupos().remove(gr);
         gr.removeDocente();
         gr.setParent(null);
@@ -339,6 +341,13 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     void clearAulasAsignadas() {
         for (Grupo gr : grupos.getGrupos()) {
             gr.clearAulasAsignadas();
+        }
+    }
+
+    void removeAllGrupos() {
+         ArrayList<Grupo> gruposClone = (ArrayList<Grupo>) grupos.getGrupos().clone();
+        for (Grupo gr : gruposClone) {
+            removeGrupo(gr);
         }
     }
 }

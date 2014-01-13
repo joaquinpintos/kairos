@@ -171,10 +171,10 @@ public class Hora implements Serializable, Comparable<Hora> {
 
     /**
      * Devuelve una copia del objeto
-     * @return @throws Exception
      */
-    public Hora copia() throws Exception {
-        return new Hora(this.horas, this.minutos);
+    public Hora copia() {
+        Hora resul = new Hora(this.horas, this.minutos);
+        return resul;
     }
 
     @Override

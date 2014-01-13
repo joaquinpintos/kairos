@@ -28,6 +28,17 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
 
     ArrayList<TreeModelListener> listeners;
     private final DataKairos dk;
+    private boolean printTeachersName;
+    private String personalizedRoot = null;
+    private boolean printTotalHorasGrupos;
+
+    public boolean isPrintTotalHorasGrupos() {
+        return printTotalHorasGrupos;
+    }
+
+    public void setPrintTotalHorasGrupos(boolean printTotalHorasGrupos) {
+        this.printTotalHorasGrupos = printTotalHorasGrupos;
+    }
 
     /**
      *
@@ -35,15 +46,37 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
      */
     public TreeCellRendererAsignaturas(DataKairos dk) {
         super();
+        this.printTeachersName = true;
+        this.printTotalHorasGrupos = true;
         this.setOpaque(true);
-        this.dk=dk;
+        this.dk = dk;
+    }
+
+    public boolean isPrintTeachersName() {
+        return printTeachersName;
+    }
+
+    public void setPrintTeachersName(boolean printTeachersName) {
+        this.printTeachersName = printTeachersName;
+    }
+
+    public String getPersonalizedRoot() {
+        return personalizedRoot;
+    }
+
+    public void setPersonalizedRoot(String personalizedRoot) {
+        this.personalizedRoot = personalizedRoot;
     }
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         if (value instanceof DataAsignaturas) {
             this.setIcon(null);
-            this.setText(value.toString());
+            if (personalizedRoot == null) {
+                this.setText(value.toString());
+            } else {
+                this.setText(personalizedRoot);
+            }
         }
         if (value instanceof Carrera) {
             this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
@@ -69,20 +102,28 @@ public class TreeCellRendererAsignaturas extends JLabel implements TreeCellRende
             this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
             this.setIcon(dk.mc.GRUPO_ICON);
             this.setFont(MyConstants.NORMAL_FONT);
-            this.setText(value.toString());
+            if (printTotalHorasGrupos) {
+                this.setText(value.toString());
+            } else {
+                this.setText(((Grupo) value).toStringSinTotales());
+            }
         }
         if (value instanceof Tramo) {
             Tramo tr = (Tramo) value;
             this.setIcon(dk.mc.TRAMO_ICON);
-            
+
             if (tr.getDocente() != null) {
                 this.setFont(MyConstants.NORMAL_FONT);
                 this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
-                this.setText(tr.toString() + ". Docente: " + tr.getDocente());
+                if (printTeachersName) {
+                    this.setText(tr.toString() + ". Docente: " + tr.getDocente());
+                } else {
+                    this.setText(tr.toString());
+                }
             } else {
                 this.setFont(MyConstants.NEGRITA_FONT);
                 this.setForeground(MyConstants.CONFLICTIVE_ITEM);
-                   this.setText(tr.toString());
+                this.setText(tr.toString());
             }
         }
 

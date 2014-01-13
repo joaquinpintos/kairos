@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.DatosEditor;
+package gui.DatosEditor.Profesores;
 
 import data.profesores.Departamento;
 import data.profesores.Profesor;

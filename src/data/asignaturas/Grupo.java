@@ -9,6 +9,7 @@ import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Representa un grupo de alumnos, con sus tramos asociados. Cada grupo se
@@ -106,7 +107,11 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         salida += tramosGrupoCompleto.toString();
         return salida;
     }
-
+    public String toStringSinTotales() {
+        String salida;
+        salida = "Grupo " + this.nombre;
+        return salida;
+    }
     /**
      * @return Asignatura a la que pertenece.
      */
@@ -333,6 +338,13 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     void clearAulasAsignadas() {
         for (Tramo tr : tramosGrupoCompleto.getTramos()) {
             tr.removeAula();
+        }
+    }
+
+    void removeAllTramos() {
+         ArrayList<Tramo> tramosClone = (ArrayList<Tramo>) tramosGrupoCompleto.getTramos().clone();
+        for (Tramo tr : tramosClone) {
+            removeTramoGrupoCompleto(tr);
         }
     }
 }

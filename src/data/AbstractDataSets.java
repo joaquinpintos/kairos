@@ -71,6 +71,7 @@ public class AbstractDataSets implements Serializable {
         try {
             dataProyecto.setDirty(value);
         } catch (NullPointerException e) {
+            //Si dataProyecto es nulo, lo ignoro
         }
     }
 

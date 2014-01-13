@@ -4,6 +4,7 @@
  */
 package data.asignaturas;
 
+import com.sun.java.accessibility.util.EventQueueMonitor;
 import data.DataProyectoListener;
 import data.MyConstants;
 import data.aulas.AulaMT;
@@ -67,6 +68,7 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         //TODO: BUG!! AL remover NO se elimina la docencia ni las aulas!!!
         asig.clearDocente();
         asig.clearAulasAsignadas();
+        asig.removeAllGrupos();
         this.asignaturas.remove(asig);
         asig.setCurso(null);
         DataAsignaturas dataAsignaturas = this.getParent().getParent();
@@ -249,6 +251,12 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
-    
+
+    void removeAllAsignaturas() {
+         ArrayList<Asignatura> asigClone = (ArrayList<Asignatura>) asignaturas.clone();
+        for (Asignatura asig : asigClone) {
+            removeAsignatura(asig);
+        }
+    }
     
 }

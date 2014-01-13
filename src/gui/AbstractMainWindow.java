@@ -12,7 +12,7 @@ import gui.DatosEditor.DataGUIInterface;
 import gui.DatosEditor.Docencia.JIntEditorDocencia;
 import gui.DatosEditor.JIntDatosProyecto;
 import gui.DatosEditor.JIntGenetic;
-import gui.DatosEditor.JIntTreeProfesores;
+import gui.DatosEditor.Profesores.JIntTreeProfesores;
 import gui.DatosEditor.Restricciones.JIntRestricciones;
 import gui.HorarioEditor.HorarioEditorMaster;
 import gui.HorarioEditor.JIntHorarioEditor;
@@ -378,8 +378,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             horarioEditorMaster.needRecalcularPesos();
                         }
                     } catch (FileNotFoundException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Archivo no encontrado", "Error al cargar", JOptionPane.ERROR_MESSAGE);
                     } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Formato de datos no soportado", "Error al cargar", JOptionPane.ERROR_MESSAGE);
                     } catch (ClassNotFoundException ex) {
+                        JOptionPane.showMessageDialog(rootPane, "Error de E/S", "Error al cargar las clases", JOptionPane.ERROR_MESSAGE);
                     } finally {
 //                        try {
 //                            os.close();
@@ -448,7 +451,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                         try {
                             fisal = new FileOutputStream(lastFileUsed);
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(AbstractMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Archivo no encontrado", "Error al guardar", JOptionPane.ERROR_MESSAGE);
                         }
                         ObjectOutputStream oos;
                         try {
@@ -457,7 +460,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             oos.close();
                             dk.getDP().setDirty(false);
                         } catch (IOException ex) {
-                            Logger.getLogger(AbstractMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(rootPane, "Error de E/S", "Error al guardar", JOptionPane.ERROR_MESSAGE);
                         }
 
                     }
