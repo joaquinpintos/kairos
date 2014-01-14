@@ -4,7 +4,6 @@
  */
 package restricciones.ProfesorMinimoHorasPorDia;
 
-import restricciones.ProfesorMaximoHorasPorDia.*;
 import data.DataProject;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
@@ -132,10 +131,10 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
         dlg.setLocationRelativeTo(null);
         dlg.setVisible(true);
         boolean resul = false;
-        if (dlg.getReturnStatus() == JDlgProfesorMaximoHoras.RET_OK) {
+        if (dlg.getReturnStatus() == JDlgProfesorMinimoHoras.RET_OK) {
             resul = true;
         }
-        if (dlg.getReturnStatus() == JDlgProfesorMaximoHoras.RET_CANCEL) {
+        if (dlg.getReturnStatus() == JDlgProfesorMinimoHoras.RET_CANCEL) {
             resul = false;
         }
         return resul;
@@ -147,7 +146,7 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
      */
     @Override
     public String descripcion() {
-        return "<html>Los profesores no pueden dar más de <b>" + numMinimoHoras + "</b> horas de clase por día</html>";
+        return "<html>Los profesores no pueden dar menos de <b>" + numMinimoHoras + "</b> horas de clase en un día</html>";
     }
 
     /**

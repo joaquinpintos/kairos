@@ -18,6 +18,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import printers.AbstractHorariosPrinter;
 import printers.PrinterHorarioPorGrupos;
 import printers.PrinterHorariosPorAulas;
@@ -49,9 +50,10 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
 
     /**
      * Creates new form jDlgPrintHorario
-     * @param parent 
+     *
+     * @param parent
      * @param modal
-     * @param dataProyecto  
+     * @param dataProyecto
      */
     public jDlgPrintHorario(java.awt.Frame parent, boolean modal, DataProject dataProyecto) {
         super(parent, modal);
@@ -258,6 +260,8 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
             returnStatus = retStatus;
             JFileChooser fc = new JFileChooser(dataProyecto.getPathForPDF());
             if (cuantosDocumentos == UN_DOCUMENTO) {
+                FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos PDF", "pdf");
+                fc.setFileFilter(filt);
                 fc.setDialogTitle("Elige el nombre del archivo a guardar:");
             } else {
                 fc.setDialogTitle("Elige el directorio a guardar los archivos:");

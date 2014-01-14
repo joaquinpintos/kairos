@@ -4,6 +4,7 @@
  */
 package gui.DatosEditor.Restricciones;
 
+import data.DataKairos;
 import data.DataProject;
 import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
@@ -37,20 +38,20 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final AbstractAction editarAction;
-    private final DataProject dataProyecto;
+    private final DataKairos dk;
 
     /**
      * Creates new form jDlgSelectNewRestriccion
      * @param parent 
      * @param modal
-     * @param dataProyecto
+     * @param dk
      * @param editarAction  
      */
-    public jDlgSelectNewRestriccion(java.awt.Frame parent, boolean modal, DataProject dataProyecto, AbstractAction editarAction) {
+    public jDlgSelectNewRestriccion(java.awt.Frame parent, boolean modal, DataKairos dk, AbstractAction editarAction) {
         super(parent, modal);
+        this.dk=dk;
         initComponents();
         this.editarAction = editarAction;
-        this.dataProyecto=dataProyecto;
 
         // Close the dialog when Esc is pressed
         String cancelName = "Cancelar";
@@ -63,7 +64,7 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
             }
         });
 
-        jListRestriccionesDisponibles.setModel(new JListNuevasRestricciones(dataProyecto));
+        jListRestriccionesDisponibles.setModel(new JListNuevasRestricciones(dk));
         RestriccionListRenderer restriccionListRenderer = new RestriccionListRenderer();
         restriccionListRenderer.setDescripcionesCortas(true);
         jListRestriccionesDisponibles.setCellRenderer(restriccionListRenderer);
@@ -211,11 +212,11 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
             {
                 try {
                     rNueva = r.getClass().newInstance();
-                    rNueva.setDataProyecto(dataProyecto);
+                    rNueva.setDataProyecto(dk.getDP());
                     setVisible(false);
                     boolean aceptado = rNueva.lanzarDialogoDeConfiguracion(rNueva);
                     if (aceptado) {
-                        dataProyecto.getRestrictionsData().add(rNueva);
+                        dk.getDP().getRestrictionsData().add(rNueva);
                     }
                 } catch (InstantiationException ex) {
                     Logger.getLogger(jDlgSelectNewRestriccion.class.getName()).log(Level.SEVERE, null, ex);
@@ -243,21 +244,21 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
     private int returnStatus = RET_CANCEL;
 }
 class JListNuevasRestricciones implements ListModel<Restriccion> {
-    private final DataProject dataProyecto;
+    private final DataKairos dk;
 
 
-    public JListNuevasRestricciones(DataProject dataProyecto) {
-        this.dataProyecto=dataProyecto;
+    public JListNuevasRestricciones(DataKairos dk) {
+        this.dk=dk;
     }
 
     @Override
     public int getSize() {
-        return dataProyecto.getRestrictionsData().getRestriccionesDisponibles().size();
+        return dk.getRestriccionesDisponibles().size();
     }
 
     @Override
     public Restriccion getElementAt(int index) {
-        return dataProyecto.getRestrictionsData().getRestriccionesDisponibles().get(index);
+        return dk.getRestriccionesDisponibles().get(index);
     }
 
     @Override

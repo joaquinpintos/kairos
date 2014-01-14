@@ -66,7 +66,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         }
         this.departamento = departamento;
         //Ahora lo añado al nuevo
-        this.departamento.addProfesor(this);
+        this.departamento.createProfesor(this);
         setDirty(true);
     }
 
@@ -267,5 +267,11 @@ public class Profesor implements Comparable<Profesor>, Serializable {
             departamento.setDirty(value);
         } catch (NullPointerException e) {
         }
+    }
+
+    public void copyBasicValuesFrom(Profesor newData) {
+        this.nombre=newData.nombre;
+        this.apellidos=newData.apellidos;
+        this.nombreCorto=newData.nombreCorto;
     }
 }

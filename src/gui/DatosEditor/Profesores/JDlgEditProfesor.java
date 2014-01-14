@@ -4,6 +4,8 @@
  */
 package gui.DatosEditor.Profesores;
 
+import data.DataKairos;
+import data.KairosCommand;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
 import data.profesores.TreeModelProfesores;
@@ -23,7 +25,8 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
 
     Profesor profesor;
     TreeModelProfesores treeModel;
-    UpdateProfesorAction updateProfesorAction;
+    Profesor newData;
+    private final DataKairos dk;
 
     /**
      * Creates new form JDlgEditProfesor
@@ -34,9 +37,10 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
      * @param treeModel
      * @param treePath
      */
-    public JDlgEditProfesor(java.awt.Frame parent, boolean modal, Profesor profesor, TreeModelProfesores treeModel, TreePath treePath) {
+    public JDlgEditProfesor(java.awt.Frame parent, boolean modal, Profesor profesor, TreeModelProfesores treeModel, TreePath treePath, DataKairos dk) {
         super(parent, modal);
         initComponents();
+        this.dk = dk;
         this.profesor = profesor;
         jTextNombreProfesor.setText(profesor.getNombre());
         jTextApellidosProfesor.setText(profesor.getApellidos());
@@ -55,9 +59,7 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
         } else {
             jComboDepartamentos.setSelectedIndex(0);
         }
-        updateProfesorAction = new UpdateProfesorAction(this, profesor, treePath);
 //        updateProfesorAction.setEnabled(false);
-        jButAceptar.setAction(updateProfesorAction);
         EscapeAction escapeAction = new EscapeAction();
         escapeAction.register(this);
 
@@ -212,24 +214,15 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
     }//GEN-LAST:event_jButCancelarActionPerformed
 
     private void jButAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButAceptarActionPerformed
-//        //Aqui va el codigo para pasar los datos del formulario al objeto
-//        this.profesor.setNombre(jTextNombreProfesor.getText());
-//        this.profesor.setApellidos(jTextApellidosProfesor.getText());
-//        Departamento nuevoDep = (Departamento) jComboDepartamentos.getSelectedItem();
-//        Departamento oldDep = this.profesor.getDepartamento();
-//        if (nuevoDep != oldDep) //Departamento cambiado
-//        {
-//            oldDep.remove(profesor);
-//            nuevoDep.add(profesor);
-//        }
-//
-//        jButCancelarActionPerformed(evt);
+        Departamento dep = (Departamento) jComboDepartamentos.getSelectedItem();
+        newData = new Profesor(jTextNombreProfesor.getText(), jTextApellidosProfesor.getText(), jTextNombreProfesor.getText(), dep);
+        KairosCommand command = dk.getController().getEditProfesorCommand(profesor, newData);
+        dk.getController().executeCommand(command);
+        setVisible(false);
     }//GEN-LAST:event_jButAceptarActionPerformed
 
     private void jComboDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboDepartamentosActionPerformed
-        if (updateProfesorAction != null) {
-            updateProfesorAction.setEnabled(jComboDepartamentos.getSelectedItem() != null);
-        }
+        jButAceptar.setEnabled(jComboDepartamentos.getSelectedItem() != null);
     }//GEN-LAST:event_jComboDepartamentosActionPerformed
     /**
      * @param args the command line arguments
@@ -245,40 +238,41 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
     private javax.swing.JTextField jTextNombreCorto;
     private javax.swing.JTextField jTextNombreProfesor;
     // End of variables declaration//GEN-END:variables
+
 }
-
-class UpdateProfesorAction extends AbstractAction {
-
-    JDlgEditProfesor parent;
-    private Profesor profesor;
-    private final TreePath treePath;
-
-    public UpdateProfesorAction(JDlgEditProfesor parent, Profesor profe, TreePath treePath) {
-        super("Aceptar");
-        this.parent = parent;
-        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-        this.profesor = profe;
-        this.treePath = treePath;
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-//        parent.profesor.setNombre(parent.getjTextNombreProfesor().getText());
-//        parent.profesor.setApellidos(parent.getjTextApellidosProfesor().getText());
+//
+//class UpdateProfesorAction extends AbstractAction {
+//
+//    JDlgEditProfesor parent;
+//    private Profesor profesor;
+//    private final TreePath treePath;
+//
+//    public UpdateProfesorAction(JDlgEditProfesor parent, Profesor profe, TreePath treePath) {
+//        super("Aceptar");
+//        this.parent = parent;
+//        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
+//        this.profesor = profe;
+//        this.treePath = treePath;
+//
+//    }
+//
+//    @Override
+//    public void actionPerformed(ActionEvent ae) {
+////        parent.profesor.setNombre(parent.getjTextNombreProfesor().getText());
+////        parent.profesor.setApellidos(parent.getjTextApellidosProfesor().getText());
+////        Departamento nuevoDep = (Departamento) parent.getjComboDepartamentos().getSelectedItem();
+////        Departamento oldDep = parent.profesor.getDepartamento();
+////        if (nuevoDep != oldDep) //Departamento cambiado
+////        {
+////            oldDep.remove(parent.profesor);
+////            nuevoDep.add(parent.profesor);
+////        }
+//        String nuevoNombre = parent.getjTextNombreProfesor().getText();
+//        String nuevosApellidos = parent.getjTextApellidosProfesor().getText();
+//        String nuevoNombreCorto = parent.getjTextNombreCorto().getText();
 //        Departamento nuevoDep = (Departamento) parent.getjComboDepartamentos().getSelectedItem();
-//        Departamento oldDep = parent.profesor.getDepartamento();
-//        if (nuevoDep != oldDep) //Departamento cambiado
-//        {
-//            oldDep.remove(parent.profesor);
-//            nuevoDep.add(parent.profesor);
-//        }
-        String nuevoNombre = parent.getjTextNombreProfesor().getText();
-        String nuevosApellidos = parent.getjTextApellidosProfesor().getText();
-        String nuevoNombreCorto = parent.getjTextNombreCorto().getText();
-        Departamento nuevoDep = (Departamento) parent.getjComboDepartamentos().getSelectedItem();
-        Profesor nuevoProfesor = new Profesor(nuevoNombre, nuevosApellidos, nuevoNombreCorto, nuevoDep);
-        parent.getTreeModel().changeProfesor(this.profesor, nuevoProfesor, treePath);
-        parent.setVisible(false);
-    }
-}
+//        Profesor nuevoProfesor = new Profesor(nuevoNombre, nuevosApellidos, nuevoNombreCorto, nuevoDep);
+//        parent.getTreeModel().changeProfesor(this.profesor, nuevoProfesor, treePath);
+//        parent.setVisible(false);
+//    }
+//}

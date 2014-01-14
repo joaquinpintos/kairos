@@ -157,7 +157,7 @@ public class DOMLoaderProfesores {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 org.w3c.dom.Element elemProf = (Element) nodeList.item(i);
                 Profesor nuevoProf = procesaProfesor(elemProf);
-                nuevoDep.addProfesor(nuevoProf);
+                nuevoDep.createProfesor(nuevoProf);
             }
         }
 

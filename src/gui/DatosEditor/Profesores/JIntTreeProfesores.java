@@ -44,7 +44,6 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -441,7 +440,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                             nuevoProfesor.setDepartamento((Departamento) treePath.getPathComponent(1));
                         }
                     }
-                    JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, nuevoProfesor, (TreeModelProfesores) treeModelProfesores, treePath);
+                    JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, nuevoProfesor, (TreeModelProfesores) treeModelProfesores, treePath,dk);
 //                Point p = jTreeProfesores.getMousePosition();
 //                if (p == null) {
 //                    p = new Point(300, 300);
@@ -466,7 +465,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 if (treePath != null) {
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
-                        JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, p, (TreeModelProfesores) treeModelProfesores, treePath);
+                        JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, p, (TreeModelProfesores) treeModelProfesores, treePath,dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
                         dk.getDP().getDataProfesores().fireDataEvent(p, DataProyectoListener.MODIFY);
@@ -491,7 +490,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
                         Departamento d = p.getDepartamento();
-                        d.remove(p);
+                        d.deleteProfesor(p);
                         jTreeProfesores.updateUI();
                     }
                 }

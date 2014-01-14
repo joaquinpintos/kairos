@@ -203,10 +203,10 @@ public class AsigTester {
         dp.getDataProfesores().addDepartamento(dep);
         Profesor david = new Profesor("David", "Gutiérrez Rubio","David");
         Profesor alberto = new Profesor("Alberto", "Alvarez","Alberto");
-        dep.addProfesor(david);
-        dep.addProfesor(alberto);
-        dep2.addProfesor(new Profesor("Paquito", "Palotes","Paco"));
-        dep2.addProfesor(new Profesor("Juan", "Amedio","JuanAm"));
+        dep.createProfesor(david);
+        dep.createProfesor(alberto);
+        dep2.createProfesor(new Profesor("Paquito", "Palotes","Paco"));
+        dep2.createProfesor(new Profesor("Juan", "Amedio","JuanAm"));
 
         Carrera car1 = new Carrera("Primaria");
         Carrera car2 = new Carrera("Infantil");
@@ -291,7 +291,7 @@ public class AsigTester {
             dep = new Departamento("Departamento " + numDep);
             dataProyecto.getDataProfesores().addDepartamento(dep);
             for (int k = 0; k < 5; k++) {
-                dep.addProfesor(new Profesor("Profe" + String.format("%02d", numProfe), "Apellidos" + String.format("%02d", numProfe),"pro"+String.format("%02d", numProfe)));
+                dep.createProfesor(new Profesor("Profe" + String.format("%02d", numProfe), "Apellidos" + String.format("%02d", numProfe),"pro"+String.format("%02d", numProfe)));
                 numProfe++;
             }
         }

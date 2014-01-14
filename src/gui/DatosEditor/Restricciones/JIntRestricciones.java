@@ -177,7 +177,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jDlgSelectNewRestriccion dlg = new jDlgSelectNewRestriccion(null, true, dk.getDP(), editarRestriccionAction);
+                jDlgSelectNewRestriccion dlg = new jDlgSelectNewRestriccion(null, true, dk, editarRestriccionAction);
                 dlg.setLocationRelativeTo(null);
                 dlg.setVisible(true);
             }

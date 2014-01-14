@@ -18,6 +18,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import printers.HojaDeFirmaPrinter;
 
 /**
@@ -219,6 +220,8 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
         File fileDst = null;
         if (retStatus == RET_OK) {
             JFileChooser fc = new JFileChooser(dataProyecto.getPathForPDF());
+            FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos PDF", "pdf");
+            fc.setFileFilter(filt);
             fc.setDialogTitle("Elige el nombre del archivo a guardar:");
             int valorDevuelto = fc.showOpenDialog(this);
 

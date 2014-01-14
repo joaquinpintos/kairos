@@ -59,22 +59,31 @@ public class Departamento implements Serializable {
         return profesores;
     }
 
+    public boolean addProfesor(Profesor e) {
+        return profesores.add(e);
+    }
+
+
     /**
      *
      * @param pro
      */
-    public void addProfesor(Profesor pro) {
+    public void createProfesor(Profesor pro) {
         this.profesores.add(pro);
         pro.setDepartamento(this);
         ordenaProfesores();
         setDirty(true);
     }
 
+    public boolean removeProfesor(Object o) {
+        return profesores.remove(o);
+    }
+
     /**
      *
      * @param pro
      */
-    public void remove(Profesor pro) {
+    public void deleteProfesor(Profesor pro) {
         //Antes de borrarlo miro los grupos a los que tenga asignada docencia
         //y los libero
         pro.clearDocencia();

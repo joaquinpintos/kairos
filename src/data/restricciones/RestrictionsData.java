@@ -9,13 +9,6 @@ import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
 import org.w3c.dom.Node;
-import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
-import restricciones.ProfesorMaximoHorasPorDia.RProfesorMaximoHorasPorDia;
-import restricciones.clasesCondensadasParaProfesor.RClasesCondensadasParaProfesor;
-import restricciones.noHuecosEntreMedias.RNoHuecosEntreMedias;
-import restricciones.profesorCiertosDias.RProfesorCiertosDias;
-import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
-import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
 
 /**
  *
@@ -25,7 +18,7 @@ public class RestrictionsData extends AbstractDataSets {
 
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<Restriccion> listaRestricciones;
-    private ArrayList<Restriccion> restriccionesDisponibles;
+   
 
     /**
      *
@@ -34,7 +27,6 @@ public class RestrictionsData extends AbstractDataSets {
     public RestrictionsData(DataProject dataProyecto) {
         super(dataProyecto);
         this.listaRestricciones = new ArrayList<Restriccion>();
-        this.restriccionesDisponibles=new ArrayList<Restriccion>();
     }
 
     /**
@@ -86,12 +78,5 @@ public class RestrictionsData extends AbstractDataSets {
         fireDataEvent(r, DataProyectoListener.REMOVE);
         setDirty(true);
         return resul;
-    }
-    /**
-     *
-     * @return
-     */
-    public ArrayList<Restriccion> getRestriccionesDisponibles() {
-        return restriccionesDisponibles;
     }
 }

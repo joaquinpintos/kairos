@@ -49,14 +49,18 @@ public class DataKairos {
     private DataProject dataProject;
     public MyConstants mc;
     private int status;
+    private final ArrayList<Restriccion> restriccionesDisponibles;
+    private final KairosController kairosController;
 
     /**
      * Constructor por defecto
      */
     public DataKairos() {
         dataProject = new DataProject();
+        restriccionesDisponibles = new ArrayList<Restriccion>();
         populateRestricciones();
         mc = new MyConstants();
+        kairosController=new KairosController(this);
     }
 
     /**
@@ -84,7 +88,8 @@ public class DataKairos {
     }
 
     /**
-     * Crea nuevo proyecto. Además añade algunas restricciones y datos por defecto.
+     * Crea nuevo proyecto. Además añade algunas restricciones y datos por
+     * defecto.
      *
      * @param nombre Nombre del proyecto
      */
@@ -108,7 +113,7 @@ public class DataKairos {
     /**
      * Devuelve el estado de la aplicación.
      *
-     * @return Estado de la aplicación. Alguna de las variables null null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
+     * @return Estado de la aplicación. Alguna de las variables null null null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
      *{@link STATUS_PROJECT_SOLUTION} o {@link STATUS_COMPUTING_SOLUTION}
      */
     public int getStatus() {
@@ -126,8 +131,11 @@ public class DataKairos {
         this.status = status;
     }
 
-    public void populateRestricciones() {
-        ArrayList<Restriccion> restriccionesDisponibles = dataProject.getRestrictionsData().getRestriccionesDisponibles();
+    public ArrayList<Restriccion> getRestriccionesDisponibles() {
+        return restriccionesDisponibles;
+    }
+
+    public final void populateRestricciones() {
         restriccionesDisponibles.clear();
         restriccionesDisponibles.add(new RNoHuecosEntreMedias());
         restriccionesDisponibles.add(new RProfesorNoUbicuo());
@@ -137,6 +145,10 @@ public class DataKairos {
         restriccionesDisponibles.add(new RClasesNoCruzanRecreo());
         restriccionesDisponibles.add(new RProfesorMaximoHorasPorDia());
         restriccionesDisponibles.add(new RProfesorMinimoHorasPorDia());
+    }
+
+    public KairosController getController() {
+        return kairosController;
     }
 
 }

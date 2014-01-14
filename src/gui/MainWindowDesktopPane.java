@@ -37,6 +37,8 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     private JMenu windowMenu;
     private AbstractAction tileHorariosAction;
     private AbstractAction tileDocenciaAction;
+    private JMenuItem redoMenuItem;
+    private JMenuItem undoMenuItem;
 
     /**
      * Creates new form MainWindow
@@ -92,6 +94,9 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        editMenu = new javax.swing.JMenu();
+        undoMenuItem = new javax.swing.JMenuItem();
+        redoMenuItem = new javax.swing.JMenuItem();
         newMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -107,6 +112,10 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
+        
+         editMenu.setMnemonic('E');
+        editMenu.setText("Editar");
+        
         viewMenu = new javax.swing.JMenu();
         viewMenu.setMnemonic('V');
         viewMenu.setText("Ver");
@@ -149,11 +158,16 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         exitMenuItem.setAction(exitAction);
 
         fileMenu.add(exitMenuItem);
+        editMenu.add(undoCommandAction);
+        editMenu.add(redoCommandAction);
+        
+        
         JMenuItem tileMenuItem = new JMenuItem(tileAction);
         windowMenu.add(tileMenuItem);
         windowMenu.add(tileHorariosAction);
         windowMenu.add(tileDocenciaAction);
         menuBar.add(fileMenu);
+        menuBar.add(editMenu);
         menuBar.add(viewMenu);
         helpMenu.setMnemonic('h');
         helpMenu.setText("Help");
@@ -207,7 +221,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      * @param tab
      */
     @Override
-    protected void addTab(String title, final JInternalFrame tab,int accel) {
+    protected void addTab(String title, final JInternalFrame tab, int accel) {
         frames.add(tab);
         tab.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         jDesktopPane.add(tab);
@@ -284,7 +298,6 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 //            }
 //        }
 //    }
-
     public void creaAccionesEspecificas() {
 
         //<editor-fold defaultstate="collapsed" desc="TileAction">
@@ -362,7 +375,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         registerAction(tileAction, DataKairos.STATUS_PROJECT_SOLUTION, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_COMPUTING_SOLUTION);
 
         tileHorariosAction = new TileHorariosAction(jDesktopPane);
-        registerAction(tileHorariosAction, DataKairos.STATUS_PROJECT_SOLUTION,  DataKairos.STATUS_COMPUTING_SOLUTION);
+        registerAction(tileHorariosAction, DataKairos.STATUS_PROJECT_SOLUTION, DataKairos.STATUS_COMPUTING_SOLUTION);
 
         tileDocenciaAction = new TileDocenciaAction(jDesktopPane);
         registerAction(tileDocenciaAction, DataKairos.STATUS_PROJECT_SOLUTION, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_COMPUTING_SOLUTION);
