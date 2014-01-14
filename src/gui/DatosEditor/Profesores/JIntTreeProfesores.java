@@ -44,6 +44,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -253,6 +254,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         getContentPane().add(filler2, java.awt.BorderLayout.LINE_START);
 
         jSplitPane1.setDividerLocation(300);
+        jSplitPane1.setResizeWeight(0.5);
         jSplitPane1.setContinuousLayout(true);
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
@@ -334,7 +336,10 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                     treeCellRendererDocenciaProfesor.setPersonalizedRoot("Docencia para el profesor " + p);
                     jTreeDocenciaProfesor.updateUI();
                     for (int i = 0; i < jTreeDocenciaProfesor.getRowCount(); i++) {
-                        jTreeDocenciaProfesor.expandRow(i);
+                        int siz = jTreeDocenciaProfesor.getPathForRow(i).getPathCount();
+                        if (siz < 5) {//Nivel root-carrera-curso-asignatura-grupo (tramo sin expandir)
+                            jTreeDocenciaProfesor.expandRow(i);
+                        }
                     }
                 } else {
                     jTreeDocenciaProfesor.setModel(null);

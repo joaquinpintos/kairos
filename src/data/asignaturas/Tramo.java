@@ -97,6 +97,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         if (profesor != null) {
             profesor.addDocencia(this);
         }
+        setDirty(true);
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
@@ -118,6 +119,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
 //        if (p != null) {
 //            p.removeDocencia(this);
 //        }
+        setDirty(true);
         fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 

@@ -1,9 +1,7 @@
 package gui;
 
 import data.DataKairos;
-import static data.DataKairos.STATUS_NO_PROJECT;
 import data.DataProject;
-import data.MyConstants;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
@@ -220,8 +218,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 
     /**
      *
-     * @param nombre
-     * @param tab
+     * @param nombre Name of the tab being displayed
+     * @param tab Frame object to be the tab
+     * @param accel KeyEvent constant to be the accelerator key
      */
     abstract protected void addTab(String nombre, JInternalFrame tab,int accel);
 

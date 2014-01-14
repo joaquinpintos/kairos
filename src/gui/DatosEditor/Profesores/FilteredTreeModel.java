@@ -9,8 +9,9 @@ import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 
 /**
+ * Código ligeramente modificado de 
+ * http://www.adrianwalker.org/2012/04/filtered-jtree.html
  *
- * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
@@ -32,7 +33,7 @@ public final class FilteredTreeModel implements TreeModel {
 
     private boolean recursiveMatch(final Object node) {
         boolean matches;
-        if ((node instanceof Tramo)&&(node!=null)) {
+        if ((node instanceof Tramo) && (node != null)) {
             Tramo tr = (Tramo) node;
             matches = profesor.equals(tr.getDocente());
         } else {
