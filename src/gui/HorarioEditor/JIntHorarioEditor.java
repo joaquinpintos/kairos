@@ -449,6 +449,12 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
     @Override
     public void expandTrees() {
     }
+
+    public void setControlsVisible(boolean b) {
+        jListRestricciones.setVisible(b);
+//        jScrollPane3.setVisible(b);
+        jButVolverAOptimizar.setVisible(b);
+    }
 }
 
 class JListRestriccionesModel extends AbstractListModel<Restriccion> {

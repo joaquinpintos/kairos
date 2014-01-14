@@ -9,6 +9,7 @@ import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
 import gui.HorarioEditor.JIntHorarioEditor;
 import java.awt.Dimension;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
@@ -129,7 +130,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
         saveMenuItem.setAction(guardarProyectoAction);
         saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        fileMenu.add(guardarProyectoAction);
+        fileMenu.add(saveMenuItem);
 
         fileMenu.add(guardarProyectoComoAction);
 
@@ -206,7 +207,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
      * @param tab
      */
     @Override
-    protected void addTab(String title, final JInternalFrame tab) {
+    protected void addTab(String title, final JInternalFrame tab,int accel) {
         frames.add(tab);
         tab.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         jDesktopPane.add(tab);
@@ -238,9 +239,12 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 
             }
         };
+        registerAction(viewFrameAction, DataKairos.STATUS_PROJECT_SOLUTION, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_COMPUTING_SOLUTION);
         actionsViewFrame.add(viewFrameAction);
         viewFrameAction.putValue(Action.NAME, title);
-        viewMenu.add(viewFrameAction);
+        JMenuItem viewFrameMenuItem = new JMenuItem(viewFrameAction);
+        viewFrameMenuItem.setAccelerator(KeyStroke.getKeyStroke(accel, ActionEvent.CTRL_MASK));
+        viewMenu.add(viewFrameMenuItem);
 
     }
 
@@ -334,14 +338,14 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="TileDocenciaAction">
         class TileDocenciaAction extends AbstractAction {
-            
+
             private JDesktopPane desk; // the desktop to work with
-            
+
             public TileDocenciaAction(JDesktopPane desk) {
                 super("Mosaico de profesores y asignaturas");
                 this.desk = desk;
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent ev) {
                 // How many frames do we have?
@@ -355,8 +359,13 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         }
 //</editor-fold>
         tileAction = new TileAction(jDesktopPane);
+        registerAction(tileAction, DataKairos.STATUS_PROJECT_SOLUTION, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_COMPUTING_SOLUTION);
+
         tileHorariosAction = new TileHorariosAction(jDesktopPane);
-        tileDocenciaAction=new TileDocenciaAction(jDesktopPane);
+        registerAction(tileHorariosAction, DataKairos.STATUS_PROJECT_SOLUTION,  DataKairos.STATUS_COMPUTING_SOLUTION);
+
+        tileDocenciaAction = new TileDocenciaAction(jDesktopPane);
+        registerAction(tileDocenciaAction, DataKairos.STATUS_PROJECT_SOLUTION, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_COMPUTING_SOLUTION);
     }
 
     protected void tileFrames(ArrayList<JInternalFrame> visibleFrames) {

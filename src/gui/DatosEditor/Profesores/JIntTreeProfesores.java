@@ -54,7 +54,8 @@ import javax.swing.tree.TreeSelectionModel;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeProfesores {
-private Profesor profesorMostradoEnDocencia;
+
+    private Profesor profesorMostradoEnDocencia;
     private final DataKairos dk;
     Profesor selectedProfesor;
     Departamento selectedDpto;
@@ -316,7 +317,7 @@ private Profesor profesorMostradoEnDocencia;
 //                System.out.println("Selected: " + path.getLastPathComponent().toString());
                 if (l instanceof Profesor) {
                     Profesor p = (Profesor) l;
-                    profesorMostradoEnDocencia=p;
+                    profesorMostradoEnDocencia = p;
                     updateTreeDocencia(p);
                 } else {
                     updateTreeDocencia(null);
@@ -481,7 +482,7 @@ private Profesor profesorMostradoEnDocencia;
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath treePath = jTreeProfesores.getSelectionPath();
-                if (treePath != null) {
+                if ((treePath != null) && (JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de que desea eliminar al profesor?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
                         Departamento d = p.getDepartamento();
@@ -505,7 +506,7 @@ private Profesor profesorMostradoEnDocencia;
             public void actionPerformed(ActionEvent e) {
                 TreePath treePath = jTreeProfesores.getSelectionPath();
                 if (treePath != null) {
-                    if (treePath.getLastPathComponent() instanceof Profesor) {
+                    if ((treePath.getLastPathComponent() instanceof Profesor) && (JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de que desea eliminar la docencia?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
                         dk.getDP().getDataProfesores().clearDocenciaProfesor(p);
                         jTreeProfesores.updateUI();
@@ -580,7 +581,7 @@ private Profesor profesorMostradoEnDocencia;
             public void actionPerformed(ActionEvent e) {
                 TreePath treePath = jTreeProfesores.getSelectionPath();
                 if (treePath != null) {
-                    if (treePath.getLastPathComponent() instanceof Departamento) {
+                    if ((treePath.getLastPathComponent() instanceof Departamento) && (JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de que desea eliminar el departamento?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                         Departamento d = (Departamento) treePath.getLastPathComponent();
 //                        JDlgEditDepartamentos dlg = new JDlgEditDepartamentos(null, true, d);
                         try {
@@ -652,41 +653,41 @@ private Profesor profesorMostradoEnDocencia;
     private void implementaDropListenerDocencia() {
         try {
             jTreeDocenciaProfesor.getDropTarget().addDropTargetListener(new DropTargetListener() {
-                
+
                 @Override
                 public void dragEnter(DropTargetDragEvent dtde) {
                 }
-                
+
                 @Override
                 public void dragOver(DropTargetDragEvent dtde) {
                 }
-                
+
                 @Override
                 public void dropActionChanged(DropTargetDragEvent dtde) {
                 }
-                
+
                 @Override
                 public void dragExit(DropTargetEvent dte) {
                 }
-                
+
                 @Override
                 public void drop(DropTargetDropEvent dtde) {
-                       Teachable teachable = null;
-        try {
-            teachable = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
-            //Operaciones en nodo destino
-                    teachable.setDocente(profesorMostradoEnDocencia);
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassCastException ex) {
-        }
+                    Teachable teachable = null;
+                    try {
+                        teachable = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
+                        //Operaciones en nodo destino
+                        teachable.setDocente(profesorMostradoEnDocencia);
+                    } catch (UnsupportedFlavorException ex) {
+                        Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassCastException ex) {
+                    }
                 }
             });
         } catch (TooManyListenersException ex) {
             Logger.getLogger(JIntTreeProfesores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 }

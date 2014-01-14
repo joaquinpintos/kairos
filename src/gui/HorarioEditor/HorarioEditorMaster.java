@@ -29,9 +29,10 @@ public class HorarioEditorMaster implements DataProyectoListener {
         this.dk = dk;
     }
     
-    public boolean add(JIntHorarioEditor e) {
+    public boolean add(JIntHorarioEditor e,boolean controlsVisible) {
         e.setMaster(this);
         e.getHorariosJPanelModel().addListener(this);
+            e.setControlsVisible(controlsVisible);
         return editors.add(e);
     }
     

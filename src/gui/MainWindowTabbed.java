@@ -40,7 +40,7 @@ public class MainWindowTabbed extends AbstractMainWindow {
      * @param tab
      */
     @Override
-    protected void addTab(String nombre, JInternalFrame tab) {
+    protected void addTab(String nombre, JInternalFrame tab,int accel) {
         jTabPrincipal.add(nombre, tab);
         DataGUIInterface d = (DataGUIInterface) tab;
         d.setMainWindow(this);

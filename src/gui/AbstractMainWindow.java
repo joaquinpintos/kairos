@@ -1,7 +1,9 @@
 package gui;
 
 import data.DataKairos;
+import static data.DataKairos.STATUS_NO_PROJECT;
 import data.DataProject;
+import data.MyConstants;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
@@ -30,6 +32,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TooManyListenersException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -72,6 +76,9 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected AbstractAction importarXMLAction;
     protected AbstractAction buscaHorasLibresAction;
     protected AbstractAction exitAction;
+    private final HashSet<AbstractAction> actions;
+    //This map stores status->set of actions to be enabled
+    private final HashMap<Integer, HashSet<AbstractAction>> enabledActions;
 
     /**
      *
@@ -91,9 +98,10 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
         horarioEditorMaster = new HorarioEditorMaster(dk);
         //Parámetros básicos de la ventana
         this.setTitle("Kairos");
+        actions = new HashSet<AbstractAction>();
+        enabledActions = new HashMap<Integer, HashSet<AbstractAction>>();
         createActions();
         addListeners();
-
     }
 
     /**
@@ -104,34 +112,34 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
     protected void createInternalFrames() throws Exception, TooManyListenersException {
 
         jIntDatosProyecto = new JIntDatosProyecto(dk);
-        addTab("Datos del proyecto", jIntDatosProyecto);
+        addTab("Datos del proyecto", jIntDatosProyecto,KeyEvent.VK_1);
 
         jIntTreeProfesores = new JIntTreeProfesores(dk);
-        addTab("Profesores", jIntTreeProfesores);
+        addTab("Profesores", jIntTreeProfesores,KeyEvent.VK_2);
 
         jIntTreeAsignaturas = new JIntEditorAsignaturas(dk);
-        addTab("Asignaturas", jIntTreeAsignaturas);
+        addTab("Asignaturas", jIntTreeAsignaturas,KeyEvent.VK_3);
 
         jIntTreeAulas = new JIntTreeAulas(dk);
-        addTab("Aulas", jIntTreeAulas);
+        addTab("Aulas", jIntTreeAulas,KeyEvent.VK_4);
 
         jIntEditorDocencia = new JIntEditorDocencia(dk);
 //        addTab("Docencia", jIntEditorDocencia);
         //dataProfesores.dataToDOM();
 
         jIntRestricciones = new JIntRestricciones(dk);
-        addTab("Restricciones", jIntRestricciones);
+        addTab("Restricciones", jIntRestricciones,KeyEvent.VK_5);
 
         jIntgenGenetic = new JIntGenetic(dk);
-        addTab("Optimizacion", jIntgenGenetic);
+        addTab("Optimizacion", jIntgenGenetic,KeyEvent.VK_6);
 
         JIntHorarioEditor jIntHorarioEditor = new JIntHorarioEditor(dk);
-        addTab("Horario", jIntHorarioEditor);
+        addTab("Horario", jIntHorarioEditor,KeyEvent.VK_7);
         JIntHorarioEditor jIntHorarioEditor2 = new JIntHorarioEditor(dk);
-        addTab("Horario2", jIntHorarioEditor2);
+        addTab("Horario2", jIntHorarioEditor2,KeyEvent.VK_8);
         jIntHorarioEditor2.getjListRestricciones().setVisible(false);
-        horarioEditorMaster.add(jIntHorarioEditor);
-        horarioEditorMaster.add(jIntHorarioEditor2);
+        horarioEditorMaster.add(jIntHorarioEditor, true);
+        horarioEditorMaster.add(jIntHorarioEditor2, false);
         horarioEditorMaster.setjListRestricciones(jIntHorarioEditor.getjListRestricciones());
     }
 
@@ -215,7 +223,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      * @param nombre
      * @param tab
      */
-    abstract protected void addTab(String nombre, JInternalFrame tab);
+    abstract protected void addTab(String nombre, JInternalFrame tab,int accel);
 
     /**
      *
@@ -604,15 +612,34 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
 //</editor-fold>
 
         newProjectAction = new NewProjectAction();
+        registerAction(newProjectAction, DataKairos.STATUS_NO_PROJECT, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         cargarProyectoAction = new CargarProyectoAction();
+        registerAction(cargarProyectoAction, DataKairos.STATUS_NO_PROJECT, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         guardarProyectoAction = new GuardarProyectoAction();
+        registerAction(guardarProyectoAction, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         guardarProyectoComoAction = new GuardarProyectoComoAction();
+        registerAction(guardarProyectoComoAction, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         exitAction = new ExitAction();
+        registerAction(exitAction, DataKairos.STATUS_NO_PROJECT, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         importarXMLAction = new ImportarXMLAction();
+        registerAction(importarXMLAction, DataKairos.STATUS_NO_PROJECT, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         exportarXMLAction = new ExportarXMLAction();
+        registerAction(exportarXMLAction, DataKairos.STATUS_PROJECT_NO_SOLUTION, DataKairos.STATUS_PROJECT_SOLUTION);
+
         buscaHorasLibresAction = new BuscaHorasLibresAction();
+        registerAction(buscaHorasLibresAction, DataKairos.STATUS_PROJECT_SOLUTION);
+
         creaPDFAction = new CreaPDFHorariosAction();
+        registerAction(creaPDFAction, DataKairos.STATUS_PROJECT_SOLUTION);
+
         creaPDFHojasDeFirmaAction = new CreaPDFHojasDeFirmaAction();
+        registerAction(creaPDFHojasDeFirmaAction, DataKairos.STATUS_PROJECT_SOLUTION);
     }
 
     /**
@@ -628,48 +655,38 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
      * @param status
      */
     public void setProjectStatus(int status) {
-        switch (status) {
-            case DataKairos.STATUS_NO_PROJECT: {
-                for (JInternalFrame t : listaTabs) {
-                    t.setVisible(false);
-                }
-                cargarProyectoAction.setEnabled(true);
-                guardarProyectoAction.setEnabled(false);
-                guardarProyectoComoAction.setEnabled(false);
-                importarXMLAction.setEnabled(true);
-                exportarXMLAction.setEnabled(false);
-                creaPDFAction.setEnabled(false);
-                creaPDFHojasDeFirmaAction.setEnabled(false);
-                buscaHorasLibresAction.setEnabled(false);
-                break;
-            }
-            case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
-                cargarProyectoAction.setEnabled(true);
-                guardarProyectoAction.setEnabled(true);
-                guardarProyectoComoAction.setEnabled(true);
-                importarXMLAction.setEnabled(true);
-                exportarXMLAction.setEnabled(true);
-                creaPDFAction.setEnabled(false);
-                creaPDFHojasDeFirmaAction.setEnabled(false);
-                buscaHorasLibresAction.setEnabled(false);
-                break;
-            }
-            case DataKairos.STATUS_PROJECT_SOLUTION: {
-                cargarProyectoAction.setEnabled(true);
-                guardarProyectoAction.setEnabled(true);
-                guardarProyectoComoAction.setEnabled(true);
-                importarXMLAction.setEnabled(true);
-                exportarXMLAction.setEnabled(true);
-                creaPDFAction.setEnabled(true);
-                creaPDFHojasDeFirmaAction.setEnabled(true);
-                buscaHorasLibresAction.setEnabled(true);
-                break;
-            }
-            default: {
-                //TODO: Falta poner status computing solution
-                break;
-            }
+        dk.setStatus(status);
+        HashSet<AbstractAction> en = enabledActions.get(status);
+        for (AbstractAction ac:actions)
+        {
+            ac.setEnabled(en.contains(ac));
         }
     }
 
+    protected AbstractAction registerAction(AbstractAction action, int status) {
+        actions.add(action);
+        if (!enabledActions.containsKey(status)) {
+            enabledActions.put(status, new HashSet<AbstractAction>());
+        }
+        enabledActions.get(status).add(action);
+        return action;
+    }
+
+    protected AbstractAction registerAction(AbstractAction action, int status1, int status2) {
+        registerAction(action, status1);
+        registerAction(action, status2);
+        return action;
+    }
+
+    protected AbstractAction registerAction(AbstractAction action, int status1, int status2, int status3) {
+        registerAction(action, status1, status2);
+        registerAction(action, status3);
+        return action;
+    }
+
+    protected AbstractAction registerAction(AbstractAction action, int status1, int status2, int status3, int status4) {
+        registerAction(action, status1, status2);
+        registerAction(action, status3, status4);
+        return action;
+    }
 }
