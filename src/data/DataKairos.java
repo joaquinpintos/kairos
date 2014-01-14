@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
 import restricciones.ProfesorMaximoHorasPorDia.RProfesorMaximoHorasPorDia;
+import restricciones.ProfesorMinimoHorasPorDia.RProfesorMinimoHorasPorDia;
 import restricciones.clasesCondensadasParaProfesor.RClasesCondensadasParaProfesor;
 import restricciones.grupoNoUbicuo.RGrupoNoUbicuo;
 import restricciones.noHuecosEntreMedias.RNoHuecosEntreMedias;
@@ -125,8 +126,9 @@ public class DataKairos {
         this.status = status;
     }
 
-    private void populateRestricciones() {
+    public void populateRestricciones() {
         ArrayList<Restriccion> restriccionesDisponibles = dataProject.getRestrictionsData().getRestriccionesDisponibles();
+        restriccionesDisponibles.clear();
         restriccionesDisponibles.add(new RNoHuecosEntreMedias());
         restriccionesDisponibles.add(new RProfesorNoUbicuo());
         restriccionesDisponibles.add(new RGrupoNoUbicuo());
@@ -134,6 +136,7 @@ public class DataKairos {
         restriccionesDisponibles.add(new RClasesCondensadasParaProfesor());
         restriccionesDisponibles.add(new RClasesNoCruzanRecreo());
         restriccionesDisponibles.add(new RProfesorMaximoHorasPorDia());
+        restriccionesDisponibles.add(new RProfesorMinimoHorasPorDia());
     }
 
 }

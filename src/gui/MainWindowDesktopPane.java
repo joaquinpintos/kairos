@@ -256,34 +256,34 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
     public void switchToComponent(DataGUIInterface dataif) {
     }
 
-    /**
-     *
-     * @param status
-     */
-    @Override
-    public final void setProjectStatus(int status) {
-        super.setProjectStatus(status);
-        switch (status) {
-            case DataKairos.STATUS_NO_PROJECT: {
-                for (AbstractAction ac : actionsViewFrame) {
-                    ac.setEnabled(false);
-                }
-                break;
-            }
-            case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
-                for (AbstractAction ac : actionsViewFrame) {
-                    ac.setEnabled(true);
-                }
-                break;
-            }
-            case DataKairos.STATUS_PROJECT_SOLUTION: {
-                for (AbstractAction ac : actionsViewFrame) {
-                    ac.setEnabled(true);
-                }
-                break;
-            }
-        }
-    }
+//    /**
+//     *
+//     * @param status
+//     */
+//    @Override
+//    public final void setProjectStatus(int status) {
+//        super.setProjectStatus(status);
+//        switch (status) {
+//            case DataKairos.STATUS_NO_PROJECT: {
+//                for (AbstractAction ac : actionsViewFrame) {
+//                    ac.setEnabled(false);
+//                }
+//                break;
+//            }
+//            case DataKairos.STATUS_PROJECT_NO_SOLUTION: {
+//                for (AbstractAction ac : actionsViewFrame) {
+//                    ac.setEnabled(true);
+//                }
+//                break;
+//            }
+//            case DataKairos.STATUS_PROJECT_SOLUTION: {
+//                for (AbstractAction ac : actionsViewFrame) {
+//                    ac.setEnabled(true);
+//                }
+//                break;
+//            }
+//        }
+//    }
 
     public void creaAccionesEspecificas() {
 

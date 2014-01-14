@@ -363,6 +363,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame {
                             DataProject o = (DataProject) os.readObject();
                             os.close();
                             dk.setDP(o);
+                            dk.populateRestricciones();
                             o.setDirty(false);
                             addListeners();
 //                            getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
