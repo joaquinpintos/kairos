@@ -185,7 +185,7 @@ public class DataAsignaturas extends AbstractDataSets {
      * @param asigNueva
      */
     public void addAsignatura(Curso c, Asignatura asigNueva) {
-        c.addAsignatura(asigNueva);
+        c.crateAsignatura(asigNueva);
         fireDataEvent(asigNueva, DataProyectoListener.ADD);
     }
 

@@ -26,7 +26,6 @@ import java.awt.event.MouseListener;
 import java.util.TooManyListenersException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
-import javax.swing.Icon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -269,8 +268,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
 
-                Asignatura nuevaAsignatura = new Asignatura("");
-                JDlgAñadirAsignatura dlg = new JDlgAñadirAsignatura(mainWindow, true, dk.getDP(), nuevaAsignatura, true);
+                JDlgAñadirAsignatura dlg = new JDlgAñadirAsignatura(mainWindow,  dk);
                 dlg.setLocationRelativeTo(null);
                 if ((pat != null) && (pat.getPath().length > 1)) {
                     pat.getPathComponent(1);
@@ -297,7 +295,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 Asignatura asigEdit = (Asignatura) pat.getLastPathComponent();
-                jDlgEditarAsignatura dlg = new jDlgEditarAsignatura(mainWindow, true, dk.getDP(), asigEdit);
+                jDlgEditarAsignatura dlg = new jDlgEditarAsignatura(mainWindow, true, dk, asigEdit);
                 dlg.setLocationRelativeTo(null);
                 dlg.setVisible(true);
                 dk.getDP().getDataProfesores().fireDataEvent(asigEdit, DataProyectoListener.MODIFY);
@@ -319,7 +317,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     Asignatura asigEdit = (Asignatura) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente la asignatura " + asigEdit.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         Curso cu = asigEdit.getParent();
-                        cu.removeAsignatura(asigEdit);
+                        cu.deleteAsignatura(asigEdit);
                     }
                     jTreeAsignaturas.updateUI();
                 }
@@ -461,7 +459,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     dlg.setLocationRelativeTo(null);
                     dlg.setVisible(true);
                     if (dlg.getReturnStatus() == JDlgAñadirGrupo.RET_OK) {
-                        asig.addGrupo(gr);
+                        asig.createGrupo(gr);
                     }
                     updateData();
                     
@@ -504,7 +502,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (pat.getLastPathComponent() instanceof Grupo) {
                     Grupo gr = (Grupo) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente el grupo " + gr.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        gr.getParent().removeGrupo(gr);
+                        gr.getParent().deleteGrupo(gr);
                     }
                     updateData();
                     

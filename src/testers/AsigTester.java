@@ -219,28 +219,28 @@ public class AsigTester {
         //dp.getDataAsignaturas().addCarrera(car2);
 
         Asignatura asignatura = new Asignatura("Mates");
-        cur1.addAsignatura(asignatura);
+        cur1.crateAsignatura(asignatura);
         Tramo t1 = new Tramo( 60);
         Tramo t2 = new Tramo( 90);
         Grupo gr = new Grupo("1");
         gr.addTramoGrupoCompleto(t1);
-        asignatura.addGrupo(gr);
+        asignatura.createGrupo(gr);
         gr = new Grupo("2");
-        asignatura.addGrupo(gr);
+        asignatura.createGrupo(gr);
 
         gr.addTramoGrupoCompleto(new Tramo( 90));
 
         asignatura = new Asignatura("Lengua");
-        cur1.addAsignatura(asignatura);
+        cur1.crateAsignatura(asignatura);
         gr = new Grupo("1");
         t1 = new Tramo(60);
         t2 = new Tramo(90);
         gr.addTramoGrupoCompleto(t1);
-        asignatura.addGrupo(gr);
+        asignatura.createGrupo(gr);
         gr = new Grupo("3");
         t1 = new Tramo(60);
         gr.addTramoGrupoCompleto(t1);
-        asignatura.addGrupo(gr);
+        asignatura.createGrupo(gr);
         Aula aula11 = new Aula("11");
         Aula aula12 = new Aula("21");
         dp.getDataAulas().addAula(aula11);
@@ -315,10 +315,10 @@ public class AsigTester {
 
                 for (int numAsig = 1; numAsig <= numAsignaturas; numAsig++) {
                     asign = new Asignatura("Asignatura " + numAsig);
-                    asign.addGrupo(grupoEstandar("1"));
-                    asign.addGrupo(grupoEstandar("2"));
-                    asign.addGrupo(addGrupoSinSubgrupos("3"));
-                    cur.addAsignatura(asign);
+                    asign.createGrupo(grupoEstandar("1"));
+                    asign.createGrupo(grupoEstandar("2"));
+                    asign.createGrupo(addGrupoSinSubgrupos("3"));
+                    cur.crateAsignatura(asign);
                 }
             }
         }

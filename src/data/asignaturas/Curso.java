@@ -4,15 +4,12 @@
  */
 package data.asignaturas;
 
-import com.sun.java.accessibility.util.EventQueueMonitor;
 import data.DataProyectoListener;
-import data.MyConstants;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 
 /**
  *
@@ -39,11 +36,16 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         algunoSinAula = true;
     }
 
+    public boolean addAsignatura(Asignatura e) {
+        return asignaturas.add(e);
+    }
+
+    
     /**
      *
      * @param asig
      */
-    public void addAsignatura(Asignatura asig) {
+    public void crateAsignatura(Asignatura asig) {
         this.asignaturas.add(asig);
         asig.setCurso(this);
 //        asig.setColorEnTablaDeHorarios(MyConstants.coloresAsignaturas[contaColor]);
@@ -55,17 +57,27 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
             this.getParent().getParent().fireDataEvent(asig, DataProyectoListener.ADD);
         } catch (NullPointerException e) {
         }
-        Collections.sort(asignaturas);
+        ordenaAsignaturas();
         setDirty(true);
 
     }
 
+    public void ordenaAsignaturas() {
+        Collections.sort(asignaturas);
+    }
+
+    public boolean removeAsignatura(Asignatura o) {
+        return asignaturas.remove(o);
+    }
+
+    
+    
     /**
      *
      * @param asig
      */
-    public void removeAsignatura(Asignatura asig) {
-        //TODO: BUG!! AL remover NO se elimina la docencia ni las aulas!!!
+    public void deleteAsignatura(Asignatura asig) {
+        //TODO: BUG!! AL borrar NO se elimina la docencia ni las aulas!!!
         asig.clearDocente();
         asig.clearAulasAsignadas();
         asig.removeAllGrupos();
@@ -244,18 +256,25 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean algunoSinAula() {
         return algunoSinAula;
     }
+ public boolean tieneAula() {
+        return !algunoSinAula;
+    }
+    public void setAlgunoSinAula(boolean value)
+    {
+        this.algunoSinAula=value;
+    }
 
+    public void setTieneAula(boolean value)
+    {
+        this.algunoSinAula=!value;
+    }
     void removeAllAsignaturas() {
          ArrayList<Asignatura> asigClone = (ArrayList<Asignatura>) asignaturas.clone();
         for (Asignatura asig : asigClone) {
-            removeAsignatura(asig);
+            deleteAsignatura(asig);
         }
     }
     

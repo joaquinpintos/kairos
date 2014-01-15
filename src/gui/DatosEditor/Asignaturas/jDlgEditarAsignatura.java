@@ -4,7 +4,9 @@
  */
 package gui.DatosEditor.Asignaturas;
 
+import data.DataKairos;
 import data.DataProject;
+import data.KairosCommand;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -35,21 +37,26 @@ public class jDlgEditarAsignatura extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final Asignatura asigEdit;
-    private ArrayList<Curso> cursosCombo;
+    private final ArrayList<Curso> cursosCombo;
     private DefaultComboBoxModel cursosModel;
+    private final Asignatura newAsig;
+    private final DataKairos dk;
 
     /**
      * Creates new form jDlgEditarAsignatura
-     * @param parent 
+     *
+     * @param parent
      * @param asigEdit
-     * @param modal 
-     * @param dataProyecto  
+     * @param dk
+     * @param modal
      */
-    public jDlgEditarAsignatura(java.awt.Frame parent, boolean modal, DataProject dataProyecto, Asignatura asigEdit) {
+    public jDlgEditarAsignatura(java.awt.Frame parent, boolean modal, DataKairos dk, Asignatura asigEdit) {
         super(parent, modal);
         initComponents();
         this.asigEdit = asigEdit;
+        this.newAsig = new Asignatura("");
         cursosCombo = new ArrayList<Curso>();
+        this.dk = dk;
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -62,8 +69,10 @@ public class jDlgEditarAsignatura extends javax.swing.JDialog {
             }
         });
         //Lleno los combos con la lista de carreras y cursos
-        ArrayList<Carrera> estudiosCombo = dataProyecto.getDataAsignaturas().getCarreras();
-        for (Carrera c:estudiosCombo) jComboEstudios.addItem(c);
+        ArrayList<Carrera> estudiosCombo = dk.getDP().getDataAsignaturas().getCarreras();
+        for (Carrera c : estudiosCombo) {
+            jComboEstudios.addItem(c);
+        }
         AutoCompleteDecorator.decorate(jComboEstudios);
         if (!estudiosCombo.isEmpty()) {
             jComboEstudios.setSelectedIndex(0);
@@ -77,12 +86,12 @@ public class jDlgEditarAsignatura extends javax.swing.JDialog {
         jTextNombreCorto.setText(asigEdit.getNombreCorto());
         jTextNumCreditos.setText(asigEdit.getNumCreditos() + "");
 
-         SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 jTextNombreAsignatura.requestFocus();
             }
         });
-        
+
     }
 
     private void rellenaComboCursos() {
@@ -272,11 +281,15 @@ public class jDlgEditarAsignatura extends javax.swing.JDialog {
 
     private void doClose(int retStatus) {
         if (retStatus == RET_OK) {
-            asigEdit.setNombre(jTextNombreAsignatura.getText());
-            asigEdit.setNombreCorto(jTextNombreCorto.getText());
-            asigEdit.setNumCreditos(Integer.valueOf(jTextNumCreditos.getText()));
+            newAsig.setNombre(jTextNombreAsignatura.getText());
+            newAsig.setNombreCorto(jTextNombreCorto.getText());
+            newAsig.setNumCreditos(Integer.valueOf(jTextNumCreditos.getText()));
             //Solo es necesario cambiar curso, ya que carrera forma parte de curso.
-            asigEdit.changeCursoTo((Curso) jComboCursos.getSelectedItem());
+            newAsig.setCurso((Curso) jComboCursos.getSelectedItem());
+            KairosCommand cmd = dk.getController().getEditAsignaturaCommand(asigEdit, newAsig);
+
+            dk.getController().executeCommand(cmd);
+
         }
 
         returnStatus = retStatus;

@@ -4,7 +4,9 @@
  */
 package gui.DatosEditor.Asignaturas;
 
+import data.DataKairos;
 import data.DataProject;
+import data.KairosCommand;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -38,25 +40,18 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private final Asignatura asigNueva;
-    private final DataProject dataProyecto;
-    private final boolean createNew;
+    private final DataKairos dk;
 
     /**
      * Creates new form jDlgEditarAsignatura
      *
      * @param parent
-     * @param modal
-     * @param dataProyecto
-     * @param asigEdit
-     * @param createNew
+     * @param dk
      */
-    public JDlgAñadirAsignatura(java.awt.Frame parent, boolean modal, DataProject dataProyecto, Asignatura asigEdit, boolean createNew) {
-        super(parent, modal);
+    public JDlgAñadirAsignatura(java.awt.Frame parent, DataKairos dk) {
+        super(parent, true);
         initComponents();
-        this.asigNueva = asigEdit;
-        this.dataProyecto = dataProyecto;
-        this.createNew = createNew;
+        this.dk = dk;
         jCheckCrearGrupos.setSelected(true);
 
         // Close the dialog when Esc is pressed
@@ -65,12 +60,13 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
         ActionMap actionMap = getRootPane().getActionMap();
         actionMap.put(cancelName, new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 doClose(RET_CANCEL);
             }
         });
         //Lleno los combos con la lista de carreras y cursos
-        ArrayList<Carrera> estudiosCombo = dataProyecto.getDataAsignaturas().getCarreras();
+        ArrayList<Carrera> estudiosCombo = dk.getDP().getDataAsignaturas().getCarreras();
         for (Carrera c : estudiosCombo) {
             jComboEstudios.addItem(c);
         }
@@ -81,11 +77,12 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
 
         rellenoComboCursos();
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 jTextNombreAsignatura.requestFocus();
             }
         });
-        jTextGrupos.setText(dataProyecto.getConfigProyecto().getGruposPorDefecto());
+        jTextGrupos.setText(dk.getDP().getConfigProyecto().getGruposPorDefecto());
     }
 
     /**
@@ -168,6 +165,12 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
         jLabel3.setText("Curso:");
 
         jLabel4.setText("Estudios:");
+
+        jComboEstudios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboEstudiosActionPerformed(evt);
+            }
+        });
 
         jCheckCrearGrupos.setText("Crear grupos automáticamente");
         jCheckCrearGrupos.addActionListener(new java.awt.event.ActionListener() {
@@ -401,7 +404,13 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jCheckCrearGruposActionPerformed
 
+    private void jComboEstudiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboEstudiosActionPerformed
+        rellenoComboCursos();        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboEstudiosActionPerformed
+
     private void doClose(int retStatus) {
+        KairosCommand cmd;
+        Asignatura asigNueva = new Asignatura("");
         if (retStatus == RET_OK) {
             asigNueva.setNombre(jTextNombreAsignatura.getText());
             asigNueva.setNombreCorto(jTextNombreCorto.getText());
@@ -410,17 +419,20 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
             } catch (NumberFormatException numberFormatException) {
             }
             Curso c = (Curso) jComboCursos.getSelectedItem();
-            if (createNew) {
-                dataProyecto.getDataAsignaturas().addAsignatura(c, asigNueva);
-            }
+            //TODO: Parece que siempre se selecciona un curso de primaria?
+//            dk.getDP().getDataAsignaturas().addAsignatura(c, asigNueva);
+            cmd = dk.getController().getCreateAsignaturaCommand(c, asigNueva);
+            dk.getController().executeCommand(cmd);//Creo asignatura
 
 //            asigNueva.removeAllGrupos();//Por si estoy editando una asignatura en vez de crear una nueva
             if ((jCheckCrearGrupos.isSelected()) && (!jTextGrupos.getText().isEmpty())) {
                 String[] listaGrupos = jTextGrupos.getText().split(",");
                 for (String nombreGrupo : listaGrupos) {
                     Grupo gr = new Grupo(nombreGrupo.trim());
+                    //TODO: Comprobar que el nombre del grupo es correcto
+                    cmd = dk.getController().getCreateGrupoCommand(asigNueva, gr);
+                    dk.getController().executeCommand(cmd);//Creo grupo
                     addTramosToGrupo(gr);
-                    asigNueva.addGrupo(gr);
                 }
             }
         }
@@ -437,11 +449,14 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
     public void addTramosToGrupo(Grupo gr) {
         int numHoras, numClases;
         Tramo tr;
+        KairosCommand cmd;
         try {
             numClases = Integer.valueOf(jSpinnerNumClases1.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases1.getText());
             for (int cont = 0; cont < numClases; cont++) {
-                gr.addTramoGrupoCompleto(new Tramo(numHoras));
+                tr = new Tramo(numHoras);
+                cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -450,7 +465,9 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
             numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases2.getText());
             for (int cont = 0; cont < numClases; cont++) {
-                gr.addTramoGrupoCompleto(new Tramo(numHoras));
+                tr = new Tramo(numHoras);
+                cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }
@@ -459,7 +476,9 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
             numClases = Integer.valueOf(jSpinnerNumClases3.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases3.getText());
             for (int cont = 0; cont < numClases; cont++) {
-                gr.addTramoGrupoCompleto(new Tramo(numHoras));
+                tr = new Tramo(numHoras);
+                cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }

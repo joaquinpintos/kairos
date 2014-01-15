@@ -5,11 +5,11 @@
 package gui;
 
 import data.DataKairos;
+import data.DataProyectoListener;
 import data.MyConstants;
 import gui.DatosEditor.DataGUIInterface;
 import gui.HorarioEditor.JIntHorarioEditor;
 import java.awt.Dimension;
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
@@ -112,10 +112,9 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
-        
-         editMenu.setMnemonic('E');
+        editMenu.setMnemonic('E');
         editMenu.setText("Editar");
-        
+
         viewMenu = new javax.swing.JMenu();
         viewMenu.setMnemonic('V');
         viewMenu.setText("Ver");
@@ -158,10 +157,15 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         exitMenuItem.setAction(exitAction);
 
         fileMenu.add(exitMenuItem);
-        editMenu.add(undoCommandAction);
-        editMenu.add(redoCommandAction);
-        
-        
+
+        undoMenuItem.setAction(undoCommandAction);
+        undoMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+        editMenu.add(undoMenuItem);
+
+        redoMenuItem.setAction(redoCommandAction);
+        redoMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+        editMenu.add(redoMenuItem);
+
         JMenuItem tileMenuItem = new JMenuItem(tileAction);
         windowMenu.add(tileMenuItem);
         windowMenu.add(tileHorariosAction);
@@ -420,4 +424,5 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
             }
         }
     }
+
 }

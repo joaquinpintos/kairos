@@ -69,6 +69,16 @@ public class MyConstants {
     public final ImageIcon RESTRICTIONLEVEL_ICON = new ImageIcon(getClass().getResource("/data/images/levelIcon.png"));
 
     /**
+     * Icono de deshacer
+     */
+    public final ImageIcon UNDO_ICON = new ImageIcon(getClass().getResource("/data/images/undo.png"));
+    /**
+     * Icono de rehacer
+     */
+    public final ImageIcon REDO_ICON = new ImageIcon(getClass().getResource("/data/images/redo.png"));
+    
+    
+    /**
      * Icono de añadir
      */
     public final ImageIcon ADD_ICON = new ImageIcon(getClass().getResource("/data/images/add.png"));
@@ -103,7 +113,7 @@ public class MyConstants {
     /**
      * Color de fondo para los items seleccionados de una lista
      */
-    public static final Color SELECTED_ITEM_LIST = new Color(230,230,230);
+    public static final Color SELECTED_ITEM_LIST = new Color(230, 230, 230);
     /**
      * Color de fondo para los items no seleccionados de una lista
      */
@@ -131,8 +141,8 @@ public class MyConstants {
         new Color(101, 196, 255)
     };
     public static final Color[] COLORES_PROFESORES = {//http://www.colourlovers.com/palette/203331/As_If_To_Die
-        new Color(182/2, 174/2, 141/2),
-        new Color(127/2, 138/2, 99/2),
+        new Color(182 / 2, 174 / 2, 141 / 2),
+        new Color(127 / 2, 138 / 2, 99 / 2),
         new Color(97, 76, 59),
         new Color(25, 51, 56),
         new Color(32, 8, 8)

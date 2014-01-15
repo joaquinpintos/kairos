@@ -103,7 +103,7 @@ public class Departamento implements Serializable {
         return this.nombre;
     }
 
-    private void ordenaProfesores() {
+    public void ordenaProfesores() {
         Collections.sort((List) profesores);
     }
 

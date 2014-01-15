@@ -4,6 +4,8 @@
  */
 package data.asignaturas;
 
+import data.aulas.AulaMT;
+import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class GrupoTramos implements Serializable {
+public class GrupoTramos implements Serializable,Teachable {
 
     private static final long serialVersionUID = 27112013L;
     private ArrayList<Tramo> vectorTramos;
@@ -172,6 +174,14 @@ public class GrupoTramos implements Serializable {
         return algunoSinAula;
     }
 
+    public void setAlgunoSinAula(boolean value)
+    {
+        this.algunoSinAula=value;
+    }
+    public void setTieneAula(boolean value)
+    {
+        this.algunoSinAula=!value;
+    }
     /**
      *
      * @param obj
@@ -179,5 +189,21 @@ public class GrupoTramos implements Serializable {
      */
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
+    }
+
+    @Override
+    public void setDocente(Profesor profesor) {
+    }
+
+    @Override
+    public void removeDocente() {
+    }
+
+    @Override
+    public void asignaAula(AulaMT aula) {
+    }
+
+    @Override
+    public void removeAula() {
     }
 }

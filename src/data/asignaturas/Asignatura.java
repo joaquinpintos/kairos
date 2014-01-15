@@ -43,25 +43,37 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         algunoSinAula = true;
     }
 
-    /**
-     *
-     * @param gr
-     */
     public void addGrupo(Grupo gr) {
-        this.grupos.addGrupo(gr);
-        gr.setParent(this);
-        Collections.sort(grupos.getGrupos());
-        setDirty(true);
-        //Disparo evento de creación de grupo
-        updateAsigAulaStatus();
-        fireDataEvent(gr, DataProyectoListener.ADD);
+        grupos.getGrupos().add(gr);
     }
 
     /**
      *
      * @param gr
      */
+    public void createGrupo(Grupo gr) {
+        this.grupos.addGrupo(gr);
+        gr.setParent(this);
+        ordenaGrupos();
+        setDirty(true);
+        //Disparo evento de creación de grupo
+        updateAsigAulaStatus();
+        fireDataEvent(gr, DataProyectoListener.ADD);
+    }
+
+    public void ordenaGrupos() {
+        Collections.sort(grupos.getGrupos());
+    }
+
     public void removeGrupo(Grupo gr) {
+        grupos.getGrupos().remove(gr);
+    }
+
+    /**
+     *
+     * @param gr
+     */
+    public void deleteGrupo(Grupo gr) {
         gr.removeAllTramos();
         this.grupos.getGrupos().remove(gr);
         gr.removeDocente();
@@ -134,10 +146,10 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      */
     public void changeCursoTo(Curso curso) {
         if (this.getParent() != null) {
-            this.getParent().removeAsignatura(this);
+            this.getParent().deleteAsignatura(this);
         }
         if (curso != null) {
-            curso.addAsignatura(this);
+            curso.crateAsignatura(this);
         }
         setDirty(true);
     }
@@ -324,12 +336,20 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         }
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean algunoSinAula() {
         return algunoSinAula;
+    }
+
+    public boolean tieneAula() {
+        return !algunoSinAula;
+    }
+
+    public void setAlgunoSinAula(boolean value) {
+        this.algunoSinAula = value;
+    }
+
+    public void setTieneAula(boolean value) {
+        this.algunoSinAula = !value;
     }
 
     void clearDocente() {
@@ -345,9 +365,15 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     }
 
     void removeAllGrupos() {
-         ArrayList<Grupo> gruposClone = (ArrayList<Grupo>) grupos.getGrupos().clone();
+        ArrayList<Grupo> gruposClone = (ArrayList<Grupo>) grupos.getGrupos().clone();
         for (Grupo gr : gruposClone) {
-            removeGrupo(gr);
+            deleteGrupo(gr);
         }
+    }
+
+    public void copyBasicValuesFrom(Asignatura data) {
+        this.nombre = data.getNombre();
+        this.numCreditos = data.getNumCreditos();
+        this.nombreCorto = data.getNombreCorto();
     }
 }

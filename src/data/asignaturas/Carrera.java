@@ -190,12 +190,19 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean algunoSinAula() {
         return algunoSinAula;
+    }
+ public boolean tieneAula() {
+        return !algunoSinAula;
+    }
+    public void setAlgunoSinAula(boolean value)
+    {
+        this.algunoSinAula=value;
+    }
+     public void setTieneAula(boolean value)
+    {
+        this.algunoSinAula=!value;
     }
 
     void removeAllCursos() {

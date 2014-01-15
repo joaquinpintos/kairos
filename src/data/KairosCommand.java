@@ -12,10 +12,19 @@ package data;
  */
 public abstract class KairosCommand {
     int eventType;
+    private boolean undoable=true;
     abstract public void execute();
     abstract public void undo();
-    abstract public void redo();
+    public void redo() 
+    {
+        this.execute();
+    }
     abstract public String getDescription();
     abstract public Object getDataType();
     abstract int getEventType();
+    public boolean isUndoable()
+    {
+        return undoable;
+    }
+    
 }

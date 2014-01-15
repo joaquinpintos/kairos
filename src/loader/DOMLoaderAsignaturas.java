@@ -89,7 +89,7 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Asignatura nuevaAsignatura = new Asignatura(nombre);
-                curso.addAsignatura(nuevaAsignatura);
+                curso.crateAsignatura(nuevaAsignatura);
                 readListaGrupos(elemDep, nuevaAsignatura);
             }
         }
@@ -115,7 +115,7 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Grupo nuevoGrupo = new Grupo(nombre);
-                nuevaAsignatura.addGrupo(nuevoGrupo);
+                nuevaAsignatura.createGrupo(nuevoGrupo);
                 readTramos(elemDep, nuevoGrupo);
             }
         }

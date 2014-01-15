@@ -107,11 +107,13 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         salida += tramosGrupoCompleto.toString();
         return salida;
     }
+
     public String toStringSinTotales() {
         String salida;
         salida = "Grupo " + this.nombre;
         return salida;
     }
+
     /**
      * @return Asignatura a la que pertenece.
      */
@@ -309,12 +311,16 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean algunoSinAula() {
         return algunoSinAula;
+    }
+     public boolean tieneAula() {
+        return !algunoSinAula;
+    }
+
+
+    public void setAlgunoSinAula(boolean value) {
+        this.algunoSinAula = value;
     }
 
     /**
@@ -342,7 +348,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     void removeAllTramos() {
-         ArrayList<Tramo> tramosClone = (ArrayList<Tramo>) tramosGrupoCompleto.getTramos().clone();
+        ArrayList<Tramo> tramosClone = (ArrayList<Tramo>) tramosGrupoCompleto.getTramos().clone();
         for (Tramo tr : tramosClone) {
             removeTramoGrupoCompleto(tr);
         }

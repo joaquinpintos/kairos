@@ -30,7 +30,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      */
     public Tramo(int minutos) {
         this.minutos = minutos;
-        colorEnTablaDeHorarios=new Color(255, 255, 255);
+        colorEnTablaDeHorarios = new Color(255, 255, 255);
     }
 
     /**
@@ -192,6 +192,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return (aulaMT != null);
     }
 
+    public boolean algunoSinAula() {
+        return (aulaMT == null);
+    }
+
     /**
      *
      * @return
@@ -208,7 +212,8 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }
-     /**
+
+    /**
      *
      * @param colorEnTablaDeHorarios
      */
