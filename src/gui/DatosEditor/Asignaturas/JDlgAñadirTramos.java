@@ -6,6 +6,8 @@
 
 package gui.DatosEditor.Asignaturas;
 
+import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,8 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 /**
@@ -31,16 +35,19 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final Grupo grupo;
+    private final DataKairos dk;
 
     /**
      * Diálogo para añadir tramos a grupo seleccionado
+     *
      * @param parent
-     * @param modal
+     * @param dk
      * @param gr
      */
-    public JDlgAñadirTramos(java.awt.Frame parent, boolean modal,Grupo gr) {
-        super(parent, modal);
-        this.grupo=gr;
+    public JDlgAñadirTramos(java.awt.Frame parent, DataKairos dk, Grupo gr) {
+        super(parent, true);
+        this.grupo = gr;
+        this.dk = dk;
         initComponents();
 
         // Close the dialog when Esc is pressed
@@ -234,8 +241,7 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
     
     private void doClose(int retStatus) {
         returnStatus = retStatus;
-        if (retStatus==RET_OK)
-        {
+        if (retStatus == RET_OK) {
             addTramosToGrupo(grupo);
         }
         setVisible(false);
@@ -270,31 +276,23 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
     public void addTramosToGrupo(Grupo gr) {
         int numHoras, numClases;
         Tramo tr;
-        try {
-            numClases = Integer.valueOf(jSpinnerNumClases1.getValue().toString());
-            numHoras = Integer.valueOf(jTextDuracionClases1.getText());
-            for (int cont = 0; cont < numClases; cont++) {
-                gr.addTramoGrupoCompleto(new Tramo(numHoras));
-            }
-        } catch (NumberFormatException numberFormatException) {
-        }
-        try {
+        KairosCommand cmd;
+        createTramosFromSpinner(gr,jSpinnerNumClases1,jTextDuracionClases1);
+        createTramosFromSpinner(gr,jSpinnerNumClases2,jTextDuracionClases2);
+        createTramosFromSpinner(gr,jSpinnerNumClases3,jTextDuracionClases3);
+    }
 
-            numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
-            numHoras = Integer.valueOf(jTextDuracionClases2.getText());
-            for (int cont = 0; cont < numClases; cont++) {
-                gr.addTramoGrupoCompleto(new Tramo(numHoras));
-            }
-        } catch (NumberFormatException numberFormatException) {
-        }
-
+ private void createTramosFromSpinner(Grupo gr, JSpinner jspinner,JTextField jText) {
         try {
-            numClases = Integer.valueOf(jSpinnerNumClases3.getValue().toString());
-            numHoras = Integer.valueOf(jTextDuracionClases3.getText());
+            int numClases = Integer.valueOf(jspinner.getValue().toString());
+            int numHoras = Integer.valueOf(jText.getText());
             for (int cont = 0; cont < numClases; cont++) {
-                gr.addTramoGrupoCompleto(new Tramo(numHoras));
+                Tramo tr = new Tramo(numHoras);
+                KairosCommand cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }
-      }
+    }
+
 }

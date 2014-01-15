@@ -353,4 +353,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
             removeTramoGrupoCompleto(tr);
         }
     }
+
+    public void copyBasicValuesFrom(Grupo grNew) {
+        this.nombre=grNew.getNombre();
+    }
 }

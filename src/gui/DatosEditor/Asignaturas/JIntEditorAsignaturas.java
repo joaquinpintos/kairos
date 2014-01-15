@@ -7,6 +7,7 @@ package gui.DatosEditor.Asignaturas;
 import data.DataKairos;
 import data.DataProject;
 import data.DataProyectoListener;
+import data.KairosCommand;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -481,7 +482,9 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     Grupo gr = (Grupo) pat.getLastPathComponent();
                     String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", gr.getNombre());
                     if (nombre != null) {
-                        gr.setNombre(nombre);
+                        Grupo grNew=new Grupo(nombre);
+                        KairosCommand cmd = dk.getController().getEditGrupoCommand(gr, grNew);
+                        dk.getController().executeCommand(cmd);
                     }
                     updateData();
                     
@@ -548,7 +551,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     grupoEditado = (Grupo) pat.getParentPath().getLastPathComponent();
                 }
                 if (grupoEditado != null) {
-                    JDlgAñadirTramos dlg = new JDlgAñadirTramos(mainWindow, true, grupoEditado);
+                    JDlgAñadirTramos dlg = new JDlgAñadirTramos(mainWindow, dk, grupoEditado);
                     dlg.setVisible(true);
                     dlg.setLocationRelativeTo(null);
                     if (dlg.getReturnStatus() == JDlgAñadirTramos.RET_OK) {
@@ -572,10 +575,12 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (pat.getLastPathComponent() instanceof Tramo) {
                     tramoABorrar = (Tramo) pat.getLastPathComponent();
                     Grupo gr = (Grupo) pat.getParentPath().getLastPathComponent();
-                    if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente el tramo?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        gr.removeTramoGrupoCompleto(tramoABorrar);
-                    }
-                    jTreeAsignaturas.updateUI();
+                    KairosCommand cmd = dk.getController().getDeleteTramoCommand(tramoABorrar);
+                    dk.getController().executeCommand(cmd);
+//                    if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente el tramo?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+//                        gr.removeTramoGrupoCompleto(tramoABorrar);
+//                    }
+//                    jTreeAsignaturas.updateUI();
                 }
             }
         }

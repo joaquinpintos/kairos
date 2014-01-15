@@ -428,11 +428,15 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
             if ((jCheckCrearGrupos.isSelected()) && (!jTextGrupos.getText().isEmpty())) {
                 String[] listaGrupos = jTextGrupos.getText().split(",");
                 for (String nombreGrupo : listaGrupos) {
-                    Grupo gr = new Grupo(nombreGrupo.trim());
-                    //TODO: Comprobar que el nombre del grupo es correcto
-                    cmd = dk.getController().getCreateGrupoCommand(asigNueva, gr);
-                    dk.getController().executeCommand(cmd);//Creo grupo
-                    addTramosToGrupo(gr);
+                    final String nombreGrupoTrim = nombreGrupo.trim();
+                    if (!nombreGrupoTrim.equals("")) {
+                    } else {
+                        Grupo gr = new Grupo(nombreGrupoTrim);
+                        //TODO: Comprobar que el nombre del grupo es correcto
+                        cmd = dk.getController().getCreateGrupoCommand(asigNueva, gr);
+                        dk.getController().executeCommand(cmd);//Creo grupo
+                        addTramosToGrupo(gr);
+                    }
                 }
             }
         }

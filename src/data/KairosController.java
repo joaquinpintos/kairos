@@ -24,12 +24,12 @@ import java.util.Stack;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class KairosController {
-
+    
     private final DataKairos dk;
     private final Stack<KairosCommand> commandStackForUndo;
     private final Stack<KairosCommand> commandStackForRedo;
     private final HashSet<DataProyectoListener> listeners;
-
+    
     public KairosController(DataKairos dk) {
         this.dk = dk;
         commandStackForUndo = new Stack<KairosCommand>();
@@ -78,37 +78,37 @@ public class KairosController {
         } catch (EmptyStackException e) {
             System.err.println("commandUndoStack empty!");
         }
-
+        
     }
-
+    
     public boolean isCommandStackForUndoEmpty() {
         return commandStackForUndo.empty();
     }
-
+    
     public boolean isCommandStackForRedoEmpty() {
         return commandStackForRedo.empty();
     }
-
+    
     public void fireDataEvent(KairosCommand cmd) {
 //        System.out.println(listeners);
         for (DataProyectoListener l : listeners) {
             l.dataEvent(cmd.getDataType(), cmd.getEventType());
         }
     }
-
+    
     public void addListener(DataProyectoListener l) {
         if (l != null) {
             listeners.add(l);
         }
     }
-
+    
     private void updateStatusAsignacionDeAula(Teachable obj) {
         Teachable data = obj;
         if (data instanceof Tramo) {
             Tramo tr = (Tramo) data;
             data = tr.getParent();
         }
-
+        
         if (data instanceof GrupoTramos) {
             GrupoTramos gt = (GrupoTramos) data;
             boolean tieneAula = true;
@@ -149,7 +149,7 @@ public class KairosController {
             }
             car.setTieneAula(tieneAula);
         }
-
+        
     }
 
     //**************************************************************************
@@ -167,17 +167,17 @@ public class KairosController {
     //<editor-fold defaultstate="collapsed" desc="getEditProfesorCommand">
     public KairosCommand getEditProfesorCommand(Profesor data, Profesor newData) {
         class EditProfesorCommand extends KairosCommand {
-
+            
             private final Profesor oldData;//Datos para deshacer
             private final Profesor newData;
             private final Profesor data;
-
+            
             public EditProfesorCommand(Profesor data, Profesor newData) {
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Profesor("", "", "");
             }
-
+            
             @Override
             public void execute() {
                 oldData.copyBasicValuesFrom(data);//Guardo valores antiguos
@@ -189,9 +189,9 @@ public class KairosController {
                 depOld.removeProfesor(data);//Remove profesor from old department
                 dep.addProfesor(data);//Add profesor to new department
                 dep.ordenaProfesores();
-
+                
             }
-
+            
             @Override
             public void undo() {
                 data.copyBasicValuesFrom(oldData);//Copio nuevos valores
@@ -202,22 +202,22 @@ public class KairosController {
                 dep.addProfesor(data);//Add profesor to new department
                 dep.ordenaProfesores();
             }
-
+            
             @Override
             public String getDescription() {
                 return "Edit profesor";
             }
-
+            
             @Override
             public String toString() {
                 return getDescription();
             }
-
+            
             @Override
             public Object getDataType() {
                 return data;
             }
-
+            
             @Override
             int getEventType() {
                 return DataProyectoListener.MODIFY;
@@ -239,62 +239,62 @@ public class KairosController {
     //<editor-fold defaultstate="collapsed" desc="getEditAsignaturaCommand">
     public KairosCommand getEditAsignaturaCommand(Asignatura data, Asignatura newData) {
         class EditAsignaturaCommand extends KairosCommand {
-
+            
             private final Asignatura oldData;//Datos para deshacer
             private final Asignatura newData;
             private final Asignatura data;
-
+            
             public EditAsignaturaCommand(Asignatura data, Asignatura newData) {
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Asignatura("");
             }
-
+            
             @Override
             public void execute() {
                 oldData.copyBasicValuesFrom(data);
                 oldData.setCurso(data.getParent());
-
+                
                 data.copyBasicValuesFrom(newData);
                 Curso oldCurso = data.getParent();
                 Curso newCurso = newData.getParent();
                 data.setCurso(newCurso);
-
+                
                 oldCurso.removeAsignatura(data);
                 newCurso.addAsignatura(data);
                 newCurso.ordenaAsignaturas();
-
+                
             }
-
+            
             @Override
             public void undo() {
                 data.copyBasicValuesFrom(oldData);
-
+                
                 Curso oldCurso = data.getParent();
                 Curso newCurso = oldData.getParent();
                 data.setCurso(newCurso);
-
+                
                 oldCurso.removeAsignatura(data);
                 newCurso.addAsignatura(data);
                 newCurso.ordenaAsignaturas();
-
+                
             }
-
+            
             @Override
             public String getDescription() {
                 return "Edit profesor";
             }
-
+            
             @Override
             public String toString() {
                 return getDescription();
             }
-
+            
             @Override
             public Object getDataType() {
                 return data;
             }
-
+            
             @Override
             int getEventType() {
                 return DataProyectoListener.MODIFY;
@@ -305,97 +305,98 @@ public class KairosController {
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="getCreateAsignaturaCommand">
-    public KairosCommand getCreateAsignaturaCommand(Curso cur,Asignatura asig) {
+    public KairosCommand getCreateAsignaturaCommand(Curso cur, Asignatura asig) {
         class CreateAsignaturaCommand extends KairosCommand {
-
+            
             private final Asignatura asig;
             private final Curso cur;
-
-            public CreateAsignaturaCommand(Curso cur,Asignatura asig) {
+            
+            public CreateAsignaturaCommand(Curso cur, Asignatura asig) {
                 this.asig = asig;
-                this.cur=cur;
+                this.cur = cur;
             }
-
+            
             @Override
             public void execute() {
                 cur.addAsignatura(asig);
                 asig.setCurso(cur);
                 cur.ordenaAsignaturas();
                 updateStatusAsignacionDeAula(asig);
-
+                
             }
-
+            
             @Override
             public void undo() {
                 cur.removeAsignatura(asig);
                 asig.setCurso(null);
                 updateStatusAsignacionDeAula(asig);
             }
-
+            
             @Override
             public String getDescription() {
                 return "Añadir asignatura";
             }
-
+            
             @Override
             public String toString() {
                 return getDescription();
             }
-
+            
             @Override
             public Object getDataType() {
                 return asig;
             }
-
+            
             @Override
             int getEventType() {
                 return DataProyectoListener.ADD;
             }
         }
-        return new CreateAsignaturaCommand(cur,asig);
+        return new CreateAsignaturaCommand(cur, asig);
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getCreateTramoCommand">
     public KairosCommand getCreateTramoCommand(Grupo gr, Tramo tr) {
         class CreateTramoCommand extends KairosCommand {
-
+            
             private final Grupo gr;
             private final Tramo tr;
-
+            
             public CreateTramoCommand(Grupo gr, Tramo tr) {
                 this.tr = tr;
                 this.gr = gr;
             }
-
+            
             @Override
             public void execute() {
                 gr.getTramosGrupoCompleto().getTramos().add(tr);
                 tr.setParent(gr.getTramosGrupoCompleto());
                 updateStatusAsignacionDeAula(tr);
-
+                
             }
-
+            
             @Override
             public void undo() {
                 gr.getTramosGrupoCompleto().getTramos().remove(tr);
                 updateStatusAsignacionDeAula(tr);
             }
-
+            
             @Override
             public String getDescription() {
                 return "Añadir tramo";
             }
-
+            
             @Override
             public String toString() {
                 return getDescription();
             }
-
+            
             @Override
             public Object getDataType() {
                 return tr;
             }
-
+            
             @Override
             int getEventType() {
                 return DataProyectoListener.ADD;
@@ -403,49 +404,103 @@ public class KairosController {
         }
         return new CreateTramoCommand(gr, tr);
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getDeleteTramoCommand">
+    public KairosCommand getDeleteTramoCommand(Tramo tr) {
+        class DeleteTramoCommand extends KairosCommand {
+            
+            private final Grupo gr;
+            private final Tramo tr;
+            
+            public DeleteTramoCommand(Tramo tr) {
+                this.tr = tr;
+                this.gr = tr.getParent().getParent();
+            }
+            
+            @Override
+            public void execute() {
+                if (gr != null) {
+                    gr.getTramosGrupoCompleto().getTramos().remove(tr);
+                    updateStatusAsignacionDeAula(gr);
+                }
+            }
+            
+            @Override
+            public void undo() {
+                if (gr != null) {
+                    gr.getTramosGrupoCompleto().getTramos().add(tr);
+                    updateStatusAsignacionDeAula(gr);
+                }
+            }
+            
+            @Override
+            public String getDescription() {
+                return "Borrar tramo";
+            }
+            
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+            
+            @Override
+            public Object getDataType() {
+                return tr;
+            }
+            
+            @Override
+            int getEventType() {
+                return DataProyectoListener.REMOVE;
+            }
+        }
+        return new DeleteTramoCommand(tr);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="getCreateGrupoCommand">
     public KairosCommand getCreateGrupoCommand(Asignatura asig, Grupo gr) {
         class CreateGrupoCommand extends KairosCommand {
-
+            
             private final Grupo gr;
             private final Asignatura asig;
-
+            
             public CreateGrupoCommand(Asignatura asig, Grupo gr) {
                 this.gr = gr;
                 this.asig = asig;
             }
-
+            
             @Override
             public void execute() {
                 asig.addGrupo(gr);
                 gr.setParent(asig);
-
+                
                 updateStatusAsignacionDeAula(gr);
-
+                
             }
-
+            
             @Override
             public void undo() {
                 asig.removeGrupo(gr);
                 gr.setParent(null);
                 updateStatusAsignacionDeAula(gr);
             }
-
+            
             @Override
             public String getDescription() {
                 return "Añadir grupo";
             }
-
+            
             @Override
             public String toString() {
                 return getDescription();
             }
-
+            
             @Override
             public Object getDataType() {
                 return gr;
             }
-
+            
             @Override
             int getEventType() {
                 return DataProyectoListener.ADD;
@@ -453,5 +508,109 @@ public class KairosController {
         }
         return new CreateGrupoCommand(asig, gr);
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getEditGrupoCommand">
+    public KairosCommand getEditGrupoCommand(Grupo data, Grupo grNew) {
+        class EditGrupoCommand extends KairosCommand {
+            
+            private final Grupo data;
+            private final Grupo grNew;
+            private final Grupo grOld;
+            
+            public EditGrupoCommand(Grupo data, Grupo grNew) {
+                this.data = data;
+                this.grNew = grNew;
+                grOld = new Grupo("");
+            }
+            
+            @Override
+            public void execute() {
+                grOld.copyBasicValuesFrom(data);
+                data.copyBasicValuesFrom(grNew);
+                
+            }
+            
+            @Override
+            public void undo() {
+                data.copyBasicValuesFrom(grOld);
+            }
+            
+            @Override
+            public String getDescription() {
+                return "Editar grupo";
+            }
+            
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+            
+            @Override
+            public Object getDataType() {
+                return data;
+            }
+            
+            @Override
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
+            
+        }
+        return new EditGrupoCommand(data, grNew);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="getDeleteGrupoCommand">
+    public KairosCommand getDeleteGrupoCommand(Grupo gr) {
+        class DeleteGrupoCommand extends KairosCommand {
+            
+            private final Grupo gr;
+            private final Asignatura asig;
+            
+            public DeleteGrupoCommand(Grupo gr) {
+                this.gr = gr;
+                this.asig = gr.getParent();
+            }
+            
+            @Override
+            public void execute() {
+                if (asig != null) {
+                    asig.getGrupos().getGrupos().remove(gr);
+                    updateStatusAsignacionDeAula(asig);
+                }
+            }
+            
+            @Override
+            public void undo() {
+                if (asig != null) {
+                    asig.getGrupos().getGrupos().add(gr);
+                    updateStatusAsignacionDeAula(asig);
+                }
+            }
+            
+            @Override
+            public String getDescription() {
+                return "Borrar grupo";
+            }
+            
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+            
+            @Override
+            public Object getDataType() {
+                return gr;
+            }
+            
+            @Override
+            int getEventType() {
+                return DataProyectoListener.REMOVE;
+            }
+        }
+        return new DeleteGrupoCommand(gr);
+    }
+//</editor-fold>
+    
 }
