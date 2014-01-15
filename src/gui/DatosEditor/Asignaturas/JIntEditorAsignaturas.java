@@ -16,7 +16,6 @@ import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
-import gui.DatosEditor.Docencia.JTreeAsignaturasDropListener;
 import gui.DatosEditor.Docencia.JTreeAsignaturasTransferHandler;
 import gui.TreeAsignaturas;
 import java.awt.dnd.DropTarget;
@@ -317,8 +316,9 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (pat.getLastPathComponent() instanceof Asignatura) {
                     Asignatura asigEdit = (Asignatura) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente la asignatura " + asigEdit.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        Curso cu = asigEdit.getParent();
-                        cu.deleteAsignatura(asigEdit);
+                        KairosCommand cmd = dk.getController().getDeleteAsignaturaCommand(asigEdit);
+                        dk.getController().executeCommand(cmd);
+                                
                     }
                     jTreeAsignaturas.updateUI();
                 }
@@ -415,6 +415,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     Curso cur = (Curso) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente el curso " + cur.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         cur.getParent().removeCurso(cur);
+                        KairosCommand cmd = dk.getController().getDeleteCursoCommand(cur);
+                        dk.getController().executeCommand(cmd);
                     }
                     updateData();
                     
@@ -461,6 +463,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     dlg.setVisible(true);
                     if (dlg.getReturnStatus() == JDlgAñadirGrupo.RET_OK) {
                         asig.createGrupo(gr);
+                        KairosCommand cmd = dk.getController().getCreateGrupoCommand(asig, gr);
+                        dk.getController().executeCommand(cmd);
                     }
                     updateData();
                     
@@ -505,7 +509,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (pat.getLastPathComponent() instanceof Grupo) {
                     Grupo gr = (Grupo) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente el grupo " + gr.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        gr.getParent().deleteGrupo(gr);
+                        KairosCommand cmd = dk.getController().getDeleteGrupoCommand(gr);
+                        dk.getController().executeCommand(cmd);
                     }
                     updateData();
                     

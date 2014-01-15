@@ -142,18 +142,9 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         return docencia;
     }
 
-    /**
-     *
-     * @param docenciaItem
-     */
+
     public void addDocencia(Tramo docenciaItem) {
         this.docencia.add(docenciaItem);
-        if (docenciaItem.getDocente() != this) {
-            docenciaItem.setDocente(this);
-            setDirty(true);
-        }
-        ordenaDocencia();
-        
     }
 
     /**
@@ -162,15 +153,16 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      */
     public void removeDocencia(Tramo docenciaItem) {
         if (docenciaItem != null) {
-           docenciaItem.removeDocente();
+            docenciaItem.removeDocente();
         }
     }
+
     /**
      *
      */
     protected void clearDocencia() {//protected para hacer que la docencia se borre desde DataProfesores
         for (Tramo d : docencia) {
-            d.removeDocente();
+//            d.removeDocente();
         }
         docencia.clear();
         setDirty(true);
@@ -270,8 +262,8 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     }
 
     public void copyBasicValuesFrom(Profesor newData) {
-        this.nombre=newData.nombre;
-        this.apellidos=newData.apellidos;
-        this.nombreCorto=newData.nombreCorto;
+        this.nombre = newData.nombre;
+        this.apellidos = newData.apellidos;
+        this.nombreCorto = newData.nombreCorto;
     }
 }

@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.DatosEditor.Docencia;
+package gui.DatosEditor.Profesores;
 
 import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Teachable;
 import data.profesores.Profesor;
 import gui.DatosEditor.Aulas.TeachableDraggable;
+import gui.DatosEditor.Docencia.TreeProfesores;
 import gui.TreeAsignaturas;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
@@ -61,7 +63,7 @@ public class JTreeProfesoresDropListener implements DropTargetListener {
 
     @Override
     public void drop(DropTargetDropEvent dtde) {
-        Teachable teachable = null;
+        Teachable teachable;
         try {
             teachable = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
             //Operaciones en nodo destino
@@ -70,7 +72,8 @@ public class JTreeProfesoresDropListener implements DropTargetListener {
                 Object obj = path.getLastPathComponent();
                 if (obj instanceof Profesor) {
                     Profesor prof = (Profesor) obj;
-                    teachable.setDocente(prof);
+                    KairosCommand cmd = dk.getController().getAsignarDocenciaCommand(prof, teachable);
+                    dk.getController().executeCommand(cmd);
                 }
             }
         } catch (UnsupportedFlavorException ex) {

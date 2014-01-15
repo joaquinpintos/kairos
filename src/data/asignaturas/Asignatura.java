@@ -71,22 +71,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
 
     /**
      *
-     * @param gr
-     */
-    public void deleteGrupo(Grupo gr) {
-        gr.removeAllTramos();
-        this.grupos.getGrupos().remove(gr);
-        gr.removeDocente();
-        gr.setParent(null);
-        setDirty(true);
-        updateAsigAulaStatus();
-        //Disparo evento de elminación de grupo
-        fireDataEvent(gr, DataProyectoListener.REMOVE);
-
-    }
-
-    /**
-     *
      * @return
      */
     public String getNombre() {
@@ -140,19 +124,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         setDirty(true);
     }
 
-    /**
-     *
-     * @param curso
-     */
-    public void changeCursoTo(Curso curso) {
-        if (this.getParent() != null) {
-            this.getParent().deleteAsignatura(this);
-        }
-        if (curso != null) {
-            curso.crateAsignatura(this);
-        }
-        setDirty(true);
-    }
 
     /**
      *
@@ -270,26 +241,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
 
     }
 
-    /**
-     *
-     * @param profesor
-     */
-    @Override
-    public void setDocente(Profesor profesor) {
-        for (Grupo gr : grupos.getGrupos()) {
-            gr.setDocente(profesor);
-        }
-    }
 
-    /**
-     *
-     */
-    @Override
-    public void removeDocente() {
-        for (Grupo gr : grupos.getGrupos()) {
-            gr.removeDocente();
-        }
-    }
 
     /**
      *
@@ -304,14 +256,12 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      *
      * @param aula
      */
-    @Override
     public void asignaAula(AulaMT aula) {
         for (Grupo gr : grupos.getGrupos()) {
             gr.asignaAula(aula);
         }
     }
 
-    @Override
     public void removeAula() {
         for (Grupo gr : grupos.getGrupos()) {
             gr.removeAula();
@@ -361,13 +311,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     void clearAulasAsignadas() {
         for (Grupo gr : grupos.getGrupos()) {
             gr.clearAulasAsignadas();
-        }
-    }
-
-    void removeAllGrupos() {
-        ArrayList<Grupo> gruposClone = (ArrayList<Grupo>) grupos.getGrupos().clone();
-        for (Grupo gr : gruposClone) {
-            deleteGrupo(gr);
         }
     }
 

@@ -153,7 +153,7 @@ public class DOMLoaderAsignaturas {
         if (elemDocencia != null) {
             HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
             Profesor prof = map.get(elemDocencia.getTextContent());
-            tr.setDocente(prof);
+            tr.setDocenteOld(prof);
         }
         Element elemAula = buscaPrimerElementoConNombre(parent, "aula");
         if (elemAula != null) {

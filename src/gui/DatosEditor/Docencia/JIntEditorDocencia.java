@@ -5,6 +5,8 @@
  */
 package gui.DatosEditor.Docencia;
 
+import gui.DatosEditor.Asignaturas.JTreeAsignaturasDropListener;
+import gui.DatosEditor.Profesores.JTreeProfesoresDropListener;
 import data.DataKairos;
 import data.DataProyectoListener;
 import data.profesores.TreeCellRendererProfesores;

@@ -183,27 +183,10 @@ private static final long serialVersionUID = 27112013L;
         }
         return resul;
     }
-
-    /**
-     *
-     * @param profesor
-     */
-    @Override
-    public void setDocente(Profesor profesor) {
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void removeDocente() {
-    }
-
     /**
      *
      * @param aula
      */
-    @Override
     public void asignaAula(AulaMT aula) {
         for (Grupo gr : grupos) {
             gr.asignaAula(aula);
@@ -213,7 +196,6 @@ private static final long serialVersionUID = 27112013L;
     /**
      *
      */
-    @Override
     public void removeAula() {
         for (Grupo gr : grupos) {
             gr.removeAula();

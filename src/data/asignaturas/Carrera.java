@@ -60,10 +60,11 @@ public class Carrera implements Serializable, Teachable {
      */
     public void addCurso(Curso curso) {
         this.cursos.add(curso);
-        curso.setParent(this);
+        ordenaCursos();
+    }
+
+    public void ordenaCursos() {
         Collections.sort(cursos);
-        fireDataEvent(curso, DataProyectoListener.ADD);
-        setDirty(true);
     }
 
     /**
@@ -74,17 +75,6 @@ public class Carrera implements Serializable, Teachable {
         return parent;
     }
 
-    /**
-     *
-     * @param curso
-     */
-    public void removeCurso(Curso curso) {
-        this.cursos.remove(curso);
-        curso.removeAllAsignaturas();
-        curso.setParent(null);
-        fireDataEvent(curso, DataProyectoListener.REMOVE);
-        setDirty(true);
-    }
 
     @Override
     public String toString() {
@@ -122,27 +112,6 @@ public class Carrera implements Serializable, Teachable {
 
     /**
      *
-     * @param profesor
-     */
-    @Override
-    public void setDocente(Profesor profesor) {
-        for (Curso c : cursos) {
-            c.setDocente(profesor);
-        }
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void removeDocente() {
-        for (Curso c : cursos) {
-            c.removeDocente();
-        }
-    }
-
-    /**
-     *
      * @param obj
      * @param type
      */
@@ -157,7 +126,6 @@ public class Carrera implements Serializable, Teachable {
      *
      * @param aula
      */
-    @Override
     public void asignaAula(AulaMT aula) {
         for (Curso c : cursos) {
             c.asignaAula(aula);
@@ -167,7 +135,6 @@ public class Carrera implements Serializable, Teachable {
     /**
      *
      */
-    @Override
     public void removeAula() {
         for (Curso c : cursos) {
             c.removeAula();
@@ -205,10 +172,8 @@ public class Carrera implements Serializable, Teachable {
         this.algunoSinAula=!value;
     }
 
-    void removeAllCursos() {
-        ArrayList<Curso> cursosClone = (ArrayList<Curso>) cursos.clone();
-        for (Curso cu : cursosClone) {
-            removeCurso(cu);
-        }
+    public void removeCurso(Curso cur) {
+        cursos.remove(cur);
     }
+
 }

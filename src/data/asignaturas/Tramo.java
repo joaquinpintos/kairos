@@ -86,20 +86,11 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
 
     }
 
-    /**
-     *
-     * @param profesor
-     */
-    @Override
-    public void setDocente(Profesor profesor) {
-        removeDocente();
-        this.profesor = profesor;
-        if (profesor != null) {
-            profesor.addDocencia(this);
-        }
-        setDirty(true);
-        fireDataEvent(this, DataProyectoListener.MODIFY);
+    public void setDocente(Profesor p) {
+        this.profesor = p;
     }
+
+    
 
     /**
      *
@@ -112,15 +103,8 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     /**
      *
      */
-    @Override
     public void removeDocente() {
-        Profesor p = profesor;
         profesor = null;
-//        if (p != null) {
-//            p.removeDocencia(this);
-//        }
-        setDirty(true);
-        fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
     /**
@@ -147,7 +131,6 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      *
      * @param aulaMT
      */
-    @Override
     public void asignaAula(AulaMT aulaMT) {
         this.aulaMT = aulaMT;
         aulaMT.asignaTramo(this);
@@ -169,7 +152,6 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     /**
      *
      */
-    @Override
     public void removeAula() {
         this.aulaMT = null;
         parent.updateAsigAulaStatus();

@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.DatosEditor.Docencia;
+package gui.DatosEditor.Asignaturas;
 
 import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Teachable;
 import data.profesores.Profesor;
+import gui.DatosEditor.Docencia.ProfesorDraggable;
 import gui.TreeAsignaturas;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
@@ -76,8 +78,8 @@ public class JTreeAsignaturasDropListener implements DropTargetListener {
                 Object obj = path.getLastPathComponent();
                 if (obj instanceof Teachable) {
                     Teachable teach = (Teachable) obj;
-                    teach.removeDocente();
-                    teach.setDocente(profesor);
+                    KairosCommand cmd = dk.getController().getAsignarDocenciaCommand(profesor, teach);
+                    dk.getController().executeCommand(cmd);
                 }
             }
         }

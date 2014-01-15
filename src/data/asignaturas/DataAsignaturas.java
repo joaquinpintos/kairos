@@ -58,12 +58,7 @@ public class DataAsignaturas extends AbstractDataSets {
      * @param car
      */
     public void removeCarrera(Carrera car) {
-        car.removeAllCursos();
         this.carreras.remove(car);
-        car.setParent(null);
-        setDirty(true);
-        fireDataEvent(car, DataProyectoListener.REMOVE);
-//        car.setParent(null);
     }
 
     /**

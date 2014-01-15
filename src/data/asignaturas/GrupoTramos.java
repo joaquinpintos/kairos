@@ -190,20 +190,4 @@ public class GrupoTramos implements Serializable,Teachable {
     public void fireDataEvent(Object obj, int type) {
         getParent().fireDataEvent(obj, type);
     }
-
-    @Override
-    public void setDocente(Profesor profesor) {
-    }
-
-    @Override
-    public void removeDocente() {
-    }
-
-    @Override
-    public void asignaAula(AulaMT aula) {
-    }
-
-    @Override
-    public void removeAula() {
-    }
 }

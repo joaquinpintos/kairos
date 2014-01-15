@@ -69,27 +69,8 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public boolean removeAsignatura(Asignatura o) {
         return asignaturas.remove(o);
     }
-
     
     
-    /**
-     *
-     * @param asig
-     */
-    public void deleteAsignatura(Asignatura asig) {
-        //TODO: BUG!! AL borrar NO se elimina la docencia ni las aulas!!!
-        asig.clearDocente();
-        asig.clearAulasAsignadas();
-        asig.removeAllGrupos();
-        this.asignaturas.remove(asig);
-        asig.setCurso(null);
-        DataAsignaturas dataAsignaturas = this.getParent().getParent();
-        try {
-            dataAsignaturas.fireDataEvent(asig, DataProyectoListener.REMOVE);
-        } catch (NullPointerException e) {
-        }
-        setDirty(true);
-    }
 
     /**
      *
@@ -189,27 +170,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
 
     /**
      *
-     * @param profesor
-     */
-    @Override
-    public void setDocente(Profesor profesor) {
-        for (Asignatura asig : asignaturas) {
-            asig.setDocente(profesor);
-        }
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void removeDocente() {
-        for (Asignatura asig : asignaturas) {
-            asig.removeDocente();
-        }
-    }
-
-    /**
-     *
      * @param obj
      * @param type
      */
@@ -221,7 +181,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
      *
      * @param aula
      */
-    @Override
     public void asignaAula(AulaMT aula) {
         for (Asignatura asig : asignaturas) {
             asig.asignaAula(aula);
@@ -231,7 +190,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     /**
      *
      */
-    @Override
     public void removeAula() {
         for (Asignatura asig : asignaturas) {
             asig.removeAula();
@@ -270,12 +228,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public void setTieneAula(boolean value)
     {
         this.algunoSinAula=!value;
-    }
-    void removeAllAsignaturas() {
-         ArrayList<Asignatura> asigClone = (ArrayList<Asignatura>) asignaturas.clone();
-        for (Asignatura asig : asigClone) {
-            deleteAsignatura(asig);
-        }
     }
     
 }

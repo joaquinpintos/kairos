@@ -6,6 +6,7 @@ package gui.DatosEditor.Profesores;
 
 import data.DataKairos;
 import data.DataProyectoListener;
+import data.KairosCommand;
 import data.asignaturas.Teachable;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
@@ -16,7 +17,6 @@ import gui.DatosEditor.Asignaturas.TreeCellRendererAsignaturas;
 import gui.DatosEditor.Asignaturas.TreeModelAsignaturas;
 import gui.DatosEditor.Aulas.TeachableDraggable;
 import gui.DatosEditor.DataGUIInterface;
-import gui.DatosEditor.Docencia.JTreeProfesoresDropListener;
 import gui.DatosEditor.Docencia.JTreeProfesoresTransferHandler;
 import gui.DatosEditor.Docencia.TreeProfesores;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -680,7 +680,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                     try {
                         teachable = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
                         //Operaciones en nodo destino
-                        teachable.setDocente(profesorMostradoEnDocencia);
+                        KairosCommand cmd = dk.getController().getAsignarDocenciaCommand(profesorMostradoEnDocencia, teachable);
+                        dk.getController().executeCommand(cmd);
                     } catch (UnsupportedFlavorException ex) {
                         Logger.getLogger(JTreeProfesoresDropListener.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {

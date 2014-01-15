@@ -139,21 +139,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     }
 
-    //AL asignar la docencia a este profesor, actualizo el estado de la asignatura 
-    //a la que pertenece
-    /**
-     * Asigna docente a grupo. Este procedimiento asigna recursivamente el
-     * docente a todos los tramos a los que pertenece el grupo.
-     *
-     * @param profesor Profesor que dará docencia en dicho grupo.
-     */
-    @Override
-    public void setDocente(Profesor profesor) {
-//        this.profesor = profesor;
-        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
-            tr.setDocente(profesor);
-        }
-    }
 
     /**
      *
@@ -261,16 +246,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         }
     }
 
-    /**
-     * Elimina el docente asignado al grupo. Este procedimiento elimina
-     * recursivamente el docente de todos los tramos asociados al grupo.
-     */
-    @Override
-    public void removeDocente() {
-        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
-            tr.removeDocente();
-        }
-    }
 
     /**
      * Asigna aula al grupo. Este procedimiento asigna recursivamente aula a
@@ -278,7 +253,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      *
      * @param aula Aula a asignar.
      */
-    @Override
     public void asignaAula(AulaMT aula) {
         for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
             tr.asignaAula(aula, true);
@@ -290,7 +264,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      * a todos los tramos asociados al grupo.
      *
      */
-    @Override
     public void removeAula() {
         for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
             tr.removeAula();

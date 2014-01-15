@@ -15,26 +15,5 @@ import data.profesores.Profesor;
  */
 public interface Teachable {
 
-    /**
-     *
-     * @param profesor
-     */
-    public void setDocente(Profesor profesor);
 
-    /**
-     *
-     */
-    public void removeDocente();
-
-    /**
-     *
-     * @param aula
-     */
-    public void asignaAula(AulaMT aula);
-
-    /**
-     *
-     */
-    public void removeAula();
-    
 }
