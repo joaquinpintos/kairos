@@ -6,9 +6,7 @@
 package data.asignaturas;
 
 import data.DataProyectoListener;
-import data.aulas.Aula;
 import data.aulas.AulaMT;
-import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -21,10 +19,12 @@ import java.util.ArrayList;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class GrupoCursos implements DataProyectoListener, Serializable, Teachable {
-private static final long serialVersionUID = 27112013L;
+
+    private static final long serialVersionUID = 27112013L;
     private final ArrayList<Grupo> grupos;
     private final String nombreGrupo;
     private final Curso curso;
+    private boolean algunoSinDocente;
 
     /**
      *
@@ -173,33 +173,29 @@ private static final long serialVersionUID = 27112013L;
      *
      * @return
      */
-    public boolean algunoSinAula() {
+    @Override
+    public boolean isAlgunoSinAula() {
         boolean resul = false;
         for (Grupo gr : grupos) {
-            if (gr.algunoSinAula()) {
+            if (gr.isAlgunoSinAula()) {
                 resul = true;
                 break;
             }
         }
         return resul;
     }
-    /**
-     *
-     * @param aula
-     */
-    public void asignaAula(AulaMT aula) {
-        for (Grupo gr : grupos) {
-            gr.asignaAula(aula);
-        }
+
+    @Override
+    public boolean isAlgunoSinDocente() {
+        return algunoSinDocente;
     }
 
-    /**
-     *
-     */
-    public void removeAula() {
-        for (Grupo gr : grupos) {
-            gr.removeAula();
-        }
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
+        algunoSinDocente = value;
     }
 
+    @Override
+    public void setAlgunoSinAula(boolean value) {
+    }
 }

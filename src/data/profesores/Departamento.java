@@ -68,7 +68,7 @@ public class Departamento implements Serializable {
      *
      * @param pro
      */
-    public void createProfesor(Profesor pro) {
+    public void createProfesorOLD(Profesor pro) {
         this.profesores.add(pro);
         pro.setDepartamento(this);
         ordenaProfesores();
@@ -79,25 +79,7 @@ public class Departamento implements Serializable {
         return profesores.remove(o);
     }
 
-    /**
-     *
-     * @param pro
-     */
-    public void deleteProfesor(Profesor pro) {
-        //Antes de borrarlo miro los grupos a los que tenga asignada docencia
-        //y los libero
-        pro.clearDocencia();
-        this.profesores.remove(pro);
-        pro.setDepartamento(null);
-        setDirty(true);
-    }
-
-    void removeSinBorrarDocencia(Profesor pro) {
-        this.profesores.remove(pro);
-        pro.setDepartamento(null);
-        setDirty(true);
-    }
-
+   
     @Override
     public String toString() {
         return this.nombre;

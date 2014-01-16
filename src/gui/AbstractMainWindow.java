@@ -254,22 +254,24 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
     public final void addListeners() {
         dk.getController().addListener(jIntTreeProfesores);
         dk.getController().addListener(jIntTreeAsignaturas);
+        dk.getController().addListener(jIntTreeAulas);
+        dk.getController().addListener(jIntDatosProyecto);
         dk.getController().addListener(this);
         
-        dk.getDP().getRestrictionsData().addListener(horarioEditorMaster);
-        dk.getDP().getRestrictionsData().addListener(jIntRestricciones);
-
-        dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
-        dk.getDP().getDataProfesores().addListener(jIntTreeAsignaturas);
-        dk.getDP().getDataProfesores().addListener(jIntTreeAulas);
-
-        dk.getDP().getDataAulas().addListener(jIntTreeAulas);
-        dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);
-        dk.getDP().getDataAsignaturas().addListener(jIntTreeProfesores);
-        dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
-        dk.getDP().getDataAsignaturas().addListener(dk.getDP().getDataAsignaturas().getListaGrupoCursos());
-
-        dk.getDP().getDataAsignaturas().addListener(jIntEditorDocencia);
+//        dk.getDP().getRestrictionsData().addListener(horarioEditorMaster);
+//        dk.getDP().getRestrictionsData().addListener(jIntRestricciones);
+//
+//        dk.getDP().getDataProfesores().addListener(jIntTreeProfesores);
+//        dk.getDP().getDataProfesores().addListener(jIntTreeAsignaturas);
+//        dk.getDP().getDataProfesores().addListener(jIntTreeAulas);
+//
+//        dk.getDP().getDataAulas().addListener(jIntTreeAulas);
+//        dk.getDP().getDataAsignaturas().addListener(jIntTreeAulas);
+//        dk.getDP().getDataAsignaturas().addListener(jIntTreeProfesores);
+//        dk.getDP().getDataAsignaturas().addListener(jIntTreeAsignaturas);
+//        dk.getDP().getDataAsignaturas().addListener(dk.getDP().getDataAsignaturas().getListaGrupoCursos());
+//
+//        dk.getDP().getDataAsignaturas().addListener(jIntEditorDocencia);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -517,7 +519,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                     if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                         dk.clear();
                         File fichero = fc.getSelectedFile();
-                        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
+                        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk);
                         xmldlw.setFile(fichero);
                         boolean resul = xmldlw.load(fichero);
                         //Reconstruyo hashmap de profesores, util para asignaciones
@@ -560,7 +562,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                 if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                     boolean guardadoCorrecto = true;
                     try {
-                        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk.getDP());
+                        XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk);
                         xmldlw.setFile(fc.getSelectedFile());
                         guardadoCorrecto = xmldlw.save();
 

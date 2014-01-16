@@ -154,7 +154,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                     if (r != null) {
                         r.lanzarDialogoDeConfiguracion(this);
                         //Lanzo el evento de que se han modificado las restricciones
-                        dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.MODIFY);
+//                        dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.MODIFY);//comentado para no dar error
                         updateData();
                     }
 
@@ -200,7 +200,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                     Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
                     dk.getDP().getRestrictionsData().remove(r);
                     //Lanzo el evento de que se han modificado las restricciones
-                    dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.REMOVE);
+//                    dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.REMOVE);//comentado para no dar error
                     updateData();
 
                 } catch (ArrayIndexOutOfBoundsException exc) {

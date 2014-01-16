@@ -4,9 +4,6 @@
  */
 package data.asignaturas;
 
-import data.DataProyectoListener;
-import data.aulas.AulaMT;
-import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,13 +12,14 @@ import java.util.Collections;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class Carrera implements Serializable, Teachable {
+public class Carrera implements Serializable, Teachable, Comparable<Carrera> {
 
     private static final long serialVersionUID = 27112013L;
     private String nombre;
     private DataAsignaturas parent;
     private final ArrayList<Curso> cursos;
     private boolean algunoSinAula;
+    private boolean algunoSinDocente;
 
     /**
      *
@@ -60,7 +58,6 @@ public class Carrera implements Serializable, Teachable {
      */
     public void addCurso(Curso curso) {
         this.cursos.add(curso);
-        ordenaCursos();
     }
 
     public void ordenaCursos() {
@@ -74,7 +71,6 @@ public class Carrera implements Serializable, Teachable {
     public DataAsignaturas getParent() {
         return parent;
     }
-
 
     @Override
     public String toString() {
@@ -110,36 +106,6 @@ public class Carrera implements Serializable, Teachable {
         this.parent = parent;
     }
 
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    public void fireDataEvent(Object obj, int type) {
-        DataAsignaturas da = this.getParent();
-        if (da != null) {
-            da.fireDataEvent(obj, type);
-        }
-    }
-
-    /**
-     *
-     * @param aula
-     */
-    public void asignaAula(AulaMT aula) {
-        for (Curso c : cursos) {
-            c.asignaAula(aula);
-        }
-    }
-
-    /**
-     *
-     */
-    public void removeAula() {
-        for (Curso c : cursos) {
-            c.removeAula();
-        }
-    }
 
     /**
      *
@@ -147,7 +113,7 @@ public class Carrera implements Serializable, Teachable {
     public void updateAsigAulaStatus() {
         boolean resul = false;
         for (Curso c : cursos) {
-            if (c.algunoSinAula()) {
+            if (c.isAlgunoSinAula()) {
                 resul = true;
                 break;
             }
@@ -157,23 +123,45 @@ public class Carrera implements Serializable, Teachable {
         }
     }
 
-    public boolean algunoSinAula() {
+    @Override
+    public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
- public boolean tieneAula() {
+
+    public boolean tieneAula() {
         return !algunoSinAula;
     }
-    public void setAlgunoSinAula(boolean value)
-    {
-        this.algunoSinAula=value;
+
+    @Override
+    public void setAlgunoSinAula(boolean value) {
+        this.algunoSinAula = value;
     }
-     public void setTieneAula(boolean value)
-    {
-        this.algunoSinAula=!value;
+
+    public void setTieneAula(boolean value) {
+        this.algunoSinAula = !value;
     }
 
     public void removeCurso(Curso cur) {
         cursos.remove(cur);
+    }
+
+    @Override
+    public int compareTo(Carrera o) {
+        return this.nombre.compareTo(o.getNombre());
+    }
+
+    @Override
+    public boolean isAlgunoSinDocente() {
+        return algunoSinDocente;
+    }
+
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
+        algunoSinDocente = value;
+    }
+
+    public void copyBasicValuesFrom(Carrera data) {
+        this.nombre=data.getNombre();
     }
 
 }

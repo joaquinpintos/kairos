@@ -285,7 +285,7 @@ public class jDlgEditarAsignatura extends javax.swing.JDialog {
             newAsig.setNombreCorto(jTextNombreCorto.getText());
             newAsig.setNumCreditos(Integer.valueOf(jTextNumCreditos.getText()));
             //Solo es necesario cambiar curso, ya que carrera forma parte de curso.
-            newAsig.setCurso((Curso) jComboCursos.getSelectedItem());
+            newAsig.setParent((Curso) jComboCursos.getSelectedItem());
             KairosCommand cmd = dk.getController().getEditAsignaturaCommand(asigEdit, newAsig);
 
             dk.getController().executeCommand(cmd);

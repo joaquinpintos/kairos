@@ -5,6 +5,7 @@
 package gui.DatosEditor.Aulas;
 
 import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Teachable;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
@@ -81,9 +82,12 @@ public class JTreeAulasDropListener implements DropTargetListener {
                 Teachable teachableDragged;
 
                 teachableDragged = (Teachable) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
-               teachableDragged.asignaAula(new AulaMT(aula, asignaciones.esTarde()));
-                parent.getjTreeGrupoCursos().updateUI();
-                parent.getjTreeAulas().updateUI();
+                final AulaMT aulaMT = new AulaMT(aula, asignaciones.esTarde());
+                KairosCommand cmd = dk.getController().getAsignarAulaCommand(aulaMT, teachableDragged);
+                dk.getController().executeCommand(cmd);
+//               teachableDragged.asignaAula(aulaMT);
+//                parent.getjTreeGrupoCursos().updateUI();
+//                parent.getjTreeAulas().updateUI();
             }
         } catch (UnsupportedFlavorException ex) {
            //NO hago nada,salvo escribir mensaje de error

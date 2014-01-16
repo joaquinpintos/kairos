@@ -8,6 +8,7 @@ import data.AbstractDataSets;
 import data.DataProject;
 import data.DataProyectoListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,7 +31,6 @@ public class DataAsignaturas extends AbstractDataSets {
         super(dataProyecto);
         this.carreras = new ArrayList<Carrera>();
         listaGrupoCursos = new ListaGrupoCursos(dataProyecto);
-        this.addListener(listaGrupoCursos);//Listener para cuando se añada/borre un grupo
     }
 
     /**
@@ -47,10 +47,6 @@ public class DataAsignaturas extends AbstractDataSets {
      */
     public void addCarrera(Carrera car) {
         this.carreras.add(car);
-        car.setParent(this);
-        setDirty(true);
-        fireDataEvent(car, DataProyectoListener.ADD);
-//        car.setParent(this);
     }
 
     /**
@@ -174,23 +170,9 @@ public class DataAsignaturas extends AbstractDataSets {
     }
 //</editor-fold>
 
-    /**
-     *
-     * @param c
-     * @param asigNueva
-     */
-    public void addAsignatura(Curso c, Asignatura asigNueva) {
-        c.crateAsignatura(asigNueva);
-        fireDataEvent(asigNueva, DataProyectoListener.ADD);
+    public void ordenaCarreras() {
+        Collections.sort(carreras);
     }
 
-    /**
-     *
-     */
-    public void refrescaEstadoAsignacionAulas() {
-        for (Grupo gr : getAllGrupos()) {
-            gr.updateAsigAulaStatus();
-        }
-    }
 
 }

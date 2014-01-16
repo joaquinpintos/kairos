@@ -95,34 +95,34 @@ public class TreeModelProfesores implements TreeModel {
         listeners.remove(l);
     }
 
-
-    /**
-     * Copia los datos del nuevo profesor en el viejo
-     *
-     * @param p
-     * @param nuevoP
-     * @param path
-     */
-    public void changeProfesor(Profesor p, Profesor nuevoP, TreePath path) {
-        TreeModelEvent evt = new TreeModelEvent(p, path);
-        if (path != null) {
-            for (TreeModelListener l : listeners) {
-                l.treeNodesRemoved(evt);
-            }
-        }
-        p.setNombre(nuevoP.getNombre());
-        p.setApellidos(nuevoP.getApellidos());
-        p.setNombreCorto(nuevoP.getNombreCorto());
-        Departamento d = nuevoP.getDepartamento();
-        p.changeDepartamento(d);
-        TreePath nuevoPath = new TreePath(new Object[]{getRoot(), d});
-        evt = new TreeModelEvent(p, nuevoPath);
-        for (TreeModelListener l : listeners) {
-            {
-                l.treeStructureChanged(evt);
-            }
-        }
-    }
+//
+//    /**
+//     * Copia los datos del nuevo profesor en el viejo
+//     *
+//     * @param p
+//     * @param nuevoP
+//     * @param path
+//     */
+//    public void changeProfesor(Profesor p, Profesor nuevoP, TreePath path) {
+//        TreeModelEvent evt = new TreeModelEvent(p, path);
+//        if (path != null) {
+//            for (TreeModelListener l : listeners) {
+//                l.treeNodesRemoved(evt);
+//            }
+//        }
+//        p.setNombre(nuevoP.getNombre());
+//        p.setApellidos(nuevoP.getApellidos());
+//        p.setNombreCorto(nuevoP.getNombreCorto());
+//        Departamento d = nuevoP.getDepartamento();
+//        p.changeDepartamento(d);
+//        TreePath nuevoPath = new TreePath(new Object[]{getRoot(), d});
+//        evt = new TreeModelEvent(p, nuevoPath);
+//        for (TreeModelListener l : listeners) {
+//            {
+//                l.treeStructureChanged(evt);
+//            }
+//        }
+//    }
 
     /**
      *

@@ -23,6 +23,7 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
     private AulaMT aulaMT;
     private boolean tarde;
     private Color colorEnTablaDeHorarios;
+    private boolean algunoSinDocente;
 
     /**
      *
@@ -74,23 +75,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return parent;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        try {
-            parent.setDirty(value);
-        } catch (NullPointerException e) {
-        }
-
-    }
 
     public void setDocente(Profesor p) {
         this.profesor = p;
     }
-
-    
 
     /**
      *
@@ -127,26 +115,8 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return resul;
     }
 
-    /**
-     *
-     * @param aulaMT
-     */
     public void asignaAula(AulaMT aulaMT) {
         this.aulaMT = aulaMT;
-        aulaMT.asignaTramo(this);
-        parent.updateAsigAulaStatus();
-        fireDataEvent(this, DataProyectoListener.MODIFY);
-    }
-
-    /**
-     *
-     * @param aulaMT
-     * @param batch
-     */
-    public void asignaAula(AulaMT aulaMT, boolean batch) {
-        //if (this.aulaMT == null) {
-        asignaAula(aulaMT);
-        //}
     }
 
     /**
@@ -154,8 +124,6 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      */
     public void removeAula() {
         this.aulaMT = null;
-        parent.updateAsigAulaStatus();
-        fireDataEvent(this, DataProyectoListener.MODIFY);
     }
 
     /**
@@ -166,6 +134,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return aulaMT;
     }
 
+    public void setAulaMT(AulaMT aulaMT) {
+        this.aulaMT = aulaMT;
+    }
+
     /**
      *
      * @return
@@ -174,7 +146,8 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return (aulaMT != null);
     }
 
-    public boolean algunoSinAula() {
+    @Override
+    public boolean isAlgunoSinAula() {
         return (aulaMT == null);
     }
 
@@ -186,13 +159,13 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return tarde;
     }
 
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    public void fireDataEvent(Object obj, int type) {
-        getParent().fireDataEvent(obj, type);
+    @Override
+    public boolean isAlgunoSinDocente() {
+        return (profesor == null);
+    }
+
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
     }
 
     /**
@@ -201,6 +174,10 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
      */
     public void setColorEnTablaDeHorarios(Color colorEnTablaDeHorarios) {
         this.colorEnTablaDeHorarios = colorEnTablaDeHorarios;
+    }
+
+    @Override
+    public void setAlgunoSinAula(boolean value) {
     }
 
 }

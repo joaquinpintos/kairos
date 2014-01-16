@@ -130,4 +130,8 @@ public class Aula implements Serializable {
             parent.setDirty(value);
         }
     }
+
+    public void copyBasicValuesFrom(Aula data) {
+        this.nombre=data.getNombre();
+    }
 }

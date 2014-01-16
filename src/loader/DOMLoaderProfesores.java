@@ -4,7 +4,9 @@
  */
 package loader;
 
+import data.DataKairos;
 import data.DataProject;
+import data.KairosCommand;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
 import java.io.File;
@@ -24,16 +26,16 @@ public class DOMLoaderProfesores {
     private Departamento currentDepartamento;
     private Profesor currentProfesor;
     private org.w3c.dom.Document dom;
-    private final DataProject dataProyecto;
+    private final DataKairos dk;
 
     /**
      *
      * @param file
-     * @param dataProyecto
+     * @param dk
      */
-    public DOMLoaderProfesores(File file, DataProject dataProyecto) {
+    public DOMLoaderProfesores(File file, DataKairos dk) {
         this.file = file;
-        this.dataProyecto = dataProyecto;
+        this.dk=dk;
     }
 
     /**
@@ -144,7 +146,10 @@ public class DOMLoaderProfesores {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 nuevoDep = new Departamento(nombre);
-                dataProyecto.getDataProfesores().addDepartamento(nuevoDep);
+//                dataProyecto.getDataProfesores().addDepartamento(nuevoDep);
+                KairosCommand cmd = dk.getController().getCreateDepartamentoCommand(nuevoDep);
+                dk.getController().executeCommand(cmd);
+                
                 readProfesor(elemDep, nuevoDep);
             }
         }
@@ -157,7 +162,10 @@ public class DOMLoaderProfesores {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 org.w3c.dom.Element elemProf = (Element) nodeList.item(i);
                 Profesor nuevoProf = procesaProfesor(elemProf);
-                nuevoDep.createProfesor(nuevoProf);
+//                nuevoDep.createProfesorOLD(nuevoProf);
+                KairosCommand cmd = dk.getController().getCreateProfesorCommand(nuevoDep, nuevoProf);
+                dk.getController().executeCommand(cmd);
+                
             }
         }
 

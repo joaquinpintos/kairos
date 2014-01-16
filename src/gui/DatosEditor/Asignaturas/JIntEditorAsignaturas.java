@@ -13,6 +13,7 @@ import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.DataAsignaturas;
 import data.asignaturas.Grupo;
+import data.asignaturas.Teachable;
 import data.asignaturas.Tramo;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
@@ -26,6 +27,7 @@ import java.awt.event.MouseListener;
 import java.util.TooManyListenersException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
+import javax.swing.Icon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -67,6 +69,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
     private AbstractAction añadirAction;
     private AbstractAction eliminarCarreraAction;
     private AbstractAction expandirTreeAction;
+    private AbstractAction desasignarDocenciaAction;
 
     /**
      * Creates new form JIntTreeAsignaturas
@@ -268,7 +271,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
 
-                JDlgAñadirAsignatura dlg = new JDlgAñadirAsignatura(mainWindow,  dk);
+                JDlgAñadirAsignatura dlg = new JDlgAñadirAsignatura(mainWindow, dk);
                 dlg.setLocationRelativeTo(null);
                 if ((pat != null) && (pat.getPath().length > 1)) {
                     pat.getPathComponent(1);
@@ -298,8 +301,6 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 jDlgEditarAsignatura dlg = new jDlgEditarAsignatura(mainWindow, true, dk, asigEdit);
                 dlg.setLocationRelativeTo(null);
                 dlg.setVisible(true);
-                dk.getDP().getDataProfesores().fireDataEvent(asigEdit, DataProyectoListener.MODIFY);
-                jTreeAsignaturas.updateUI();
             }
         }
 //</editor-fold>
@@ -318,7 +319,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente la asignatura " + asigEdit.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         KairosCommand cmd = dk.getController().getDeleteAsignaturaCommand(asigEdit);
                         dk.getController().executeCommand(cmd);
-                                
+
                     }
                     jTreeAsignaturas.updateUI();
                 }
@@ -340,7 +341,10 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 dlg.setTitle("Añadir carrera");
                 dlg.setVisible(true);
                 if (dlg.getReturnStatus() == JDlgAñadirAsignatura.RET_OK) {
-                    dk.getDP().getDataAsignaturas().addCarrera(car);
+//                    dk.getDP().getDataAsignaturas().addCarrera(car);
+                    KairosCommand cmd = dk.getController().getCreateCarreraCommand(car);
+                    dk.getController().executeCommand(cmd);
+
                 }
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
@@ -349,53 +353,52 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         expandirTreeAction.actionPerformed(null);
                     }
                 });
-                
+
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EliminarCarreraAction">
         class EliminarCarreraAction extends AbstractAction {
-            
+
             public EliminarCarreraAction() {
                 super("Eliminar carrera", dk.mc.DELETE_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat.getLastPathComponent() instanceof Carrera) {
                     Carrera car = (Carrera) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente la carrera" + car.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        car.getParent().removeCarrera(car);
+//                        car.getParent().removeCarrera(car);
+                        KairosCommand cmd = dk.getController().getDeleteCarreraCommand(car);
+                        dk.getController().executeCommand(cmd);
                     }
                     updateData();
-                    
+
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="AñadirCursosAction">
         class AñadirCursosAction extends AbstractAction {
-            
+
             public AñadirCursosAction() {
                 super("Añadir curso", dk.mc.CURSO_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat != null) {
                     if (pat.getLastPathComponent() instanceof Carrera) {
                         Carrera car = (Carrera) pat.getLastPathComponent();
-                        Curso cur = new Curso("");
-                        JDlgEditarCurso dlg = new JDlgEditarCurso(mainWindow, true, cur, dk, true);
+                        JDlgEditarCurso dlg = new JDlgEditarCurso(mainWindow, car, dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
-                        if (dlg.getReturnStatus() == JDlgEditarCurso.RET_OK) {//Añado el curso
-                            dlg.getCarrera().addCurso(cur);
-                        }
+
                         updateData();
-                        
+
                     }
                 }
             }
@@ -403,11 +406,11 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EliminarCursoAction">
         class EliminarCursoAction extends AbstractAction {
-            
+
             public EliminarCursoAction() {
                 super("Eliminar curso", dk.mc.DELETE_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -419,66 +422,61 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         dk.getController().executeCommand(cmd);
                     }
                     updateData();
-                    
+
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EditarCursoAction">
         class EditarCursoAction extends AbstractAction {
-            
+
             public EditarCursoAction() {
                 super("Editar curso", dk.mc.CURSO_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat.getLastPathComponent() instanceof Curso) {
                     Curso cur = (Curso) pat.getLastPathComponent();
-                    JDlgEditarCurso dlg = new JDlgEditarCurso(mainWindow, true, cur, dk, false);
-                    dlg.setLocationRelativeTo(null);
-                    dlg.setVisible(true);
-                    updateData();
-                    
+                    String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", cur.getNombre());
+                    if (nombre != null) {
+                        Curso newCurso = new Curso(nombre);
+                        KairosCommand cmd = dk.getController().getEditCursoCommand(cur, newCurso);
+                        dk.getController().executeCommand(cmd);
+                    }
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="AñadirGrupoAction">
+
         class AñadirGrupoAction extends AbstractAction {
-            
+
             public AñadirGrupoAction() {
                 super("Añadir grupo", dk.mc.ADD_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
                 if (pat.getLastPathComponent() instanceof Asignatura) {
                     Asignatura asig = (Asignatura) pat.getLastPathComponent();
-                    Grupo gr = new Grupo("");
-                    JDlgAñadirGrupo dlg = new JDlgAñadirGrupo(mainWindow, true, gr, true);
+                    JDlgAñadirGrupo dlg = new JDlgAñadirGrupo(mainWindow, dk, asig);
                     dlg.setLocationRelativeTo(null);
                     dlg.setVisible(true);
-                    if (dlg.getReturnStatus() == JDlgAñadirGrupo.RET_OK) {
-                        asig.createGrupo(gr);
-                        KairosCommand cmd = dk.getController().getCreateGrupoCommand(asig, gr);
-                        dk.getController().executeCommand(cmd);
-                    }
-                    updateData();
-                    
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EditarGrupoAction">
+
         class EditarGrupoAction extends AbstractAction {
-            
+
             public EditarGrupoAction() {
                 super("Editar grupo", dk.mc.GRUPO_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -486,23 +484,24 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     Grupo gr = (Grupo) pat.getLastPathComponent();
                     String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", gr.getNombre());
                     if (nombre != null) {
-                        Grupo grNew=new Grupo(nombre);
+                        Grupo grNew = new Grupo(nombre);
                         KairosCommand cmd = dk.getController().getEditGrupoCommand(gr, grNew);
                         dk.getController().executeCommand(cmd);
                     }
                     updateData();
-                    
+
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EliminarGrupoAction">
+
         class EliminarGrupoAction extends AbstractAction {
-            
+
             public EliminarGrupoAction() {
                 super("Eliminar grupo", dk.mc.DELETE_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -513,18 +512,19 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                         dk.getController().executeCommand(cmd);
                     }
                     updateData();
-                    
+
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EditarCarreraAction">
+
         class EditarCarreraAction extends AbstractAction {
-            
+
             public EditarCarreraAction() {
                 super("Editar carrera", dk.mc.CARRERA_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -532,19 +532,22 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                     Carrera ca = (Carrera) pat.getLastPathComponent();
                     String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", ca.getNombre());
                     if (nombre != null) {
-                        ca.setNombre(nombre);
+                        Carrera newCarrera = new Carrera(nombre);
+                        KairosCommand cmd = dk.getController().getEditCarreraCommand(ca, newCarrera);
+                        dk.getController().executeCommand(cmd);
                     }
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="AñadirTramosAction">
+
         class AñadirTramosAction extends AbstractAction {
-            
+
             public AñadirTramosAction() {
                 super("Añadir tramos", dk.mc.TRAMO_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Grupo grupoEditado = null;
@@ -557,22 +560,20 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 }
                 if (grupoEditado != null) {
                     JDlgAñadirTramos dlg = new JDlgAñadirTramos(mainWindow, dk, grupoEditado);
-                    dlg.setVisible(true);
                     dlg.setLocationRelativeTo(null);
-                    if (dlg.getReturnStatus() == JDlgAñadirTramos.RET_OK) {
-                        jTreeAsignaturas.updateUI();
-                    }
+                    dlg.setVisible(true);
                 }
             }
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EliminarTramoAction">
+
         class EliminarTramoAction extends AbstractAction {
-            
+
             public EliminarTramoAction() {
                 super("Eliminar tramo", dk.mc.DELETE_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Tramo tramoABorrar;
@@ -591,12 +592,13 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="EliminarAction">
+
         class EliminarAction extends AbstractAction {
-            
+
             public EliminarAction() {
                 super("Eliminar", dk.mc.DELETE_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -621,12 +623,13 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="AñadirAction">
+
         class AñadirAction extends AbstractAction {
-            
+
             public AñadirAction() {
                 super("Añadir", dk.mc.ADD_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath pat = jTreeAsignaturas.getSelectionPath();
@@ -654,31 +657,52 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         }
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="ExpandirTreeAction">
+
         class ExpandirTreeAction extends AbstractAction {
-            
+
             public ExpandirTreeAction() {
                 super("Expandir datos", null);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 expandTrees();
             }
-            
+
         }
 //</editor-fold>
+        class DesasignarDocencia extends AbstractAction {
 
+            public DesasignarDocencia() {
+                super("Desasignar docente", null);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath pat = jTreeAsignaturas.getSelectionPath();
+                if (pat.getLastPathComponent() instanceof Teachable) {
+                    Teachable t = (Teachable) (pat.getLastPathComponent());
+                    KairosCommand cmd = dk.getController().getAsignarDocenciaCommand(null, t); //Asigno profesor nulo para desasignar docente.
+                    dk.getController().executeCommand(cmd);
+                }
+            }
+
+        }
+        desasignarDocenciaAction = new DesasignarDocencia();
         eliminarAction = new EliminarAction();
         añadirAction = new AñadirAction();
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = getRootPane().getActionMap();
+
         //Mapeo la tecla DEL para borrar la restricción
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "Eliminar");
-        actionMap.put("Eliminar", eliminarAction);
+        actionMap.put(
+                "Eliminar", eliminarAction);
 
         //Mapeo la tecla INS para añadir nueva restricción
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "Añadir");
-        actionMap.put("Añadir", añadirAction);
+        actionMap.put(
+                "Añadir", añadirAction);
 
         editarCarreraAction = new EditarCarreraAction();
         eliminarGrupoAction = new EliminarGrupoAction();
@@ -711,6 +735,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         jButEliminarAsignatura.setAction(eliminarAsignaturaAction);
 
         expandirTreeAction = new ExpandirTreeAction();
+
         jButExpandirTodo.setAction(expandirTreeAction);
 
         jPopMenuAsignaturas = new JPopupMenu();
@@ -720,7 +745,8 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         jPopMenuAsignaturas.add(eliminarAsignaturaAction);
 
         jPopMenuAsignaturas.add(añadirGrupoAction);
-
+        jPopMenuAsignaturas.add(desasignarDocenciaAction);
+        
         jPopMenuCursos = new JPopupMenu();
 
         jPopMenuCursos.add(añadirAsignaturaAction);
@@ -728,13 +754,15 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         jPopMenuCursos.add(editarCursoAction);
 
         jPopMenuCursos.add(eliminarCursoAction);
-
+        jPopMenuCursos.add(desasignarDocenciaAction);
+        
         jPopMenuCarreras = new JPopupMenu();
 
         jPopMenuCarreras.add(añadirCursoAction);
 
         jPopMenuCarreras.add(editarCarreraAction);
-
+        jPopMenuCarreras.add(desasignarDocenciaAction);
+        
         jPopMenuGrupos = new JPopupMenu();
 
         jPopMenuGrupos.add(añadirTramosAction);
@@ -742,12 +770,13 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
         jPopMenuGrupos.add(editarGrupoAction);
 
         jPopMenuGrupos.add(eliminarGrupoAction);
-
+        jPopMenuGrupos.add(desasignarDocenciaAction);
         jPopMenuTramos = new JPopupMenu();
 
         jPopMenuTramos.add(añadirTramosAction);
 
         jPopMenuTramos.add(eliminarTramoAction);
+        jPopMenuTramos.add(desasignarDocenciaAction);
         //Creo mouse listener para jtreeAsignaturas
         MouseListener ml;
         ml = new MouseListener() {

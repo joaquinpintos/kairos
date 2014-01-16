@@ -4,7 +4,9 @@
  */
 package loader;
 
+import data.DataKairos;
 import data.DataProject;
+import data.KairosCommand;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -24,13 +26,15 @@ import org.w3c.dom.Element;
 public class DOMLoaderAsignaturas {
 
     private final DataProject dataProyecto;
+    private final DataKairos dk;
 
     /**
      *
-     * @param dataProyecto
+     * @param dk
      */
-    public DOMLoaderAsignaturas(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public DOMLoaderAsignaturas(DataKairos dk) {
+        this.dataProyecto = dk.getDP();
+        this.dk = dk;
     }
 
     /**
@@ -47,7 +51,9 @@ public class DOMLoaderAsignaturas {
                 String nombre = elemDep.getAttribute("nombre");
                 nuevaCarrera = new Carrera(nombre);
                 // dbg(nombreNodo + ":" + nombre);
-                dataProyecto.getDataAsignaturas().addCarrera(nuevaCarrera);
+//                dataProyecto.getDataAsignaturas().addCarrera(nuevaCarrera);
+                KairosCommand cmd = dk.getController().getCreateCarreraCommand(nuevaCarrera);
+                dk.getController().executeCommand(cmd);
                 readListaCursos(elemDep, nuevaCarrera);
             }
         }
@@ -89,7 +95,10 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Asignatura nuevaAsignatura = new Asignatura(nombre);
-                curso.crateAsignatura(nuevaAsignatura);
+//                curso.crateAsignatura(nuevaAsignatura);
+                KairosCommand cmd = dk.getController().getCreateAsignaturaCommand(curso, nuevaAsignatura);
+                dk.getController().executeCommand(cmd);
+                
                 readListaGrupos(elemDep, nuevaAsignatura);
             }
         }
@@ -115,7 +124,9 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Grupo nuevoGrupo = new Grupo(nombre);
-                nuevaAsignatura.createGrupo(nuevoGrupo);
+//                nuevaAsignatura.createGrupo(nuevoGrupo);
+                KairosCommand cmd = dk.getController().getCreateGrupoCommand(nuevaAsignatura, nuevoGrupo);
+                dk.getController().executeCommand(cmd);
                 readTramos(elemDep, nuevoGrupo);
             }
         }
@@ -146,21 +157,30 @@ public class DOMLoaderAsignaturas {
     }
 
     private void readTramo(Element parent, Grupo nuevoGrupo) {
+        KairosCommand cmd;
         int minutos = new Integer(parent.getAttribute("minutos"));
         Tramo tr = new Tramo(minutos);
-        nuevoGrupo.addTramoGrupoCompleto(tr);
+//        nuevoGrupo.addTramoGrupoCompleto(tr);
+        cmd = dk.getController().getCreateTramoCommand(nuevoGrupo, tr);
+        dk.getController().executeCommand(cmd);
         Element elemDocencia = buscaPrimerElementoConNombre(parent, "docente");
         if (elemDocencia != null) {
             HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
             Profesor prof = map.get(elemDocencia.getTextContent());
-            tr.setDocenteOld(prof);
+//            tr.setDocenteOld(prof);
+            cmd = dk.getController().getAsignarDocenciaCommand(prof, tr);
+            dk.getController().executeCommand(cmd);
+
         }
         Element elemAula = buscaPrimerElementoConNombre(parent, "aula");
         if (elemAula != null) {
             HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
             map.get(elemAula.getTextContent());
-            Aula aula=dataProyecto.getAulaPorHash(elemAula.getTextContent());
-            tr.asignaAula(new AulaMT(aula,elemAula.getTextContent().contains("@T")));
+            Aula aula = dataProyecto.getAulaPorHash(elemAula.getTextContent());
+            final AulaMT aulaMT = new AulaMT(aula, elemAula.getTextContent().contains("@T"));
+//            tr.asignaAulaOld(aulaMT);
+            cmd=dk.getController().getAsignarAulaCommand(aulaMT, tr);
+            dk.getController().executeCommand(cmd);
         }
     }
 

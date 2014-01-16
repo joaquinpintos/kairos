@@ -42,52 +42,26 @@ public class DataProfesores extends AbstractDataSets {
      */
     public void addDepartamento(Departamento dep) {
         this.departamentos.add(dep);
-        dep.setParent(this);
-        fireDataEvent(dep, DataProyectoListener.ADD);
-        setDirty(true);
     }
 
     /**
      *
      * @param dep
-     * @throws Exception
      */
-    public void removeDepartamento(Departamento dep) throws Exception {
+    public void removeDepartamento(Departamento dep)  {
         //OJO! Al borrar el departamento NO borro los profesores.
-        if (!dep.getProfesores().isEmpty()) {
-            throw new Exception("Departamento no vacío");
-        }
         departamentos.remove(dep);
-        dep.setParent(null);
-        fireDataEvent(dep, DataProyectoListener.REMOVE);
-        setDirty(true);
     }
 
     @Override
     public String toString() {
         return "Profesores";
     }
-
-//    private void writeDOM(Document doc, FileWriter salida) {
-//        Transformer Transformer;
-//        try {
-//            TransformerFactory tranFactory = TransformerFactory.newInstance();
-//            Transformer = tranFactory.newTransformer();
-//            DOMSource src = new DOMSource(doc);
-//            Result dest = new StreamResult(salida);
-//            Transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            Transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-//            Transformer.transform(src, dest);
-//        } catch (TransformerException ex) {
-//            throw new IllegalArgumentException("Error al escribir XML");
-//        }
-//    }
     /**
      *
      */
     public void clear() {
         departamentos.clear();
-        setDirty(true);
     }
 
     /**
@@ -134,8 +108,4 @@ public class DataProfesores extends AbstractDataSets {
         return resul;
     }
 
-    public void clearDocenciaProfesor(Profesor p) {
-        p.clearDocencia();
-        fireDataEvent(p, DataProyectoListener.MODIFY);
-    }
 }

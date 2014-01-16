@@ -4,6 +4,9 @@
  */
 package gui.DatosEditor.Asignaturas;
 
+import data.DataKairos;
+import data.KairosCommand;
+import data.asignaturas.Asignatura;
 import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
 import java.awt.event.ActionEvent;
@@ -12,8 +15,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 /**
@@ -30,21 +31,21 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private Grupo grupo;
-    private boolean esNuevo;
+    private final DataKairos dk;
+    private final Asignatura asig;
 
     /**
      * Creates new form JDlgAñadirGrupo
-     * @param parent 
-     * @param esNuevo
-     * @param gr 
-     * @param modal  
+     *
+     * @param parent
+     * @param dk
+     * @param asig
      */
-    public JDlgAñadirGrupo(java.awt.Frame parent, boolean modal, Grupo gr, boolean esNuevo) {
-        super(parent, modal);
+    public JDlgAñadirGrupo(java.awt.Frame parent, DataKairos dk, Asignatura asig) {
+        super(parent, true);
         initComponents();
-        this.grupo = gr;
-        this.esNuevo = esNuevo;
+        this.dk = dk;
+        this.asig = asig;
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -52,28 +53,12 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
         ActionMap actionMap = getRootPane().getActionMap();
         actionMap.put(cancelName, new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 doClose(RET_CANCEL);
             }
         });
-        if (!esNuevo) {
-            jTextGrupos.setText(grupo.getNombre());
-//            JSpinner[] spinners = {jSpinnerNumClases1, jSpinnerNumClases2, jSpinnerNumClases3};
-//            JTextField[] duraciones = {jTextDuracionClases1, jTextDuracionClases2, jTextDuracionClases3};
-//            for (JSpinner a : spinners) {
-//                a.setValue(0);
-//            }
-//            for (JTextField a:duraciones){a.setText("");}
-//            int index = 0;
-//            for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
-//                if (index < 3) {
-//                    spinners[index].setValue(tr.getNumeroClases());
-//                    duraciones[index].setText(tr.getMinutos() + "");
-//                }
-//                index++;
-//            }
-        }
-        
+
     }
 
     /**
@@ -134,10 +119,13 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
         jLabel13.setText("Nombre del grupo:");
 
         jSpinnerNumClases1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinnerNumClases1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jSpinnerNumClases2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinnerNumClases2.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jSpinnerNumClases3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinnerNumClases3.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jLabel11.setText("minutos cada una.");
 
@@ -180,22 +168,21 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
                         .addComponent(jSpinnerNumClases1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel9)
-                        .addGap(10, 10, 10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextDuracionClases1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jSpinnerNumClases2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addComponent(jLabel10))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jSpinnerNumClases3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel15)
-                                .addGap(16, 16, 16)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextDuracionClases3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextDuracionClases2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -276,7 +263,7 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
-    
+
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         doClose(RET_CANCEL);
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -287,53 +274,64 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-    
+
     private void doClose(int retStatus) {
         if (retStatus == RET_OK) {
-            grupo.setNombre(jTextGrupos.getText());
-            addTramosToGrupo(grupo);
+            final String nombre = jTextGrupos.getText();
+            if (!nombre.trim().equals("")) {
+                Grupo nuevoGrupo = new Grupo(nombre);
+                KairosCommand cmd = dk.getController().getCreateGrupoCommand(asig, nuevoGrupo);
+                dk.getController().executeCommand(cmd);
+                addTramosToGrupo(nuevoGrupo);
+            }
+
         }
         returnStatus = retStatus;
         setVisible(false);
         dispose();
     }
-    
+
     /**
      *
      * @param gr
      */
     public void addTramosToGrupo(Grupo gr) {
-        gr.clearTramos();
+        KairosCommand cmd;
         int numHoras, numClases;
         Tramo tr;
         try {
             numClases = Integer.valueOf(jSpinnerNumClases1.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases1.getText());
-            for (int cont=0;cont<numClases;cont++) {
-                gr.addTramoGrupoCompleto(new Tramo( numHoras));
+            for (int cont = 0; cont < numClases; cont++) {
+                tr = new Tramo(numHoras);
+                cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }
         try {
-            
+
             numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases2.getText());
-            for (int cont=0;cont<numClases;cont++) {
-                gr.addTramoGrupoCompleto(new Tramo( numHoras));
+            for (int cont = 0; cont < numClases; cont++) {
+                 tr = new Tramo(numHoras);
+                cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }
-        
-        
+
         try {
             numClases = Integer.valueOf(jSpinnerNumClases3.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases3.getText());
-            for (int cont=0;cont<numClases;cont++) {
-                gr.addTramoGrupoCompleto(new Tramo( numHoras));
+            for (int cont = 0; cont < numClases; cont++) {
+                tr = new Tramo(numHoras);
+                cmd = dk.getController().getCreateTramoCommand(gr, tr);
+                dk.getController().executeCommand(cmd);
             }
         } catch (NumberFormatException numberFormatException) {
         }
-        
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

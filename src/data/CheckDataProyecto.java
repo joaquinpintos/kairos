@@ -91,7 +91,7 @@ public class CheckDataProyecto {
             for (Curso curso : carr.getCursos()) {
                 for (Asignatura asig : curso.getAsignaturas()) {
                     for (Grupo gr : asig.getGrupos().getGrupos()) {
-                        if (gr.algunoSinAula()) {
+                        if (gr.isAlgunoSinAula()) {
                             resul.add("Grupo " + gr.getNombreConCarrera() + " tiene tramos sin aula asignada.");
                         }
 

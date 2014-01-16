@@ -85,10 +85,7 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
         }
         if (noEsta) {
             grupoCursos.add(e);
-            System.out.println("Añadido grupoCurso " + e);
-            System.out.println(grupoCursos);
         }
-        fireDataEvent(e, ADD);
     }
 
     /**
@@ -97,7 +94,6 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
      */
     public void remove(GrupoCursos gc) {
         grupoCursos.remove(gc);
-        fireDataEvent(gc, REMOVE);
     }
 
     @Override
@@ -214,7 +210,6 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
         } else {
             gc.removeGrupo(gr);
         }
-        fireDataEvent(gr, REMOVE);
     }
 
     @Override

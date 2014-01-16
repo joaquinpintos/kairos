@@ -54,8 +54,6 @@ public class RestrictionsData extends AbstractDataSets {
      */
     public boolean add(Restriccion e) {
         boolean resul = listaRestricciones.add(e);
-        fireDataEvent(e, DataProyectoListener.ADD);
-        setDirty(true);
         return resul;
     }
 
@@ -64,8 +62,6 @@ public class RestrictionsData extends AbstractDataSets {
      */
     public void clear() {
         this.listaRestricciones.clear();
-        setDirty(true);
-        fireDataEvent(null, DataProyectoListener.REMOVE);
     }
 
     /**
@@ -75,8 +71,6 @@ public class RestrictionsData extends AbstractDataSets {
      */
     public boolean remove(Restriccion r) {
         boolean resul = listaRestricciones.remove(r);
-        fireDataEvent(r, DataProyectoListener.REMOVE);
-        setDirty(true);
         return resul;
     }
 }

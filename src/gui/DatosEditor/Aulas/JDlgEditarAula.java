@@ -4,6 +4,8 @@
  */
 package gui.DatosEditor.Aulas;
 
+import data.DataKairos;
+import data.KairosCommand;
 import data.aulas.Aula;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -28,16 +30,12 @@ public class JDlgEditarAula extends javax.swing.JDialog {
      */
     public static final int RET_OK = 1;
     private final Aula aula;
+    private final DataKairos dk;
 
-    /**
-     * Creates new form JDlgEditarAula
-     * @param parent
-     * @param modal 
-     * @param aula  
-     */
-    public JDlgEditarAula(java.awt.Frame parent, boolean modal,Aula aula) {
-        super(parent, modal);
+    public JDlgEditarAula(java.awt.Frame parent, DataKairos dk,Aula aula) {
+        super(parent, true);
         initComponents();
+        this.dk=dk;
         this.aula=aula;
 this.setLocationRelativeTo(null);
         // Close the dialog when Esc is pressed
@@ -46,6 +44,7 @@ this.setLocationRelativeTo(null);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
         ActionMap actionMap = getRootPane().getActionMap();
         actionMap.put(cancelName, new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 doClose(RET_CANCEL);
             }
@@ -154,7 +153,9 @@ this.setLocationRelativeTo(null);
     private void doClose(int retStatus) {
         if (retStatus==RET_OK)
         {
-            aula.setNombre(jTextNombreAula.getText());
+            Aula newAula=new Aula(jTextNombreAula.getText());
+            KairosCommand cmd = dk.getController().getEditAulaCommand(aula, newAula);
+            dk.getController().executeCommand(cmd);
         }
         returnStatus = retStatus;
         setVisible(false);

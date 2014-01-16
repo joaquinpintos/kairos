@@ -54,29 +54,12 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     public Departamento getDepartamento() {
         return departamento;
     }
-
-    /**
-     *
-     * @param departamento
-     */
-    public void changeDepartamento(Departamento departamento) {
-        //Si lo voy a cambiar de departamento, primero lo borro del antiguo
-        if (this.departamento != null) {
-            this.departamento.removeSinBorrarDocencia(this);
-        }
-        this.departamento = departamento;
-        //Ahora lo añado al nuevo
-        this.departamento.createProfesor(this);
-        setDirty(true);
-    }
-
     /**
      *
      * @param departamento
      */
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
-        setDirty(true);
     }
 
     /**
@@ -142,9 +125,10 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         return docencia;
     }
 
-
     public void addDocencia(Tramo docenciaItem) {
-        this.docencia.add(docenciaItem);
+        if (docenciaItem != null) {
+            this.docencia.add(docenciaItem);
+        }
     }
 
     /**
@@ -152,21 +136,9 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      * @param docenciaItem
      */
     public void removeDocencia(Tramo docenciaItem) {
-        if (docenciaItem != null) {
-            docenciaItem.removeDocente();
-        }
+        this.docencia.remove(docenciaItem);
     }
 
-    /**
-     *
-     */
-    protected void clearDocencia() {//protected para hacer que la docencia se borre desde DataProfesores
-        for (Tramo d : docencia) {
-//            d.removeDocente();
-        }
-        docencia.clear();
-        setDirty(true);
-    }
 
     /**
      *

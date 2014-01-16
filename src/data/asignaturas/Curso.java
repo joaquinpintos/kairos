@@ -5,8 +5,6 @@
 package data.asignaturas;
 
 import data.DataProyectoListener;
-import data.aulas.AulaMT;
-import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +22,7 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     private final ArrayList<Asignatura> asignaturas;
     int contaColor;
     private boolean algunoSinAula;
+    private boolean algunoSinDocente;
 
     /**
      *
@@ -33,34 +32,14 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         setNombre(nombre);
         asignaturas = new ArrayList<Asignatura>();
         contaColor = 0;
-        algunoSinAula = true;
+        algunoSinAula = false;
+        algunoSinAula=false;
     }
 
     public boolean addAsignatura(Asignatura e) {
         return asignaturas.add(e);
     }
 
-    
-    /**
-     *
-     * @param asig
-     */
-    public void crateAsignatura(Asignatura asig) {
-        this.asignaturas.add(asig);
-        asig.setCurso(this);
-//        asig.setColorEnTablaDeHorarios(MyConstants.coloresAsignaturas[contaColor]);
-//        contaColor++;
-//        if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
-//            contaColor = 0;
-//        }
-        try {
-            this.getParent().getParent().fireDataEvent(asig, DataProyectoListener.ADD);
-        } catch (NullPointerException e) {
-        }
-        ordenaAsignaturas();
-        setDirty(true);
-
-    }
 
     public void ordenaAsignaturas() {
         Collections.sort(asignaturas);
@@ -69,8 +48,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public boolean removeAsignatura(Asignatura o) {
         return asignaturas.remove(o);
     }
-    
-    
 
     /**
      *
@@ -130,7 +107,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         return this.getParent().getNombre() + "@" + this.nombre;
     }
 
-
     @Override
     public int compareTo(Curso o) {
         return this.nombre.compareTo(o.getNombre());
@@ -168,33 +144,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    public void fireDataEvent(Object obj, int type) {
-        getParent().fireDataEvent(obj, type);
-    }
-
-    /**
-     *
-     * @param aula
-     */
-    public void asignaAula(AulaMT aula) {
-        for (Asignatura asig : asignaturas) {
-            asig.asignaAula(aula);
-        }
-    }
-
-    /**
-     *
-     */
-    public void removeAula() {
-        for (Asignatura asig : asignaturas) {
-            asig.removeAula();
-        }
-    }
 
     /**
      *
@@ -202,7 +151,7 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     public void updateAsigAulaStatus() {
         boolean resul = false;
         for (Asignatura asig : asignaturas) {
-            if (asig.algunoSinAula()) {
+            if (asig.isAlgunoSinAula()) {
                 resul = true;
                 break;
             }
@@ -214,20 +163,35 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         }
     }
 
-    public boolean algunoSinAula() {
+    @Override
+    public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
- public boolean tieneAula() {
+
+    public boolean tieneAula() {
         return !algunoSinAula;
     }
-    public void setAlgunoSinAula(boolean value)
-    {
-        this.algunoSinAula=value;
+
+    @Override
+    public void setAlgunoSinAula(boolean value) {
+        this.algunoSinAula = value;
     }
 
-    public void setTieneAula(boolean value)
-    {
-        this.algunoSinAula=!value;
+    public void setTieneAula(boolean value) {
+        this.algunoSinAula = !value;
     }
-    
+
+    @Override
+    public boolean isAlgunoSinDocente() {
+        return algunoSinDocente;
+    }
+
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
+        algunoSinDocente = value;
+    }
+
+    public void copyBasicValuesFrom(Curso data) {
+        this.nombre=data.getNombre();
+    }
 }

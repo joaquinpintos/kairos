@@ -7,6 +7,7 @@ package gui.DatosEditor;
 import data.AcademicCalendar;
 import data.DataKairos;
 import data.DataProject;
+import data.DataProyectoListener;
 import data.MyConstants;
 import data.RangoHoras;
 import gui.AbstractMainWindow;
@@ -27,7 +28,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface {
+public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface,DataProyectoListener {
 
     private final DataKairos dk;
     private AbstractMainWindow mainwindow;
@@ -512,7 +513,6 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         mainwindow.setTitle("Kairos - " + dp.getConfigProyecto().getNombreProyecto());
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-        System.out.println("Hora: " + df.format(jSpinHoraMañanaInicio1.getValue()));
         try {
             jSpinHoraMañanaInicio1.setValue(df.parse(dp.getMañana1().getInicio().toString()));
             jSpinHoraMañanaFin1.setValue(df.parse(dp.getMañana1().getFin().toString()));
@@ -684,5 +684,10 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
 
     @Override
     public void expandTrees() {
+    }
+
+    @Override
+    public void dataEvent(Object obj, int type) {
+        updateData();
     }
 }

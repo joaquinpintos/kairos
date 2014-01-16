@@ -49,7 +49,7 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
             GrupoCursos gc = (GrupoCursos) value;
             this.setIcon(dk.mc.AULA_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NEGRITA_FONT);
-            if (gc.algunoSinAula()) {
+            if (gc.isAlgunoSinAula()) {
                 this.setForeground(MyConstants.CONFLICTIVE_ITEM);
             } else {
                 this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);
@@ -60,7 +60,7 @@ public class JTreeGrupoCursosRenderer extends JLabel implements TreeCellRenderer
             Grupo gr = (Grupo) value;
             this.setIcon(dk.mc.ASIGNATURA_ICON);//TODO: Icono incorrecto
             this.setFont(MyConstants.NEGRITA_FONT);
-            if (gr.algunoSinAula()) {
+            if (gr.isAlgunoSinAula()) {
                 this.setForeground(MyConstants.CONFLICTIVE_ITEM);
             } else {
                 this.setForeground(MyConstants.NON_CONFLICTIVE_ITEM);

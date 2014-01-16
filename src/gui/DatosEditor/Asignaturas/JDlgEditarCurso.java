@@ -5,6 +5,7 @@
 package gui.DatosEditor.Asignaturas;
 
 import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import java.awt.event.ActionEvent;
@@ -29,24 +30,14 @@ public class JDlgEditarCurso extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private Curso curso;
-    DataKairos dk;
-    boolean esNuevoCurso;
-
-    /**
-     * Creates new form jDlgAñadirCurso
-     * @param parent 
-     * @param modal 
-     * @param esNuevoCurso
-     * @param cur 
-     * @param dk  
-     */
-    public JDlgEditarCurso(java.awt.Frame parent, boolean modal, Curso cur, DataKairos dk, boolean esNuevoCurso) {
-        super(parent, modal);
+    private final Carrera car;
+    private final DataKairos dk;
+    
+    public JDlgEditarCurso(java.awt.Frame parent, Carrera car, DataKairos dk) {
+        super(parent, true);
         initComponents();
-        this.curso = cur;
+        this.car = car;
         this.dk = dk;
-        this.esNuevoCurso = esNuevoCurso;
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -58,15 +49,11 @@ public class JDlgEditarCurso extends javax.swing.JDialog {
                 doClose(RET_CANCEL);
             }
         });
-        jTextNombreCurso.setText(curso.getNombre());
-        jComboCarreras.setEnabled(esNuevoCurso);
-        if (esNuevoCurso) {
-            for (Carrera c : dk.getDP().getDataAsignaturas().getCarreras()) {
-                jComboCarreras.addItem(c);
-            }
-            jComboCarreras.setSelectedIndex(0);//Aquí tengo que estar seguro de que hay al menos una carrera!!
+        for (Carrera c : dk.getDP().getDataAsignaturas().getCarreras()) {
+            jComboCarreras.addItem(c);
         }
-
+        jComboCarreras.setSelectedItem(car);
+        
     }
 
     /**
@@ -170,10 +157,12 @@ public class JDlgEditarCurso extends javax.swing.JDialog {
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-
+    
     private void doClose(int retStatus) {
         if (retStatus == RET_OK) {
-            curso.setNombre(jTextNombreCurso.getText());
+            Curso newCurso = new Curso(jTextNombreCurso.getText());
+            KairosCommand cmd = dk.getController().getCreateCursoCommand(car, newCurso);
+            dk.getController().executeCommand(cmd);
         }
         returnStatus = retStatus;
         setVisible(false);
@@ -193,6 +182,6 @@ public class JDlgEditarCurso extends javax.swing.JDialog {
      * @return
      */
     public Carrera getCarrera() {
-        return (Carrera)jComboCarreras.getSelectedItem();
+        return (Carrera) jComboCarreras.getSelectedItem();
     }
 }

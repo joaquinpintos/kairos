@@ -5,6 +5,8 @@
  */
 package gui.DatosEditor.Aulas;
 
+import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Teachable;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
@@ -27,14 +29,16 @@ public class JTreeGrupoCursoDropListener implements DropTargetListener {
 
     JIntTreeAulas parent;
     JTree jTreeGrupoCursos;
+    private final DataKairos dk;
 
     /**
      *
      * @param parent
      */
-    public JTreeGrupoCursoDropListener(JIntTreeAulas parent) {
+    public JTreeGrupoCursoDropListener(JIntTreeAulas parent,DataKairos dk) {
         this.parent = parent;
         jTreeGrupoCursos = parent.getjTreeGrupoCursos();
+        this.dk=dk;
     }
 
     @Override
@@ -64,8 +68,11 @@ public class JTreeGrupoCursoDropListener implements DropTargetListener {
                 aulaMañanaTardeContainer = (AulaMT) dtde.getTransferable().getTransferData(TeachableDraggable.MY_FLAVOR);
                 Aula aula = aulaMañanaTardeContainer.getAula();
                 boolean tarde = aulaMañanaTardeContainer.getEsTarde();
+                final AulaMT aulaMT = new AulaMT(aula, tarde);
 
-                teachable.asignaAula(new AulaMT(aula, tarde));
+//                teachable.asignaAula(aulaMT);
+                KairosCommand cmd = dk.getController().getAsignarAulaCommand(aulaMT, teachable);
+                dk.getController().executeCommand(cmd);
                 parent.getjTreeGrupoCursos().updateUI();
                 parent.getjTreeAulas().updateUI();
             }

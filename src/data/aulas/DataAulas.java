@@ -67,8 +67,6 @@ public class DataAulas extends AbstractDataSets  {
         this.aulas.add(aula);
         aula.setParent(this);
         getDataProyecto().getAsignacionAulas().addAula(aula);
-        fireDataEvent(aula, DataProyectoListener.ADD);
-        setDirty(true);
     }
 
     /**
@@ -77,9 +75,6 @@ public class DataAulas extends AbstractDataSets  {
      */
     public void removeAula(Aula aula) {
         this.aulas.remove(aula);
-        aula.setParent(null);
-        getDataProyecto().getAsignacionAulas().removeAula(aula);
-        fireDataEvent(aula, DataProyectoListener.REMOVE);setDirty(true);
     }
 
     @Override
@@ -108,8 +103,6 @@ public class DataAulas extends AbstractDataSets  {
      *
      */
     public void clear() {
-        aulas.clear();setDirty(true);
-        fireDataEvent(null, DataProyectoListener.REMOVE);
     }
 
 

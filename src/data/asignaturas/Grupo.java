@@ -4,12 +4,8 @@
  */
 package data.asignaturas;
 
-import data.DataProyectoListener;
 import data.aulas.Aula;
-import data.aulas.AulaMT;
-import data.profesores.Profesor;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Representa un grupo de alumnos, con sus tramos asociados. Cada grupo se
@@ -28,6 +24,7 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     private boolean tarde;
     private Aula aulaAsignada;
     private boolean algunoSinAula;
+    private boolean algunoSinDocente;
 
     /**
      * Constructor. Devuelve un grupo nuevo con nombre dado.
@@ -70,34 +67,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
      */
     public GrupoTramos getTramosGrupoCompleto() {
         return tramosGrupoCompleto;
-    }
-
-    /**
-     * Añade un nuevo {@link Tramo} a los tramos para el grupo completo.
-     *
-     * @param tramo Tramo a añadir
-     */
-    public void addTramoGrupoCompleto(Tramo tramo) {
-        tramosGrupoCompleto.add(tramo);
-        tramo.setParent(tramosGrupoCompleto);
-        updateAsigAulaStatus();
-        setDirty(true);
-        fireDataEvent(tramo, DataProyectoListener.ADD);
-    }
-
-    /**
-     * Elimina el tramo del grupo de tramos para grupo completo.
-     *
-     * @param tramo
-     */
-    public void removeTramoGrupoCompleto(Tramo tramo) {
-        tramo.removeAula();
-        tramo.removeDocente();
-        tramosGrupoCompleto.remove(tramo);
-        tramo.setParent(null);
-        updateAsigAulaStatus();
-        setDirty(true);
-        fireDataEvent(tramo, DataProyectoListener.REMOVE);
     }
 
     @Override
@@ -195,12 +164,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         return "G" + this.getNombre() + " " + this.getParent().getParent().getNombre() + " " + this.getParent().getParent().getParent().toString();
     }
 
-    /**
-     * Borrra todos los tramos asignados
-     */
-    public void clearTramos() {
-        tramosGrupoCompleto.getTramos().clear();
-    }
 
     @Override
     public int compareTo(Grupo o) {
@@ -247,44 +210,8 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
 
-    /**
-     * Asigna aula al grupo. Este procedimiento asigna recursivamente aula a
-     * todos los tramos asociados al grupo.
-     *
-     * @param aula Aula a asignar.
-     */
-    public void asignaAula(AulaMT aula) {
-        for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
-            tr.asignaAula(aula, true);
-        }
-    }
-
-    /**
-     * Elimina aula del grupo. Este procedimiento elimina recursivamente el aula
-     * a todos los tramos asociados al grupo.
-     *
-     */
-    public void removeAula() {
-        for (Tramo tr : getTramosGrupoCompleto().getTramos()) {
-            tr.removeAula();
-        }
-        updateAsigAulaStatus();
-    }
-
-    /**
-     *
-     */
-    public void updateAsigAulaStatus() {
-        if (tramosGrupoCompleto.algunoSinAula() != algunoSinAula) {
-            algunoSinAula = tramosGrupoCompleto.algunoSinAula();
-            if (parent != null) {
-                parent.updateAsigAulaStatus();
-            }
-        }
-
-    }
-
-    public boolean algunoSinAula() {
+    @Override
+    public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
      public boolean tieneAula() {
@@ -292,42 +219,21 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
 
+    @Override
     public void setAlgunoSinAula(boolean value) {
         this.algunoSinAula = value;
     }
 
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    public void fireDataEvent(Object obj, int type) {
-        try {
-            getParent().fireDataEvent(obj, type);
-        } catch (NullPointerException e) {
-        }
-    }
-
-    void clearDocente() {
-        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
-            tr.removeDocente();
-        }
-    }
-
-    void clearAulasAsignadas() {
-        for (Tramo tr : tramosGrupoCompleto.getTramos()) {
-            tr.removeAula();
-        }
-    }
-
-    void removeAllTramos() {
-        ArrayList<Tramo> tramosClone = (ArrayList<Tramo>) tramosGrupoCompleto.getTramos().clone();
-        for (Tramo tr : tramosClone) {
-            removeTramoGrupoCompleto(tr);
-        }
-    }
-
     public void copyBasicValuesFrom(Grupo grNew) {
         this.nombre=grNew.getNombre();
+    }
+     @Override
+    public boolean isAlgunoSinDocente() {
+        return algunoSinDocente;
+    }
+
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
+        algunoSinDocente=value;
     }
 }

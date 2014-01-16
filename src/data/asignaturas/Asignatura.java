@@ -4,12 +4,8 @@
  */
 package data.asignaturas;
 
-import data.DataProyectoListener;
-import data.aulas.AulaMT;
-import data.profesores.Profesor;
 import java.awt.Color;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -29,6 +25,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     //En este array guardo los grupos que NO tengan asignada docencia
     private int numCreditos;
     private boolean algunoSinAula;
+    private boolean algunoSinDocente;
 
     /**
      *
@@ -40,25 +37,12 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         this.nombreCorto = "";
         this.grupos = new ListaGrupos();
         colorEnTablaDeHorarios = new Color(220, 241, 182);//Color inicial. En principio no se usa.
-        algunoSinAula = true;
+        algunoSinAula = false;
+        algunoSinDocente = false;
     }
 
     public void addGrupo(Grupo gr) {
         grupos.getGrupos().add(gr);
-    }
-
-    /**
-     *
-     * @param gr
-     */
-    public void createGrupo(Grupo gr) {
-        this.grupos.addGrupo(gr);
-        gr.setParent(this);
-        ordenaGrupos();
-        setDirty(true);
-        //Disparo evento de creación de grupo
-        updateAsigAulaStatus();
-        fireDataEvent(gr, DataProyectoListener.ADD);
     }
 
     public void ordenaGrupos() {
@@ -119,11 +103,10 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      *
      * @param curso
      */
-    public void setCurso(Curso curso) {
+    public void setParent(Curso curso) {
         this.parent = curso;
         setDirty(true);
     }
-
 
     /**
      *
@@ -174,15 +157,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     public void setColorEnTablaDeHorarios(Color colorEnTablaDeHorarios) {
         this.colorEnTablaDeHorarios = colorEnTablaDeHorarios;
     }
-
-//    /**
-//     *
-//     */
-//    public synchronized void removeAllGrupos() {
-//        for (Grupo gr : grupos.getGrupos()) {
-//            this.removeGrupo(gr);
-//        }
-//    }
     /**
      *
      * @return
@@ -241,52 +215,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
 
     }
 
-
-
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    public void fireDataEvent(Object obj, int type) {
-        getParent().fireDataEvent(obj, type);
-    }
-
-    /**
-     *
-     * @param aula
-     */
-    public void asignaAula(AulaMT aula) {
-        for (Grupo gr : grupos.getGrupos()) {
-            gr.asignaAula(aula);
-        }
-    }
-
-    public void removeAula() {
-        for (Grupo gr : grupos.getGrupos()) {
-            gr.removeAula();
-        }
-    }
-
-    /**
-     *
-     */
-    public void updateAsigAulaStatus() {
-        boolean resul = false;
-        for (Grupo gr : grupos.getGrupos()) {
-            if (gr.algunoSinAula()) {
-                resul = true;
-                break;
-            }
-        }
-        if (resul != algunoSinAula) {
-            algunoSinAula = resul;
-            //Actualizo hacia arriba
-            getParent().updateAsigAulaStatus();
-        }
-    }
-
-    public boolean algunoSinAula() {
+    public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
 
@@ -302,21 +231,19 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         this.algunoSinAula = !value;
     }
 
-    void clearDocente() {
-        for (Grupo gr : grupos.getGrupos()) {
-            gr.clearDocente();
-        }
-    }
-
-    void clearAulasAsignadas() {
-        for (Grupo gr : grupos.getGrupos()) {
-            gr.clearAulasAsignadas();
-        }
-    }
-
     public void copyBasicValuesFrom(Asignatura data) {
         this.nombre = data.getNombre();
         this.numCreditos = data.getNumCreditos();
         this.nombreCorto = data.getNombreCorto();
+    }
+
+    @Override
+    public boolean isAlgunoSinDocente() {
+        return algunoSinDocente;
+    }
+
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
+        algunoSinDocente=value;
     }
 }

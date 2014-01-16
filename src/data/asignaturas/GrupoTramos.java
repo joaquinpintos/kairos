@@ -4,8 +4,6 @@
  */
 package data.asignaturas;
 
-import data.aulas.AulaMT;
-import data.profesores.Profesor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,6 +17,7 @@ public class GrupoTramos implements Serializable,Teachable {
     private ArrayList<Tramo> vectorTramos;
     private Grupo parent;
     private boolean algunoSinAula;
+    private boolean algunoSinDocente;
 
     /**
      *
@@ -51,21 +50,9 @@ public class GrupoTramos implements Serializable,Teachable {
      * @param tr
      */
     public void add(Tramo tr) {
-        tr.setParent(this);
         vectorTramos.add(tr);
-        updateAsigAulaStatus();
-        setDirty(true);
     }
 
-    /**
-     *
-     * @param tr
-     */
-    public void remove(Tramo tr) {
-        tr.setParent(null);
-        vectorTramos.remove(tr);
-        setDirty(true);
-    }
 
     /**
      *
@@ -85,17 +72,6 @@ public class GrupoTramos implements Serializable,Teachable {
         return salida;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        try {
-            parent.setDirty(value);
-        } catch (NullPointerException e) {
-        }
-
-    }
 
     /**
      *
@@ -113,67 +89,18 @@ public class GrupoTramos implements Serializable,Teachable {
         this.parent = parent;
     }
 
-    /**
-     *
-     * @param index
-     * @return
-     */
-    public Tramo getNotAssigned(int index) {
-        Tramo resul = null;
-        int visibleIndex = -1;
-        for (Tramo tr : vectorTramos) {
-            if (tr.tieneAula()) {
-                visibleIndex++;
-                if (index == visibleIndex) {
-                    resul = tr;
-                    break;
-                }
-            }
-        }
 
-        return resul;
-    }
 
     /**
      *
      * @return
      */
-    public int sizeNotAssigned() {
-        int visibleCount = 0;
-        for (Tramo tr : vectorTramos) {
-            if (tr.tieneAula()) {
-                visibleCount++;
-            }
-        }
-        return visibleCount;
-    }
-
-    /**
-     *
-     */
-    public void updateAsigAulaStatus() {
-        boolean resul = false;
-        for (Tramo tr : vectorTramos) {
-            if (!tr.tieneAula()) {
-                resul = true;
-                break;
-            }
-        }
-        if (resul != algunoSinAula) {
-            algunoSinAula = resul;
-            //Actualizo hacia arriba
-            getParent().updateAsigAulaStatus();
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean algunoSinAula() {
+    @Override
+    public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
 
+    @Override
     public void setAlgunoSinAula(boolean value)
     {
         this.algunoSinAula=value;
@@ -182,12 +109,13 @@ public class GrupoTramos implements Serializable,Teachable {
     {
         this.algunoSinAula=!value;
     }
-    /**
-     *
-     * @param obj
-     * @param type
-     */
-    public void fireDataEvent(Object obj, int type) {
-        getParent().fireDataEvent(obj, type);
+     @Override
+    public boolean isAlgunoSinDocente() {
+        return algunoSinDocente;
+    }
+
+    @Override
+    public void setAlgunoSinDocente(boolean value) {
+        algunoSinDocente=value;
     }
 }

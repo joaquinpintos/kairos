@@ -6,6 +6,7 @@ package gui.DatosEditor.Aulas;
 
 import data.DataKairos;
 import data.DataProyectoListener;
+import data.KairosCommand;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.Aula;
 import data.aulas.DataAulas;
@@ -30,7 +31,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import testers.AsigTester;
 
 /**
  *
@@ -56,7 +56,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
      */
     public JIntTreeAulas(DataKairos dk) throws Exception {
         initComponents();
-        AsigTester asig = new AsigTester();
         //this.dataAulas=asig.dataAulasRelleno();
 
         this.dk = dk;
@@ -77,7 +76,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jTreeGrupoCursos.setTransferHandler(new GrupoCursoTransferHandler());
          this.jTreeGrupoCursos.setDropMode(DropMode.INSERT);
         this.jTreeGrupoCursos.setDropTarget(new DropTarget());
-        jTreeGrupoCursos.getDropTarget().addDropTargetListener(new JTreeGrupoCursoDropListener(this));
+        jTreeGrupoCursos.getDropTarget().addDropTargetListener(new JTreeGrupoCursoDropListener(this,dk));
         
         jTreeAulas.setModel(treeModelAulas);
         treeModelAulas.addTreeModelListener(createTreeModelListener(jTreeAulas));
@@ -293,11 +292,12 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
             @Override
             public void actionPerformed(ActionEvent e) {
                 Aula nuevaAula = new Aula("");
-                JDlgEditarAula dlg = new JDlgEditarAula(null, true, nuevaAula);
-                dlg.setVisible(true);
-                if (dlg.getReturnStatus() == JDlgEditarAula.RET_OK) {
-                    System.out.println("Added aula " + nuevaAula);
+                String nombre = JOptionPane.showInputDialog(rootPane, "Nombre de la nueva aula:", "");
+                
+                if (nombre!=null) {
                     dk.getDP().getDataAulas().addAula(nuevaAula);
+                    KairosCommand cmd = dk.getController().getCreateAulaCommand(nuevaAula);
+                    dk.getController().executeCommand(cmd);
                 }
                 updateData();
             }
@@ -315,11 +315,8 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
                 if (sel instanceof Aula) {
                     Aula aulaEditar = (Aula) sel;
-                    JDlgEditarAula dlg = new JDlgEditarAula(null, true, aulaEditar);
+                    JDlgEditarAula dlg = new JDlgEditarAula(null, dk, aulaEditar);
                     dlg.setVisible(true);
-                    if (dlg.getReturnStatus() == JDlgEditarAula.RET_OK) {
-                        dk.getDP().getDataAulas().fireDataEvent(aulaEditar, DataProyectoListener.MODIFY);
-                    }
                 }
                 
             }

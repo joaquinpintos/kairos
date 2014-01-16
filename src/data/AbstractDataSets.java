@@ -27,21 +27,6 @@ public class AbstractDataSets implements Serializable {
 
     }
 
-    /**
-     *
-     * @param l
-     */
-    public void addListener(DataProyectoListener l) {
-        listeners.add(l);
-    }
-
-    /**
-     *
-     * @param l
-     */
-    public void removeListener(DataProyectoListener l) {
-        listeners.remove(l);
-    }
 
     /**
      *
@@ -50,18 +35,6 @@ public class AbstractDataSets implements Serializable {
         listeners.clear();
     }
 
-    /**
-     *
-     * @param data
-     * @param type
-     */
-    public void fireDataEvent(Object data, int type) {
-        for (DataProyectoListener l : listeners) {
-            if (l != null) {
-                l.dataEvent(data, type);
-            }
-        }
-    }
 
     /**
      *

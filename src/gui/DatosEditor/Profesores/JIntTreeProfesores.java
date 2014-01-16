@@ -468,10 +468,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                         JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, p, (TreeModelProfesores) treeModelProfesores, treePath,dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
-                        dk.getDP().getDataProfesores().fireDataEvent(p, DataProyectoListener.MODIFY);
                     }
                 }
-                updateData();
             }
         }
 //</editor-fold>
@@ -489,9 +487,12 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 if ((treePath != null) && (JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de que desea eliminar al profesor?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
-                        Departamento d = p.getDepartamento();
-                        d.deleteProfesor(p);
-                        jTreeProfesores.updateUI();
+//                        Departamento d = p.getDepartamento();
+//                        d.deleteProfesor(p);
+//                        jTreeProfesores.updateUI();
+                        KairosCommand cmd = dk.getController().getDeleteProfesorCommand(p);
+                        dk.getController().executeCommand(cmd);
+                        
                     }
                 }
                 updateData();
@@ -512,8 +513,9 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 if (treePath != null) {
                     if ((treePath.getLastPathComponent() instanceof Profesor) && (JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de que desea eliminar la docencia?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
-                        dk.getDP().getDataProfesores().clearDocenciaProfesor(p);
-                        jTreeProfesores.updateUI();
+//                        dk.getDP().getDataProfesores().clearDocenciaProfesor(p);
+                        KairosCommand cmd = dk.getController().getClearDocenciaCommand(p);
+                        dk.getController().executeCommand(cmd);
                     }
                 }
                 updateData();
@@ -537,10 +539,6 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                         dlg.setLocationRelativeTo(null);
                         dlg.setTitle("Editar departamento");
                         dlg.setVisible(true);
-                        if (dlg.getReturnStatus() == JDlgEditDepartamentos.RET_OK) {
-                            dk.getDP().getDataProfesores().fireDataEvent(d, DataProyectoListener.MODIFY);
-                        }
-
                     }
                 }
                 updateData();
@@ -556,15 +554,12 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Departamento d = new Departamento("");
-                JDlgEditDepartamentos dlg = new JDlgEditDepartamentos(null, true, d);
-                dlg.setTitle("Añadir departamento");
-                dlg.setLocationRelativeTo(null);
-                dlg.setVisible(true);
-                if (dlg.getReturnStatus() == JDlgEditDepartamentos.RET_OK) {
-                    dk.getDP().getDataProfesores().addDepartamento(d);
-                    dk.getDP().getDataProfesores().fireDataEvent(d, DataProyectoListener.ADD);
-                }
+                
+                String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", "");
+                Departamento d = new Departamento(nombre);
+                KairosCommand cmd = dk.getController().getCreateDepartamentoCommand(d);
+                dk.getController().executeCommand(cmd);
+                
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
                         updateData();

@@ -117,6 +117,7 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
         });
 
         jSpinnerNumClases1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinnerNumClases1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jLabel9.setText("clases de");
 
@@ -133,8 +134,10 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
         jLabel10.setText("clases de");
 
         jSpinnerNumClases2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinnerNumClases2.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jSpinnerNumClases3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinnerNumClases3.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jLabel15.setText("clases de");
 

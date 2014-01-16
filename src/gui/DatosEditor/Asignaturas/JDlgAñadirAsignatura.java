@@ -429,7 +429,7 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
                 String[] listaGrupos = jTextGrupos.getText().split(",");
                 for (String nombreGrupo : listaGrupos) {
                     final String nombreGrupoTrim = nombreGrupo.trim();
-                    if (!nombreGrupoTrim.equals("")) {
+                    if (nombreGrupoTrim.equals("")) {
                     } else {
                         Grupo gr = new Grupo(nombreGrupoTrim);
                         //TODO: Comprobar que el nombre del grupo es correcto

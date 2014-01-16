@@ -205,7 +205,7 @@ public class DataAsignacionAulas implements Serializable {
         return "AsignacionAulas{" + "asignacionesMañana=" + asignacionesMañana + ", asignacionesTarde=" + asignacionesTarde + '}';
     }
 
-    void addAula(Aula aula) {
+    public void addAula(Aula aula) {
         if (!asignacionesMañana.containsKey(aula)) {
             asignacionesMañana.put(aula, new HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>());
         }
@@ -216,7 +216,7 @@ public class DataAsignacionAulas implements Serializable {
         fireDataEvent(aula, DataProyectoListener.ADD);
     }
 
-    void removeAula(Aula aula) {
+    public void removeAula(Aula aula) {
         if (!asignacionesMañana.containsKey(aula)) {
             asignacionesMañana.remove(aula);
         }
