@@ -9,6 +9,7 @@ import static data.DataKairos.STATUS_NO_PROJECT;
 import static data.DataKairos.STATUS_PROJECT_NO_SOLUTION;
 import static data.DataKairos.STATUS_PROJECT_SOLUTION;
 import data.restricciones.Restriccion;
+import gui.AbstractMainWindow;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import restricciones.ClasesNoCruzanRecreo.RClasesNoCruzanRecreo;
@@ -51,6 +52,7 @@ public class DataKairos {
     private int status;
     private final ArrayList<Restriccion> restriccionesDisponibles;
     private final KairosController kairosController;
+    private AbstractMainWindow mw;
 
     /**
      * Constructor por defecto
@@ -60,7 +62,7 @@ public class DataKairos {
         restriccionesDisponibles = new ArrayList<Restriccion>();
         populateRestricciones();
         mc = new MyConstants();
-        kairosController=new KairosController(this);
+        kairosController = new KairosController(this);
     }
 
     /**
@@ -113,7 +115,8 @@ public class DataKairos {
     /**
      * Devuelve el estado de la aplicación.
      *
-     * @return Estado de la aplicación. Alguna de las variables null null null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
+     * @return Estado de la aplicación. Alguna de las variables null null null
+     * null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
      *{@link STATUS_PROJECT_SOLUTION} o {@link STATUS_COMPUTING_SOLUTION}
      */
     public int getStatus() {
@@ -149,6 +152,14 @@ public class DataKairos {
 
     public KairosController getController() {
         return kairosController;
+    }
+
+    public void setMainWindow(AbstractMainWindow aThis) {
+        mw = aThis;
+    }
+
+    public AbstractMainWindow getMainWindow() {
+        return mw;
     }
 
 }

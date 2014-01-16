@@ -6,6 +6,7 @@ package gui.HorarioEditor;
 
 import data.DataKairos;
 import data.DataProyectoListener;
+import data.KairosCommand;
 import data.MyConstants;
 import data.RangoHoras;
 import data.genetic.Asignacion;
@@ -61,8 +62,8 @@ public class HorariosJPanelModel {
     private final int H_OFFSET = 3;
 //    private final int H_RANGO_HORA = 35;
 //    private final int H_DIA_SEMANA = H_RANGO_HORA - H_OFFSET;
-    private boolean dibujaRectasVerticales = true;
-    private boolean dibujaRectasHorizontales = true;
+    private final boolean dibujaRectasVerticales = true;
+    private final boolean dibujaRectasHorizontales = true;
     //HashAula---->[row,col]-->numCasilla (fácil ¿no?)
     private final HashMap<String, HashMap<Integer[], Integer>> mapFilaColumnaToCasilla;
     private int filaRecreoMañana;
@@ -424,7 +425,12 @@ public class HorariosJPanelModel {
             int numCasilla = filaColumnaToNumeroCasilla(numFila, numColumna);
 
             if (puedoSoltarAqui(draggableItem.getH(), numFila, numColumna)) {
-                effectivelyDropItem(draggableItem, numColumna, numFila, w, h);
+
+                int filaSrc = getFilaHorarioComponent(draggableItem);
+                int colSrc = getColumnaHorarioComponent(draggableItem);
+                KairosCommand cmd = dk.getController().getMoveHorarioItem(this, draggableItem, filaSrc, colSrc, numFila, numColumna);
+                dk.getController().executeCommand(cmd);
+//                effectivelyDropItem(draggableItem, numFila, numColumna);
             } else {
                 System.out.println("No puedo soltar aqui");
             }
@@ -476,11 +482,10 @@ public class HorariosJPanelModel {
      * @param dragSrc Item que está siendo trasladado
      * @param numColumna Número de columna donde es soltado
      * @param numFila Número de fila donde es soltado
-     * @param w Anchura del panel de horarios
-     * @param h ALtura del panel de horarios
      */
-    private void effectivelyDropItem(final DraggableHorarioItemComponent dragSrc, final int numColumna, final int numFila, final int w, final int h) {
-        intercambioHorarioItemsNew(dragSrc, numFila, numColumna, w, h);
+    public void effectivelyDropItem(final DraggableHorarioItemComponent dragSrc, final int numFila, final int numColumna) {
+        intercambioHorarioItemsNew(dragSrc, numFila, numColumna);
+
         fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
     }
 
@@ -495,7 +500,7 @@ public class HorariosJPanelModel {
      * @param w
      * @param h
      */
-    private void intercambioHorarioItemsNew(DraggableHorarioItemComponent dSrc, int filaB, int columnaB, int w, int h) {
+    private void intercambioHorarioItemsNew(DraggableHorarioItemComponent dSrc, int filaB, int columnaB) {
 
         Asignacion asig = solucion.getAsignacion(hashAulaMostrada);
         int filaA1 = getFilaHorarioComponent(dSrc);

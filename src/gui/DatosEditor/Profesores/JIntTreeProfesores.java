@@ -69,6 +69,8 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
     private AbstractAction actionAñadirDepartamento;
     private AbstractAction actionEliminarDepartamento;
     private AbstractAction actionBorrarDocencia;
+    private JPopupMenu jPopupMenuDepartamentos;
+    private JPopupMenu jPopupMenuRoot;
 
     /**
      *
@@ -117,12 +119,15 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 }
                 try {
                     TreePath selPath = jTreeProfesores.getPathForLocation(e.getX(), e.getY());
-                    actionEditarProfesores.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Profesor);
-                    actionEliminarProfesor.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Profesor);
+                    final boolean esProfesor = selPath.getLastPathComponent() instanceof Profesor;
+                    final boolean esDepartamento = selPath.getLastPathComponent() instanceof Departamento;
 
-                    actionAñadirProfesores.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Departamento);
-                    actionEditarDepartamento.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Departamento);
-                    actionEliminarDepartamento.setEnabled(selPath != null && selPath.getLastPathComponent() instanceof Departamento);
+                    actionEditarProfesores.setEnabled(selPath != null && esProfesor);
+                    actionEliminarProfesor.setEnabled(selPath != null && esProfesor);
+                    actionAñadirProfesores.setEnabled(selPath != null);
+                    actionAñadirDepartamento.setEnabled(selPath != null);
+                    actionEditarDepartamento.setEnabled(selPath != null && esDepartamento);
+                    actionEliminarDepartamento.setEnabled(selPath != null && esDepartamento);
                 } catch (NullPointerException ex) {
                 }
                 if (e.getClickCount() == 2) {
@@ -141,7 +146,19 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
             }
 
             public void doPop(MouseEvent e) {
-                jPopupMenuProfesores.show(e.getComponent(), e.getX(), e.getY());
+                TreePath selPath = jTreeProfesores.getPathForLocation(e.getX(), e.getY());
+                final boolean esProfesor = selPath.getLastPathComponent() instanceof Profesor;
+                final boolean esDepartamento = selPath.getLastPathComponent() instanceof Departamento;
+
+                if (esProfesor) {
+                    jPopupMenuProfesores.show(e.getComponent(), e.getX(), e.getY());
+                } else {
+                    if (esDepartamento) {
+                        jPopupMenuDepartamentos.show(e.getComponent(), e.getX(), e.getY());
+                    } else {
+                        jPopupMenuRoot.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
             }
         };
         jTreeProfesores.addMouseListener(ml);
@@ -440,7 +457,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                             nuevoProfesor.setDepartamento((Departamento) treePath.getPathComponent(1));
                         }
                     }
-                    JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, nuevoProfesor, (TreeModelProfesores) treeModelProfesores, treePath,dk);
+                    JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, nuevoProfesor, (TreeModelProfesores) treeModelProfesores, treePath, dk);
 //                Point p = jTreeProfesores.getMousePosition();
 //                if (p == null) {
 //                    p = new Point(300, 300);
@@ -465,7 +482,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 if (treePath != null) {
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
-                        JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, p, (TreeModelProfesores) treeModelProfesores, treePath,dk);
+                        JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, p, (TreeModelProfesores) treeModelProfesores, treePath, dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
                     }
@@ -492,7 +509,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
 //                        jTreeProfesores.updateUI();
                         KairosCommand cmd = dk.getController().getDeleteProfesorCommand(p);
                         dk.getController().executeCommand(cmd);
-                        
+
                     }
                 }
                 updateData();
@@ -554,12 +571,12 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 String nombre = JOptionPane.showInputDialog(rootPane, "Nombre:", "");
                 Departamento d = new Departamento(nombre);
                 KairosCommand cmd = dk.getController().getCreateDepartamentoCommand(d);
                 dk.getController().executeCommand(cmd);
-                
+
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
                         updateData();
@@ -625,6 +642,15 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
         jPopupMenuProfesores.add(actionAñadirProfesores);
         jPopupMenuProfesores.add(actionEliminarProfesor);
         jPopupMenuProfesores.add(actionBorrarDocencia);
+
+        jPopupMenuDepartamentos = new JPopupMenu("Menu departamentos");
+        jPopupMenuDepartamentos.add(actionAñadirProfesores);
+        jPopupMenuDepartamentos.add(actionAñadirDepartamento);
+        jPopupMenuDepartamentos.add(actionEditarDepartamento);
+        jPopupMenuDepartamentos.add(actionEliminarDepartamento);
+
+        jPopupMenuRoot = new JPopupMenu("Root menu");
+        jPopupMenuRoot.add(actionAñadirDepartamento);
 
     }
 

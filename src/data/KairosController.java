@@ -16,9 +16,12 @@ import data.asignaturas.Tramo;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.aulas.DataAulas;
+import data.horarios.HorarioItem;
 import data.profesores.DataProfesores;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
+import gui.HorarioEditor.DraggableHorarioItemComponent;
+import gui.HorarioEditor.HorariosJPanelModel;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -36,12 +39,18 @@ public class KairosController {
     private final Stack<KairosCommand> commandStackForUndo;
     private final Stack<KairosCommand> commandStackForRedo;
     private final HashSet<DataProyectoListener> listeners;
+    private boolean batchMode;
 
     public KairosController(DataKairos dk) {
         this.dk = dk;
         commandStackForUndo = new Stack<KairosCommand>();
         commandStackForRedo = new Stack<KairosCommand>();
         listeners = new HashSet<DataProyectoListener>();
+        batchMode = false;
+    }
+
+    public void setBatchMode(boolean batchMode) {
+        this.batchMode = batchMode;
     }
 
     /**
@@ -64,21 +73,23 @@ public class KairosController {
      */
     public void undoCommand() {
         try {
-            KairosCommand cmd = commandStackForUndo.pop();
-            cmd.undo();
-            commandStackForRedo.push(cmd);
-            int eventType;
-            switch (cmd.getEventType()) {
-                case DataProyectoListener.ADD:
-                    eventType = DataProyectoListener.REMOVE;
-                    break;
-                case DataProyectoListener.REMOVE:
-                    eventType = DataProyectoListener.ADD;
-                    break;
-                default:
-                    eventType = cmd.getEventType();
-            }
-            fireDataEvent(cmd.getDataType(), eventType);
+            do {
+                KairosCommand cmd = commandStackForUndo.pop();
+                cmd.undo();
+                commandStackForRedo.push(cmd);
+                int eventType;
+                switch (cmd.getEventType()) {
+                    case DataProyectoListener.ADD:
+                        eventType = DataProyectoListener.REMOVE;
+                        break;
+                    case DataProyectoListener.REMOVE:
+                        eventType = DataProyectoListener.ADD;
+                        break;
+                    default:
+                        eventType = cmd.getEventType();
+                }
+                fireDataEvent(cmd.getDataType(), eventType);
+            } while (batchMode);
         } catch (EmptyStackException e) {
             System.err.println("commandStack empty!");
         }
@@ -89,10 +100,12 @@ public class KairosController {
      */
     public void redoCommand() {
         try {
-            KairosCommand cmd = commandStackForRedo.pop();
-            cmd.redo();
-            commandStackForUndo.push(cmd);
-            fireDataEvent(cmd.getDataType(), cmd.getEventType());
+            do {
+                KairosCommand cmd = commandStackForRedo.pop();
+                cmd.redo();
+                commandStackForUndo.push(cmd);
+                fireDataEvent(cmd.getDataType(), cmd.getEventType());
+            } while (batchMode);
         } catch (EmptyStackException e) {
             System.err.println("commandUndoStack empty!");
         }
@@ -235,6 +248,7 @@ public class KairosController {
             private final Profesor data;
 
             public EditProfesorCommand(Profesor data, Profesor newData) {
+                super(KairosCommand.STD_CMD);
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Profesor("", "", "");
@@ -298,6 +312,7 @@ public class KairosController {
             private final Aula data;
 
             public EditAulaCommand(Aula data, Aula newData) {
+                super(KairosCommand.STD_CMD);
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Aula("");
@@ -347,6 +362,7 @@ public class KairosController {
             private final Carrera data;
 
             public EditCarreraCommand(Carrera data, Carrera newData) {
+                super(KairosCommand.STD_CMD);
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Carrera("");
@@ -398,6 +414,7 @@ public class KairosController {
             private Carrera oldCar;
 
             public EditCursoCommand(Curso data, Curso newData) {
+                super(KairosCommand.STD_CMD);
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Curso("");
@@ -475,6 +492,7 @@ public class KairosController {
             private final Asignatura data;
 
             public EditAsignaturaCommand(Asignatura data, Asignatura newData) {
+                super(KairosCommand.STD_CMD);
                 this.data = data;
                 this.newData = newData;
                 this.oldData = new Asignatura("");
@@ -543,6 +561,7 @@ public class KairosController {
             private final Grupo grOld;
 
             public EditGrupoCommand(Grupo data, Grupo grNew) {
+                super(KairosCommand.STD_CMD);
                 this.data = data;
                 this.grNew = grNew;
                 grOld = new Grupo("");
@@ -584,16 +603,71 @@ public class KairosController {
         return new EditGrupoCommand(data, grNew);
     }
 //</editor-fold>
+
+    public KairosCommand getMoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
+
+        class MoveHorarioItem extends KairosCommand {
+
+            private final HorariosJPanelModel model;
+            private final DraggableHorarioItemComponent dh;
+            private final int rSrc;
+            private final int cSrc;
+            private final int rDst;
+            private final int cDst;
+
+            public MoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
+                super(KairosCommand.STD_CMD);
+                this.dh = dh;
+                this.model = model;
+                this.rSrc = rSrc;
+                this.cSrc = cSrc;
+                this.rDst = rDst;
+                this.cDst = cDst;
+                
+            }
+
+            @Override
+            public void execute() {
+                model.effectivelyDropItem(dh, rDst, cDst);
+            }
+
+            @Override
+            public void undo() {
+                model.effectivelyDropItem(dh, rSrc, cSrc);
+            }
+
+            @Override
+            public String getDescription() {
+                return "Mover item de horario";
+            }
+
+            @Override
+            public Object getDataType() {
+                return dh;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
+
+        }
+
+        return new MoveHorarioItem(model,dh, rSrc, cSrc, rDst, cDst);
+
+    }
     //**************************************************************************
     //COMANDOS DE CREACION
     //**************************************************************************
 
+    //<editor-fold defaultstate="collapsed" desc="getCreateDepartamentoCommand">
     public KairosCommand getCreateDepartamentoCommand(Departamento newDep) {
         class CreateDepartamentoCommand extends KairosCommand {
 
             private final Departamento newDep;
 
             public CreateDepartamentoCommand(Departamento dep) {
+                super(KairosCommand.STD_CMD);
                 this.newDep = dep;
             }
 
@@ -635,6 +709,7 @@ public class KairosController {
         }
         return new CreateDepartamentoCommand(newDep);
     }
+//</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="getCreateProfesorCommand">
     public KairosCommand getCreateProfesorCommand(Departamento dep, Profesor newProfesor) {
@@ -644,6 +719,7 @@ public class KairosController {
             private final Departamento dep;
 
             public CreateProfesorCommand(Departamento dep, Profesor newProfesor) {
+                super(KairosCommand.STD_CMD);
                 this.newProfesor = newProfesor;
                 this.dep = dep;
                 dep.ordenaProfesores();
@@ -693,6 +769,7 @@ public class KairosController {
             private final Aula newAula;
 
             public CreateAulaCommand(Aula newAula) {
+                super(KairosCommand.STD_CMD);
                 this.newAula = newAula;
             }
 
@@ -744,6 +821,7 @@ public class KairosController {
             private final Carrera car;
 
             public CreateCarreraCommand(Carrera car) {
+                super(KairosCommand.STD_CMD);
                 this.car = car;
             }
 
@@ -795,6 +873,7 @@ public class KairosController {
             private final Carrera car;
 
             public CreateCursoCommand(Carrera car, Curso cur) {
+                super(KairosCommand.STD_CMD);
                 this.cur = cur;
                 this.car = car;
             }
@@ -851,6 +930,7 @@ public class KairosController {
             private final Curso cur;
 
             public CreateAsignaturaCommand(Curso cur, Asignatura asig) {
+                super(KairosCommand.STD_CMD);
                 this.asig = asig;
                 this.cur = cur;
             }
@@ -903,6 +983,7 @@ public class KairosController {
             private final Asignatura asig;
 
             public CreateGrupoCommand(Asignatura asig, Grupo gr) {
+                super(KairosCommand.STD_CMD);
                 this.gr = gr;
                 this.asig = asig;
             }
@@ -956,6 +1037,7 @@ public class KairosController {
             private final Tramo tr;
 
             public CreateTramoCommand(Grupo gr, Tramo tr) {
+                super(KairosCommand.STD_CMD);
                 this.tr = tr;
                 this.gr = gr;
             }
@@ -1011,6 +1093,7 @@ public class KairosController {
             private KairosCommand cmdBorrarDocencia;
 
             public DeleteProfesorCommand(Profesor p) {
+                super(KairosCommand.STD_CMD);
                 this.p = p;
                 this.dep = p.getDepartamento();
             }
@@ -1066,6 +1149,7 @@ public class KairosController {
             private final Carrera car;
 
             public DeleteCarreraCommand(Carrera car) {
+                super(KairosCommand.STD_CMD);
                 this.car = car;
             }
 
@@ -1120,6 +1204,7 @@ public class KairosController {
             private final Carrera car;
 
             public DeleteCursoCommand(Curso cur) {
+                super(KairosCommand.STD_CMD);
                 this.cur = cur;
                 this.car = cur.getParent();
             }
@@ -1175,6 +1260,7 @@ public class KairosController {
             private final Asignatura asig;
 
             public DeleteAsignaturaCommand(Asignatura asig) {
+                super(KairosCommand.STD_CMD);
                 this.cur = asig.getParent();
                 this.asig = asig;
             }
@@ -1230,6 +1316,7 @@ public class KairosController {
             private final Asignatura asig;
 
             public DeleteGrupoCommand(Grupo gr) {
+                super(KairosCommand.STD_CMD);
                 this.gr = gr;
                 this.asig = gr.getParent();
             }
@@ -1284,6 +1371,7 @@ public class KairosController {
             private final Tramo tr;
 
             public DeleteTramoCommand(Tramo tr) {
+                super(KairosCommand.STD_CMD);
                 this.tr = tr;
                 this.gr = tr.getParent().getParent();
             }
@@ -1344,6 +1432,7 @@ public class KairosController {
             private ArrayList<Tramo> tramos;
 
             public AsignarDocenciaCommand(Profesor p, Teachable t) {
+                super(KairosCommand.STD_CMD);
                 this.p = p;
                 this.t = t;
                 undoInfo = new HashMap<Tramo, Profesor>();
@@ -1411,6 +1500,7 @@ public class KairosController {
             private ArrayList<Tramo> tramos;
 
             public AsignarAulaCommand(AulaMT aulaMT, Teachable t) {
+                super(KairosCommand.STD_CMD);
                 this.aulaMT = aulaMT;
                 this.t = t;
                 undoInfo = new HashMap<Tramo, AulaMT>();
@@ -1465,6 +1555,7 @@ public class KairosController {
             private final HashSet<Tramo> undoInfo;//Información para deshacer
 
             public ClearDocenciaCommand(Profesor p) {
+                super(KairosCommand.STD_CMD);
                 this.p = p;
                 undoInfo = new HashSet<Tramo>();
             }
@@ -1511,31 +1602,31 @@ public class KairosController {
     //<editor-fold defaultstate="collapsed" desc="getVaciarAulaCommand">
     public KairosCommand getVaciarAulaCommand(AulaMT aulaMT) {
         class VaciarAulaCommand extends KairosCommand {
-            
+
             private final HashSet<Tramo> undoInfo;//Información para deshacer
             private final AulaMT aulaMT;
-            
+
             public VaciarAulaCommand(AulaMT aulaMT) {
+                super(KairosCommand.STD_CMD);
                 this.aulaMT = aulaMT;
                 undoInfo = new HashSet<Tramo>();
             }
-            
+
             @Override
             public void execute() {
                 undoInfo.clear();
                 ArrayList<Tramo> todosTramos = getTodosLosTramos();
                 //Ahora la recorro y me quedo con los tramos cuya aula sea esta
                 for (Tramo tr : todosTramos) {
-                    if (aulaMT.equals(tr.getAulaMT()))
-                    {
+                    if (aulaMT.equals(tr.getAulaMT())) {
                         undoInfo.add(tr);//guardo para poder deshacer
                         tr.setAulaMT(null);//Quito el aula
                     }
                     aulaMT.getAsignaciones().clear();
-                    
+
                 }
             }
-            
+
             @Override
             public void undo() {
                 for (Tramo tr : undoInfo) {
@@ -1543,24 +1634,105 @@ public class KairosController {
                     aulaMT.asignaTramo(tr);
                 }
             }
-            
+
             @Override
             public String getDescription() {
                 return "Vaciar aula";
             }
-            
+
             @Override
             public Object getDataType() {
                 return new Tramo(0);
             }
-            
+
             @Override
-                    int getEventType() {
-                        return DataProyectoListener.MODIFY;
-                    }
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
         }
-        
+
         return new VaciarAulaCommand(aulaMT);
+    }
+//</editor-fold>
+//**************************************************************************
+    //OTROS COMANDOS
+    //**************************************************************************
+    //<editor-fold defaultstate="collapsed" desc="getBeginBlockCommand">
+
+    public KairosCommand getBeginBlockCommand() {
+        final KairosController controller = this;
+        class BeginBlockCommand extends KairosCommand {
+
+            public BeginBlockCommand() {
+                super(KairosCommand.BEGIN_BLOCK);
+                this.setUndoable(true);
+            }
+
+            @Override
+            public void execute() {
+                controller.setBatchMode(true);
+            }
+
+            @Override
+            public void undo() {
+                controller.setBatchMode(false);
+            }
+
+            @Override
+            public String getDescription() {
+                return "Begin Atomic Command Block";
+            }
+
+            @Override
+            public Object getDataType() {
+                return null;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
+        }
+        return new BeginBlockCommand();
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="getEndBlockCommand">
+    public KairosCommand getEndBlockCommand() {
+        final KairosController controller = this;
+        class EndBlockCommand extends KairosCommand {
+
+            public EndBlockCommand() {
+                super(KairosCommand.END_BLOCK);
+                this.setUndoable(true);
+            }
+
+            @Override
+            public void execute() {
+                controller.setBatchMode(false);
+            }
+
+            @Override
+            public void undo() {
+                controller.setBatchMode(true);
+            }
+
+            @Override
+            public String getDescription() {
+                return "Begin Atomic Command Block";
+            }
+
+            @Override
+            public Object getDataType() {
+                return null;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
+        }
+        return new EndBlockCommand();
     }
 //</editor-fold>
 }

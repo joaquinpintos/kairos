@@ -193,17 +193,9 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
     private void jListAulasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListAulasValueChanged
         AulaMT a = (AulaMT) jListAulas.getSelectedValue();
-//        modelHorarios.setAulaMostrada(a.getAula().getHash(a.getEsTarde()));
         jTableHorario.updateUI();
         horariosJPanelModel.setHashAulaMostrada(a.getHash());
         horariosJPanelModel.rebuildAll();
-        Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
-        if (r != null) {
-            master.resaltaItemsConflictivos(r);
-        } else {
-            master.resaltaItemsConflictivos(null);
-        }
-
         mainWindow.repaint();
     }//GEN-LAST:event_jListAulasValueChanged
 
@@ -400,12 +392,13 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
     }
 
     private void creaAcciones() {
+        //<editor-fold defaultstate="collapsed" desc="VolverAOptimizarAction">
         class VolverAOptimizarAction extends AbstractAction {
-
+            
             public VolverAOptimizarAction() {
                 super("Volver a optimizar", null);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainWindow.getjIntgenGenetic().setVisible(true);
@@ -417,18 +410,17 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
                 }
             }
         }
+//</editor-fold>
         volverAOptimizarAction = new VolverAOptimizarAction();
         jButVolverAOptimizar.setAction(volverAOptimizarAction);
 
-       
-
-
+        //<editor-fold defaultstate="collapsed" desc="CalculaHorasAsignaturasAction">
         class CalculaHorasAsignaturasAction extends AbstractAction {
-
+            
             public CalculaHorasAsignaturasAction() {
                 super("Calcular horas", null);
             }
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 JDlgCalculaHorasAsignaturas dlg = new JDlgCalculaHorasAsignaturas(null, true, dk);
@@ -436,6 +428,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
                 dlg.setVisible(true);
             }
         }
+//</editor-fold>
         CalculaHorasAsignaturasAction calculaHorasAsignadasAction = new CalculaHorasAsignaturasAction();
 //        jButCalcularHorasCreditos.setAction(calculaHorasAsignadasAction);
     }

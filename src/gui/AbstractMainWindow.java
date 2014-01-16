@@ -97,6 +97,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
         dirty = false;
         listaTabs = new ArrayList<JInternalFrame>();
         dk = new DataKairos();
+        dk.setMainWindow(this);
         horarioEditorMaster = new HorarioEditorMaster(dk);
         //Parámetros básicos de la ventana
         this.setTitle("Kairos");

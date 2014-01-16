@@ -421,6 +421,8 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
             Curso c = (Curso) jComboCursos.getSelectedItem();
             //TODO: Parece que siempre se selecciona un curso de primaria?
 //            dk.getDP().getDataAsignaturas().addAsignatura(c, asigNueva);
+            cmd = dk.getController().getBeginBlockCommand();
+            dk.getController().executeCommand(cmd);//Comienzo modo bloque (para deshacer/rehacer de un paso)
             cmd = dk.getController().getCreateAsignaturaCommand(c, asigNueva);
             dk.getController().executeCommand(cmd);//Creo asignatura
 
@@ -439,6 +441,8 @@ public class JDlgAñadirAsignatura extends javax.swing.JDialog {
                     }
                 }
             }
+            cmd = dk.getController().getEndBlockCommand();
+            dk.getController().executeCommand(cmd);//Termino modo bloque (para deshacer/rehacer de un paso)
         }
 
         returnStatus = retStatus;
