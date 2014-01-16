@@ -91,7 +91,7 @@ public class JDlgAbout extends javax.swing.JDialog {
         jLabel3.setText("Programa realizado por: David Gutiérrez Rubio");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("Versión 1.1");
+        jLabel4.setText("Versión 1.2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -93,7 +93,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Versi&#xf3;n 1.1"/>
+        <Property name="text" type="java.lang.String" value="Versi&#xf3;n 1.2"/>
       </Properties>
     </Component>
   </SubComponents>
