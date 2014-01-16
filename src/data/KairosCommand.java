@@ -6,6 +6,10 @@
 
 package data;
 
+import data.asignaturas.Carrera;
+import data.asignaturas.Tramo;
+import java.util.ArrayList;
+
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
@@ -26,5 +30,7 @@ public abstract class KairosCommand {
     {
         return undoable;
     }
+
+   
     
 }

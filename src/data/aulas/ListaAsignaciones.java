@@ -41,6 +41,10 @@ public class ListaAsignaciones implements Serializable {
         return aula;
     }
 
+    public AulaMT getAulaMT() {
+        return new AulaMT(aula, tarde);
+    }
+
     /**
      *
      * @return
@@ -94,6 +98,10 @@ public class ListaAsignaciones implements Serializable {
         return tramos.add(e);
     }
 
+    public boolean remove(Object o) {
+        return tramos.remove(o);
+    }
+
     /**
      * Añade a esta lista de asignaciones TODOS los grupos con hash el indicado
      * por la variable cont.
@@ -122,6 +130,10 @@ public class ListaAsignaciones implements Serializable {
      */
     public boolean isEmpty() {
         return tramos.isEmpty();
+    }
+
+    public void clear() {
+        tramos.clear();
     }
 
 }

@@ -206,6 +206,14 @@ public class KairosController {
         return resul;
     }
 
+    public ArrayList<Tramo> getTodosLosTramos() {
+        //Hago una lista con todos los tramos existentes
+        ArrayList<Tramo> todosTramos = new ArrayList<Tramo>();
+        for (Carrera car : dk.getDP().getDataAsignaturas().getCarreras()) {
+            todosTramos.addAll(getTramosFromTeachable(car));
+        }
+        return todosTramos;
+    }
     //**************************************************************************
     //COMANDOS DE EDICION
     //**************************************************************************
@@ -1463,6 +1471,7 @@ public class KairosController {
 
             @Override
             public void execute() {
+                undoInfo.clear();
                 for (Tramo tr : p.getDocencia()) {
                     tr.setDocente(null);
                     undoInfo.add(tr);
@@ -1496,6 +1505,62 @@ public class KairosController {
         }
 
         return new ClearDocenciaCommand(p);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="getVaciarAulaCommand">
+    public KairosCommand getVaciarAulaCommand(AulaMT aulaMT) {
+        class VaciarAulaCommand extends KairosCommand {
+            
+            private final HashSet<Tramo> undoInfo;//Información para deshacer
+            private final AulaMT aulaMT;
+            
+            public VaciarAulaCommand(AulaMT aulaMT) {
+                this.aulaMT = aulaMT;
+                undoInfo = new HashSet<Tramo>();
+            }
+            
+            @Override
+            public void execute() {
+                undoInfo.clear();
+                ArrayList<Tramo> todosTramos = getTodosLosTramos();
+                //Ahora la recorro y me quedo con los tramos cuya aula sea esta
+                for (Tramo tr : todosTramos) {
+                    if (aulaMT.equals(tr.getAulaMT()))
+                    {
+                        undoInfo.add(tr);//guardo para poder deshacer
+                        tr.setAulaMT(null);//Quito el aula
+                    }
+                    aulaMT.getAsignaciones().clear();
+                    
+                }
+            }
+            
+            @Override
+            public void undo() {
+                for (Tramo tr : undoInfo) {
+                    tr.setAulaMT(aulaMT);
+                    aulaMT.asignaTramo(tr);
+                }
+            }
+            
+            @Override
+            public String getDescription() {
+                return "Vaciar aula";
+            }
+            
+            @Override
+            public Object getDataType() {
+                return new Tramo(0);
+            }
+            
+            @Override
+                    int getEventType() {
+                        return DataProyectoListener.MODIFY;
+                    }
+        }
+        
+        return new VaciarAulaCommand(aulaMT);
     }
 //</editor-fold>
 }

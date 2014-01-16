@@ -9,7 +9,9 @@ import data.DataProyectoListener;
 import data.KairosCommand;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.Aula;
+import data.aulas.AulaMT;
 import data.aulas.DataAulas;
+import data.aulas.ListaAsignaciones;
 import data.profesores.DataProfesores;
 import gui.AbstractMainWindow;
 import gui.DatosEditor.DataGUIInterface;
@@ -22,6 +24,7 @@ import javax.swing.AbstractAction;
 import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.ActionMap;
 import javax.swing.DropMode;
+import javax.swing.Icon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -37,7 +40,7 @@ import javax.swing.event.TreeModelListener;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
-    
+
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;
     private DataProfesores dataProfesores;
@@ -47,6 +50,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     private AbstractAction eliminarAulaAction;
     private JPopupMenu jpopMenu;
     private final DataKairos dk;
+    private AbstractAction vaciarAulaAction;
 
     /**
      * Creates new form JIntTreeAulas
@@ -74,10 +78,10 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jTreeGrupoCursos.setCellRenderer(new JTreeGrupoCursosRenderer(dk));
         jTreeGrupoCursos.setDragEnabled(true);
         jTreeGrupoCursos.setTransferHandler(new GrupoCursoTransferHandler());
-         this.jTreeGrupoCursos.setDropMode(DropMode.INSERT);
+        this.jTreeGrupoCursos.setDropMode(DropMode.INSERT);
         this.jTreeGrupoCursos.setDropTarget(new DropTarget());
-        jTreeGrupoCursos.getDropTarget().addDropTargetListener(new JTreeGrupoCursoDropListener(this,dk));
-        
+        jTreeGrupoCursos.getDropTarget().addDropTargetListener(new JTreeGrupoCursoDropListener(this, dk));
+
         jTreeAulas.setModel(treeModelAulas);
         treeModelAulas.addTreeModelListener(createTreeModelListener(jTreeAulas));
         jTreeAulas.setDragEnabled(true);
@@ -86,7 +90,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
         jTreeAulas.setDropTarget(new DropTarget());
         jTreeAulas.getDropTarget().addDropTargetListener(new JTreeAulasDropListener(this, dk));
         jTreeAulas.setCellRenderer(new JTreeAulasRenderer(dk));
-        
+
         createActions();
         updateData();
     }
@@ -99,7 +103,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     public JTree getjTreeAulas() {
         return jTreeAulas;
     }
-    
+
     /**
      *
      * @return
@@ -260,10 +264,10 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     public final void updateData() {
         jTreeAulas.updateUI();
         jTreeGrupoCursos.updateUI();
-          for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
+        for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
             jTreeAulas.expandRow(i);
         }
-           for (int i = 0; i < jTreeGrupoCursos.getRowCount(); i++) {
+        for (int i = 0; i < jTreeGrupoCursos.getRowCount(); i++) {
             jTreeGrupoCursos.expandRow(i);
         }
     }
@@ -275,26 +279,27 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     @Override
     public void setMainWindow(AbstractMainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        
+
     }
 
     /**
      * Crea acciones de crear aula, editar aula, y eliminar aula
      */
     private void createActions() {
+        //<editor-fold defaultstate="collapsed" desc="AñadirAulaAction">
         class AñadirAulaAction extends AbstractAction {
-            
+
             public AñadirAulaAction() {
                 super("Añadir aula", dk.mc.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_A);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Aula nuevaAula = new Aula("");
                 String nombre = JOptionPane.showInputDialog(rootPane, "Nombre de la nueva aula:", "");
-                
-                if (nombre!=null) {
+
+                if (nombre != null) {
                     dk.getDP().getDataAulas().addAula(nuevaAula);
                     KairosCommand cmd = dk.getController().getCreateAulaCommand(nuevaAula);
                     dk.getController().executeCommand(cmd);
@@ -302,14 +307,16 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                 updateData();
             }
         }//End of class AñadirAula
+//</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="EditarAulaAction">
         class EditarAulaAction extends AbstractAction {
-            
+
             public EditarAulaAction() {
                 super("Editar", dk.mc.ADD_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_E);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
@@ -318,16 +325,18 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                     JDlgEditarAula dlg = new JDlgEditarAula(null, dk, aulaEditar);
                     dlg.setVisible(true);
                 }
-                
+
             }
         }//End of class EditarAula
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="EliminarAulaAction">
         class EliminarAulaAction extends AbstractAction {
-            
+
             public EliminarAulaAction() {
                 super("Eliminar", dk.mc.DELETE_ICON);
                 putValue(MNEMONIC_KEY, KeyEvent.VK_L);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
@@ -341,20 +350,42 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                 }
             }
         }//End of class EliminarAula
+//</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="VaciarAulaAction">
+        class VaciarAulaAction extends AbstractAction {
+            
+            public VaciarAulaAction() {
+                super("Vaciar aula", null);
+            }
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
+                if (sel instanceof ListaAsignaciones) {
+                    AulaMT aulaMT = ((ListaAsignaciones) sel).getAulaMT();
+                    KairosCommand cmd = dk.getController().getVaciarAulaCommand(aulaMT);
+                    dk.getController().executeCommand(cmd);
+                }
+            }
+        }
+//</editor-fold>
 
         añadirAulaAction = new AñadirAulaAction();
         jButAñadirAula.setAction(añadirAulaAction);
-        
+
         editarAulaAction = new EditarAulaAction();
         jButEditarAula.setAction(editarAulaAction);
-        
+
         eliminarAulaAction = new EliminarAulaAction();
         jButEliminarAula.setAction(eliminarAulaAction);
         
+        vaciarAulaAction=new VaciarAulaAction();
+
         jpopMenu = new JPopupMenu();
         jpopMenu.add(añadirAulaAction);
         jpopMenu.add(editarAulaAction);
         jpopMenu.add(eliminarAulaAction);
+        jpopMenu.add(vaciarAulaAction);
 
         //Mapeo la tecla DEL para borrar la restricción
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -370,11 +401,11 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
             @Override
             public void mouseClicked(MouseEvent e) {
             }
-            
+
             public void doPop(MouseEvent e) {
                 jpopMenu.show(e.getComponent(), e.getX(), e.getY());
             }
-            
+
             @Override
             public void mousePressed(MouseEvent e) {
                 try {
@@ -387,23 +418,23 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                     doPop(e);
                 }
             }
-            
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     doPop(e);
                 }
             }
-            
+
             @Override
             public void mouseEntered(MouseEvent e) {
             }
-            
+
             @Override
             public void mouseExited(MouseEvent e) {
             }
         });
-        
+
     }
 
     /**
@@ -414,31 +445,31 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
     @Override
     public void dataEvent(Object obj, int type) {
         SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateData();
-                    }
-                });
-       
+            @Override
+            public void run() {
+                updateData();
+            }
+        });
+
     }
-    
+
     private TreeModelListener createTreeModelListener(final JTree tree) {
         return new TreeModelListener() {
             @Override
             public void treeNodesChanged(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
-            
+
             @Override
             public void treeNodesInserted(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
-            
+
             @Override
             public void treeNodesRemoved(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
             }
-            
+
             @Override
             public void treeStructureChanged(TreeModelEvent e) {
                 tree.expandPath(e.getTreePath());
@@ -448,10 +479,10 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
     @Override
     public void expandTrees() {
-          for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
+        for (int i = 0; i < jTreeAulas.getRowCount(); i++) {
             jTreeAulas.expandRow(i);
         }
-            for (int i = 0; i < jTreeGrupoCursos.getRowCount(); i++) {
+        for (int i = 0; i < jTreeGrupoCursos.getRowCount(); i++) {
             jTreeGrupoCursos.expandRow(i);
         }
     }

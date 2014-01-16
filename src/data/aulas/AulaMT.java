@@ -128,12 +128,21 @@ public class AulaMT implements Serializable, Comparable<AulaMT> {
      * @param aThis
      */
     public void asignaTramo(Tramo aThis) {
+        ListaAsignaciones asig = getAsignaciones();
+        asig.add(aThis);
+    }
+
+    public ListaAsignaciones getAsignaciones() {
         ListaAsignaciones asig;
         if (esTarde) {
             asig = aula.getAsignacionesTarde();
         } else {
             asig = aula.getAsignacionesMañana();
         }
-        asig.add(aThis);
+        return asig;
+    }
+     public void removeTramo(Tramo aThis) {
+        ListaAsignaciones asig = getAsignaciones();
+        asig.remove(aThis);
     }
 }
