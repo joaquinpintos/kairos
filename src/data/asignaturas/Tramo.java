@@ -4,7 +4,6 @@
  */
 package data.asignaturas;
 
-import data.DataProyectoListener;
 import data.aulas.AulaMT;
 import data.profesores.Profesor;
 import java.awt.Color;
