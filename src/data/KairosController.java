@@ -16,7 +16,6 @@ import data.asignaturas.Tramo;
 import data.aulas.Aula;
 import data.aulas.AulaMT;
 import data.aulas.DataAulas;
-import data.horarios.HorarioItem;
 import data.profesores.DataProfesores;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
@@ -40,6 +39,13 @@ public class KairosController {
     private final Stack<KairosCommand> commandStackForRedo;
     private final HashSet<DataProyectoListener> listeners;
     private boolean batchMode;
+    
+    //Este número representa el tamaño que tiene que tener la pila commandStackForUndo
+    //para que el sistema se considere "limpio" (todos los cambios guardados)
+    //Si vale -1 el sistema siempre necesitará guardar los cambios.
+    //Si vale 0 el sistema está limpio si no hay cambios realizados (el usuario acaba de cargar o guardar)
+    //Si vale >0 el sistema está limpio si no deshace ni rehace (el usuario acaba de guardar cuando había un historial de cambios)
+    private int cleanNumber;
 
     public KairosController(DataKairos dk) {
         this.dk = dk;
@@ -47,10 +53,22 @@ public class KairosController {
         commandStackForRedo = new Stack<KairosCommand>();
         listeners = new HashSet<DataProyectoListener>();
         batchMode = false;
+        cleanNumber=-1;
     }
 
     public void setBatchMode(boolean batchMode) {
         this.batchMode = batchMode;
+    }
+
+    public void setNotDirty()
+    {
+        cleanNumber=commandStackForUndo.size();
+    }
+    
+    public void clearCmdStack() {
+        commandStackForRedo.clear();
+        commandStackForRedo.clear();
+        cleanNumber=0;
     }
 
     /**
@@ -66,6 +84,10 @@ public class KairosController {
         fireDataEvent(cmd.getDataType(), cmd.getEventType());
 //        System.err.println(commandStack);
         commandStackForRedo.clear();//Borro pila de redo
+        
+        //Pongo el sistema dirty o clean
+        //Es dirty si la pila de undo no se encuentra en el estado clean
+        dk.setDirty(cleanNumber!=commandStackForUndo.size());
     }
 
     /**
@@ -93,6 +115,9 @@ public class KairosController {
         } catch (EmptyStackException e) {
             System.err.println("commandStack empty!");
         }
+        //Pongo el sistema dirty o clean
+        //Es dirty si la pila de undo no se encuentra en el estado clean
+        dk.setDirty(cleanNumber!=commandStackForUndo.size());
     }
 
     /**
@@ -109,6 +134,9 @@ public class KairosController {
         } catch (EmptyStackException e) {
             System.err.println("commandUndoStack empty!");
         }
+        //Pongo el sistema dirty o clean
+        //Es dirty si la pila de undo no se encuentra en el estado clean
+        dk.setDirty(cleanNumber!=commandStackForUndo.size());
 
     }
 
@@ -623,7 +651,7 @@ public class KairosController {
                 this.cSrc = cSrc;
                 this.rDst = rDst;
                 this.cDst = cDst;
-                
+
             }
 
             @Override
@@ -653,7 +681,7 @@ public class KairosController {
 
         }
 
-        return new MoveHorarioItem(model,dh, rSrc, cSrc, rDst, cDst);
+        return new MoveHorarioItem(model, dh, rSrc, cSrc, rDst, cDst);
 
     }
     //**************************************************************************

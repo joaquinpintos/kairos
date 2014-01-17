@@ -229,7 +229,5 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      */
     public void setNumMaximoHoras(int numMaximoHoras) {
         this.numMaximoHoras = numMaximoHoras;
-        setDirty(true);
-
     }
 }

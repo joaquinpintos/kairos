@@ -75,7 +75,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         } else {
             this.nombre = nombre;
         }
-        setDirty(true);
     }
 
     /**
@@ -138,11 +137,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         return true;
     }
 
-    void setDirty(boolean value) {
-        if (parent != null) {
-            parent.setDirty(value);
-        }
-    }
 
 
     /**

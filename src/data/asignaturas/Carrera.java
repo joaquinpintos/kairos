@@ -49,7 +49,6 @@ public class Carrera implements Serializable, Teachable, Comparable<Carrera> {
         } else {
             this.nombre = nombre;
         }
-        setDirty(true);
     }
 
     /**
@@ -92,11 +91,6 @@ public class Carrera implements Serializable, Teachable, Comparable<Carrera> {
         return cursos;
     }
 
-    void setDirty(boolean value) {
-        if (parent != null) {
-            parent.setDirty(value);
-        }
-    }
 
     /**
      *

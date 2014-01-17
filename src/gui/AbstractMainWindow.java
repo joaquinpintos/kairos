@@ -51,7 +51,6 @@ import loader.XMLDataLoaderWriter;
 public abstract class AbstractMainWindow extends javax.swing.JFrame implements DataProyectoListener {
 
     //Variables globales de aplicación
-    boolean dirty;
     private File lastFileUsed;
     private DataProfesores dataProfesores;
     private DataAsignaturas dataAsignaturas;
@@ -94,10 +93,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
             System.err.println("Error al cargar icono");
         }
 
-        dirty = false;
         listaTabs = new ArrayList<JInternalFrame>();
         dk = new DataKairos();
-        dk.setMainWindow(this);
         horarioEditorMaster = new HorarioEditorMaster(dk);
         //Parámetros básicos de la ventana
         this.setTitle("Kairos");
@@ -105,6 +102,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
         enabledActions = new HashMap<Integer, HashSet<AbstractAction>>();
         createActions();
         addListeners();
+        dk.setMainWindow(this);
     }
 
     /**
@@ -324,7 +322,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (dk.getDP() != null) {
-                    if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Los datos no guardados se perderán ¿Continuar?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                    if ((!dk.isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Los datos no guardados se perderán ¿Continuar?", "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                         String s = (String) JOptionPane.showInputDialog(
                                 mainWindow,
                                 "Introduce el nombre del proyecto",
@@ -356,7 +354,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                if ((!dk.isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                     FileInputStream fich;
                     ObjectInputStream os;
                     try {
@@ -373,8 +371,8 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                             DataProject o = (DataProject) os.readObject();
                             os.close();
                             dk.setDP(o);
-                            dk.populateRestricciones();
-                            o.setDirty(false);
+                            dk.getController().clearCmdStack();//Borro pila de comandos anteriores
+                            dk.setDirty(false);//Sistema limpio
                             addListeners();
 //                            getjIntHorarioView().getHorariosJPanelModel().setMainWindow(mainWindow);
 
@@ -430,7 +428,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                         ObjectOutputStream oos = new ObjectOutputStream(fisal);
                         oos.writeObject(dk.getDP());
                         oos.close();
-                        dk.getDP().setDirty(false);
+                        dk.setDirty(false);
 
                     }
                 } catch (FileNotFoundException ex) {
@@ -474,7 +472,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                             oos = new ObjectOutputStream(fisal);
                             oos.writeObject(dk.getDP());
                             oos.close();
-                            dk.getDP().setDirty(false);
+                            dk.setDirty(false);
                         } catch (IOException ex) {
                             JOptionPane.showMessageDialog(rootPane, "Error de E/S", "Error al guardar", JOptionPane.ERROR_MESSAGE);
                         }
@@ -493,7 +491,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿desea salir?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                if ((!dk.isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿desea salir?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                     System.exit(0);
                 }
             }
@@ -510,7 +508,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Este metodo IMPORTA datos de XML
-                if ((!dk.getDP().isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
+                if ((!dk.isDirty()) || (JOptionPane.showConfirmDialog(rootPane, "Hay datos sin guardar, ¿continuar?", "Datos sin guardar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)) {
                     JFileChooser fc = new JFileChooser("archivos");
                     fc.setDialogTitle("Elige archivo de proyecto a cargar");
                     FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivo XML", "xml");
@@ -535,7 +533,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                             ((DataGUIInterface) tab).updateData();
                             ((DataGUIInterface) tab).expandTrees();
                         }
-                        dk.getDP().setDirty(false);
+                        dk.setDirty(false);
                         if (dk.getDP().getHorario().hayUnaSolucion()) {
                             mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
                         } else {

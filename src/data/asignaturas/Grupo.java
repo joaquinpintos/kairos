@@ -196,18 +196,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         return true;
     }
 
-    /**
-     * Marca el grupo como modificado (con efectos a la hora de guardar cambios
-     * o no)
-     *
-     * @param value True si el grupo ha sufrido modificaciones. False en caso
-     * contrario.
-     */
-    public void setDirty(boolean value) {
-        if (parent != null) {
-            parent.setDirty(value);
-        }
-    }
 
 
     @Override

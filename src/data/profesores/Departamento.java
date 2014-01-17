@@ -48,7 +48,6 @@ public class Departamento implements Serializable {
         } else {
             this.nombre = nombre;
         }
-        setDirty(true);
     }
 
     /**
@@ -72,7 +71,6 @@ public class Departamento implements Serializable {
         this.profesores.add(pro);
         pro.setDepartamento(this);
         ordenaProfesores();
-        setDirty(true);
     }
 
     public boolean removeProfesor(Object o) {
@@ -97,13 +95,4 @@ public class Departamento implements Serializable {
         this.parent = parent;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        if (parent != null) {
-            parent.setDirty(value);
-        }
-    }
 }

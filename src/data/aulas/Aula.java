@@ -54,7 +54,6 @@ public class Aula implements Serializable {
         } else {
             this.nombre = nombre;
         }
-        setDirty(true);
     }
 
     @Override
@@ -121,15 +120,6 @@ public class Aula implements Serializable {
         this.parent = parent;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        if (parent != null) {
-            parent.setDirty(value);
-        }
-    }
 
     public void copyBasicValuesFrom(Aula data) {
         this.nombre=data.getNombre();

@@ -245,7 +245,6 @@ public abstract class Restriccion implements Serializable {
         if (this.importancia > 3) {
             this.importancia = 3;
         }
-        setDirty(true);
     }
 
     /**
@@ -509,14 +508,4 @@ public abstract class Restriccion implements Serializable {
         return listeners;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        try {
-            dataProyecto.setDirty(value);
-        } catch (NullPointerException e) {
-        }
-    }
 }

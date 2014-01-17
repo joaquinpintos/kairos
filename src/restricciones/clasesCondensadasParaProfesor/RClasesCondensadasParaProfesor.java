@@ -75,7 +75,6 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
      */
     public void setNumeroMaximoDias(int numeroMaximoDias) {
         this.numeroMaximoDias = numeroMaximoDias;
-        setDirty(true);
     }
 
     /**
@@ -196,7 +195,6 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
             throw new Exception("");
         }
         this.profesor = profesor;
-        setDirty(true);
     }
 
     /**

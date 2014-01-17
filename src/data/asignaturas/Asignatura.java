@@ -71,7 +71,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         } else {
             this.nombre = nombre;
         }
-        setDirty(true);
     }
 
     /**
@@ -96,7 +95,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      */
     public void setNombreCorto(String nombreCorto) {
         this.nombreCorto = nombreCorto;
-        setDirty(true);
     }
 
     /**
@@ -105,7 +103,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
      */
     public void setParent(Curso curso) {
         this.parent = curso;
-        setDirty(true);
     }
 
     /**
@@ -204,16 +201,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         return true;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        if (parent != null) {
-            parent.setDirty(value);
-        }
-
-    }
 
     public boolean isAlgunoSinAula() {
         return algunoSinAula;

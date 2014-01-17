@@ -36,17 +36,6 @@ public class AbstractDataSets implements Serializable {
     }
 
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        try {
-            dataProyecto.setDirty(value);
-        } catch (NullPointerException e) {
-            //Si dataProyecto es nulo, lo ignoro
-        }
-    }
 
     /**
      *

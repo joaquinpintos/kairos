@@ -84,7 +84,6 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         } else {
             this.nombre = nombre;
         }
-        setDirty(true);
     }
 
     @Override
@@ -114,7 +113,6 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         } else {
             this.apellidos = apellidos;
         }
-        setDirty(true);
     }
 
     /**
@@ -219,19 +217,8 @@ public class Profesor implements Comparable<Profesor>, Serializable {
      */
     public void setNombreCorto(String nombreCorto) {
         this.nombreCorto = nombreCorto;
-        setDirty(true);
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        try {
-            departamento.setDirty(value);
-        } catch (NullPointerException e) {
-        }
-    }
 
     public void copyBasicValuesFrom(Profesor newData) {
         this.nombre = newData.nombre;

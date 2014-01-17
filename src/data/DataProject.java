@@ -64,7 +64,6 @@ public class DataProject implements Serializable {
     //por ejemplo, si todas las clases son de 60 minutos, una casilla son 60 minutos
     //Si hay clases de 90 y 60, las casillas son de 30=mcd(60,90)
     private int minutosPorCasilla;
-    private boolean dirty;
     /**
      * Estado del proyecto: puede tomar valores dentro de MYCONSTANTS.
      */
@@ -124,7 +123,6 @@ public class DataProject implements Serializable {
      */
     public void setHorario(Horario horario) {
         this.horario = horario;
-        setDirty(true);
     }
 
     /**
@@ -191,7 +189,6 @@ public class DataProject implements Serializable {
         dataRestricciones.clear();//=new DataRestricciones(this);//.clear();
         dataAsignacionAulas.clear();
         horario.clear();
-        setDirty(true);
     }
 
     /**
@@ -208,7 +205,6 @@ public class DataProject implements Serializable {
      */
     public void setMañana1(RangoHoras mañana1) {
         this.academicCalendar.setMañana1(mañana1);
-        setDirty(true);
     }
 
     /**
@@ -225,7 +221,6 @@ public class DataProject implements Serializable {
      */
     public void setMañana2(RangoHoras mañana2) {
         this.academicCalendar.setMañana2(mañana2);
-        setDirty(true);
     }
 
     /**
@@ -242,7 +237,6 @@ public class DataProject implements Serializable {
      */
     public void setTarde1(RangoHoras tarde1) {
         this.academicCalendar.setTarde1(tarde1);
-        setDirty(true);
     }
 
     /**
@@ -259,7 +253,6 @@ public class DataProject implements Serializable {
      */
     public void setTarde2(RangoHoras tarde2) {
         this.academicCalendar.setTarde2(tarde2);
-        setDirty(true);
     }
 
     /**
@@ -313,7 +306,6 @@ public class DataProject implements Serializable {
      */
     public void setDiasSemanaLectivos(ArrayList<Integer> diasSemanaLectivos) {
         this.academicCalendar.setDiasSemanaLectivos(diasSemanaLectivos);
-        setDirty(true);
     }
 
     /**
@@ -338,7 +330,6 @@ public class DataProject implements Serializable {
      */
     public void setOptimo(PosibleSolucion optimo) {
         this.optimo = optimo;
-        setDirty(true);
     }
 
     /**
@@ -371,7 +362,6 @@ public class DataProject implements Serializable {
      */
     public void setPathForPDF(File pathForPDF) {
         this.pathForPDF = pathForPDF;
-        setDirty(true);
     }
 
     /**
@@ -388,7 +378,6 @@ public class DataProject implements Serializable {
      */
     public void setTituloPaginasImprimir(String tituloPaginasImprimir) {
         this.tituloPaginasImprimir = tituloPaginasImprimir;
-        setDirty(true);
     }
 
     /**
@@ -419,24 +408,6 @@ public class DataProject implements Serializable {
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean isDirty() {
-        return dirty;
-    }
-
-    /**
-     *
-     * @param dirty
-     */
-    public void setDirty(boolean dirty) {
-//        if (dirty) System.out.println("SET DIRTY!!!!!");else
-//            System.out.println("SET NO DIRTY!!!!!");
-
-        this.dirty = dirty;
-    }
 
     /**
      *

@@ -61,7 +61,6 @@ public class DataAsignacionAulas implements Serializable {
                 asignacionesMañana.get(aula).put(hashContainer, new ArrayList<Grupo>());
             }
         }
-        setDirty(true);
     }
 
     /**
@@ -76,7 +75,6 @@ public class DataAsignacionAulas implements Serializable {
         if (asignacionesTarde.get(aula).containsKey(hashContainer)) {
             asignacionesTarde.get(aula).remove(hashContainer);
         }
-        setDirty(true);
     }
 
     /**
@@ -108,7 +106,6 @@ public class DataAsignacionAulas implements Serializable {
                 }
             }
         }
-        setDirty(true);
 
     }
 
@@ -141,7 +138,6 @@ public class DataAsignacionAulas implements Serializable {
                 }
             }
         }
-        setDirty(true);
     }
 
     /**
@@ -150,7 +146,6 @@ public class DataAsignacionAulas implements Serializable {
     public void clear() {
         asignacionesMañana.clear();
         asignacionesTarde.clear();
-        setDirty(true);
     }
 
     /**
@@ -185,7 +180,6 @@ public class DataAsignacionAulas implements Serializable {
             }
         }
 
-        setDirty(true);
 
     }
 
@@ -212,7 +206,6 @@ public class DataAsignacionAulas implements Serializable {
         if (!asignacionesTarde.containsKey(aula)) {
             asignacionesTarde.put(aula, new HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>());
         }
-        setDirty(true);
         fireDataEvent(aula, DataProyectoListener.ADD);
     }
 
@@ -223,7 +216,6 @@ public class DataAsignacionAulas implements Serializable {
         if (!asignacionesTarde.containsKey(aula)) {
             asignacionesTarde.remove(aula);
         }
-        setDirty(true);
         fireDataEvent(aula, DataProyectoListener.REMOVE);
     }
 
@@ -310,14 +302,4 @@ public class DataAsignacionAulas implements Serializable {
         return dataProyecto;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setDirty(boolean value) {
-        try {
-            dataProyecto.setDirty(value);
-        } catch (NullPointerException e) {
-        }
-    }
 }

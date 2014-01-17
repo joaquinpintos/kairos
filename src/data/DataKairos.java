@@ -4,10 +4,6 @@
  */
 package data;
 
-import static data.DataKairos.STATUS_COMPUTING_SOLUTION;
-import static data.DataKairos.STATUS_NO_PROJECT;
-import static data.DataKairos.STATUS_PROJECT_NO_SOLUTION;
-import static data.DataKairos.STATUS_PROJECT_SOLUTION;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
 import java.util.ArrayList;
@@ -53,6 +49,9 @@ public class DataKairos {
     private final ArrayList<Restriccion> restriccionesDisponibles;
     private final KairosController kairosController;
     private AbstractMainWindow mw;
+    private boolean dirty;
+
+   
 
     /**
      * Constructor por defecto
@@ -63,6 +62,7 @@ public class DataKairos {
         populateRestricciones();
         mc = new MyConstants();
         kairosController = new KairosController(this);
+        dirty=false;
     }
 
     /**
@@ -161,5 +161,16 @@ public class DataKairos {
     public AbstractMainWindow getMainWindow() {
         return mw;
     }
+ public boolean isDirty() {
+        return dirty;
+    }
 
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+//        System.out.println("Dirty="+dirty);
+        if (!dirty)
+        {
+            kairosController.setNotDirty();
+        }
+    }
 }

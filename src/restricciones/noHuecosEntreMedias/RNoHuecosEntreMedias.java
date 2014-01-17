@@ -223,7 +223,6 @@ public class RNoHuecosEntreMedias extends Restriccion {
 
     public void setPenalizarHuecos(boolean penalizarHuecos) {
         this.penalizarHuecos = penalizarHuecos;
-        setDirty(true);
     }
 
     public boolean isPenalizarPocasClases() {
@@ -236,7 +235,6 @@ public class RNoHuecosEntreMedias extends Restriccion {
      */
     public void setPenalizarPocasClases(boolean penalizarPocasClases) {
         this.penalizarPocasClases = penalizarPocasClases;
-        setDirty(true);
     }
 
     /**
@@ -253,7 +251,6 @@ public class RNoHuecosEntreMedias extends Restriccion {
      */
     public void setNumMinimoCasillasOcupadas(int numMinimoCasillasOcupadas) {
         this.numMinimoHorassOcupadas = numMinimoCasillasOcupadas;
-        setDirty(true);
     }
 }
 // @Override

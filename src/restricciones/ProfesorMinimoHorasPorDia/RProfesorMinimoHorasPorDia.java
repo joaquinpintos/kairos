@@ -229,7 +229,6 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
      */
     public void setNumMinimoHoras(int numMaximoHoras) {
         this.numMinimoHoras = numMaximoHoras;
-        setDirty(true);
 
     }
 }
