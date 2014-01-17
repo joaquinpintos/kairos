@@ -208,6 +208,12 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jTableHorario.updateUI();
         horariosJPanelModel.setHashAulaMostrada(a.getHash());
         horariosJPanelModel.rebuildAll();
+         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
+        if (r != null) {
+            master.resaltaItemsConflictivos(r);
+        } else {
+            master.resaltaItemsConflictivos(null);
+        }
         mainWindow.repaint();
     }//GEN-LAST:event_jListAulasValueChanged
 
