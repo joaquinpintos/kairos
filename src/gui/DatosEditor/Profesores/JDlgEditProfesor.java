@@ -232,7 +232,7 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
 
     private void jButAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButAceptarActionPerformed
         Departamento dep = (Departamento) jComboDepartamentos.getSelectedItem();
-        Profesor newData = new Profesor(jTextNombreProfesor.getText(), jTextApellidosProfesor.getText(), jTextNombreProfesor.getText(), dep);
+        Profesor newData = new Profesor(jTextNombreProfesor.getText(), jTextApellidosProfesor.getText(), jTextNombreCorto.getText(), dep);
         newData.setDepartamento(dep);
         KairosCommand cmd;
         if (profesor != null) {//Editing and existing teacher
