@@ -220,7 +220,7 @@ public class DraggableHorarioItemComponent extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 anchorPoint = e.getPoint();
-                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                setCursor(draggingCursor);
             }
 
             @Override
