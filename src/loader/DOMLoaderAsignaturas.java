@@ -92,7 +92,8 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Curso nuevoCurso = new Curso(nombre);
-                carrera.addCurso(nuevoCurso);
+                KairosCommand cmd=dk.getController().getCreateCursoCommand(carrera, nuevoCurso);
+                dk.getController().executeCommand(cmd);
                 readAsignatura(elemDep, nuevoCurso);
             }
         }
@@ -107,7 +108,6 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Asignatura nuevaAsignatura = new Asignatura(nombre);
-//                curso.crateAsignatura(nuevaAsignatura);
                 KairosCommand cmd = dk.getController().getCreateAsignaturaCommand(curso, nuevaAsignatura);
                 dk.getController().executeCommand(cmd);
                 
@@ -136,7 +136,6 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Grupo nuevoGrupo = new Grupo(nombre);
-//                nuevaAsignatura.createGrupo(nuevoGrupo);
                 KairosCommand cmd = dk.getController().getCreateGrupoCommand(nuevaAsignatura, nuevoGrupo);
                 dk.getController().executeCommand(cmd);
                 readTramos(elemDep, nuevoGrupo);

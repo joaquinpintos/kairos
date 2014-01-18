@@ -30,7 +30,6 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.tree.TreePath;
 
 /**
  *
@@ -39,38 +38,41 @@ import javax.swing.tree.TreePath;
 public class JDlgEditProfesor extends javax.swing.JDialog {
 
     Profesor profesor;
-    TreeModelProfesores treeModel;
-    Profesor newData;
     private final DataKairos dk;
 
     /**
      * Creates new form JDlgEditProfesor
      *
      * @param parent
-     * @param modal
      * @param profesor
-     * @param treeModel
-     * @param treePath
+     * @param dep
+     * @param dk
      */
-    public JDlgEditProfesor(java.awt.Frame parent, boolean modal, Profesor profesor, TreeModelProfesores treeModel, TreePath treePath, DataKairos dk) {
-        super(parent, modal);
+    public JDlgEditProfesor(java.awt.Frame parent, Profesor profesor, Departamento dep, DataKairos dk) {
+        super(parent, true);
         initComponents();
         this.dk = dk;
         this.profesor = profesor;
-        jTextNombreProfesor.setText(profesor.getNombre());
-        jTextApellidosProfesor.setText(profesor.getApellidos());
-        jTextNombreCorto.setText(profesor.getNombreCorto());
+        Departamento departamento;//Elemento seleccionado por defecto en el combobox
+        if (profesor != null) {//Si el profesor es nulo, estoy creando uno nuevo
+            jTextNombreProfesor.setText(profesor.getNombre());
+            jTextApellidosProfesor.setText(profesor.getApellidos());
+            jTextNombreCorto.setText(profesor.getNombreCorto());
+            departamento = profesor.getDepartamento();//Si existe profesor, selecciono su departamento
+        } else {
+            departamento = dep;//Si no, el que paso como parámetro
+        }
+
         jTextNombreProfesor.selectAll();
         jTextNombreProfesor.requestFocus();
-        this.treeModel = treeModel;
 
-        //jButAceptar.setAction(updateProfesorAction);
         //Creo combo con departamentos
-        for (Departamento dep : treeModel.getDataProfesores().getDepartamentos()) {
-            jComboDepartamentos.addItem(dep);
+        for (Departamento depLoop : dk.getDP().getDataProfesores().getDepartamentos()) {
+            jComboDepartamentos.addItem(depLoop);
         }
-        if (this.profesor.getDepartamento() != null) {
-            jComboDepartamentos.setSelectedItem(this.profesor.getDepartamento());
+        //Selecciono el item departamento
+        if (departamento != null) {
+            jComboDepartamentos.setSelectedItem(departamento);
         } else {
             jComboDepartamentos.setSelectedIndex(0);
         }
@@ -110,14 +112,6 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
      */
     public JComboBox getjComboDepartamentos() {
         return jComboDepartamentos;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public TreeModelProfesores getTreeModel() {
-        return treeModel;
     }
 
     /**
@@ -238,9 +232,15 @@ public class JDlgEditProfesor extends javax.swing.JDialog {
 
     private void jButAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButAceptarActionPerformed
         Departamento dep = (Departamento) jComboDepartamentos.getSelectedItem();
-        newData = new Profesor(jTextNombreProfesor.getText(), jTextApellidosProfesor.getText(), jTextNombreProfesor.getText(), dep);
-        KairosCommand command = dk.getController().getEditProfesorCommand(profesor, newData);
-        dk.getController().executeCommand(command);
+        Profesor newData = new Profesor(jTextNombreProfesor.getText(), jTextApellidosProfesor.getText(), jTextNombreProfesor.getText(), dep);
+        newData.setDepartamento(dep);
+        KairosCommand cmd;
+        if (profesor != null) {//Editing and existing teacher
+            cmd = dk.getController().getEditProfesorCommand(profesor, newData);
+        } else {
+            cmd = dk.getController().getCreateProfesorCommand(dep, newData);
+        }
+        dk.getController().executeCommand(cmd);
         setVisible(false);
     }//GEN-LAST:event_jButAceptarActionPerformed
 

@@ -22,7 +22,7 @@ import java.io.Serializable;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class Aula implements Serializable {
+public class Aula implements Serializable,Comparable<Aula> {
 
     private static final long serialVersionUID = 27112013L;
     String nombre;
@@ -135,5 +135,10 @@ public class Aula implements Serializable {
 
     public void copyBasicValuesFrom(Aula data) {
         this.nombre=data.getNombre();
+    }
+
+    @Override
+    public int compareTo(Aula o) {
+        return this.nombre.compareTo(o.getNombre());
     }
 }

@@ -462,14 +462,15 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
             public void actionPerformed(ActionEvent e) {
                 if (!dk.getDP().getDataProfesores().getDepartamentos().isEmpty()) {
                     Profesor nuevoProfesor = new Profesor("", "", "");
+                    Departamento departamento = null;
                     TreePath treePath = jTreeProfesores.getSelectionPath();
                     if (treePath != null) {
                         if (treePath.getPathCount() > 0) //Entra al menos en el nodo de departamentos
                         {
-                            nuevoProfesor.setDepartamento((Departamento) treePath.getPathComponent(1));
+                            departamento = (Departamento) treePath.getPathComponent(1);
                         }
                     }
-                    JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, nuevoProfesor, (TreeModelProfesores) treeModelProfesores, treePath, dk);
+                    JDlgEditProfesor dlg = new JDlgEditProfesor(null, null, departamento, dk);
 //                Point p = jTreeProfesores.getMousePosition();
 //                if (p == null) {
 //                    p = new Point(300, 300);
@@ -494,7 +495,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 if (treePath != null) {
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
-                        JDlgEditProfesor dlg = new JDlgEditProfesor(null, true, p, (TreeModelProfesores) treeModelProfesores, treePath, dk);
+                        JDlgEditProfesor dlg = new JDlgEditProfesor(null,  p, null, dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
                     }

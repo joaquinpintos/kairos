@@ -347,17 +347,11 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Carrera car = new Carrera("");
-                JDlgAñadirCarrera dlg = new JDlgAñadirCarrera(mainWindow, true, car);
+                JDlgAñadirCarrera dlg = new JDlgAñadirCarrera(mainWindow,dk);
                 dlg.setLocationRelativeTo(null);
                 dlg.setTitle("Añadir carrera");
                 dlg.setVisible(true);
-                if (dlg.getReturnStatus() == JDlgAñadirAsignatura.RET_OK) {
-//                    dk.getDP().getDataAsignaturas().addCarrera(car);
-                    KairosCommand cmd = dk.getController().getCreateCarreraCommand(car);
-                    dk.getController().executeCommand(cmd);
 
-                }
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
@@ -405,7 +399,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (pat != null) {
                     if (pat.getLastPathComponent() instanceof Carrera) {
                         Carrera car = (Carrera) pat.getLastPathComponent();
-                        JDlgEditarCurso dlg = new JDlgEditarCurso(mainWindow, car, dk);
+                        JDlgAñadirCurso dlg = new JDlgAñadirCurso(mainWindow, car, dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
 
@@ -429,7 +423,6 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
                 if (pat.getLastPathComponent() instanceof Curso) {
                     Curso cur = (Curso) pat.getLastPathComponent();
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar realmente el curso " + cur.getNombre() + "?", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        cur.getParent().removeCurso(cur);
                         KairosCommand cmd = dk.getController().getDeleteCursoCommand(cur);
                         dk.getController().executeCommand(cmd);
                     }

@@ -32,7 +32,7 @@ import javax.swing.KeyStroke;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JDlgEditarCurso extends javax.swing.JDialog {
+public class JDlgAñadirCurso extends javax.swing.JDialog {
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -45,7 +45,7 @@ public class JDlgEditarCurso extends javax.swing.JDialog {
     private final Carrera car;
     private final DataKairos dk;
     
-    public JDlgEditarCurso(java.awt.Frame parent, Carrera car, DataKairos dk) {
+    public JDlgAñadirCurso(java.awt.Frame parent, Carrera car, DataKairos dk) {
         super(parent, true);
         initComponents();
         this.car = car;

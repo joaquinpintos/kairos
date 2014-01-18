@@ -17,7 +17,6 @@
 package data.asignaturas;
 
 import data.DataProyectoListener;
-import data.aulas.AulaMT;
 import java.io.Serializable;
 import java.util.ArrayList;
 

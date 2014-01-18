@@ -19,6 +19,7 @@ package data.aulas;
 import data.AbstractDataSets;
 import data.DataProject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -144,5 +145,9 @@ public class DataAulas extends AbstractDataSets  {
             aulaContainers.add(contTarde);
             mapHashToContainers.put(aula.getHash(true), contTarde);
         }
+    }
+
+    public void ordenaAulas() {
+        Collections.sort(aulas);
     }
 }

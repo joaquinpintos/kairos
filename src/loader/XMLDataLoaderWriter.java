@@ -142,7 +142,7 @@ public class XMLDataLoaderWriter {
         //Leo datos aulas
         nodeList = rootElement.getElementsByTagName("aulario");
         if (nodeList != null && nodeList.getLength() > 0) {
-            DOMLoaderAulas domlp = new DOMLoaderAulas(null, dk.getDP());
+            DOMLoaderAulas domlp = new DOMLoaderAulas(null, dk);
             for (int i = 0; i < nodeList.getLength(); i++) {
                 domlp.parseAulas((Element) nodeList.item(i));
             }

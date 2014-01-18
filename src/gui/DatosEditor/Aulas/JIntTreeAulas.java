@@ -308,11 +308,11 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Aula nuevaAula = new Aula("");
+                
                 String nombre = JOptionPane.showInputDialog(rootPane, "Nombre de la nueva aula:", "");
 
                 if (nombre != null) {
-                    dk.getDP().getDataAulas().addAula(nuevaAula);
+                    Aula nuevaAula = new Aula(nombre);
                     KairosCommand cmd = dk.getController().getCreateAulaCommand(nuevaAula);
                     dk.getController().executeCommand(cmd);
                 }
@@ -320,7 +320,6 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
             }
         }//End of class AñadirAula
 //</editor-fold>
-
         //<editor-fold defaultstate="collapsed" desc="EditarAulaAction">
         class EditarAulaAction extends AbstractAction {
 
@@ -354,11 +353,8 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
                 if (sel instanceof Aula) {
                     Aula aulaBorrar = (Aula) sel;
-                    if (aulaBorrar.tieneAsignaciones()) {
-                        JOptionPane.showMessageDialog(mainWindow, "No se puede borrar un aula con grupos asignados.");
-                    } else {
-                        dk.getDP().getDataAulas().removeAula(aulaBorrar);
-                    }
+                        KairosCommand cmd = dk.getController().getDeleteAulaCommand(aulaBorrar);
+                        dk.getController().executeCommand(cmd);
                 }
             }
         }//End of class EliminarAula

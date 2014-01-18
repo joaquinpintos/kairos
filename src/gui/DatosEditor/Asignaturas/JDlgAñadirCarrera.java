@@ -16,6 +16,8 @@
  */
 package gui.DatosEditor.Asignaturas;
 
+import data.DataKairos;
+import data.KairosCommand;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import java.awt.event.ActionEvent;
@@ -40,18 +42,17 @@ public class JDlgAñadirCarrera extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    Carrera car;
+    private final DataKairos dk;
 
     /**
      * Creates new form JDlgAñadirCarrera
+     *
      * @param parent
-     * @param modal 
-     * @param carrera  
      */
-    public JDlgAñadirCarrera(java.awt.Frame parent, boolean modal,Carrera carrera) {
-        super(parent, modal);
+    public JDlgAñadirCarrera(java.awt.Frame parent, DataKairos dk) {
+        super(parent, true);
+        this.dk = dk;
         initComponents();
-        this.car=carrera;
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -182,7 +183,7 @@ public class JDlgAñadirCarrera extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
-    
+
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         doClose(RET_CANCEL);
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -193,23 +194,24 @@ public class JDlgAñadirCarrera extends javax.swing.JDialog {
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-    
+
     private void doClose(int retStatus) {
-        if (retStatus==RET_OK){
-            car.setNombre(jTextNombreCarrera.getText());
-            if (jCheckCrearCursos.isSelected())
-            {//Creo cursos
-                for (int n=1;n<=(Integer) jSpinner1.getValue();n++)
-                {
-                    String nombreCurso=""+n+"º";
-                    Curso cur=new Curso(nombreCurso);
-                    car.addCurso(cur);
+        if (retStatus == RET_OK) {
+            KairosCommand cmd;
+            Carrera car = new Carrera(jTextNombreCarrera.getText());
+             cmd = dk.getController().getCreateCarreraCommand(car);
+            dk.getController().executeCommand(cmd);
+            if (jCheckCrearCursos.isSelected()) {//Creo cursos
+                for (int n = 1; n <= (Integer) jSpinner1.getValue(); n++) {
+                    String nombreCurso = "" + n + "º";
+                    Curso cur = new Curso(nombreCurso);
+                    cmd=dk.getController().getCreateCursoCommand(car, cur);
+                    dk.getController().executeCommand(cmd);
                 }
-                
+
             }
         }
-        
-        
+
         returnStatus = retStatus;
         setVisible(false);
         dispose();

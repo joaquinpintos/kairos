@@ -75,16 +75,6 @@ public class Departamento implements Serializable {
     }
 
 
-    /**
-     *
-     * @param pro
-     */
-    public void createProfesorOLD(Profesor pro) {
-        this.profesores.add(pro);
-        pro.setDepartamento(this);
-        ordenaProfesores();
-    }
-
     public boolean removeProfesor(Object o) {
         return profesores.remove(o);
     }

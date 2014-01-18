@@ -16,7 +16,9 @@
  */
 package loader;
 
+import data.DataKairos;
 import data.DataProject;
+import data.KairosCommand;
 import data.aulas.Aula;
 import java.io.File;
 import java.io.IOException;
@@ -32,16 +34,16 @@ public class DOMLoaderAulas {
 
     private File file;
     private org.w3c.dom.Document dom;
-    private final DataProject dataProyecto;
+    private final DataKairos dk;
 
     /**
      *
      * @param file
-     * @param dataProyecto
+     * @param dk
      */
-    public DOMLoaderAulas(File file, DataProject dataProyecto) {
+    public DOMLoaderAulas(File file, DataKairos dk) {
         this.file = file;
-        this.dataProyecto=dataProyecto;
+        this.dk=dk;
     }
 
     /**
@@ -147,7 +149,8 @@ public class DOMLoaderAulas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 nuevaAula = new Aula(nombre);
-                dataProyecto.getDataAulas().addAula(nuevaAula);
+                 KairosCommand cmd = dk.getController().getCreateAulaCommand(nuevaAula);
+                    dk.getController().executeCommand(cmd);
             }
         }
     }

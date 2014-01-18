@@ -21,6 +21,7 @@ import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
 import data.asignaturas.DataAsignaturas;
 import data.asignaturas.Grupo;
+import data.asignaturas.GrupoCursos;
 import data.asignaturas.GrupoTramos;
 import data.asignaturas.Teachable;
 import data.asignaturas.Tramo;
@@ -255,6 +256,15 @@ public class KairosController {
             }
         }
 
+        if (teachable instanceof GrupoCursos)
+        {
+            GrupoCursos gc=(GrupoCursos) teachable;
+            for (Grupo gr:gc.getGrupos())
+            {
+                resul.addAll(getTramosFromTeachable(gr));
+            }
+        }
+        
         return resul;
     }
 
@@ -304,6 +314,7 @@ public class KairosController {
                 depOld.removeProfesor(data);//Remove profesor from old department
                 dep.addProfesor(data);//Add profesor to new department
                 dep.ordenaProfesores();
+                System.err.println("Edit profesor");
 
             }
 
@@ -923,6 +934,7 @@ public class KairosController {
                 car.ordenaCursos();
                 cur.setParent(car);
                 updateStatusAsignacionDeAula(car);
+                
 
             }
 
@@ -1180,7 +1192,65 @@ public class KairosController {
         return new DeleteProfesorCommand(p);
     }
 //</editor-fold>
+ public KairosCommand getDeleteAulaCommand(Aula aula) {
+        class DeleteAulaCommand extends KairosCommand {
 
+            private final Aula aula;
+            private final AulaMT aulaMañana;
+            private final AulaMT aulaTarde;
+            private KairosCommand cmdVaciarAulaMañana;
+            private KairosCommand cmdVaciarAulaTarde;
+
+            public DeleteAulaCommand(Aula aula) {
+                super(KairosCommand.STD_CMD);
+                this.aula = aula;
+                this.aulaMañana=new AulaMT(aula, false);
+                this.aulaTarde=new AulaMT(aula, true);
+            }
+
+            @Override
+            public void execute() {
+                //Primero vacío el aula, tanto por la mañana como por la tarde
+                cmdVaciarAulaMañana = getVaciarAulaCommand(aulaMañana);
+                cmdVaciarAulaMañana.execute();
+                cmdVaciarAulaTarde = getVaciarAulaCommand(aulaTarde);
+                cmdVaciarAulaTarde.execute();
+                //Now I can delete the classroom 
+                dk.getDP().getDataAulas().removeAula(aula);
+                aula.setParent(null);
+
+            }
+
+            @Override
+            public void undo() {
+                dk.getDP().getDataAulas().addAula(aula);
+                dk.getDP().getDataAulas().ordenaAulas();
+                cmdVaciarAulaMañana.undo();
+                cmdVaciarAulaTarde.undo();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Borrar aula";
+            }
+
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+
+            @Override
+            public Object getDataType() {
+                return aula;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.REMOVE;
+            }
+        }
+        return new DeleteAulaCommand(aula);
+    }
     //<editor-fold defaultstate="collapsed" desc="getDeleteCarreraCommand">
     public KairosCommand getDeleteCarreraCommand(Carrera car) {
         class DeleteCarreraCommand extends KairosCommand {
@@ -1363,7 +1433,7 @@ public class KairosController {
             @Override
             public void execute() {
                 if (asig != null) {
-                    asig.getGrupos().getGrupos().remove(gr);
+                    asig.removeGrupo(gr);
                     gr.setParent(null);
                     updateStatusAsignacionDeAula(asig);
                 }
@@ -1372,7 +1442,7 @@ public class KairosController {
             @Override
             public void undo() {
                 if ((asig != null) && (gr != null)) {
-                    asig.getGrupos().getGrupos().add(gr);
+                    asig.addGrupo(gr);
                     gr.setParent(asig);
                     updateStatusAsignacionDeAula(asig);
                 }
@@ -1408,18 +1478,36 @@ public class KairosController {
 
             private final Grupo gr;
             private final Tramo tr;
+            private final AulaMT aulaAsignada;
+            private final Profesor docente;
 
             public DeleteTramoCommand(Tramo tr) {
                 super(KairosCommand.STD_CMD);
                 this.tr = tr;
                 this.gr = tr.getParent().getParent();
+                this.aulaAsignada=tr.getAulaMT();
+                this.docente=tr.getDocente();
             }
 
             @Override
             public void execute() {
                 if (gr != null) {
+                     if (docente!=null)//Si tenía profesor asignado, desasigno
+                    {
+                        docente.removeDocencia(tr);
+                        tr.setDocente(null);
+                    }
+                    
+                    if (aulaAsignada!=null)//Si tenía aula asignada, desasigno
+                    {
+                        aulaAsignada.removeTramo(tr);
+                        tr.setAulaMT(null);
+                    }
+                    //Borro el tramo del grupo al que pertenece
                     gr.getTramosGrupoCompleto().getTramos().remove(tr);
                     tr.setParent(null);
+                    
+                   
                     updateStatusAsignacionDeAula(gr);
                 }
             }
@@ -1429,6 +1517,18 @@ public class KairosController {
                 if ((gr != null) && (tr != null)) {
                     gr.getTramosGrupoCompleto().getTramos().add(tr);
                     tr.setParent(gr.getTramosGrupoCompleto());
+                    
+                    if (aulaAsignada!=null)
+                    {
+                        aulaAsignada.asignaTramo(tr);
+                        tr.setAulaMT(aulaAsignada);
+                    }
+                    if (docente!=null)
+                    {
+                        tr.setDocente(docente);
+                        docente.addDocencia(tr);
+                    }
+                    
                     updateStatusAsignacionDeAula(gr);
                 }
             }
@@ -1553,6 +1653,7 @@ public class KairosController {
                     AulaMT oldAulaMT = tr.getAulaMT();
                     undoInfo.put(tr, oldAulaMT);//Guardo en map para poder deshacer después
                     tr.setAulaMT(aulaMT);//Asigno nueva aula
+                    aulaMT.asignaTramo(tr);
                     updateStatusAsignacionDeAula(tr);
                 }
 
@@ -1563,6 +1664,7 @@ public class KairosController {
                 for (Tramo tr : tramos) {
                     AulaMT newAulaMT = undoInfo.get(tr);
                     tr.setAulaMT(newAulaMT);//Asigna aula que tenía antes
+                    aulaMT.removeTramo(tr);
                     updateStatusAsignacionDeAula(tr);
                 }
             }
