@@ -70,7 +70,10 @@ public class RestriccionListRenderer extends DefaultListCellRenderer {
      */
     public void muestraDescripcionLarga(Restriccion r, boolean selected) {
         label.setFont(MyConstants.NORMAL_FONT);
-        label.setIcon(colorIcons[r.getImportancia() - 1]);
+        int level = r.getLevel();
+        if (level<1) level=1;
+        if (level>3) level=3;
+        label.setIcon(colorIcons[level-1]);
         if (muestraMensajesDeError) {
             label.setText(r.getMensajeError());
         } else {

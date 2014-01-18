@@ -77,7 +77,7 @@ public class DOMLoaderRestricciones {
 
             el = buscaPrimerNodoConNombre(elConfigComun, "level");
             int nivel = Integer.valueOf(el.getTextContent());
-            r.setImportancia(nivel);
+            r.setLevel(nivel);
             //Llamo al método sobreescrito de la clase específica
             //Para leer los datos de configuración.
             Element elConfigEspecifico = buscaPrimerNodoConNombre(element, "specific_config");

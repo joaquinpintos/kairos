@@ -236,7 +236,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (jListRestricciones.getSelectedValue() != null) {
-                    JDialogNivelSelector dlg = new JDialogNivelSelector((Restriccion) jListRestricciones.getSelectedValue(), parent, true);
+                    JDialogNivelSelector dlg = new JDialogNivelSelector((Restriccion) jListRestricciones.getSelectedValue(), parent, dk);
                     dlg.setLocationRelativeTo(null);
                     dlg.setVisible(true);
                     jListRestricciones.updateUI();

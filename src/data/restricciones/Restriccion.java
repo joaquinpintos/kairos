@@ -51,7 +51,7 @@ public abstract class Restriccion implements Serializable {
     /**
      *
      */
-    protected int importancia;
+    protected int level;
     /**
      *
      */
@@ -89,7 +89,7 @@ public abstract class Restriccion implements Serializable {
     public Restriccion(DataProject dataProyecto) {
         this.dataProyecto = dataProyecto;
         this.peso = 100;
-        this.importancia = 1;
+        this.level = 1;
         debug = false;
         marcaCasillasConflictivas = false;
         _casillasConflictivas = new HashMap<String, HashSet<Integer>>();
@@ -140,7 +140,7 @@ public abstract class Restriccion implements Serializable {
 
     public long getSuma() {
         long resul = 100;
-        switch (importancia) {
+        switch (level) {
             case 1:
                 resul = 200;
                 break;
@@ -241,21 +241,21 @@ public abstract class Restriccion implements Serializable {
      *
      * @return
      */
-    public int getImportancia() {
-        return importancia;
+    public int getLevel() {
+        return level;
     }
 
     /**
      *
-     * @param importancia
+     * @param level
      */
-    public void setImportancia(int importancia) {
-        this.importancia = importancia;
-        if (this.importancia < 1) {
-            this.importancia = 1;
+    public void setLevel(int level) {
+        this.level = level;
+        if (this.level < 1) {
+            this.level = 1;
         }
-        if (this.importancia > 3) {
-            this.importancia = 3;
+        if (this.level > 3) {
+            this.level = 3;
         }
     }
 
@@ -400,7 +400,7 @@ public abstract class Restriccion implements Serializable {
         escribeNombreDeLaClase(nodo);
         Node nodoComun = creaNodoSimple(nodo, "common_config");
         Node nodo2 = creaNodoSimple(nodoComun, "level");
-        creaNodoTexto(nodo2, this.getImportancia() + "");
+        creaNodoTexto(nodo2, this.getLevel() + "");
         Node nodoEspecifico = creaNodoSimple(nodo, "specific_config");
         writeConfig(nodoEspecifico);
     }

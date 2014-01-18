@@ -270,6 +270,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
         dk.getController().addListener(jIntTreeProfesores);
         dk.getController().addListener(jIntTreeAsignaturas);
         dk.getController().addListener(jIntTreeAulas);
+        dk.getController().addListener(jIntRestricciones);
         dk.getController().addListener(jIntDatosProyecto);
         dk.getController().addListener(this);
 

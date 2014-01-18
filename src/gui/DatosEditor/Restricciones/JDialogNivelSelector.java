@@ -16,6 +16,8 @@
  */
 package gui.DatosEditor.Restricciones;
 
+import data.DataKairos;
+import data.KairosCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
@@ -39,18 +41,20 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
     Restriccion restriccionEditada;
     private AbstractAction aceptarAction;
     private AbstractAction cancelAction;
+    private DataKairos dk;
 
     /**
      * Creates new form JDialogNivelSelector
      *
      * @param r
      * @param parent
-     * @param modal
+     * @param dk
      */
-    public JDialogNivelSelector(Restriccion r, java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public JDialogNivelSelector(Restriccion r, java.awt.Frame parent, DataKairos dk) {
+        super(parent, true);
         initComponents();
         this.restriccionEditada = r;
+        this.dk = dk;
 //        jRadNivel1.setIcon(MyConstants.RED_ICON);
 //        jRadNivel2.setIcon(MyConstants.YELLOW_ICON);
 //        jRadNivel3.setIcon(MyConstants.GREEN_ICON);
@@ -60,7 +64,11 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
         niveles = new JRadioButton[]{
             jRadNivel1, jRadNivel2, jRadNivel3
         };
-        niveles[restriccionEditada.getImportancia() - 1].setSelected(true);
+        int level = restriccionEditada.getLevel();
+        if (level < 1) {
+            level = 1;
+        }
+        niveles[level - 1].setSelected(true);
 
         creaAccionesYListeners();
         jButAceptar.setAction(aceptarAction);
@@ -178,7 +186,9 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
                 if (jRadNivel3.isSelected()) {
                     nivel = 3;
                 }
-                restriccionEditada.setImportancia(nivel);
+//                restriccionEditada.setImportancia(nivel);
+                KairosCommand cmd = dk.getController().getCambiarNivelResticcionCommand(restriccionEditada, nivel);
+                dk.getController().executeCommand(cmd);
                 dlg.setVisible(false);
                 dlg.dispose();
             }

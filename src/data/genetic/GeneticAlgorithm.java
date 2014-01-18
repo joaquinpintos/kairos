@@ -258,7 +258,7 @@ public class GeneticAlgorithm {
             suma = r.calculaPeso(s);
             nuevoPeso += suma;
             if (suma > 0) {
-                s.updateLevel(r.getImportancia());
+                s.updateLevel(r.getLevel());
                 if (detailed) {
                     restriccionesFallidas.add(r);
                 }

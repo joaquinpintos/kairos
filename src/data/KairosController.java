@@ -31,6 +31,7 @@ import data.aulas.DataAulas;
 import data.profesores.DataProfesores;
 import data.profesores.Departamento;
 import data.profesores.Profesor;
+import data.restricciones.Restriccion;
 import gui.HorarioEditor.DraggableHorarioItemComponent;
 import gui.HorarioEditor.HorariosJPanelModel;
 import java.util.ArrayList;
@@ -651,17 +652,18 @@ public class KairosController {
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getMoveHorarioItem">
     public KairosCommand getMoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
-
+        
         class MoveHorarioItem extends KairosCommand {
-
+            
             private final HorariosJPanelModel model;
             private final DraggableHorarioItemComponent dh;
             private final int rSrc;
             private final int cSrc;
             private final int rDst;
             private final int cDst;
-
+            
             public MoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
                 super(KairosCommand.STD_CMD);
                 this.dh = dh;
@@ -670,40 +672,86 @@ public class KairosController {
                 this.cSrc = cSrc;
                 this.rDst = rDst;
                 this.cDst = cDst;
-
+                
             }
-
+            
             @Override
             public void execute() {
                 model.effectivelyDropItem(dh, rDst, cDst);
             }
-
+            
             @Override
             public void undo() {
                 model.effectivelyDropItem(dh, rSrc, cSrc);
             }
-
+            
             @Override
             public String getDescription() {
                 return "Mover item de horario";
             }
-
+            
             @Override
             public Object getDataType() {
                 return dh;
             }
-
+            
             @Override
-            int getEventType() {
-                return DataProyectoListener.MODIFY;
-            }
-
+                    int getEventType() {
+                        return DataProyectoListener.MODIFY;
+                    }
+                    
         }
-
+        
         return new MoveHorarioItem(model, dh, rSrc, cSrc, rDst, cDst);
-
+        
     }
-    //**************************************************************************
+    
+//</editor-fold>
+   
+     public KairosCommand getCambiarNivelResticcionCommand(Restriccion r,int level) {
+        
+        class CambiarNivelRestriccionCommand extends KairosCommand {
+            private final int level;
+            private final int oldLevel;
+            private final Restriccion r;
+            
+            
+            public CambiarNivelRestriccionCommand(Restriccion r,int level) {
+                super(KairosCommand.STD_CMD);
+                this.r=r;
+                this.level=level;
+                this.oldLevel=r.getLevel();
+            }
+            
+            @Override
+            public void execute() {
+                r.setLevel(level);
+            }
+            
+            @Override
+            public void undo() {
+                r.setLevel(oldLevel);
+            }
+            
+            @Override
+            public String getDescription() {
+                return "Cambiar nivel de restricción";
+            }
+            
+            @Override
+            public Object getDataType() {
+                return r;
+            }
+            
+            @Override
+                    int getEventType() {
+                        return DataProyectoListener.MODIFY;
+                    }
+        }
+        return new CambiarNivelRestriccionCommand(r,level);
+    }
+    
+//**************************************************************************
     //COMANDOS DE CREACION
     //**************************************************************************
 
