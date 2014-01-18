@@ -74,7 +74,6 @@ public class Tramo implements Serializable, Teachable, Comparable<Tramo> {
         return parent;
     }
 
-
     public void setDocente(Profesor p) {
         this.profesor = p;
     }

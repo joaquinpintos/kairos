@@ -51,7 +51,7 @@ public class KairosController {
     private final Stack<KairosCommand> commandStackForRedo;
     private final HashSet<DataProyectoListener> listeners;
     private boolean batchMode;
-    
+
     //Este número representa el tamaño que tiene que tener la pila commandStackForUndo
     //para que el sistema se considere "limpio" (todos los cambios guardados)
     //Si vale -1 el sistema siempre necesitará guardar los cambios.
@@ -65,22 +65,21 @@ public class KairosController {
         commandStackForRedo = new Stack<KairosCommand>();
         listeners = new HashSet<DataProyectoListener>();
         batchMode = false;
-        cleanNumber=-1;
+        cleanNumber = -1;
     }
 
     public void setBatchMode(boolean batchMode) {
         this.batchMode = batchMode;
     }
 
-    public void setNotDirty()
-    {
-        cleanNumber=commandStackForUndo.size();
+    public void setNotDirty() {
+        cleanNumber = commandStackForUndo.size();
     }
-    
+
     public void clearCmdStack() {
         commandStackForRedo.clear();
         commandStackForRedo.clear();
-        cleanNumber=0;
+        cleanNumber = 0;
     }
 
     /**
@@ -96,10 +95,10 @@ public class KairosController {
         fireDataEvent(cmd.getDataType(), cmd.getEventType());
 //        System.err.println(commandStack);
         commandStackForRedo.clear();//Borro pila de redo
-        
+
         //Pongo el sistema dirty o clean
         //Es dirty si la pila de undo no se encuentra en el estado clean
-        dk.setDirty(cleanNumber!=commandStackForUndo.size());
+        dk.setDirty(cleanNumber != commandStackForUndo.size());
     }
 
     /**
@@ -129,7 +128,7 @@ public class KairosController {
         }
         //Pongo el sistema dirty o clean
         //Es dirty si la pila de undo no se encuentra en el estado clean
-        dk.setDirty(cleanNumber!=commandStackForUndo.size());
+        dk.setDirty(cleanNumber != commandStackForUndo.size());
     }
 
     /**
@@ -148,7 +147,7 @@ public class KairosController {
         }
         //Pongo el sistema dirty o clean
         //Es dirty si la pila de undo no se encuentra en el estado clean
-        dk.setDirty(cleanNumber!=commandStackForUndo.size());
+        dk.setDirty(cleanNumber != commandStackForUndo.size());
 
     }
 
@@ -256,15 +255,13 @@ public class KairosController {
             }
         }
 
-        if (teachable instanceof GrupoCursos)
-        {
-            GrupoCursos gc=(GrupoCursos) teachable;
-            for (Grupo gr:gc.getGrupos())
-            {
+        if (teachable instanceof GrupoCursos) {
+            GrupoCursos gc = (GrupoCursos) teachable;
+            for (Grupo gr : gc.getGrupos()) {
                 resul.addAll(getTramosFromTeachable(gr));
             }
         }
-        
+
         return resul;
     }
 
@@ -934,7 +931,6 @@ public class KairosController {
                 car.ordenaCursos();
                 cur.setParent(car);
                 updateStatusAsignacionDeAula(car);
-                
 
             }
 
@@ -1192,7 +1188,8 @@ public class KairosController {
         return new DeleteProfesorCommand(p);
     }
 //</editor-fold>
- public KairosCommand getDeleteAulaCommand(Aula aula) {
+
+    public KairosCommand getDeleteAulaCommand(Aula aula) {
         class DeleteAulaCommand extends KairosCommand {
 
             private final Aula aula;
@@ -1204,8 +1201,8 @@ public class KairosController {
             public DeleteAulaCommand(Aula aula) {
                 super(KairosCommand.STD_CMD);
                 this.aula = aula;
-                this.aulaMañana=new AulaMT(aula, false);
-                this.aulaTarde=new AulaMT(aula, true);
+                this.aulaMañana = new AulaMT(aula, false);
+                this.aulaTarde = new AulaMT(aula, true);
             }
 
             @Override
@@ -1251,6 +1248,7 @@ public class KairosController {
         }
         return new DeleteAulaCommand(aula);
     }
+
     //<editor-fold defaultstate="collapsed" desc="getDeleteCarreraCommand">
     public KairosCommand getDeleteCarreraCommand(Carrera car) {
         class DeleteCarreraCommand extends KairosCommand {
@@ -1485,20 +1483,20 @@ public class KairosController {
                 super(KairosCommand.STD_CMD);
                 this.tr = tr;
                 this.gr = tr.getParent().getParent();
-                this.aulaAsignada=tr.getAulaMT();
-                this.docente=tr.getDocente();
+                this.aulaAsignada = tr.getAulaMT();
+                this.docente = tr.getDocente();
             }
 
             @Override
             public void execute() {
                 if (gr != null) {
-                     if (docente!=null)//Si tenía profesor asignado, desasigno
+                    if (docente != null)//Si tenía profesor asignado, desasigno
                     {
                         docente.removeDocencia(tr);
                         tr.setDocente(null);
                     }
-                    
-                    if (aulaAsignada!=null)//Si tenía aula asignada, desasigno
+
+                    if (aulaAsignada != null)//Si tenía aula asignada, desasigno
                     {
                         aulaAsignada.removeTramo(tr);
                         tr.setAulaMT(null);
@@ -1506,8 +1504,7 @@ public class KairosController {
                     //Borro el tramo del grupo al que pertenece
                     gr.getTramosGrupoCompleto().getTramos().remove(tr);
                     tr.setParent(null);
-                    
-                   
+
                     updateStatusAsignacionDeAula(gr);
                 }
             }
@@ -1517,18 +1514,16 @@ public class KairosController {
                 if ((gr != null) && (tr != null)) {
                     gr.getTramosGrupoCompleto().getTramos().add(tr);
                     tr.setParent(gr.getTramosGrupoCompleto());
-                    
-                    if (aulaAsignada!=null)
-                    {
+
+                    if (aulaAsignada != null) {
                         aulaAsignada.asignaTramo(tr);
                         tr.setAulaMT(aulaAsignada);
                     }
-                    if (docente!=null)
-                    {
+                    if (docente != null) {
                         tr.setDocente(docente);
                         docente.addDocencia(tr);
                     }
-                    
+
                     updateStatusAsignacionDeAula(gr);
                 }
             }

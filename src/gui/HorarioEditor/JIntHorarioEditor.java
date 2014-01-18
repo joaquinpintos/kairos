@@ -50,7 +50,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
     /**
      *
-     * @param dk 
+     * @param dk
      */
     public JIntHorarioEditor(DataKairos dk) {
         initComponents();
@@ -63,15 +63,12 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jListRestriccionesModel = new JListRestriccionesModel();
         //Modelo de la tabla
 
-
-
         jListRestricciones.setModel(jListRestriccionesModel);
         RestriccionListRenderer rend = new RestriccionListRenderer();
         rend.setMuestraMensajesDeError(true);
         jListRestricciones.setCellRenderer(rend);
         jPanelHorarios.setLayout(null);
         horariosJPanelModel = new HorariosJPanelModel(jPanelHorarios, jListAulasModel, dk);
-
 
         //Registro como listener
         registraListener();
@@ -208,7 +205,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jTableHorario.updateUI();
         horariosJPanelModel.setHashAulaMostrada(a.getHash());
         horariosJPanelModel.rebuildAll();
-         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
+        Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
         if (r != null) {
             master.resaltaItemsConflictivos(r);
         } else {
@@ -295,7 +292,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         return jListRestricciones;
     }
 
-
     /**
      *
      */
@@ -339,9 +335,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jListRestricciones.updateUI();
         jListAulas.updateUI();
 
-
-
-
     }
 
     /**
@@ -355,8 +348,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
     public JList getjListAulas() {
         return jListAulas;
     }
-
-   
 
     void creaListenersParaRestricciones() {
         RestriccionListener l = new RestriccionListener() {
@@ -382,9 +373,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         return jListAulasModel;
     }
 
-
     private void registraListener() {
-        
 
         //Prueba de listener para resize
         jPanelHorarios.addComponentListener(new ComponentListener() {
@@ -406,17 +395,16 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
             }
         });
 
-
     }
 
     private void creaAcciones() {
         //<editor-fold defaultstate="collapsed" desc="VolverAOptimizarAction">
         class VolverAOptimizarAction extends AbstractAction {
-            
+
             public VolverAOptimizarAction() {
                 super("Volver a optimizar", null);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainWindow.getjIntgenGenetic().setVisible(true);
@@ -434,11 +422,11 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
         //<editor-fold defaultstate="collapsed" desc="CalculaHorasAsignaturasAction">
         class CalculaHorasAsignaturasAction extends AbstractAction {
-            
+
             public CalculaHorasAsignaturasAction() {
                 super("Calcular horas", null);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 JDlgCalculaHorasAsignaturas dlg = new JDlgCalculaHorasAsignaturas(null, true, dk);

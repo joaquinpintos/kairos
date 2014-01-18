@@ -66,6 +66,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     public Departamento getDepartamento() {
         return departamento;
     }
+
     /**
      *
      * @param departamento
@@ -149,7 +150,6 @@ public class Profesor implements Comparable<Profesor>, Serializable {
         this.docencia.remove(docenciaItem);
     }
 
-
     /**
      *
      * @return
@@ -230,7 +230,6 @@ public class Profesor implements Comparable<Profesor>, Serializable {
     public void setNombreCorto(String nombreCorto) {
         this.nombreCorto = nombreCorto;
     }
-
 
     public void copyBasicValuesFrom(Profesor newData) {
         this.nombre = newData.nombre;

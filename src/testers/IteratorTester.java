@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package testers;
 
 import java.util.Iterator;
@@ -27,34 +26,33 @@ public class IteratorTester {
 
     public IteratorTester() {
     }
-    public void test()
-    {
+
+    public void test() {
         Iterator<Integer> a = iterador();
-       while (a.hasNext())
-       {
-           System.out.println(a.next());
-       }
+        while (a.hasNext()) {
+            System.out.println(a.next());
+        }
     }
-    public Iterator<Integer> iterador()
-    {
+
+    public Iterator<Integer> iterador() {
         Iterator<Integer> a;
         a = new Iterator<Integer>() {
-            int a=1;
-            int b=0;
-            int c=0;
-            int contador=0;
-            
+            int a = 1;
+            int b = 0;
+            int c = 0;
+            int contador = 0;
+
             @Override
             public boolean hasNext() {
-                return (contador<5);
+                return (contador < 5);
             }
 
             @Override
             public Integer next() {
                 contador++;
-                c=a+b;
-                a=b;
-                b=c;
+                c = a + b;
+                a = b;
+                b = c;
                 return c;
             }
 
@@ -64,6 +62,6 @@ public class IteratorTester {
             }
         };
         return a;
-        
+
     }
 }

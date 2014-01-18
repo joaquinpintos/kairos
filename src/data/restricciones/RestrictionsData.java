@@ -29,7 +29,6 @@ public class RestrictionsData extends AbstractDataSets {
 
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<Restriccion> listaRestricciones;
-   
 
     /**
      *

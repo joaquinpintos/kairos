@@ -23,14 +23,17 @@ import gui.AbstractMainWindow;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public interface DataGUIInterface {
+
     /**
      *
      */
     public void updateData();
+
     /**
      *
      * @param mainWindow
      */
     public void setMainWindow(AbstractMainWindow mainWindow);
+
     public void expandTrees();
 }

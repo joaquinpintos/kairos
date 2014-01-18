@@ -142,11 +142,9 @@ public class JIntEditorDocencia extends javax.swing.JInternalFrame implements Da
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButExpandirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButExpandirActionPerformed
-      expandTrees();
-
+        expandTrees();
 
     }//GEN-LAST:event_jButExpandirActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;

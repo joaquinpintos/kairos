@@ -159,7 +159,6 @@ public class RNoHuecosEntreMedias extends Restriccion {
             }
         }
 
-
         return getPeso();
     }
 
@@ -191,7 +190,7 @@ public class RNoHuecosEntreMedias extends Restriccion {
         if (penalizarPocasClases) {
             resul += "No puede haber días con menos de <b>" + numMinimoHorassOcupadas + "</b> horas ocupadas";
         }
-        return resul+"</html>";
+        return resul + "</html>";
     }
 
     @Override
@@ -201,22 +200,22 @@ public class RNoHuecosEntreMedias extends Restriccion {
 
     @Override
     public String mensajeDeAyuda() {
-        return "<html>Esta restricción penaliza las clases con huecos<br>"+ 
-                     "vacíos entre dos asignaturas y/o los días en que<br>"+
-                     "haya menos de un número fijado de clases.</html>";
+        return "<html>Esta restricción penaliza las clases con huecos<br>"
+                + "vacíos entre dos asignaturas y/o los días en que<br>"
+                + "haya menos de un número fijado de clases.</html>";
     }
 
     @Override
     public String getMensajeError() {
         String resul = "<html>";
-        
+
         if (diasPocoOcupados) {
             resul += "Hay dias con menos de <b>" + numMinimoHorassOcupadas + "</b> horas de clase. ";
         }
         if (tramoConHuecosGlobal) {
             resul += "Hay tramos de clases con huecos en medio";
         }
-        return resul+"</html>";
+        return resul + "</html>";
     }
 
     @Override

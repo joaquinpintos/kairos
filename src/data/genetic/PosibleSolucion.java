@@ -47,7 +47,7 @@ public final class PosibleSolucion implements Serializable {
      */
     public PosibleSolucion() {
         asignaciones = new HashMap<String, Asignacion>();
-           this.level = MyConstants.LEVEL_GREEN;
+        this.level = MyConstants.LEVEL_GREEN;
     }
 
     /**
@@ -166,11 +166,13 @@ public final class PosibleSolucion implements Serializable {
     }
 
     public void updateLevel(int newLevel) {
-        
+
         if (newLevel < level) {
 //            System.out.println("New level: "+level+" to "+newLevel);
             level = newLevel;
         }
-        if (level<1) level=1;
+        if (level < 1) {
+            level = 1;
+        }
     }
 }

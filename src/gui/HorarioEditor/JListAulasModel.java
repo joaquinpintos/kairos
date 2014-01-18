@@ -29,7 +29,6 @@ import javax.swing.AbstractListModel;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-
 public class JListAulasModel extends AbstractListModel<AulaMT> implements DataProyectoListener {
 
     private final DataKairos dk;

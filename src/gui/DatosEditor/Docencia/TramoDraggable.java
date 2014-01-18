@@ -42,12 +42,13 @@ public class TramoDraggable implements Transferable {
     public TramoDraggable(Tramo cont) {
         this.cont = cont;
     }
+
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[]{MY_FLAVOR};
     }
 
-      @Override
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return (flavor.equals(MY_FLAVOR));
 

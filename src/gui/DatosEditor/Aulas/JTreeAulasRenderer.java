@@ -57,7 +57,6 @@ public class JTreeAulasRenderer extends JLabel implements TreeCellRenderer {
             this.setText("Datos de aulas");
         }
 
-
         if (value instanceof Aula) {
             this.setIcon(dk.mc.AULA_ICON);
             this.setFont(MyConstants.NEGRITA_FONT);
@@ -71,7 +70,7 @@ public class JTreeAulasRenderer extends JLabel implements TreeCellRenderer {
             final double horasOcupadas = lasig.getHorasOcupadas();
             this.setText(lasig.toString() + "  (" + (cal.getTotalHorasLectivasPorSemana(lasig.esTarde()) - horasOcupadas) + " horas libres)");
             if ((cal.getTotalHorasLectivasPorSemana(lasig.esTarde()) - horasOcupadas) < 0) {
-                 this.setForeground(Color.RED);
+                this.setForeground(Color.RED);
             } else {
                 this.setForeground(Color.BLACK);
             }

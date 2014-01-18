@@ -517,7 +517,8 @@ public class AcademicCalendar implements Serializable {
      * Devuelve el nombre del día de la semana en función de las constantes de
      * GregorianCalendar
      *
-     * @param dia Día de la semana dado por una constante de la clase {@link GregorianCalendar}
+     * @param dia Día de la semana dado por una constante de la clase
+     * {@link GregorianCalendar}
      * @return String con el nombre del día de la semana
      */
     public String nombreDiaSemana(GregorianCalendar dia) {

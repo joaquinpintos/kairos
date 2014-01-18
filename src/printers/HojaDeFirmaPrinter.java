@@ -81,25 +81,26 @@ public class HojaDeFirmaPrinter {
             Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
         ArrayList<GregorianCalendar> dias = dp.getAcademicCalendar().getArrayDiasLectivos(inicio, fin);
-if (dias.size()>0){
-        doc.open();
-        for (Aula aula:aulas){
-        for (GregorianCalendar dia : dias) {
-            creaHojaDeFirma(doc, aula,dia);
-            doc.newPage();
-        }}
-        doc.close();
-}
-else
-    JOptionPane.showMessageDialog(null, "<html>No se ha obtenido ningún día válido. Revisa los días no lectivos<br>"
-                                       +"y el inicio y fin del periodo académico</html>","Error",JOptionPane.ERROR_MESSAGE);
+        if (dias.size() > 0) {
+            doc.open();
+            for (Aula aula : aulas) {
+                for (GregorianCalendar dia : dias) {
+                    creaHojaDeFirma(doc, aula, dia);
+                    doc.newPage();
+                }
+            }
+            doc.close();
+        } else {
+            JOptionPane.showMessageDialog(null, "<html>No se ha obtenido ningún día válido. Revisa los días no lectivos<br>"
+                    + "y el inicio y fin del periodo académico</html>", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    private void creaHojaDeFirma(Document doc, Aula aula,GregorianCalendar dia) {
-        ArrayList<HorarioItem> data = calculaClasesEsteDia(aula,dia);
+    private void creaHojaDeFirma(Document doc, Aula aula, GregorianCalendar dia) {
+        ArrayList<HorarioItem> data = calculaClasesEsteDia(aula, dia);
         try {
             if (!data.isEmpty()) {
-                creaCabecera(doc, aula,dia);
+                creaCabecera(doc, aula, dia);
                 creaCuerpo(doc, dia, data);
             }
         } catch (DocumentException ex) {
@@ -162,7 +163,7 @@ else
      * @param dia
      * @return
      */
-    protected ArrayList<HorarioItem> calculaClasesEsteDia(Aula aula,GregorianCalendar dia) {
+    protected ArrayList<HorarioItem> calculaClasesEsteDia(Aula aula, GregorianCalendar dia) {
         ArrayList<Integer> diasDeLaSemana = new ArrayList<Integer>();
         diasDeLaSemana.add(GregorianCalendar.MONDAY);
         diasDeLaSemana.add(GregorianCalendar.TUESDAY);
@@ -191,7 +192,7 @@ else
         Font font = new Font(Font.FontFamily.HELVETICA, 12);
         Font fontProfe = new Font(Font.FontFamily.HELVETICA, 10);
         String name = h.getRangoHoras() + "\n" + h.getAsignatura().getNombre();
-        name+="\n"+h.getGrupo().getNombreGrupoCursoYCarrera();
+        name += "\n" + h.getGrupo().getNombreGrupoCursoYCarrera();
         Paragraph p = new Paragraph(name, font);
         PdfPCell c = new PdfPCell(p);
         c.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);

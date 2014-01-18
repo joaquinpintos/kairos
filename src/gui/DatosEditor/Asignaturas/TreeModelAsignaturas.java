@@ -49,7 +49,6 @@ public class TreeModelAsignaturas implements TreeModel {
         return dk.getDP().getDataAsignaturas();
     }
 
-   
     @Override
     public Object getChild(Object parent, int index) {
         Object resul = null;

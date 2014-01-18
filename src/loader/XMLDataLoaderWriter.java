@@ -55,7 +55,7 @@ public class XMLDataLoaderWriter {
      * @param dk
      */
     public XMLDataLoaderWriter(DataKairos dk) {
-        this.dk=dk;
+        this.dk = dk;
         file = new File("./archivos");//TODO cambiar
     }
 

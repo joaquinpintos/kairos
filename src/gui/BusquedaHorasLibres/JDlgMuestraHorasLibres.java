@@ -159,7 +159,6 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
         dispose();
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextResultados;

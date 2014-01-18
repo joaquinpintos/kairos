@@ -235,9 +235,9 @@ public class RProfesorCiertosDias extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "<html>Con esta restricción podemos fijar para un profesor<br>"+
-                     "los días que no puede (o solo puede)d ar clases,<br>"+
-                     "penalizando las asignaturas que no cumplan dicho<br>requisito.</html>";
+        return "<html>Con esta restricción podemos fijar para un profesor<br>"
+                + "los días que no puede (o solo puede)d ar clases,<br>"
+                + "penalizando las asignaturas que no cumplan dicho<br>requisito.</html>";
     }
 
     /**
@@ -367,8 +367,8 @@ public class RProfesorCiertosDias extends Restriccion {
         creaNodoTexto(nodo, texto);
 
         //Datos para el lunes
-        for (int numDia=1;numDia<=5;numDia++) {
-            String dia=MyConstants.XML_DAYS_OF_THE_WEEK[numDia-1];
+        for (int numDia = 1; numDia <= 5; numDia++) {
+            String dia = MyConstants.XML_DAYS_OF_THE_WEEK[numDia - 1];
             nodo = creaNodoSimple(parent, dia);
             String rango = this.getRangos().get(numDia).toString();
             creaNodoTexto(nodo, rango);

@@ -78,7 +78,6 @@ public class DocenciaItem implements Comparable, Serializable {
         return carrera;
     }
 
-
     /**
      *
      * @return
@@ -86,7 +85,6 @@ public class DocenciaItem implements Comparable, Serializable {
     public Curso getCurso() {
         return curso;
     }
-
 
     /**
      *
@@ -96,7 +94,6 @@ public class DocenciaItem implements Comparable, Serializable {
         return asignatura;
     }
 
-
     /**
      *
      * @return
@@ -104,7 +101,6 @@ public class DocenciaItem implements Comparable, Serializable {
     public Grupo getGrupo() {
         return grupo;
     }
-
 
     @Override
     public int compareTo(Object o) {

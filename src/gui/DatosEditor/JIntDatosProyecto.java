@@ -40,7 +40,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface,DataProyectoListener {
+public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
 
     private final DataKairos dk;
     private AbstractMainWindow mainwindow;

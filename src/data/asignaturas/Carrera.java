@@ -103,7 +103,6 @@ public class Carrera implements Serializable, Teachable, Comparable<Carrera> {
         return cursos;
     }
 
-
     /**
      *
      * @param parent
@@ -111,7 +110,6 @@ public class Carrera implements Serializable, Teachable, Comparable<Carrera> {
     public void setParent(DataAsignaturas parent) {
         this.parent = parent;
     }
-
 
     /**
      *
@@ -167,7 +165,7 @@ public class Carrera implements Serializable, Teachable, Comparable<Carrera> {
     }
 
     public void copyBasicValuesFrom(Carrera data) {
-        this.nombre=data.getNombre();
+        this.nombre = data.getNombre();
     }
 
 }

@@ -52,7 +52,6 @@ public class AulaMañanaTardeContainerDraggable implements Transferable {
         this.cont = new AulaMT(la.getAula(), la.esTarde());
     }
 
-
     /**
      *
      * @return

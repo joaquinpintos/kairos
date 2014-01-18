@@ -38,6 +38,7 @@ public class ArrayRangoHoras implements Serializable {
 
     /**
      * Constructor especificando array
+     *
      * @param data
      */
     public ArrayRangoHoras(ArrayList<RangoHoras> data) {

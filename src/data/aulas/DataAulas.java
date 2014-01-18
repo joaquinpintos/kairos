@@ -28,7 +28,8 @@ import org.w3c.dom.Node;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DataAulas extends AbstractDataSets  {
+public class DataAulas extends AbstractDataSets {
+
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<Aula> aulas;
     //hashGrupoCurso--->Aula@M/T
@@ -69,7 +70,6 @@ public class DataAulas extends AbstractDataSets  {
     public ArrayList<Aula> getAulas() {
         return aulas;
     }
-
 
     /**
      *
@@ -117,8 +117,6 @@ public class DataAulas extends AbstractDataSets  {
     public void clear() {
     }
 
-
-
 //    private Aula buscaAula(String hashBuscado, Boolean esTarde) {
 //        Aula resul = null;
 //        for (Aula a : getDataProyecto().getDataAulas().getAulas()) {
@@ -129,9 +127,7 @@ public class DataAulas extends AbstractDataSets  {
 //        }
 //        return resul;
 //    }
-
-    
-     /**
+    /**
      *
      */
     public void buildArrayAulaContainers() {

@@ -90,13 +90,13 @@ public class ListaRangosHoras {
     public void setParent(Aula parent) {
         this.parent = parent;
     }
+
     /**
      *
      * @param index
      * @return
      */
-    public RangoHoras get(int index)
-    {
+    public RangoHoras get(int index) {
         return rangos.get(index);
     }
 }

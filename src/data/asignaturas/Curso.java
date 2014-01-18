@@ -45,13 +45,12 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         asignaturas = new ArrayList<Asignatura>();
         contaColor = 0;
         algunoSinAula = false;
-        algunoSinAula=false;
+        algunoSinAula = false;
     }
 
     public boolean addAsignatura(Asignatura e) {
         return asignaturas.add(e);
     }
-
 
     public void ordenaAsignaturas() {
         Collections.sort(asignaturas);
@@ -149,8 +148,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
         return true;
     }
 
-
-
     /**
      *
      */
@@ -198,6 +195,6 @@ public class Curso implements Serializable, Comparable<Curso>, Teachable {
     }
 
     public void copyBasicValuesFrom(Curso data) {
-        this.nombre=data.getNombre();
+        this.nombre = data.getNombre();
     }
 }

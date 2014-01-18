@@ -43,9 +43,10 @@ public class DlgNoHuecosEntreMedias extends javax.swing.JDialog {
 
     /**
      * Creates new form NewOkCancelDialog
+     *
      * @param parent
      * @param modal
-     * @param r  
+     * @param r
      */
     public DlgNoHuecosEntreMedias(java.awt.Frame parent, boolean modal, RNoHuecosEntreMedias r) {
         super(parent, modal);
@@ -54,8 +55,6 @@ public class DlgNoHuecosEntreMedias extends javax.swing.JDialog {
         jCheckHuecosLibres.setSelected(r.isPenalizarHuecos());
         jCheckNumeroMinimoClases.setSelected(r.isPenalizarPocasClases());
         jTextHorasMinimasClase.setText(r.getNumMinimoCasillasOcupadas() + "");
-
-
 
         // Close the dialog when Esc is pressed
         String cancelName = "Cancelar";

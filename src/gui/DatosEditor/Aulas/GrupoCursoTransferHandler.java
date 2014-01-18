@@ -45,7 +45,7 @@ public class GrupoCursoTransferHandler extends TransferHandler {
 
     @Override
     public Image getDragImage() {
-        MyConstants mc=new MyConstants();
+        MyConstants mc = new MyConstants();
         return mc.GRUPO_ICON.getImage();
     }
 

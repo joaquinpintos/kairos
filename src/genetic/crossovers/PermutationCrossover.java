@@ -35,8 +35,8 @@ public class PermutationCrossover implements Crossover {
      */
     @Override
     public PosibleSolucion cruce(PosibleSolucion p1, PosibleSolucion p2) {
-        Random r=new Random();
-        PosibleSolucion hijo=new PosibleSolucion();
+        Random r = new Random();
+        PosibleSolucion hijo = new PosibleSolucion();
         for (String hashAula : p1.getMapAsignaciones().keySet()) {
             Asignacion s1 = p1.getAsignacion(hashAula);
             Asignacion s2 = p2.getAsignacion(hashAula);

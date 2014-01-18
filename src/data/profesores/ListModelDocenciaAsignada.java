@@ -25,7 +25,7 @@ import javax.swing.event.ListDataListener;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ListModelDocenciaAsignada implements ListModel{
+public class ListModelDocenciaAsignada implements ListModel {
 
     private ArrayList<Tramo> docencia;
 
@@ -41,19 +41,17 @@ public class ListModelDocenciaAsignada implements ListModel{
      *
      */
     public ListModelDocenciaAsignada() {
-        docencia=new ArrayList<Tramo>();
+        docencia = new ArrayList<Tramo>();
     }
-    
+
     /**
      *
      * @param profesor
      */
     public ListModelDocenciaAsignada(Profesor profesor) {
-        docencia=profesor.getDocencia();
+        docencia = profesor.getDocencia();
     }
-    
 
-    
     @Override
     public int getSize() {
         return docencia.size();
@@ -87,5 +85,5 @@ public class ListModelDocenciaAsignada implements ListModel{
     public void setDocencia(ArrayList<Tramo> docencia) {
         this.docencia = docencia;
     }
-    
+
 }

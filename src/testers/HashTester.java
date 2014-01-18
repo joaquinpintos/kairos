@@ -18,29 +18,28 @@ package testers;
 
 import java.util.HashMap;
 
-
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class HashTester {
+
     /**
      *
      */
-    public void prueba()
-    {
+    public void prueba() {
         claseHash a1 = new claseHash(2, "HOLA");
         claseHash a2 = new claseHash(2, "HOLA");
         System.out.println(a2.equals(a1));
-        HashMap<claseHash, Integer> dict = new HashMap<claseHash,Integer>();
-        dict.put(a1,1);
+        HashMap<claseHash, Integer> dict = new HashMap<claseHash, Integer>();
+        dict.put(a1, 1);
         System.out.println(dict.get(a2));
-        
-        
+
     }
 }
-class claseHash
-        {
+
+class claseHash {
+
     int a;
     String texto;
 
@@ -74,5 +73,5 @@ class claseHash
         }
         return true;
     }
-    
+
 }

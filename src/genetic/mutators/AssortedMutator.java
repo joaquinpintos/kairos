@@ -36,14 +36,13 @@ public class AssortedMutator extends Mutator {
         Mutator m2 = new InsertMutator();
         Mutator m3 = new ScrambleMutator();
         Mutator m4 = new InversionMutator();
-        mutators=new ArrayList<Mutator>();
+        mutators = new ArrayList<Mutator>();
         mutators.add(m1);
         mutators.add(m2);
         mutators.add(m3);
         mutators.add(m4);
     }
 
-    
     /**
      *
      * @param s
@@ -51,10 +50,9 @@ public class AssortedMutator extends Mutator {
     @Override
     public void mutate(PosibleSolucion s) {
         Mutator m = seleccionaMutatorQueTocaAhora();
-       // m.inicializar();
+        // m.inicializar();
         m.mutate(s);
     }
-
 
     /**
      *
@@ -88,5 +86,5 @@ public class AssortedMutator extends Mutator {
             m.setFactorMutacion(factorMutacion);
         }
     }
-    
+
 }

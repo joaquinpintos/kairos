@@ -40,7 +40,7 @@ public class DOMLoaderRestricciones {
      */
     public DOMLoaderRestricciones(File file, DataProject dataProyecto) {
         this.file = file;
-        this.dataProyecto=dataProyecto;
+        this.dataProyecto = dataProyecto;
     }
 
     /**
@@ -74,14 +74,14 @@ public class DOMLoaderRestricciones {
             r.setDataProyecto(dataProyecto);
             //Leo variables comunes a cada restriccion. En este caso el nivel (rojo, amarillo, verde)
             Element elConfigComun = buscaPrimerNodoConNombre(element, "common_config");
-            
+
             el = buscaPrimerNodoConNombre(elConfigComun, "level");
             int nivel = Integer.valueOf(el.getTextContent());
             r.setImportancia(nivel);
             //Llamo al método sobreescrito de la clase específica
             //Para leer los datos de configuración.
             Element elConfigEspecifico = buscaPrimerNodoConNombre(element, "specific_config");
-            
+
             r.readConfig(elConfigEspecifico);
             dataProyecto.getRestrictionsData().add(r);
         } catch (ClassNotFoundException ex) {
@@ -91,10 +91,6 @@ public class DOMLoaderRestricciones {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(DOMLoaderRestricciones.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
-
 
     }
 

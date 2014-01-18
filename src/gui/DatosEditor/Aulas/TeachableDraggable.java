@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gui.DatosEditor.Aulas;
+
 import data.asignaturas.Teachable;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -25,8 +26,9 @@ import java.io.IOException;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class TeachableDraggable implements Transferable{
-        /**
+public class TeachableDraggable implements Transferable {
+
+    /**
      *
      */
     final static public DataFlavor MY_FLAVOR = new DataFlavor(Teachable.class, "Kairos/Teachable");
@@ -48,7 +50,8 @@ public class TeachableDraggable implements Transferable{
     public Teachable getContainer() {
         return cont;
     }
-  @Override
+
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[]{MY_FLAVOR};
     }
@@ -63,5 +66,5 @@ public class TeachableDraggable implements Transferable{
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         return cont;
     }
-    
+
 }

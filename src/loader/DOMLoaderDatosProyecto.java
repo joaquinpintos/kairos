@@ -39,9 +39,9 @@ public class DOMLoaderDatosProyecto {
      * @param file
      * @param dataProyecto
      */
-    public DOMLoaderDatosProyecto(File file, DataProject dataProyecto){
+    public DOMLoaderDatosProyecto(File file, DataProject dataProyecto) {
         this.file = file;
-        this.dataProyecto=dataProyecto;
+        this.dataProyecto = dataProyecto;
     }
 
     /**
@@ -69,7 +69,6 @@ public class DOMLoaderDatosProyecto {
         //Leo fecha inicial y final del periodo lectivo
         nodo = buscaPrimerElementoConNombre(parent, "periodo_lectivo");
 
-
         try {
             //Nodo inicio
             nodo2 = buscaPrimerElementoConNombre(nodo, "inicio");
@@ -83,18 +82,16 @@ public class DOMLoaderDatosProyecto {
         }
 
         //Ahora lee los datos de los días no lectivos
-            nodo = buscaPrimerElementoConNombre(parent, "dias_no_lectivos");
-            org.w3c.dom.NodeList nodeList = nodo.getElementsByTagName("dia");
-            if (nodeList != null && nodeList.getLength() > 0) {
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    org.w3c.dom.Element elemDia = (Element) nodeList.item(i);
-                    String descripcion = elemDia.getAttribute("descripcion");
-                    String strDia = elemDia.getTextContent();
-                    dataProyecto.getAcademicCalendar().addDiaNoLectivo(strDia, descripcion);
-                }
+        nodo = buscaPrimerElementoConNombre(parent, "dias_no_lectivos");
+        org.w3c.dom.NodeList nodeList = nodo.getElementsByTagName("dia");
+        if (nodeList != null && nodeList.getLength() > 0) {
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                org.w3c.dom.Element elemDia = (Element) nodeList.item(i);
+                String descripcion = elemDia.getAttribute("descripcion");
+                String strDia = elemDia.getTextContent();
+                dataProyecto.getAcademicCalendar().addDiaNoLectivo(strDia, descripcion);
             }
-
-
+        }
 
     }
 

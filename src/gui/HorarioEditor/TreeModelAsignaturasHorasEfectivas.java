@@ -39,7 +39,7 @@ public class TreeModelAsignaturasHorasEfectivas implements TreeModel {
      * @param dk
      */
     public TreeModelAsignaturasHorasEfectivas(DataKairos dk) {
-        this.dk=dk;
+        this.dk = dk;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class TreeModelAsignaturasHorasEfectivas implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-         int resul = -1;
+        int resul = -1;
         if (parent instanceof DataAsignaturas) {
             DataAsignaturas data = (DataAsignaturas) parent;
             resul = data.getCarreras().indexOf(child);

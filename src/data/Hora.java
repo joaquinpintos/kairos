@@ -171,7 +171,8 @@ public class Hora implements Serializable, Comparable<Hora> {
     }
 
     /**
-     *Compara dos horas con la condición menor estricto
+     * Compara dos horas con la condición menor estricto
+     *
      * @param otraHora
      * @return True si this es menor que otraHora. False en caso contrario
      */

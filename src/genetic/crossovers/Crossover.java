@@ -31,5 +31,5 @@ public interface Crossover {
      * @return
      */
     public PosibleSolucion cruce(PosibleSolucion p1, PosibleSolucion p2);
-            
+
 }

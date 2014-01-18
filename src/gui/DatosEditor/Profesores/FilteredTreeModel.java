@@ -20,7 +20,7 @@ import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 
 /**
- * Código ligeramente modificado de 
+ * Código ligeramente modificado de
  * http://www.adrianwalker.org/2012/04/filtered-jtree.html
  *
  */

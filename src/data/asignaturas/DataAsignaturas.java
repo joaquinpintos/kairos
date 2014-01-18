@@ -186,5 +186,4 @@ public class DataAsignaturas extends AbstractDataSets {
         Collections.sort(carreras);
     }
 
-
 }

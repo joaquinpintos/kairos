@@ -18,8 +18,9 @@ package data.profesores;
 
 /**
  * Almacena pares asignatura/grupo.
+ *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class AuxDocenciaGrupo {
-    
+
 }

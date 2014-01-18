@@ -272,7 +272,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
         dk.getController().addListener(jIntTreeAulas);
         dk.getController().addListener(jIntDatosProyecto);
         dk.getController().addListener(this);
-        
+
 //        dk.getDP().getRestrictionsData().addListener(horarioEditorMaster);
 //        dk.getDP().getRestrictionsData().addListener(jIntRestricciones);
 //
@@ -651,11 +651,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="RedoCommandAction">
         class RedoCommandAction extends AbstractAction {
-            
+
             public RedoCommandAction() {
                 super("Rehacer", dk.mc.REDO_ICON);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 dk.getController().redoCommand();

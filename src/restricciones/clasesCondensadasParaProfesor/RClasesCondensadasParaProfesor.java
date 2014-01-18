@@ -176,8 +176,8 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "<html>Penaliza si los días en los que se reparte<br>"+
-                "la docencia de un profesor supera un máximo dado.";
+        return "<html>Penaliza si los días en los que se reparte<br>"
+                + "la docencia de un profesor supera un máximo dado.";
     }
 
     /**

@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class GrupoTramos implements Serializable,Teachable {
+public class GrupoTramos implements Serializable, Teachable {
 
     private static final long serialVersionUID = 27112013L;
     private ArrayList<Tramo> vectorTramos;
@@ -65,7 +65,6 @@ public class GrupoTramos implements Serializable,Teachable {
         vectorTramos.add(tr);
     }
 
-
     /**
      *
      * @return
@@ -84,7 +83,6 @@ public class GrupoTramos implements Serializable,Teachable {
         return salida;
     }
 
-
     /**
      *
      * @return
@@ -101,8 +99,6 @@ public class GrupoTramos implements Serializable,Teachable {
         this.parent = parent;
     }
 
-
-
     /**
      *
      * @return
@@ -113,21 +109,21 @@ public class GrupoTramos implements Serializable,Teachable {
     }
 
     @Override
-    public void setAlgunoSinAula(boolean value)
-    {
-        this.algunoSinAula=value;
+    public void setAlgunoSinAula(boolean value) {
+        this.algunoSinAula = value;
     }
-    public void setTieneAula(boolean value)
-    {
-        this.algunoSinAula=!value;
+
+    public void setTieneAula(boolean value) {
+        this.algunoSinAula = !value;
     }
-     @Override
+
+    @Override
     public boolean isAlgunoSinDocente() {
         return algunoSinDocente;
     }
 
     @Override
     public void setAlgunoSinDocente(boolean value) {
-        algunoSinDocente=value;
+        algunoSinDocente = value;
     }
 }

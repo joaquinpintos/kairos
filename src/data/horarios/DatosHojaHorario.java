@@ -56,11 +56,11 @@ public class DatosHojaHorario {
      */
     public int setMañana(Boolean includeRecreo) {
         rangosHoras = new ArrayList<RangoHoras>();
-            rangosHoras.addAll(dataProyecto.getMañana1().splitRangos(dataProyecto.getMinutosPorCasilla()));
-            if (includeRecreo) {
-                rangosHoras.add(new RangoHoras(dataProyecto.getMañana1().getFin(), dataProyecto.getMañana2().getInicio()));
-            }
-            rangosHoras.addAll(dataProyecto.getMañana2().splitRangos(dataProyecto.getMinutosPorCasilla()));
+        rangosHoras.addAll(dataProyecto.getMañana1().splitRangos(dataProyecto.getMinutosPorCasilla()));
+        if (includeRecreo) {
+            rangosHoras.add(new RangoHoras(dataProyecto.getMañana1().getFin(), dataProyecto.getMañana2().getInicio()));
+        }
+        rangosHoras.addAll(dataProyecto.getMañana2().splitRangos(dataProyecto.getMinutosPorCasilla()));
         calculaIndicesAuxiliaresRangosHoras();
         return rangosHoras.size();
     }
@@ -135,7 +135,7 @@ public class DatosHojaHorario {
      * columna 0 indica la hora real.
      *
      * @param numColumna
-     * @param numFila 
+     * @param numFila
      * @return
      */
     public HorarioItem retrieveData(int numColumna, int numFila) {
@@ -191,14 +191,12 @@ public class DatosHojaHorario {
         Hora hora = h.getRangoHoras().getInicio();
         int numFila = 0;
         try {
-        while (!hora.equals(rangosHoras.get(numFila).getInicio())) {
-            numFila++;
-        }
-        }
-        catch (IndexOutOfBoundsException ex)
-        {
-            System.err.println("Buscando "+h.getGrupo().getHashCarreraGrupoCurso()+" "+hora+" en "+rangosHoras);
-              Logger.getLogger(DatosHojaHorario.class.getName()).log(Level.SEVERE, null, ex);
+            while (!hora.equals(rangosHoras.get(numFila).getInicio())) {
+                numFila++;
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            System.err.println("Buscando " + h.getGrupo().getHashCarreraGrupoCurso() + " " + hora + " en " + rangosHoras);
+            Logger.getLogger(DatosHojaHorario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int numDiaLectivo = h.getDiaSemana();
@@ -218,7 +216,7 @@ public class DatosHojaHorario {
                 {
                     boolean hayQueRellenar = true;
                     //Hago un bucle "para arriba" a ver si pertenece a un horarioitem largo
-                    for (int n = 1; n <=numFila; n++) {
+                    for (int n = 1; n <= numFila; n++) {
                         HorarioItem h2 = retrieveData(numDia, numFila - n);
                         if ((h2 != null) && (h2.getNumeroDeCasillasQueOcupa() > n)) {
                             hayQueRellenar = false;

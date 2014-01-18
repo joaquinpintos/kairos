@@ -153,7 +153,8 @@ public class AulaMT implements Serializable, Comparable<AulaMT> {
         }
         return asig;
     }
-     public void removeTramo(Tramo aThis) {
+
+    public void removeTramo(Tramo aThis) {
         ListaAsignaciones asig = getAsignaciones();
         asig.remove(aThis);
     }

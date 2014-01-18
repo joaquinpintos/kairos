@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package gui.DatosEditor.Docencia;
 
 import data.MyConstants;
@@ -32,7 +31,7 @@ import javax.swing.TransferHandler;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class JTreeAsignaturasTransferHandler extends TransferHandler {
-     
+
     @Override
     protected Transferable createTransferable(JComponent c) {
         TeachableDraggable resul = null;
@@ -46,7 +45,7 @@ public class JTreeAsignaturasTransferHandler extends TransferHandler {
 
     @Override
     public Image getDragImage() {
-        MyConstants mc=new MyConstants();
+        MyConstants mc = new MyConstants();
         return mc.TRAMO_ICON.getImage();
     }
 

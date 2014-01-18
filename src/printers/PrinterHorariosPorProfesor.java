@@ -75,10 +75,10 @@ public class PrinterHorariosPorProfesor extends AbstractHorariosPrinter {
     public void printCabecera(Document doc, Object obj) throws DocumentException {
         addTitle(doc);
         Profesor p = (Profesor) obj;
-        final Paragraph par = new Paragraph("Horarios para el profesor " + p.getNombre()+" "+p.getApellidos());
+        final Paragraph par = new Paragraph("Horarios para el profesor " + p.getNombre() + " " + p.getApellidos());
         par.setAlignment(Paragraph.ALIGN_CENTER);
         doc.add(par);
-        
+
     }
 
     /**

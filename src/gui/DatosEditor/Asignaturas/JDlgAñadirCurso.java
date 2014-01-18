@@ -44,7 +44,7 @@ public class JDlgAñadirCurso extends javax.swing.JDialog {
     public static final int RET_OK = 1;
     private final Carrera car;
     private final DataKairos dk;
-    
+
     public JDlgAñadirCurso(java.awt.Frame parent, Carrera car, DataKairos dk) {
         super(parent, true);
         initComponents();
@@ -65,7 +65,7 @@ public class JDlgAñadirCurso extends javax.swing.JDialog {
             jComboCarreras.addItem(c);
         }
         jComboCarreras.setSelectedItem(car);
-        
+
     }
 
     /**
@@ -169,7 +169,7 @@ public class JDlgAñadirCurso extends javax.swing.JDialog {
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-    
+
     private void doClose(int retStatus) {
         if (retStatus == RET_OK) {
             Curso newCurso = new Curso(jTextNombreCurso.getText());

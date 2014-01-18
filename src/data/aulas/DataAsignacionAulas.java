@@ -192,7 +192,6 @@ public class DataAsignacionAulas implements Serializable {
             }
         }
 
-
     }
 
     private Aula buscaAula(HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignaciones, String hashBuscado, Boolean esTarde) {

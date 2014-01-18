@@ -364,5 +364,5 @@ public class HorarioItem implements Serializable {
     public Tramo getTramo() {
         return tramo;
     }
-    
+
 }

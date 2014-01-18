@@ -37,6 +37,9 @@ import restricciones.profesorNoUbicuo.RProfesorNoUbicuo;
  */
 public class DataKairos {
 
+    public static final int PROGRAM_MAJOR_VERSION=1;
+    public static final int PROGRAM_MINOR_VERSION=2;
+    
     /**
      * Estado cuando no hay ningún proyecto cargado. La mayoría de los menús se
      * deshabilitan.
@@ -63,8 +66,6 @@ public class DataKairos {
     private AbstractMainWindow mw;
     private boolean dirty;
 
-   
-
     /**
      * Constructor por defecto
      */
@@ -74,7 +75,7 @@ public class DataKairos {
         populateRestricciones();
         mc = new MyConstants();
         kairosController = new KairosController(this);
-        dirty=false;
+        dirty = false;
     }
 
     /**
@@ -128,7 +129,7 @@ public class DataKairos {
      * Devuelve el estado de la aplicación.
      *
      * @return Estado de la aplicación. Alguna de las variables null null null
-     * null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
+     * null null null     {@link STATUS_NO_PROJECT}, {@link STATUS_PROJECT_NO_SOLUTION},
      *{@link STATUS_PROJECT_SOLUTION} o {@link STATUS_COMPUTING_SOLUTION}
      */
     public int getStatus() {
@@ -173,15 +174,15 @@ public class DataKairos {
     public AbstractMainWindow getMainWindow() {
         return mw;
     }
- public boolean isDirty() {
+
+    public boolean isDirty() {
         return dirty;
     }
 
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
 //        System.out.println("Dirty="+dirty);
-        if (!dirty)
-        {
+        if (!dirty) {
             kairosController.setNotDirty();
         }
     }

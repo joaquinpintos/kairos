@@ -34,7 +34,7 @@ public class Kairos {
      */
     public static void main(String[] args) throws Exception {
         if (true) {
-          // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //           for (UIManager.LookAndFeelInfo in:UIManager.getInstalledLookAndFeels())
 //           {
 //               System.out.println(in.getName());
@@ -63,7 +63,7 @@ public class Kairos {
             });
 
         } else {
-            IteratorTester t=new IteratorTester();
+            IteratorTester t = new IteratorTester();
             t.test();
         }
     }

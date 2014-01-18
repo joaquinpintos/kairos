@@ -171,14 +171,13 @@ public class JDlgProfesorMinimoHoras extends javax.swing.JDialog {
     private void doClose(int retStatus) {
         if (retStatus == RET_OK) {
 //            r.setNumMaximoHoras(Integer.valueOf(jTextMaximoHoras.getText()));
-            r.setNumMinimoHoras((Integer)jSpinNumeroHoras.getValue());
+            r.setNumMinimoHoras((Integer) jSpinNumeroHoras.getValue());
         }
 
         returnStatus = retStatus;
         setVisible(false);
         dispose();
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

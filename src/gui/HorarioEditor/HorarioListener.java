@@ -23,10 +23,12 @@ package gui.HorarioEditor;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public interface HorarioListener {
+
     /**
      *
      */
     public void needUpdate();
+
     /**
      *
      */

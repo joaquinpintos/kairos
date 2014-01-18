@@ -44,12 +44,12 @@ public class JDlgEditarAula extends javax.swing.JDialog {
     private final Aula aula;
     private final DataKairos dk;
 
-    public JDlgEditarAula(java.awt.Frame parent, DataKairos dk,Aula aula) {
+    public JDlgEditarAula(java.awt.Frame parent, DataKairos dk, Aula aula) {
         super(parent, true);
         initComponents();
-        this.dk=dk;
-        this.aula=aula;
-this.setLocationRelativeTo(null);
+        this.dk = dk;
+        this.aula = aula;
+        this.setLocationRelativeTo(null);
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -62,7 +62,7 @@ this.setLocationRelativeTo(null);
             }
         });
         jTextNombreAula.setText(aula.getNombre());
-        
+
     }
 
     /**
@@ -150,7 +150,7 @@ this.setLocationRelativeTo(null);
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
-    
+
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         doClose(RET_CANCEL);
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -161,11 +161,10 @@ this.setLocationRelativeTo(null);
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-    
+
     private void doClose(int retStatus) {
-        if (retStatus==RET_OK)
-        {
-            Aula newAula=new Aula(jTextNombreAula.getText());
+        if (retStatus == RET_OK) {
+            Aula newAula = new Aula(jTextNombreAula.getText());
             KairosCommand cmd = dk.getController().getEditAulaCommand(aula, newAula);
             dk.getController().executeCommand(cmd);
         }
@@ -174,7 +173,6 @@ this.setLocationRelativeTo(null);
         dispose();
     }
 
-   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;

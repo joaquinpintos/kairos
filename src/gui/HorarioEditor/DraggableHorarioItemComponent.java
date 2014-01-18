@@ -368,7 +368,6 @@ public class DraggableHorarioItemComponent extends JPanel {
         return h;
     }
 
-
     void moveToCasilla(ListaCasillas lc, int numCasillaDst) {
         Casilla c = lc.get(numCasillaDst);
         h.setNumcasilla(numCasillaDst);

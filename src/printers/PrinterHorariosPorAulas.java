@@ -106,7 +106,7 @@ public class PrinterHorariosPorAulas extends AbstractHorariosPrinter {
         addTitle(doc);
         String texto;
         AulaMT cont = (AulaMT) obj;
-        texto = "Horarios para "+cont.getAula().getNombre() + " " + (cont.getEsTarde() ? "tarde" : "mañana");
+        texto = "Horarios para " + cont.getAula().getNombre() + " " + (cont.getEsTarde() ? "tarde" : "mañana");
         Paragraph par = new Paragraph(texto);
         par.setAlignment(Paragraph.ALIGN_CENTER);
         doc.add(par);

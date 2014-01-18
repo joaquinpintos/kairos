@@ -121,7 +121,7 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
         for (Profesor p : clasesPorDiaProfesor.keySet()) {
             Integer[] num = clasesPorDiaProfesor.get(p);
             for (int n = 0; n < 5; n++) {
-                if ((num[n]>0)&&(num[n] < numMinimoCasillas)) {
+                if ((num[n] > 0) && (num[n] < numMinimoCasillas)) {
                     sumaPeso(suma);
                     suma *= coef;
                     if (marcaCasillasConflictivas) {
@@ -185,9 +185,9 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
      */
     @Override
     public String getMensajeError() {
-       ArrayList<Profesor> p=new ArrayList(listaProfesoresConflictivos);
-       boolean plural=(p.size()>1);
-        return "<html>"+(plural?"Los":"El")+" profesor"+(plural?"es ":" ") + formatTeachersList(p) + " da"+(plural?"n":"")+" menos de <b>" + numMinimoHoras + "</b> horas algún día que da clase.</html>";
+        ArrayList<Profesor> p = new ArrayList(listaProfesoresConflictivos);
+        boolean plural = (p.size() > 1);
+        return "<html>" + (plural ? "Los" : "El") + " profesor" + (plural ? "es " : " ") + formatTeachersList(p) + " da" + (plural ? "n" : "") + " menos de <b>" + numMinimoHoras + "</b> horas algún día que da clase.</html>";
     }
 
     /**

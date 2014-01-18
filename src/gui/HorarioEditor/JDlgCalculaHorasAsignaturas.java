@@ -47,9 +47,10 @@ public class JDlgCalculaHorasAsignaturas extends javax.swing.JDialog {
 
     /**
      * Creates new form jDlgCalculaHorasAsignaturas
-     * @param parent 
-     * @param modal 
-     * @param dk 
+     *
+     * @param parent
+     * @param modal
+     * @param dk
      */
     public JDlgCalculaHorasAsignaturas(java.awt.Frame parent, boolean modal, DataKairos dk) {
         super(parent, modal);
@@ -57,9 +58,9 @@ public class JDlgCalculaHorasAsignaturas extends javax.swing.JDialog {
         initComponents();
         TreeModelAsignaturas model = new TreeModelAsignaturas(dk);
         jTreeAsignaturas.setModel(model);
-        horasEfectivas=new HashMap<Grupo, Integer>();
+        horasEfectivas = new HashMap<Grupo, Integer>();
 
-        TreeCellRendererAsignaturasHorasEfectivas treeCellRendererAsignaturas = new TreeCellRendererAsignaturasHorasEfectivas(dk,horasEfectivas);
+        TreeCellRendererAsignaturasHorasEfectivas treeCellRendererAsignaturas = new TreeCellRendererAsignaturasHorasEfectivas(dk, horasEfectivas);
         jTreeAsignaturas.setCellRenderer(treeCellRendererAsignaturas);
 
         // Close the dialog when Esc is pressed

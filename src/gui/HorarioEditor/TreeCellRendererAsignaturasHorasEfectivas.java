@@ -46,11 +46,11 @@ public class TreeCellRendererAsignaturasHorasEfectivas extends JLabel implements
      *
      * @param horas
      */
-    public TreeCellRendererAsignaturasHorasEfectivas(DataKairos dk,HashMap<Grupo, Integer> horas) {
+    public TreeCellRendererAsignaturasHorasEfectivas(DataKairos dk, HashMap<Grupo, Integer> horas) {
         super();
-        this.horas=horas;
+        this.horas = horas;
         this.setOpaque(true);
-        this.dk=dk;
+        this.dk = dk;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TreeCellRendererAsignaturasHorasEfectivas extends JLabel implements
         } else {
             this.setBackground(Color.white);
         }
-        
+
         return this;
     }
 }

@@ -199,13 +199,13 @@ public class JDlgAñadirCarrera extends javax.swing.JDialog {
         if (retStatus == RET_OK) {
             KairosCommand cmd;
             Carrera car = new Carrera(jTextNombreCarrera.getText());
-             cmd = dk.getController().getCreateCarreraCommand(car);
+            cmd = dk.getController().getCreateCarreraCommand(car);
             dk.getController().executeCommand(cmd);
             if (jCheckCrearCursos.isSelected()) {//Creo cursos
                 for (int n = 1; n <= (Integer) jSpinner1.getValue(); n++) {
                     String nombreCurso = "" + n + "º";
                     Curso cur = new Curso(nombreCurso);
-                    cmd=dk.getController().getCreateCursoCommand(car, cur);
+                    cmd = dk.getController().getCreateCursoCommand(car, cur);
                     dk.getController().executeCommand(cmd);
                 }
 

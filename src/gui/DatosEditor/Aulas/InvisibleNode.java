@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package gui.DatosEditor.Aulas;
 
 import java.util.Enumeration;
@@ -36,16 +35,16 @@ public class InvisibleNode extends DefaultMutableTreeNode {
      *
      */
     public InvisibleNode() {
-    this(null);
-  }
+        this(null);
+    }
 
     /**
      *
      * @param userObject
      */
     public InvisibleNode(Object userObject) {
-    this(userObject, true, true);
-  }
+        this(userObject, true, true);
+    }
 
     /**
      *
@@ -54,10 +53,10 @@ public class InvisibleNode extends DefaultMutableTreeNode {
      * @param isVisible
      */
     public InvisibleNode(Object userObject, boolean allowsChildren,
-      boolean isVisible) {
-    super(userObject, allowsChildren);
-    this.isVisible = isVisible;
-  }
+            boolean isVisible) {
+        super(userObject, allowsChildren);
+        this.isVisible = isVisible;
+    }
 
     /**
      *
@@ -66,30 +65,30 @@ public class InvisibleNode extends DefaultMutableTreeNode {
      * @return
      */
     public TreeNode getChildAt(int index, boolean filterIsActive) {
-    if (!filterIsActive) {
-      return super.getChildAt(index);
-    }
-    if (children == null) {
-      throw new ArrayIndexOutOfBoundsException("node has no children");
-    }
+        if (!filterIsActive) {
+            return super.getChildAt(index);
+        }
+        if (children == null) {
+            throw new ArrayIndexOutOfBoundsException("node has no children");
+        }
 
-    int realIndex = -1;
-    int visibleIndex = -1;
-    Enumeration e = children.elements();
-    while (e.hasMoreElements()) {
-      InvisibleNode node = (InvisibleNode) e.nextElement();
-      if (node.isVisible()) {
-        visibleIndex++;
-      }
-      realIndex++;
-      if (visibleIndex == index) {
-        return (TreeNode) children.elementAt(realIndex);
-      }
-    }
+        int realIndex = -1;
+        int visibleIndex = -1;
+        Enumeration e = children.elements();
+        while (e.hasMoreElements()) {
+            InvisibleNode node = (InvisibleNode) e.nextElement();
+            if (node.isVisible()) {
+                visibleIndex++;
+            }
+            realIndex++;
+            if (visibleIndex == index) {
+                return (TreeNode) children.elementAt(realIndex);
+            }
+        }
 
-    throw new ArrayIndexOutOfBoundsException("index unmatched");
-    //return (TreeNode)children.elementAt(index);
-  }
+        throw new ArrayIndexOutOfBoundsException("index unmatched");
+        //return (TreeNode)children.elementAt(index);
+    }
 
     /**
      *
@@ -97,39 +96,39 @@ public class InvisibleNode extends DefaultMutableTreeNode {
      * @return
      */
     public int getChildCount(boolean filterIsActive) {
-    if (!filterIsActive) {
-      return super.getChildCount();
-    }
-    if (children == null) {
-      return 0;
-    }
+        if (!filterIsActive) {
+            return super.getChildCount();
+        }
+        if (children == null) {
+            return 0;
+        }
 
-    int count = 0;
-    Enumeration e = children.elements();
-    while (e.hasMoreElements()) {
-      InvisibleNode node = (InvisibleNode) e.nextElement();
-      if (node.isVisible()) {
-        count++;
-      }
-    }
+        int count = 0;
+        Enumeration e = children.elements();
+        while (e.hasMoreElements()) {
+            InvisibleNode node = (InvisibleNode) e.nextElement();
+            if (node.isVisible()) {
+                count++;
+            }
+        }
 
-    return count;
-  }
+        return count;
+    }
 
     /**
      *
      * @param visible
      */
     public void setVisible(boolean visible) {
-    this.isVisible = visible;
-  }
+        this.isVisible = visible;
+    }
 
     /**
      *
      * @return
      */
     public boolean isVisible() {
-    return isVisible;
-  }
+        return isVisible;
+    }
 
 }

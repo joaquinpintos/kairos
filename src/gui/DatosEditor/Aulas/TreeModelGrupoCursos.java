@@ -48,6 +48,7 @@ public class TreeModelGrupoCursos implements TreeModel {
     public Object getRoot() {
         return dk.getDP().getDataAsignaturas().getListaGrupoCursos();
     }
+
     @Override
     public Object getChild(Object parent, int index) {
         Object resul = null;
@@ -62,7 +63,7 @@ public class TreeModelGrupoCursos implements TreeModel {
         if (parent instanceof Grupo) {
             Grupo gr = (Grupo) parent;
             resul = gr.getTramosGrupoCompleto().getTramos().get(index);
-            
+
         }
         return resul;
     }
@@ -105,7 +106,7 @@ public class TreeModelGrupoCursos implements TreeModel {
             GrupoCursos gc = (GrupoCursos) parent;
             resul = gc.indexOf(child);
         }
-          if (parent instanceof Grupo) {
+        if (parent instanceof Grupo) {
             Grupo gr = (Grupo) parent;
             resul = gr.getTramosGrupoCompleto().getTramos().indexOf(child);
         }

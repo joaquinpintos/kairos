@@ -173,9 +173,9 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      */
     @Override
     public String getMensajeError() {
-       ArrayList<Profesor> p=new ArrayList(listaProfesoresConflictivos);
-       boolean plural=(p.size()>1);
-        return "<html>"+(plural?"Los":"El")+" profesor"+(plural?"es ":" ") + formatTeachersList(p) + " da"+(plural?"n":"")+" más de <b>" + numMaximoHoras + "</b> horas algún día</html>";
+        ArrayList<Profesor> p = new ArrayList(listaProfesoresConflictivos);
+        boolean plural = (p.size() > 1);
+        return "<html>" + (plural ? "Los" : "El") + " profesor" + (plural ? "es " : " ") + formatTeachersList(p) + " da" + (plural ? "n" : "") + " más de <b>" + numMaximoHoras + "</b> horas algún día</html>";
     }
 
     /**

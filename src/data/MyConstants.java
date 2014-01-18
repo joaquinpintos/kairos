@@ -92,8 +92,7 @@ public class MyConstants {
      * Icono de rehacer
      */
     public final ImageIcon REDO_ICON = new ImageIcon(getClass().getResource("/data/images/redo.png"));
-    
-    
+
     /**
      * Icono de añadir
      */

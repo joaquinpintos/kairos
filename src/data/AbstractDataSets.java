@@ -39,15 +39,12 @@ public class AbstractDataSets implements Serializable {
 
     }
 
-
     /**
      *
      */
     public void clearListeners() {
         listeners.clear();
     }
-
-
 
     /**
      *

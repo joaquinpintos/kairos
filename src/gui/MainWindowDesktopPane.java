@@ -196,7 +196,7 @@ public class MainWindowDesktopPane extends AbstractMainWindow {
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JDlgAbout dlg = new JDlgAbout(null, true);
+                JDlgAbout dlg = new JDlgAbout(null);
                 dlg.setLocationRelativeTo(null);
                 dlg.setVisible(true);
             }

@@ -420,7 +420,6 @@ public class DataProject implements Serializable {
         }
     }
 
-
     /**
      *
      * @return
@@ -489,14 +488,14 @@ public class DataProject implements Serializable {
         Asignatura asig = tr.getParent().getParent().getParent();
         if (!colAsig.containsKey(asig)) {
             colAsig.put(asig, colAsig.size() % MyConstants.COLORES_ASIGNATURAS.length);
-        } 
-        int contaColor=colAsig.get(asig);
+        }
+        int contaColor = colAsig.get(asig);
         tr.setColorEnTablaDeHorarios(MyConstants.COLORES_ASIGNATURAS[contaColor]);
 //         contaColor++;
 //        if (!(contaColor < MyConstants.coloresAsignaturas.length)) {
 //            contaColor = 0;
 //        }
-        colAsig.put(asig,contaColor);
+        colAsig.put(asig, contaColor);
 
     }
 

@@ -308,7 +308,7 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 String nombre = JOptionPane.showInputDialog(rootPane, "Nombre de la nueva aula:", "");
 
                 if (nombre != null) {
@@ -353,19 +353,19 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
                 if (sel instanceof Aula) {
                     Aula aulaBorrar = (Aula) sel;
-                        KairosCommand cmd = dk.getController().getDeleteAulaCommand(aulaBorrar);
-                        dk.getController().executeCommand(cmd);
+                    KairosCommand cmd = dk.getController().getDeleteAulaCommand(aulaBorrar);
+                    dk.getController().executeCommand(cmd);
                 }
             }
         }//End of class EliminarAula
 //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="VaciarAulaAction">
         class VaciarAulaAction extends AbstractAction {
-            
+
             public VaciarAulaAction() {
                 super("Vaciar aula", null);
             }
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object sel = jTreeAulas.getSelectionPath().getLastPathComponent();
@@ -386,8 +386,8 @@ public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUI
 
         eliminarAulaAction = new EliminarAulaAction();
         jButEliminarAula.setAction(eliminarAulaAction);
-        
-        vaciarAulaAction=new VaciarAulaAction();
+
+        vaciarAulaAction = new VaciarAulaAction();
 
         jpopMenu = new JPopupMenu();
         jpopMenu.add(añadirAulaAction);

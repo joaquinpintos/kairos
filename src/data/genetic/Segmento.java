@@ -149,5 +149,5 @@ public class Segmento implements Serializable {
     public Tramo getTramo() {
         return tramo;
     }
-    
+
 }

@@ -120,7 +120,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
 
     }
 
-
     /**
      *
      * @return True si el grupo da sus clases por la tarde. False en caso
@@ -176,7 +175,6 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         return "G" + this.getNombre() + " " + this.getParent().getParent().getNombre() + " " + this.getParent().getParent().getParent().toString();
     }
 
-
     @Override
     public int compareTo(Grupo o) {
         return this.nombre.compareTo(o.getNombre());
@@ -208,16 +206,14 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
         return true;
     }
 
-
-
     @Override
     public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
-     public boolean tieneAula() {
+
+    public boolean tieneAula() {
         return !algunoSinAula;
     }
-
 
     @Override
     public void setAlgunoSinAula(boolean value) {
@@ -225,15 +221,16 @@ public class Grupo implements Serializable, Comparable<Grupo>, Teachable {
     }
 
     public void copyBasicValuesFrom(Grupo grNew) {
-        this.nombre=grNew.getNombre();
+        this.nombre = grNew.getNombre();
     }
-     @Override
+
+    @Override
     public boolean isAlgunoSinDocente() {
         return algunoSinDocente;
     }
 
     @Override
     public void setAlgunoSinDocente(boolean value) {
-        algunoSinDocente=value;
+        algunoSinDocente = value;
     }
 }

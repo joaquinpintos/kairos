@@ -70,7 +70,6 @@ public class JTreeAulasDropListener implements DropTargetListener {
             }
         }
 
-
     }
 
     @Override
@@ -102,7 +101,7 @@ public class JTreeAulasDropListener implements DropTargetListener {
 //                parent.getjTreeAulas().updateUI();
             }
         } catch (UnsupportedFlavorException ex) {
-           //NO hago nada,salvo escribir mensaje de error
+            //NO hago nada,salvo escribir mensaje de error
             System.err.println("Error al hacer drop UnsupportedFlavorException");
         } catch (IOException ex) {
             Logger.getLogger(JIntTreeAulas.class.getName()).log(Level.SEVERE, null, ex);

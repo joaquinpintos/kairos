@@ -22,7 +22,7 @@ import java.io.Serializable;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class Aula implements Serializable,Comparable<Aula> {
+public class Aula implements Serializable, Comparable<Aula> {
 
     private static final long serialVersionUID = 27112013L;
     String nombre;
@@ -34,7 +34,7 @@ public class Aula implements Serializable,Comparable<Aula> {
      *
      * @param nombre
      */
-    public Aula(String nombre) throws IllegalArgumentException{
+    public Aula(String nombre) throws IllegalArgumentException {
         setNombre(nombre);
         asignacionesMañana = new ListaAsignaciones(false, 0, this);
         asignacionesTarde = new ListaAsignaciones(true, 1, this);
@@ -60,9 +60,9 @@ public class Aula implements Serializable,Comparable<Aula> {
      *
      * @param nombre
      */
-    public final void setNombre(String nombre) throws IllegalArgumentException{
+    public final void setNombre(String nombre) throws IllegalArgumentException {
         if (nombre.contains("@")) {
-            throw  new IllegalArgumentException("El nombre del aula no puede contener el carácter @");
+            throw new IllegalArgumentException("El nombre del aula no puede contener el carácter @");
         } else {
             this.nombre = nombre;
         }
@@ -132,9 +132,8 @@ public class Aula implements Serializable,Comparable<Aula> {
         this.parent = parent;
     }
 
-
     public void copyBasicValuesFrom(Aula data) {
-        this.nombre=data.getNombre();
+        this.nombre = data.getNombre();
     }
 
     @Override

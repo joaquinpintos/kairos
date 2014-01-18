@@ -31,6 +31,7 @@ import org.w3c.dom.Node;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class RGrupoNoUbicuo extends Restriccion {
+
     private static final long serialVersionUID = 27112013L;
     //hashGrupoCurso->lista de hashaulas, y cada hashaula->lista de [segmentos,duracion]
     //A cada grupo le asigna una lista de hashaulas donde imparte.
@@ -175,8 +176,8 @@ public class RGrupoNoUbicuo extends Restriccion {
      */
     @Override
     public String mensajeDeAyuda() {
-        return "<html>Restricción necesaria si las clases de un mismo<br>"+
-                     "grupo se desarrollan en diferentes aulas</html>";
+        return "<html>Restricción necesaria si las clases de un mismo<br>"
+                + "grupo se desarrollan en diferentes aulas</html>";
     }
 
     /**

@@ -166,6 +166,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
     public void setColorEnTablaDeHorarios(Color colorEnTablaDeHorarios) {
         this.colorEnTablaDeHorarios = colorEnTablaDeHorarios;
     }
+
     /**
      *
      * @return
@@ -213,7 +214,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
         return true;
     }
 
-
     public boolean isAlgunoSinAula() {
         return algunoSinAula;
     }
@@ -243,6 +243,6 @@ public class Asignatura implements Serializable, Comparable<Asignatura>, Teachab
 
     @Override
     public void setAlgunoSinDocente(boolean value) {
-        algunoSinDocente=value;
+        algunoSinDocente = value;
     }
 }

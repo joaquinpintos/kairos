@@ -326,7 +326,7 @@ public class JDlgAñadirGrupo extends javax.swing.JDialog {
             numClases = Integer.valueOf(jSpinnerNumClases2.getValue().toString());
             numHoras = Integer.valueOf(jTextDuracionClases2.getText());
             for (int cont = 0; cont < numClases; cont++) {
-                 tr = new Tramo(numHoras);
+                tr = new Tramo(numHoras);
                 cmd = dk.getController().getCreateTramoCommand(gr, tr);
                 dk.getController().executeCommand(cmd);
             }

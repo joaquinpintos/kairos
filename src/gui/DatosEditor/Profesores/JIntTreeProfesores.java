@@ -495,7 +495,7 @@ public class JIntTreeProfesores extends javax.swing.JInternalFrame implements Da
                 if (treePath != null) {
                     if (treePath.getLastPathComponent() instanceof Profesor) {
                         Profesor p = (Profesor) treePath.getLastPathComponent();
-                        JDlgEditProfesor dlg = new JDlgEditProfesor(null,  p, null, dk);
+                        JDlgEditProfesor dlg = new JDlgEditProfesor(null, p, null, dk);
                         dlg.setLocationRelativeTo(null);
                         dlg.setVisible(true);
                     }

@@ -17,21 +17,25 @@
 package data.genetic;
 
 /**
- * Interfaz para pasar a la clase GeneticAlgorigthm que se encarga de mostrar los
- * datos. También se encarga de procesar la condición de interrupción.
+ * Interfaz para pasar a la clase GeneticAlgorigthm que se encarga de mostrar
+ * los datos. También se encarga de procesar la condición de interrupción.
+ *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public interface GeneticInformer {
+
     /**
      *
      * @param g
      */
     public void setInformation(GeneticAlgorithm g);
+
     /**
      *
      * @return
      */
     public boolean interrumpido();
+
     /**
      *
      * @param g

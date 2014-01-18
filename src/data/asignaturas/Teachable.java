@@ -27,8 +27,9 @@ public interface Teachable {
     public boolean isAlgunoSinAula();
 
     public void setAlgunoSinAula(boolean value);
-    
+
     public boolean isAlgunoSinDocente();
+
     public void setAlgunoSinDocente(boolean value);
 
 }

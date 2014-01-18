@@ -74,12 +74,10 @@ public class Departamento implements Serializable {
         return profesores.add(e);
     }
 
-
     public boolean removeProfesor(Object o) {
         return profesores.remove(o);
     }
 
-   
     @Override
     public String toString() {
         return this.nombre;

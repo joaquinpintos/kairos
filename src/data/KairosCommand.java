@@ -22,15 +22,15 @@ package data;
  */
 public abstract class KairosCommand {
 
-    public static final int STD_CMD  = 0;
-    public static final int BEGIN_BLOCK  = 1;
-    public static final int END_BLOCK  = 2;
+    public static final int STD_CMD = 0;
+    public static final int BEGIN_BLOCK = 1;
+    public static final int END_BLOCK = 2;
     int eventType;
     private boolean undoable = true;
     private final int id;
 
     public KairosCommand(int cmdType) {
-        id=cmdType;
+        id = cmdType;
     }
 
     public int getId() {

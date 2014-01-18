@@ -347,7 +347,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDlgAñadirCarrera dlg = new JDlgAñadirCarrera(mainWindow,dk);
+                JDlgAñadirCarrera dlg = new JDlgAñadirCarrera(mainWindow, dk);
                 dlg.setLocationRelativeTo(null);
                 dlg.setTitle("Añadir carrera");
                 dlg.setVisible(true);
@@ -751,7 +751,7 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
 
         jPopMenuAsignaturas.add(añadirGrupoAction);
         jPopMenuAsignaturas.add(desasignarDocenciaAction);
-        
+
         jPopMenuCursos = new JPopupMenu();
 
         jPopMenuCursos.add(añadirAsignaturaAction);
@@ -760,14 +760,14 @@ public class JIntEditorAsignaturas extends javax.swing.JInternalFrame implements
 
         jPopMenuCursos.add(eliminarCursoAction);
         jPopMenuCursos.add(desasignarDocenciaAction);
-        
+
         jPopMenuCarreras = new JPopupMenu();
 
         jPopMenuCarreras.add(añadirCursoAction);
 
         jPopMenuCarreras.add(editarCarreraAction);
         jPopMenuCarreras.add(desasignarDocenciaAction);
-        
+
         jPopMenuGrupos = new JPopupMenu();
 
         jPopMenuGrupos.add(añadirTramosAction);

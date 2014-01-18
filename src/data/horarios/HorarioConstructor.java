@@ -39,7 +39,7 @@ public class HorarioConstructor {
      * @param sol
      * @param dataProyecto
      * @return
-     * @throws Exception  
+     * @throws Exception
      */
     public static Horario constructor(PosibleSolucion sol, DataProject dataProyecto) throws Exception {
         Horario resul = new Horario(sol);
@@ -63,19 +63,19 @@ public class HorarioConstructor {
                 profe = s.getProfesor();
                 Tramo tramo = s.getTramo();
 //                if (!s.isHuecoLibre()) {
-                    if (profe == null) {
-                        profe = profeNulo;
-                    }
-                    if (g == null) {
-                        g = grupoNulo;
-                    }
-                    boolean esTarde=(hashAula.contains("@T"));
-                    HorarioItem item = new HorarioItem(profe, g, g.getParent(), c.getAula(), s.getRangoHoraPuestoEnCasilla(c), esTarde,c.getDiaSemana(),s.isHuecoLibre(),s.getNumeroDeCasillasQueOcupa());
-                    item.setTramo(tramo);
-                    item.setNumeroSegmento(asig.getAsignaciones().get(k));
-                    item.setNumcasilla(asig.getQueCasilla().get(k));
-                    resul.add(item);
-                    resul.añadeItemAMapa(hashAula,k,item);
+                if (profe == null) {
+                    profe = profeNulo;
+                }
+                if (g == null) {
+                    g = grupoNulo;
+                }
+                boolean esTarde = (hashAula.contains("@T"));
+                HorarioItem item = new HorarioItem(profe, g, g.getParent(), c.getAula(), s.getRangoHoraPuestoEnCasilla(c), esTarde, c.getDiaSemana(), s.isHuecoLibre(), s.getNumeroDeCasillasQueOcupa());
+                item.setTramo(tramo);
+                item.setNumeroSegmento(asig.getAsignaciones().get(k));
+                item.setNumcasilla(asig.getQueCasilla().get(k));
+                resul.add(item);
+                resul.añadeItemAMapa(hashAula, k, item);
 //                }
             }
         }

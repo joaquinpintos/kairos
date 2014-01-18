@@ -45,9 +45,10 @@ public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
 
     /**
      * Creates new form DlgClasesCondensadasParaProfesor
+     *
      * @param parent
      * @param modal
-     * @param r  
+     * @param r
      */
     public DlgClasesCondensadasParaProfesor(java.awt.Frame parent, boolean modal, RClasesCondensadasParaProfesor r) {
         super(parent, modal);
@@ -80,8 +81,6 @@ public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
         jComboNumeroDias.addItem(new Integer(4));
 
         jComboNumeroDias.setSelectedItem(r.getNumeroMaximoDias());
-
-
 
     }
 

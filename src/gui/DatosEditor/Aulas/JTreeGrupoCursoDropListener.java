@@ -46,10 +46,10 @@ public class JTreeGrupoCursoDropListener implements DropTargetListener {
      *
      * @param parent
      */
-    public JTreeGrupoCursoDropListener(JIntTreeAulas parent,DataKairos dk) {
+    public JTreeGrupoCursoDropListener(JIntTreeAulas parent, DataKairos dk) {
         this.parent = parent;
         jTreeGrupoCursos = parent.getjTreeGrupoCursos();
-        this.dk=dk;
+        this.dk = dk;
     }
 
     @Override

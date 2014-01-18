@@ -29,15 +29,15 @@ import javax.swing.tree.TreePath;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class TreeModelAulas implements TreeModel {
-    private final DataKairos dk;
 
+    private final DataKairos dk;
 
     /**
      *
      * @param dk
      */
     public TreeModelAulas(DataKairos dk) {
-        this.dk=dk;
+        this.dk = dk;
     }
 
     @Override
@@ -67,7 +67,6 @@ public class TreeModelAulas implements TreeModel {
             ListaAsignaciones data = (ListaAsignaciones) parent;
             resul = data.get(index);
         }
-
 
 //RangoHoras -> null
         return resul;
@@ -113,8 +112,8 @@ public class TreeModelAulas implements TreeModel {
             resul = ((ListaAsignaciones) child).getIndex();
         }
         if (parent instanceof ListaAsignaciones) {
-            ListaAsignaciones asig=(ListaAsignaciones) parent;
-            resul=asig.getHashToGroupContainers().indexOf(child);
+            ListaAsignaciones asig = (ListaAsignaciones) parent;
+            resul = asig.getHashToGroupContainers().indexOf(child);
         }
 //RangoHoras -> 0
         return resul;

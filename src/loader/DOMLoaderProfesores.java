@@ -46,7 +46,7 @@ public class DOMLoaderProfesores {
      */
     public DOMLoaderProfesores(File file, DataKairos dk) {
         this.file = file;
-        this.dk=dk;
+        this.dk = dk;
     }
 
     /**
@@ -160,7 +160,7 @@ public class DOMLoaderProfesores {
 //                dataProyecto.getDataProfesores().addDepartamento(nuevoDep);
                 KairosCommand cmd = dk.getController().getCreateDepartamentoCommand(nuevoDep);
                 dk.getController().executeCommand(cmd);
-                
+
                 readProfesor(elemDep, nuevoDep);
             }
         }
@@ -176,7 +176,7 @@ public class DOMLoaderProfesores {
 //                nuevoDep.createProfesorOLD(nuevoProf);
                 KairosCommand cmd = dk.getController().getCreateProfesorCommand(nuevoDep, nuevoProf);
                 dk.getController().executeCommand(cmd);
-                
+
             }
         }
 

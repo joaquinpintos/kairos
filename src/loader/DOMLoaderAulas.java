@@ -43,7 +43,7 @@ public class DOMLoaderAulas {
      */
     public DOMLoaderAulas(File file, DataKairos dk) {
         this.file = file;
-        this.dk=dk;
+        this.dk = dk;
     }
 
     /**
@@ -77,7 +77,6 @@ public class DOMLoaderAulas {
     public void setDom(org.w3c.dom.Document dom) {
         this.dom = dom;
     }
-
 
     /**
      *
@@ -149,8 +148,8 @@ public class DOMLoaderAulas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 nuevaAula = new Aula(nombre);
-                 KairosCommand cmd = dk.getController().getCreateAulaCommand(nuevaAula);
-                    dk.getController().executeCommand(cmd);
+                KairosCommand cmd = dk.getController().getCreateAulaCommand(nuevaAula);
+                dk.getController().executeCommand(cmd);
             }
         }
     }

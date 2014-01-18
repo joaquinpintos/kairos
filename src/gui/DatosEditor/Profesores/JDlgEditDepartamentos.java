@@ -43,14 +43,15 @@ public class JDlgEditDepartamentos extends javax.swing.JDialog {
 
     /**
      * Creates new form JDlgEditDepartamentos
+     *
      * @param parent
-     * @param modal 
-     * @param d  
+     * @param modal
+     * @param d
      */
     public JDlgEditDepartamentos(java.awt.Frame parent, boolean modal, Departamento d) {
         super(parent, modal);
         initComponents();
-        this.departamentoEditado=d;
+        this.departamentoEditado = d;
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";

@@ -59,7 +59,7 @@ public class DataProfesores extends AbstractDataSets {
      *
      * @param dep
      */
-    public void removeDepartamento(Departamento dep)  {
+    public void removeDepartamento(Departamento dep) {
         //OJO! Al borrar el departamento NO borro los profesores.
         departamentos.remove(dep);
     }
@@ -68,6 +68,7 @@ public class DataProfesores extends AbstractDataSets {
     public String toString() {
         return "Profesores";
     }
+
     /**
      *
      */

@@ -30,27 +30,27 @@ import javax.swing.SwingUtilities;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class HorarioEditorMaster implements DataProyectoListener {
-    
+
     private final ArrayList<JIntHorarioEditor> editors;
     private final DataKairos dk;
     private JList<Restriccion> jListRestricciones;
-    
+
     public HorarioEditorMaster(DataKairos dk) {
         editors = new ArrayList<JIntHorarioEditor>();
         this.dk = dk;
     }
-    
-    public boolean add(JIntHorarioEditor e,boolean controlsVisible) {
+
+    public boolean add(JIntHorarioEditor e, boolean controlsVisible) {
         e.setMaster(this);
         e.getHorariosJPanelModel().addListener(this);
-            e.setControlsVisible(controlsVisible);
+        e.setControlsVisible(controlsVisible);
         return editors.add(e);
     }
-    
+
     public ArrayList<JIntHorarioEditor> getEditors() {
         return editors;
     }
-    
+
     @Override
     public void dataEvent(Object obj, int type) {
         if (dk.getDP().getHorario().hayUnaSolucion()) {
@@ -62,37 +62,35 @@ public class HorarioEditorMaster implements DataProyectoListener {
                 needRecalcularPesos();
             }
             if (obj instanceof Horario) {
-                
+
                 needRelocateItems();
                 needRecalcularPesos();
             }
-             SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if ((jListRestricciones.getSelectedIndex()==-1)&&(jListRestricciones.getModel().getSize()>0))
-                {
-                    jListRestricciones.setSelectedIndex(0);
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    if ((jListRestricciones.getSelectedIndex() == -1) && (jListRestricciones.getModel().getSize() > 0)) {
+                        jListRestricciones.setSelectedIndex(0);
+                    }
                 }
-            }
-        });
-            
-            //TODO: Implementar eventos por los que se borra la solución actual
+            });
 
+            //TODO: Implementar eventos por los que se borra la solución actual
         }
     }
-    
+
     public synchronized void needRecalcularPesos() {
         //Primero chequeo si HAY una solución calculada efectivamente.
         if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
             recalculaRestricciones();
-             jListRestricciones.updateUI();
+            jListRestricciones.updateUI();
 //            if (jListRestricciones.getSelectedIndex() == -1) {
 //                if (jListRestricciones.getFirstVisibleIndex()> 0) {
 //                    jListRestricciones.setSelectedIndex(0);
 //                }
 //            }
 //            try {
-                resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
+            resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
 //            } catch (java.lang.IndexOutOfBoundsException e) {
 //                resaltaItemsConflictivos(null);
 //            }
@@ -104,7 +102,7 @@ public class HorarioEditorMaster implements DataProyectoListener {
         }
         jListRestricciones.updateUI();
     }
-    
+
     public void recalculaRestricciones() {
         long suma = 0;
         for (JIntHorarioEditor hv : editors) {
@@ -142,7 +140,7 @@ public class HorarioEditorMaster implements DataProyectoListener {
             hv.getjListAulasModel().clearConflictivos();
         }
         if (restriccion != null) {
-            
+
             for (Restriccion r : jListRestriccionesModel.getData()) {
 //                if (r != restriccion) 
                 {
@@ -159,15 +157,15 @@ public class HorarioEditorMaster implements DataProyectoListener {
             }
         }
     }
-    
+
     public void setjListRestricciones(JList<Restriccion> jListRestricciones) {
         this.jListRestricciones = jListRestricciones;
     }
-    
+
     private void needRelocateItems() {
         for (JIntHorarioEditor hv : editors) {
             hv.getHorariosJPanelModel().relocateItems();
         }
     }
-    
+
 }

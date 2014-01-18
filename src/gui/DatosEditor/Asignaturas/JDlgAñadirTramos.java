@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package gui.DatosEditor.Asignaturas;
 
 import data.DataKairos;
@@ -252,7 +251,7 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
-    
+
     private void doClose(int retStatus) {
         returnStatus = retStatus;
         if (retStatus == RET_OK) {
@@ -261,7 +260,6 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
         setVisible(false);
         dispose();
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
@@ -291,12 +289,12 @@ public class JDlgAñadirTramos extends javax.swing.JDialog {
         int numHoras, numClases;
         Tramo tr;
         KairosCommand cmd;
-        createTramosFromSpinner(gr,jSpinnerNumClases1,jTextDuracionClases1);
-        createTramosFromSpinner(gr,jSpinnerNumClases2,jTextDuracionClases2);
-        createTramosFromSpinner(gr,jSpinnerNumClases3,jTextDuracionClases3);
+        createTramosFromSpinner(gr, jSpinnerNumClases1, jTextDuracionClases1);
+        createTramosFromSpinner(gr, jSpinnerNumClases2, jTextDuracionClases2);
+        createTramosFromSpinner(gr, jSpinnerNumClases3, jTextDuracionClases3);
     }
 
- private void createTramosFromSpinner(Grupo gr, JSpinner jspinner,JTextField jText) {
+    private void createTramosFromSpinner(Grupo gr, JSpinner jspinner, JTextField jText) {
         try {
             int numClases = Integer.valueOf(jspinner.getValue().toString());
             int numHoras = Integer.valueOf(jText.getText());

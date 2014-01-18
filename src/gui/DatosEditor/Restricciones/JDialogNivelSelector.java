@@ -191,7 +191,7 @@ public class JDialogNivelSelector extends javax.swing.JDialog {
             private final JDialog dlg;
 
             public CancelarAction(JDialog dlg) {
-                super("Cancelar",null);
+                super("Cancelar", null);
                 this.dlg = dlg;
             }
 

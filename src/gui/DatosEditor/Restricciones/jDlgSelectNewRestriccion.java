@@ -33,7 +33,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 
-
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
@@ -53,14 +52,15 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
 
     /**
      * Creates new form jDlgSelectNewRestriccion
-     * @param parent 
+     *
+     * @param parent
      * @param modal
      * @param dk
-     * @param editarAction  
+     * @param editarAction
      */
     public jDlgSelectNewRestriccion(java.awt.Frame parent, boolean modal, DataKairos dk, AbstractAction editarAction) {
         super(parent, modal);
-        this.dk=dk;
+        this.dk = dk;
         initComponents();
         this.editarAction = editarAction;
 
@@ -82,7 +82,7 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
         if (jListRestriccionesDisponibles.getModel().getSize() > 0) {
             jListRestriccionesDisponibles.setSelectedIndex(0);
         }
-        
+
         jListRestriccionesDisponibles.addKeyListener(new KeyListener() {
 
             @Override
@@ -91,8 +91,7 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER)
-                {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doClose(RET_OK);
                 }
             }
@@ -105,8 +104,8 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                 if (e.getClickCount() == 2) {//Al hace doble click se edita la restricción.
-                     doClose(RET_OK);
+                if (e.getClickCount() == 2) {//Al hace doble click se edita la restricción.
+                    doClose(RET_OK);
                 }
             }
 
@@ -128,8 +127,6 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
         });
     }
 
-    
-    
     /**
      * @return the return status of this dialog - one of RET_OK or RET_CANCEL
      */
@@ -254,12 +251,13 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     private int returnStatus = RET_CANCEL;
 }
+
 class JListNuevasRestricciones implements ListModel<Restriccion> {
+
     private final DataKairos dk;
 
-
     public JListNuevasRestricciones(DataKairos dk) {
-        this.dk=dk;
+        this.dk = dk;
     }
 
     @Override

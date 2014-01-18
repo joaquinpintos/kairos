@@ -264,7 +264,7 @@ public class GeneticAlgorithm {
                 }
             }
         }
-            s.setPeso(nuevoPeso);
+        s.setPeso(nuevoPeso);
 //            System.out.println("Nuevo level: "+s.getLevel());
     }
 

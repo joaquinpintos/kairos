@@ -254,7 +254,6 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
         dispose();
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList JListAulas;
     private javax.swing.JButton cancelButton;

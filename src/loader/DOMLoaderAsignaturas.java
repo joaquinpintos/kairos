@@ -92,7 +92,7 @@ public class DOMLoaderAsignaturas {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 Curso nuevoCurso = new Curso(nombre);
-                KairosCommand cmd=dk.getController().getCreateCursoCommand(carrera, nuevoCurso);
+                KairosCommand cmd = dk.getController().getCreateCursoCommand(carrera, nuevoCurso);
                 dk.getController().executeCommand(cmd);
                 readAsignatura(elemDep, nuevoCurso);
             }
@@ -110,7 +110,7 @@ public class DOMLoaderAsignaturas {
                 Asignatura nuevaAsignatura = new Asignatura(nombre);
                 KairosCommand cmd = dk.getController().getCreateAsignaturaCommand(curso, nuevaAsignatura);
                 dk.getController().executeCommand(cmd);
-                
+
                 readListaGrupos(elemDep, nuevaAsignatura);
             }
         }
@@ -190,7 +190,7 @@ public class DOMLoaderAsignaturas {
             Aula aula = dataProyecto.getAulaPorHash(elemAula.getTextContent());
             final AulaMT aulaMT = new AulaMT(aula, elemAula.getTextContent().contains("@T"));
 //            tr.asignaAulaOld(aulaMT);
-            cmd=dk.getController().getAsignarAulaCommand(aulaMT, tr);
+            cmd = dk.getController().getAsignarAulaCommand(aulaMT, tr);
             dk.getController().executeCommand(cmd);
         }
     }

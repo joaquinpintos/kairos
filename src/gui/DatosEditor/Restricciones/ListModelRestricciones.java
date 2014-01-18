@@ -33,22 +33,19 @@ public class ListModelRestricciones implements ListModel {
     private HashSet<ListDataListener> listeners;
     private final DataKairos dk;
 
-
     /**
      *
      * @param dk
      */
     public ListModelRestricciones(DataKairos dk) {
-        this.dk=dk;
+        this.dk = dk;
         listeners = new HashSet<ListDataListener>();
     }
-
 
     @Override
     public int getSize() {
         return dk.getDP().getRestrictionsData().getListaRestricciones().size();
     }
-
 
     @Override
     public Object getElementAt(int index) {
@@ -67,6 +64,7 @@ public class ListModelRestricciones implements ListModel {
     public void removeListDataListener(ListDataListener l) {
         listeners.remove(l);
     }
+
     /**
      *
      * @param r
@@ -81,5 +79,5 @@ public class ListModelRestricciones implements ListModel {
             l.contentsChanged(new ListDataEvent(this, 0, 0, 0));
         }
     }
-  
+
 }

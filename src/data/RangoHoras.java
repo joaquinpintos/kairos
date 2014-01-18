@@ -195,7 +195,7 @@ public class RangoHoras implements Serializable {
                 resul.add(new RangoHoras(hora.copia(), duracion));
             }
         } catch (Exception exception) {
-            resul=null;
+            resul = null;
         }
         return resul;
     }
@@ -238,7 +238,8 @@ public class RangoHoras implements Serializable {
         }
         return resul;
     }
- /**
+
+    /**
      * Devuelve la duración en minutos del rango de horas. -1 Si el rango es
      * incorrecto
      *
@@ -251,12 +252,13 @@ public class RangoHoras implements Serializable {
             h.setHoras(fin.getHoras() - inicio.getHoras());//Resto horas
             //ahora resto los minutos, con el método apropiado
             h.restaMinutos(inicio.getMinutos());
-            resul = h.getHoras()*60 + h.getMinutos();
+            resul = h.getHoras() * 60 + h.getMinutos();
         } catch (Exception ex) {
             resul = -1;
         }
         return resul;
     }
+
     @Override
     public int hashCode() {
         int hash = 7;
