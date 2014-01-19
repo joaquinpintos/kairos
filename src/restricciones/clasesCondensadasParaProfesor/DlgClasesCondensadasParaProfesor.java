@@ -17,6 +17,8 @@
 package restricciones.clasesCondensadasParaProfesor;
 
 import data.profesores.Profesor;
+import data.restricciones.AbstractDlgRestriccion;
+import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -31,27 +33,18 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
+public class DlgClasesCondensadasParaProfesor extends AbstractDlgRestriccion {
 
     private final RClasesCondensadasParaProfesor r;
-    /**
-     * A return status code - returned if Cancel button has been pressed
-     */
-    public static final int RET_CANCEL = 0;
-    /**
-     * A return status code - returned if OK button has been pressed
-     */
-    public static final int RET_OK = 1;
-
+    private RClasesCondensadasParaProfesor editedRestriction;
     /**
      * Creates new form DlgClasesCondensadasParaProfesor
      *
      * @param parent
-     * @param modal
      * @param r
      */
-    public DlgClasesCondensadasParaProfesor(java.awt.Frame parent, boolean modal, RClasesCondensadasParaProfesor r) {
-        super(parent, modal);
+    public DlgClasesCondensadasParaProfesor(java.awt.Frame parent,  RClasesCondensadasParaProfesor r) {
+        super(parent, true);
         initComponents();
         this.r = r;
         // Close the dialog when Esc is pressed
@@ -82,13 +75,6 @@ public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
 
         jComboNumeroDias.setSelectedItem(r.getNumeroMaximoDias());
 
-    }
-
-    /**
-     * @return the return status of this dialog - one of RET_OK or RET_CANCEL
-     */
-    public int getReturnStatus() {
-        return returnStatus;
     }
 
     /**
@@ -201,16 +187,22 @@ public class DlgClasesCondensadasParaProfesor extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void doClose(int retStatus) {
+        setReturnStatus(retStatus);
         try {
             if (retStatus == RET_OK) {
-                r.setProfesor((Profesor) jComboProfesores.getSelectedItem());
-                r.setNumeroMaximoDias(Integer.valueOf(jComboNumeroDias.getSelectedItem().toString()));
+                editedRestriction=new RClasesCondensadasParaProfesor();
+                editedRestriction.setProfesor((Profesor) jComboProfesores.getSelectedItem());
+                editedRestriction.setNumeroMaximoDias(Integer.valueOf(jComboNumeroDias.getSelectedItem().toString()));
             }
             returnStatus = retStatus;
             setVisible(false);
             dispose();
         } catch (Exception e) {
         }
+    }
+     @Override
+    public Restriccion getEditedRestriction() {
+        return editedRestriction;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

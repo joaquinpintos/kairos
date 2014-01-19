@@ -24,6 +24,7 @@ import data.genetic.Casilla;
 import data.genetic.DatosPorAula;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
+import data.restricciones.AbstractDlgRestriccion;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -37,15 +38,21 @@ import data.restricciones.Restriccion;
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
 public class RProfesorCiertosDias extends Restriccion {
+static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
+    
 
+    //Basic values
     //false=los días referidos son cuando NO puede.
     //true=los días referidos son los únicos que puede.
     private Boolean puedeEstosDias;
     //Map: dia de la semana -> lista de rangos horarios.
-    private final HashMap<Integer, ArrayRangoHoras> rangos;
-    static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
+    private HashMap<Integer, ArrayRangoHoras> rangos;
+    
     private Profesor profesor;
     private String observaciones;
+    
+    
+    //Auxililary data
     private final HashMap<String, ArrayList<Integer[]>> segmentosConflictivos;
     private final HashMap<String, ArrayList<Integer>> casillasConflictivas;
     //Variables para escribir/leer de XML
@@ -169,21 +176,23 @@ public class RProfesorCiertosDias extends Restriccion {
 //        }
         return getPeso();
     }
-
-    @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        DlgProfesorCiertosDias dlg = new DlgProfesorCiertosDias(null, true, this);
-        dlg.setLocationRelativeTo(null);
-        dlg.setVisible(true);
-        boolean resul = false;
-        if (dlg.getReturnStatus() == DlgProfesorCiertosDias.RET_OK) {
-            resul = true;
-        }
-        if (dlg.getReturnStatus() == DlgProfesorCiertosDias.RET_CANCEL) {
-            resul = false;
-        }
-        return resul;
+ @Override
+    public AbstractDlgRestriccion getConfigDlg(Object parent) {
+        return new DlgProfesorCiertosDias(null, this);
     }
+//    public boolean getConfigDlg(Object parent) {
+//        DlgProfesorCiertosDias dlg = new DlgProfesorCiertosDias(null, this);
+//        dlg.setLocationRelativeTo(null);
+//        dlg.setVisible(true);
+//        boolean resul = false;
+//        if (dlg.getReturnStatus() == DlgProfesorCiertosDias.RET_OK) {
+//            resul = true;
+//        }
+//        if (dlg.getReturnStatus() == DlgProfesorCiertosDias.RET_CANCEL) {
+//            resul = false;
+//        }
+//        return resul;
+//    }
 
     /**
      *
@@ -421,5 +430,22 @@ public class RProfesorCiertosDias extends Restriccion {
         //Por último, leo las observaciones
         el = buscaPrimerElementoConNombre(parent, "comments");
         this.setObservaciones(el.getTextContent());
+    }
+      @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+        if (r instanceof RProfesorCiertosDias) {
+            RProfesorCiertosDias rcopy = (RProfesorCiertosDias) r;
+            this.puedeEstosDias=rcopy.getPuedeEstosDias();
+            this.profesor=rcopy.getProfesor();
+            this.rangos=rcopy.getRangos();//TODO: Copy or reference?? Rcopy is a disposable object..
+            
+        }
+
+    }
+
+    @Override
+    public void clearAuxiliaryData() {
+        segmentosConflictivos.clear();
+        casillasConflictivas.clear();
     }
 }

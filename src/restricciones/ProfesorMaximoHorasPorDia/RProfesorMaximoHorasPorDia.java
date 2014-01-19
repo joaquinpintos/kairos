@@ -12,6 +12,7 @@ import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
 import data.profesores.Profesor;
+import data.restricciones.AbstractDlgRestriccion;
 import data.restricciones.Restriccion;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,12 +27,16 @@ import org.w3c.dom.Node;
 public class RProfesorMaximoHorasPorDia extends Restriccion {
 
     private static final long serialVersionUID = 27112013L;
+
+    //Basic values
     private int numMaximoHoras;
+
+    //Auxiliary data
     private HashSet<Profesor> listaProfesoresConflictivos;
     private HashMap<String, Integer> numeroCasillasPorDia;
     //Almacena temporalmente el número de clases que da un profesor un día determinado
     private HashMap<Profesor, Integer[]> clasesPorDiaProfesor;
-    private Integer numMaximoCasillas;
+    private int numMaximoCasillas;
 
     /**
      * Constructor por defecto
@@ -126,18 +131,8 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
     }
 
     @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        JDlgProfesorMaximoHoras dlg = new JDlgProfesorMaximoHoras(null, true, this);
-        dlg.setLocationRelativeTo(null);
-        dlg.setVisible(true);
-        boolean resul = false;
-        if (dlg.getReturnStatus() == JDlgProfesorMaximoHoras.RET_OK) {
-            resul = true;
-        }
-        if (dlg.getReturnStatus() == JDlgProfesorMaximoHoras.RET_CANCEL) {
-            resul = false;
-        }
-        return resul;
+    public AbstractDlgRestriccion getConfigDlg(Object parent) {
+        return new JDlgProfesorMaximoHoras(null, this);
     }
 
     /**
@@ -229,5 +224,22 @@ public class RProfesorMaximoHorasPorDia extends Restriccion {
      */
     public void setNumMaximoHoras(int numMaximoHoras) {
         this.numMaximoHoras = numMaximoHoras;
+    }
+
+    @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+        if (r instanceof RProfesorMaximoHorasPorDia) {
+            RProfesorMaximoHorasPorDia rcopy = (RProfesorMaximoHorasPorDia) r;
+            this.numMaximoHoras = rcopy.getNumMaximoHoras();
+        }
+
+    }
+
+    @Override
+    public void clearAuxiliaryData() {
+        listaProfesoresConflictivos.clear();
+        numeroCasillasPorDia.clear();
+        clasesPorDiaProfesor.clear();
+        numMaximoCasillas = 0;
     }
 }

@@ -26,6 +26,7 @@ import data.genetic.Casilla;
 import data.genetic.DatosPorAula;
 import data.genetic.ListaCasillas;
 import data.genetic.Segmento;
+import data.restricciones.AbstractDlgRestriccion;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,9 +40,12 @@ import java.util.logging.Logger;
 public class RClasesCondensadasParaProfesor extends Restriccion {
 
     private static final long serialVersionUID = 27112013L;
+    //Basic values
     private Profesor profesor;
-    private final HashMap<String, ArrayList<Integer>> segmentosImpartidos; //Segmentos impartidos por el profesor
     private int numeroMaximoDias;
+
+    //Auxiliary data
+    private final HashMap<String, ArrayList<Integer>> segmentosImpartidos; //Segmentos impartidos por el profesor
 
     /**
      * Constructor por defecto
@@ -138,18 +142,8 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
     }
 
     @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        boolean resul = false;
-        DlgClasesCondensadasParaProfesor dlg = new DlgClasesCondensadasParaProfesor(null, true, this);
-        dlg.setLocationRelativeTo(null);
-        dlg.setVisible(true);
-        if (dlg.getReturnStatus() == DlgClasesCondensadasParaProfesor.RET_OK) {
-            resul = true;
-        }
-        if (dlg.getReturnStatus() == DlgClasesCondensadasParaProfesor.RET_CANCEL) {
-            resul = false;
-        }
-        return resul;
+    public AbstractDlgRestriccion getConfigDlg(Object parent) {
+        return new DlgClasesCondensadasParaProfesor(null, this);
     }
 
     /**
@@ -234,6 +228,21 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
             Logger.getLogger(RClasesCondensadasParaProfesor.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setNumeroMaximoDias(Integer.valueOf(valorPrimerElementoConNombre(parent, "dias_maximo")));
+    }
+
+    @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+        if (r instanceof RClasesCondensadasParaProfesor) {
+            RClasesCondensadasParaProfesor rcopy = (RClasesCondensadasParaProfesor) r;
+            this.profesor=rcopy.getProfesor();
+            this.numeroMaximoDias=rcopy.getNumeroMaximoDias();
+        }
 
     }
+
+    @Override
+    public void clearAuxiliaryData() {
+        segmentosImpartidos.clear();
+    }
+
 }

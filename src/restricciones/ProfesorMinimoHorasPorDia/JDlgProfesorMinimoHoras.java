@@ -16,6 +16,8 @@
  */
 package restricciones.ProfesorMinimoHorasPorDia;
 
+import data.restricciones.AbstractDlgRestriccion;
+import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
@@ -28,27 +30,19 @@ import javax.swing.KeyStroke;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JDlgProfesorMinimoHoras extends javax.swing.JDialog {
+public class JDlgProfesorMinimoHoras extends AbstractDlgRestriccion {
 
-    /**
-     * A return status code - returned if Cancel button has been pressed
-     */
-    public static final int RET_CANCEL = 0;
-    /**
-     * A return status code - returned if OK button has been pressed
-     */
-    public static final int RET_OK = 1;
     RProfesorMinimoHorasPorDia r;
+    RProfesorMinimoHorasPorDia editedRestriction;
 
     /**
      * Creates new form JDlgProfesorMaximoHoras
      *
      * @param parent
-     * @param modal
      * @param r
      */
-    public JDlgProfesorMinimoHoras(java.awt.Frame parent, boolean modal, RProfesorMinimoHorasPorDia r) {
-        super(parent, modal);
+    public JDlgProfesorMinimoHoras(java.awt.Frame parent, RProfesorMinimoHorasPorDia r) {
+        super(parent, true);
         initComponents();
         this.r = r;
 
@@ -169,9 +163,10 @@ public class JDlgProfesorMinimoHoras extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void doClose(int retStatus) {
+        setReturnStatus(retStatus);
         if (retStatus == RET_OK) {
-//            r.setNumMaximoHoras(Integer.valueOf(jTextMaximoHoras.getText()));
-            r.setNumMinimoHoras((Integer) jSpinNumeroHoras.getValue());
+            editedRestriction = new RProfesorMinimoHorasPorDia();
+            editedRestriction.setNumMinimoHoras((Integer) jSpinNumeroHoras.getValue());
         }
 
         returnStatus = retStatus;
@@ -179,6 +174,10 @@ public class JDlgProfesorMinimoHoras extends javax.swing.JDialog {
         dispose();
     }
 
+    @Override
+    public Restriccion getEditedRestriction() {
+        return editedRestriction;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;

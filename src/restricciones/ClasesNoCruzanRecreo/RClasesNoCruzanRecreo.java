@@ -22,6 +22,7 @@ import data.genetic.Asignacion;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
 import data.genetic.PosibleSolucion;
+import data.restricciones.AbstractDlgRestriccion;
 import data.restricciones.Restriccion;
 import java.util.HashMap;
 import org.w3c.dom.Element;
@@ -147,8 +148,8 @@ public class RClasesNoCruzanRecreo extends Restriccion {
     }
 
     @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        return true;
+    public AbstractDlgRestriccion getConfigDlg(Object parent) {
+        return null;//No dialog here...
     }
 
     /**
@@ -203,5 +204,18 @@ public class RClasesNoCruzanRecreo extends Restriccion {
      */
     @Override
     public void readConfig(Element parent) {
+    }
+
+    @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+        //Nothing to copy here
+    }
+
+    @Override
+    public void clearAuxiliaryData() {
+        casillaJustoAntesFinalDia.clear();
+        casillaJustoAntesRecreo.clear();
+        casillaJustoDespuesFinalDia.clear();
+        casillaJustoDespuesRecreo.clear();
     }
 }

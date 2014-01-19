@@ -16,6 +16,8 @@
  */
 package restricciones.noHuecosEntreMedias;
 
+import data.restricciones.AbstractDlgRestriccion;
+import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
@@ -29,27 +31,19 @@ import javax.swing.KeyStroke;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DlgNoHuecosEntreMedias extends javax.swing.JDialog {
+public class DlgNoHuecosEntreMedias extends AbstractDlgRestriccion {
 
-    /**
-     * A return status code - returned if Cancel button has been pressed
-     */
-    public static final int RET_CANCEL = 0;
-    /**
-     * A return status code - returned if OK button has been pressed
-     */
-    public static final int RET_OK = 1;
     private final RNoHuecosEntreMedias r;
+    private RNoHuecosEntreMedias editedRestriction;
 
     /**
      * Creates new form NewOkCancelDialog
      *
      * @param parent
-     * @param modal
      * @param r
      */
-    public DlgNoHuecosEntreMedias(java.awt.Frame parent, boolean modal, RNoHuecosEntreMedias r) {
-        super(parent, modal);
+    public DlgNoHuecosEntreMedias(java.awt.Frame parent, RNoHuecosEntreMedias r) {
+        super(parent, true);
         initComponents();
         this.r = r;
         jCheckHuecosLibres.setSelected(r.isPenalizarHuecos());
@@ -62,17 +56,11 @@ public class DlgNoHuecosEntreMedias extends javax.swing.JDialog {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
         ActionMap actionMap = getRootPane().getActionMap();
         actionMap.put(cancelName, new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 doClose(RET_CANCEL);
             }
         });
-    }
-
-    /**
-     * @return the return status of this dialog - one of RET_OK or RET_CANCEL
-     */
-    public int getReturnStatus() {
-        return returnStatus;
     }
 
     /**
@@ -183,15 +171,17 @@ public class DlgNoHuecosEntreMedias extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void doClose(int retStatus) {
+        setReturnStatus(retStatus);
         if (retStatus == RET_OK) {
             if (!(jCheckHuecosLibres.isSelected() || jCheckNumeroMinimoClases.isSelected())) {
                 JOptionPane.showMessageDialog(rootPane, "Tienes que seleccionar al menos una penalización");
             } else {
                 try {
                     if (retStatus == RET_OK) {
-                        r.setNumMinimoCasillasOcupadas(Integer.valueOf(jTextHorasMinimasClase.getText()));
-                        r.setPenalizarHuecos(jCheckHuecosLibres.isSelected());
-                        r.setPenalizarPocasClases(jCheckNumeroMinimoClases.isSelected());
+                        editedRestriction=new RNoHuecosEntreMedias();
+                        editedRestriction.setNumMinimoCasillasOcupadas(Integer.valueOf(jTextHorasMinimasClase.getText()));
+                        editedRestriction.setPenalizarHuecos(jCheckHuecosLibres.isSelected());
+                        editedRestriction.setPenalizarPocasClases(jCheckNumeroMinimoClases.isSelected());
                     }
                     returnStatus = retStatus;
                     setVisible(false);
@@ -204,7 +194,11 @@ public class DlgNoHuecosEntreMedias extends javax.swing.JDialog {
             setVisible(false);
             dispose();
         }
+    }
 
+    @Override
+    public Restriccion getEditedRestriction() {
+        return editedRestriction;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

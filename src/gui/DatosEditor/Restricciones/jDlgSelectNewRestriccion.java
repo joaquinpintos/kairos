@@ -17,6 +17,8 @@
 package gui.DatosEditor.Restricciones;
 
 import data.DataKairos;
+import data.KairosCommand;
+import data.restricciones.AbstractDlgRestriccion;
 import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -214,23 +216,40 @@ public class jDlgSelectNewRestriccion extends javax.swing.JDialog {
 
     private void doClose(int retStatus) {
         Restriccion rNueva = null;
+        boolean create = false;//True if there is not config dialog or the user pressed accept button in config dialog
         if (retStatus == RET_OK) {
             Restriccion r = (Restriccion) jListRestriccionesDisponibles.getSelectedValue();
             if (r != null) //Si hay alguna restriccion seleccionada...
             {
-                try {
-                    rNueva = r.getClass().newInstance();
-                    rNueva.setDataProyecto(dk.getDP());
+//                    rNueva = r.getClass().newInstance();
+//                    rNueva.setDataProyecto(dk.getDP());
                     setVisible(false);
-                    boolean aceptado = rNueva.lanzarDialogoDeConfiguracion(rNueva);
-                    if (aceptado) {
-                        dk.getDP().getRestrictionsData().add(rNueva);
+                    r.setDataProyecto(dk.getDP());
+                    AbstractDlgRestriccion dlg = r.getConfigDlg(this);
+                    if (dlg != null) {
+                        dlg.setLocationRelativeTo(this);
+                        dlg.setVisible(true);
+                        if (dlg.getReturnStatus() == AbstractDlgRestriccion.RET_OK) {
+                            create = true;
+                             rNueva = dlg.getEditedRestriction();//Restriccion nueva: la que sale del diálogo
+                        }
+                    } else {
+                        create = true;
+                        try {
+                            rNueva = r.getClass().newInstance();//Restriccion nueva: creo copia (sin necesidad de configurar)
+                        } catch (InstantiationException ex) {
+                            Logger.getLogger(jDlgSelectNewRestriccion.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IllegalAccessException ex) {
+                            Logger.getLogger(jDlgSelectNewRestriccion.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(jDlgSelectNewRestriccion.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(jDlgSelectNewRestriccion.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+                    if (create) {
+                        KairosCommand cmd = dk.getController().getCreateRestrictionCommand(rNueva);
+                        dk.getController().executeCommand(cmd);
+                        
+                    }
+
             }
 
         }

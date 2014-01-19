@@ -17,6 +17,8 @@
 package restricciones.profesorCiertosDias;
 
 import data.profesores.Profesor;
+import data.restricciones.AbstractDlgRestriccion;
+import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -33,28 +35,20 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class DlgProfesorCiertosDias extends javax.swing.JDialog {
+public class DlgProfesorCiertosDias extends AbstractDlgRestriccion{
 
-    /**
-     * A return status code - returned if Cancel button has been pressed
-     */
-    public static final int RET_CANCEL = 0;
-    /**
-     * A return status code - returned if OK button has been pressed
-     */
-    public static final int RET_OK = 1;
     RProfesorCiertosDias r;
+    RProfesorCiertosDias editedRestriction;
     ArrayList<Profesor> dataProfesoresCombo;
 
     /**
      * Creates new form DlgProfesorCiertosDias
      *
      * @param parent
-     * @param modal
      * @param rProfesorCiertosDias
      */
-    public DlgProfesorCiertosDias(java.awt.Frame parent, boolean modal, RProfesorCiertosDias rProfesorCiertosDias) {
-        super(parent, modal);
+    public DlgProfesorCiertosDias(java.awt.Frame parent, RProfesorCiertosDias rProfesorCiertosDias) {
+        super(parent, true);
         initComponents();
 
         // Close the dialog when Esc is pressed
@@ -109,13 +103,6 @@ public class DlgProfesorCiertosDias extends javax.swing.JDialog {
             }
         });
 
-    }
-
-    /**
-     * @return the return status of this dialog - one of RET_OK or RET_CANCEL
-     */
-    public int getReturnStatus() {
-        return returnStatus;
     }
 
     /**
@@ -325,19 +312,25 @@ public class DlgProfesorCiertosDias extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void doClose(int retStatus) {
+        setReturnStatus(retStatus);
         if (retStatus == RET_OK) {
-            r.setProfesor((Profesor) jComboProfesores.getSelectedItem());
-            r.setPuedeEstosDias(jRadPuedeEstosDias.isSelected());
-            r.setLunes(jTextLunes.getText());
-            r.setMartes(jTextMartes.getText());
-            r.setMiercoles(jTextMiercoles.getText());
-            r.setJueves(jTextJueves.getText());
-            r.setViernes(jTextViernes.getText());
-            r.setObservaciones(jTextObservaciones.getText());
+            editedRestriction=new RProfesorCiertosDias();
+            editedRestriction.setProfesor((Profesor) jComboProfesores.getSelectedItem());
+            editedRestriction.setPuedeEstosDias(jRadPuedeEstosDias.isSelected());
+            editedRestriction.setLunes(jTextLunes.getText());
+            editedRestriction.setMartes(jTextMartes.getText());
+            editedRestriction.setMiercoles(jTextMiercoles.getText());
+            editedRestriction.setJueves(jTextJueves.getText());
+            editedRestriction.setViernes(jTextViernes.getText());
+            editedRestriction.setObservaciones(jTextObservaciones.getText());
         }
         returnStatus = retStatus;
         setVisible(false);
         dispose();
+    }
+       @Override
+    public Restriccion getEditedRestriction() {
+        return editedRestriction;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

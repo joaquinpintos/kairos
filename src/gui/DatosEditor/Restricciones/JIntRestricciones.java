@@ -164,7 +164,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                 try {
                     Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
                     if (r != null) {
-                        r.lanzarDialogoDeConfiguracion(this);
+                        r.getConfigDlg(this);
                         //Lanzo el evento de que se han modificado las restricciones
 //                        dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.MODIFY);//comentado para no dar error
                         updateData();

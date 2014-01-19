@@ -16,6 +16,8 @@
  */
 package restricciones.ProfesorMaximoHorasPorDia;
 
+import data.restricciones.AbstractDlgRestriccion;
+import data.restricciones.Restriccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
@@ -28,27 +30,19 @@ import javax.swing.KeyStroke;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
+public class JDlgProfesorMaximoHoras extends AbstractDlgRestriccion {
 
-    /**
-     * A return status code - returned if Cancel button has been pressed
-     */
-    public static final int RET_CANCEL = 0;
-    /**
-     * A return status code - returned if OK button has been pressed
-     */
-    public static final int RET_OK = 1;
     RProfesorMaximoHorasPorDia r;
+    private RProfesorMaximoHorasPorDia editedRestriction;
 
     /**
      * Creates new form JDlgProfesorMaximoHoras
      *
      * @param parent
-     * @param modal
      * @param r
      */
-    public JDlgProfesorMaximoHoras(java.awt.Frame parent, boolean modal, RProfesorMaximoHorasPorDia r) {
-        super(parent, modal);
+    public JDlgProfesorMaximoHoras(java.awt.Frame parent, RProfesorMaximoHorasPorDia r) {
+        super(parent, true);
         initComponents();
         this.r = r;
 
@@ -66,13 +60,6 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
 //        jTextMaximoHoras.setText(r.getNumMaximoHoras() + "");
         jSpinNumeroHoras.setValue(r.getNumMaximoHoras());
 
-    }
-
-    /**
-     * @return the return status of this dialog - one of RET_OK or RET_CANCEL
-     */
-    public int getReturnStatus() {
-        return returnStatus;
     }
 
     /**
@@ -169,15 +156,22 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void doClose(int retStatus) {
+        setReturnStatus(retStatus);
         if (retStatus == RET_OK) {
-//            r.setNumMaximoHoras(Integer.valueOf(jTextMaximoHoras.getText()));
-            r.setNumMaximoHoras((Integer) jSpinNumeroHoras.getValue());
+            editedRestriction=new RProfesorMaximoHorasPorDia();
+            editedRestriction.setNumMaximoHoras((Integer) jSpinNumeroHoras.getValue());
         }
 
         returnStatus = retStatus;
         setVisible(false);
         dispose();
     }
+
+    @Override
+    public Restriccion getEditedRestriction() {
+        return editedRestriction;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
@@ -186,4 +180,5 @@ public class JDlgProfesorMaximoHoras extends javax.swing.JDialog {
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
     private int returnStatus = RET_CANCEL;
+
 }

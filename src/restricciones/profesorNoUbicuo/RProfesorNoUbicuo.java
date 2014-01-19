@@ -28,6 +28,7 @@ import data.genetic.ListaCasillas;
 import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
+import data.restricciones.AbstractDlgRestriccion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -146,9 +147,8 @@ public class RProfesorNoUbicuo extends Restriccion {
     }
 
     @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        //No hago nada. Como mucho muestro una ventana de diálogo.
-        return true;
+    public AbstractDlgRestriccion getConfigDlg(Object parent) {
+        return null;//No dialog here...
     }
 
     /**
@@ -286,5 +286,16 @@ public class RProfesorNoUbicuo extends Restriccion {
     @Override
     public void readConfig(Element parent) {
         //Nada que configurar!!
+    }
+      @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+    //Nothing to copy here
+    }
+
+    @Override
+    public void clearAuxiliaryData() {
+        dataMañana.clear();
+        dataTarde.clear();
+        profesoresConflictivos.clear();
     }
 }

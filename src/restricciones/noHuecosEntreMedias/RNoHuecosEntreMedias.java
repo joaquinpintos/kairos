@@ -20,6 +20,7 @@ import data.genetic.Asignacion;
 import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
+import data.restricciones.AbstractDlgRestriccion;
 import java.util.HashMap;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -161,21 +162,25 @@ public class RNoHuecosEntreMedias extends Restriccion {
 
         return getPeso();
     }
-
     @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        DlgNoHuecosEntreMedias dlg = new DlgNoHuecosEntreMedias(null, true, this);
-        dlg.setLocationRelativeTo(null);
-        dlg.setVisible(true);
-        boolean resul = false;
-        if (dlg.getReturnStatus() == DlgNoHuecosEntreMedias.RET_OK) {
-            resul = true;
-        }
-        if (dlg.getReturnStatus() == DlgNoHuecosEntreMedias.RET_CANCEL) {
-            resul = false;
-        }
-        return resul;
-    }
+    public AbstractDlgRestriccion getConfigDlg(Object parent)
+{
+    return new DlgNoHuecosEntreMedias(null, this);
+}
+    
+//    public boolean getConfigDlg(Object parent) {
+//        DlgNoHuecosEntreMedias dlg = new DlgNoHuecosEntreMedias(null, true, this);
+//        dlg.setLocationRelativeTo(null);
+//        dlg.setVisible(true);
+//        boolean resul = false;
+//        if (dlg.getReturnStatus() == DlgNoHuecosEntreMedias.RET_OK) {
+//            resul = true;
+//        }
+//        if (dlg.getReturnStatus() == DlgNoHuecosEntreMedias.RET_CANCEL) {
+//            resul = false;
+//        }
+//        return resul;
+//    }
 
     /**
      *
@@ -263,87 +268,21 @@ public class RNoHuecosEntreMedias extends Restriccion {
     public void setNumMinimoCasillasOcupadas(int numMinimoCasillasOcupadas) {
         this.numMinimoHorassOcupadas = numMinimoCasillasOcupadas;
     }
+    
+    
+     @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+        if (r instanceof RNoHuecosEntreMedias) {
+            RNoHuecosEntreMedias rcopy = (RNoHuecosEntreMedias) r;
+            this.penalizarHuecos=rcopy.isPenalizarHuecos();
+            this.penalizarPocasClases=rcopy.isPenalizarPocasClases();
+        }
+
+    }
+
+    @Override
+    public void clearAuxiliaryData() {
+        numeroCasillasPorDia.clear();
+    }
+    
 }
-// @Override
-//    public long calculaPeso(PosibleSolucion posibleSolucion) {
-//        int suma = 100;
-//        setPeso(0);
-//        double coef = 1.3;
-//        for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
-//            Asignacion asig = posibleSolucion.getMapAsignaciones().get(hashAula);
-//            int numCasillas = asig.getAsignaciones().size();
-//            int state = 0;
-//            //state 0: en casillas libres de principio mañana/tarde
-//            //paso a 1 si encuentro casilla ocupada
-//            //state 1: en casillas ocupadas.
-//            //Paso a 2 si encuentro casilla libre
-//            //state 2: en casillas libres de fin mañana/tarde
-//            //Si casilla libre aquí, falla test en este turno
-//            int numFinalRango = 0; //Para contar finales de rango
-//            //0, 1 y 2
-//            ListaCasillas lc = getDataProyecto().getMapDatosPorAula().get(hashAula).getListaCasillas();
-//            ListaSegmentos ls = getDataProyecto().getMapDatosPorAula().get(hashAula).getListaSegmentos();
-//            Segmento s;
-//            tramoConHuecos = false;
-//            numMinimoCasillasOcupadas = 2;//2 horas diarias de clase en cada turno
-//            int casillasOcupadas = 0;
-//            int nPrimerHuecoLibre = 0;
-//            for (int n = 0; n < numCasillas; n++) {
-//
-//
-//                s = ls.get(asig.get(n));
-//                if (!s.isHuecoLibre()) {
-//                    casillasOcupadas++;
-//                }
-//                switch (state) {
-//                    case 0://Itero hasta encontrar primer segmento ocupado
-//                        if (!s.isHuecoLibre()) {
-//                            state = 1;
-//                        }
-//                        break;
-//                    case 1://Itero hasta encontrar primer segmento libre
-//                        if (s.isHuecoLibre()) {
-//                            state = 2;
-//                            nPrimerHuecoLibre = n;
-//                        }
-//                        break;
-//                    case 2://Si aquí ya encuentro una casilla no libre, marco el tramo como "sucio"
-//                        if (!s.isHuecoLibre()) {
-//                            if ((marcaCasillasConflictivas) && (!tramoConHuecos)) {
-//                                for (int k = nPrimerHuecoLibre; k < n; k++) {
-//                                    marcaCasillaComoConflictiva(hashAula, k); //Marco el  último hueco libre como conflictivo
-//                                }
-//                            }
-//                            tramoConHuecos = true;
-//                        }
-//                }
-//                if (lc.get(n).isFinalDeRango()) {
-//                    numFinalRango++;
-//                }
-//
-//                if (numFinalRango == 2) {
-//                    if (tramoConHuecos) {
-//                        sumaPeso(suma);
-//                        suma *= coef;
-//                    }
-//                    //dbg("Casillas ocupadas aula " + hashAula + " : " + casillasOcupadas);
-//
-//                    if (casillasOcupadas < numMinimoCasillasOcupadas && casillasOcupadas > 0) {
-//                        sumaPeso(suma);
-//                        suma *= coef;
-//                        diasPocoOcupados = true;
-//                    }
-//
-//                    //Reinicio los contadores
-//                    state = 0;
-//                    tramoConHuecos = false;
-//                    diasPocoOcupados = false;
-//                    casillasOcupadas = 0;
-//                    numFinalRango = 0;
-//                }
-//            }
-//        }
-//
-//
-//        return getPeso();
-//    }

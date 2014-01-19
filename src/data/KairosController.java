@@ -35,6 +35,7 @@ import data.restricciones.Restriccion;
 import gui.HorarioEditor.DraggableHorarioItemComponent;
 import gui.HorarioEditor.HorariosJPanelModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -654,16 +655,16 @@ public class KairosController {
 
     //<editor-fold defaultstate="collapsed" desc="getMoveHorarioItem">
     public KairosCommand getMoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
-        
+
         class MoveHorarioItem extends KairosCommand {
-            
+
             private final HorariosJPanelModel model;
             private final DraggableHorarioItemComponent dh;
             private final int rSrc;
             private final int cSrc;
             private final int rDst;
             private final int cDst;
-            
+
             public MoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
                 super(KairosCommand.STD_CMD);
                 this.dh = dh;
@@ -672,89 +673,89 @@ public class KairosController {
                 this.cSrc = cSrc;
                 this.rDst = rDst;
                 this.cDst = cDst;
-                
+
             }
-            
+
             @Override
             public void execute() {
                 model.effectivelyDropItem(dh, rDst, cDst);
             }
-            
+
             @Override
             public void undo() {
                 model.effectivelyDropItem(dh, rSrc, cSrc);
             }
-            
+
             @Override
             public String getDescription() {
                 return "Mover item de horario";
             }
-            
+
             @Override
             public Object getDataType() {
                 return dh;
             }
-            
+
             @Override
-                    int getEventType() {
-                        return DataProyectoListener.MODIFY;
-                    }
-                    
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
+
         }
-        
+
         return new MoveHorarioItem(model, dh, rSrc, cSrc, rDst, cDst);
-        
+
     }
-    
+
 //</editor-fold>
-   
-     public KairosCommand getCambiarNivelResticcionCommand(Restriccion r,int level) {
-        
+    //<editor-fold defaultstate="collapsed" desc="getCambiarNivelResticcionCommand">
+    public KairosCommand getCambiarNivelResticcionCommand(Restriccion r, int level) {
+
         class CambiarNivelRestriccionCommand extends KairosCommand {
+
             private final int level;
             private final int oldLevel;
             private final Restriccion r;
-            
-            
-            public CambiarNivelRestriccionCommand(Restriccion r,int level) {
+
+            public CambiarNivelRestriccionCommand(Restriccion r, int level) {
                 super(KairosCommand.STD_CMD);
-                this.r=r;
-                this.level=level;
-                this.oldLevel=r.getLevel();
+                this.r = r;
+                this.level = level;
+                this.oldLevel = r.getLevel();
             }
-            
+
             @Override
             public void execute() {
                 r.setLevel(level);
             }
-            
+
             @Override
             public void undo() {
                 r.setLevel(oldLevel);
             }
-            
+
             @Override
             public String getDescription() {
                 return "Cambiar nivel de restricción";
             }
-            
+
             @Override
             public Object getDataType() {
                 return r;
             }
-            
+
             @Override
-                    int getEventType() {
-                        return DataProyectoListener.MODIFY;
-                    }
+            int getEventType() {
+                return DataProyectoListener.MODIFY;
+            }
         }
-        return new CambiarNivelRestriccionCommand(r,level);
+        return new CambiarNivelRestriccionCommand(r, level);
     }
-    
-//**************************************************************************
+
+//</editor-fold>
+    //**************************************************************************
     //COMANDOS DE CREACION
     //**************************************************************************
-
     //<editor-fold defaultstate="collapsed" desc="getCreateDepartamentoCommand">
     public KairosCommand getCreateDepartamentoCommand(Departamento newDep) {
         class CreateDepartamentoCommand extends KairosCommand {
@@ -1175,10 +1176,64 @@ public class KairosController {
         return new CreateTramoCommand(gr, tr);
     }
 //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="getCreateRestrictionCommand"> 
+    public KairosCommand getCreateRestrictionCommand(Restriccion r) {
+        class CreateRestrictionCommand extends KairosCommand {
+
+            private final Restriccion r;
+
+            public CreateRestrictionCommand(Restriccion r) {
+                super(KairosCommand.STD_CMD);
+                this.r = r;
+
+            }
+
+            @Override
+            public void execute() {
+                if (r != null) {
+                    r.setDataProyecto(dk.getDP());
+                    dk.getDP().getRestrictionsData().add(r);
+                }
+
+            }
+
+            @Override
+            public void undo() {
+                if (r != null) {
+                    r.setDataProyecto(null);
+                    dk.getDP().getRestrictionsData().remove(r);
+                }
+
+            }
+
+            @Override
+            public String getDescription() {
+                return "Create new restriction";
+            }
+
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+
+            @Override
+            public Object getDataType() {
+                return r;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.ADD;
+            }
+        }
+        return new CreateRestrictionCommand(r);
+    }
+//</editor-fold>
+
     //**************************************************************************
     //COMANDOS DE BORRADO
     //**************************************************************************
-
     //<editor-fold defaultstate="collapsed" desc="getDeleteProfesorCommand">
     public KairosCommand getDeleteProfesorCommand(Profesor p) {
         class DeleteProfesorCommand extends KairosCommand {

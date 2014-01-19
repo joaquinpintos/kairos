@@ -120,7 +120,7 @@ public abstract class Restriccion implements Serializable {
      * @param parent
      * @return
      */
-    abstract public boolean lanzarDialogoDeConfiguracion(Object parent);
+    abstract public AbstractDlgRestriccion getConfigDlg(Object parent);
 
     /**
      *
@@ -520,4 +520,13 @@ public abstract class Restriccion implements Serializable {
         return listeners;
     }
 
+    /**
+     * Copy the basic values from another restriction. It must be the same
+     * subtype as this
+     *
+     * @param r
+     */
+    public abstract void copyBasicValuesFrom(Restriccion r);
+    
+    public abstract void clearAuxiliaryData();
 }

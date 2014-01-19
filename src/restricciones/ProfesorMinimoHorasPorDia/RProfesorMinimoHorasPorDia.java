@@ -24,6 +24,7 @@ import data.genetic.ListaSegmentos;
 import data.genetic.PosibleSolucion;
 import data.genetic.Segmento;
 import data.profesores.Profesor;
+import data.restricciones.AbstractDlgRestriccion;
 import data.restricciones.Restriccion;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,18 +139,8 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
     }
 
     @Override
-    public boolean lanzarDialogoDeConfiguracion(Object parent) {
-        JDlgProfesorMinimoHoras dlg = new JDlgProfesorMinimoHoras(null, true, this);
-        dlg.setLocationRelativeTo(null);
-        dlg.setVisible(true);
-        boolean resul = false;
-        if (dlg.getReturnStatus() == JDlgProfesorMinimoHoras.RET_OK) {
-            resul = true;
-        }
-        if (dlg.getReturnStatus() == JDlgProfesorMinimoHoras.RET_CANCEL) {
-            resul = false;
-        }
-        return resul;
+    public AbstractDlgRestriccion getConfigDlg(Object parent) {
+        return new JDlgProfesorMinimoHoras(null, this);
     }
 
     /**
@@ -241,6 +232,22 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
      */
     public void setNumMinimoHoras(int numMaximoHoras) {
         this.numMinimoHoras = numMaximoHoras;
+    }
 
+    @Override
+    public void copyBasicValuesFrom(Restriccion r) {
+        if (r instanceof RProfesorMinimoHorasPorDia) {
+            RProfesorMinimoHorasPorDia rcopy = (RProfesorMinimoHorasPorDia) r;
+            this.numMinimoHoras = rcopy.getNumMinimoHoras();
+        }
+
+    }
+
+    @Override
+    public void clearAuxiliaryData() {
+        listaProfesoresConflictivos.clear();
+        numeroCasillasPorDia.clear();
+        clasesPorDiaProfesor.clear();
+        numMinimoCasillas = 0;
     }
 }
