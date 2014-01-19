@@ -35,7 +35,6 @@ import data.restricciones.Restriccion;
 import gui.HorarioEditor.DraggableHorarioItemComponent;
 import gui.HorarioEditor.HorariosJPanelModel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,6 +52,7 @@ public class KairosController {
     private final Stack<KairosCommand> commandStackForRedo;
     private final HashSet<DataProyectoListener> listeners;
     private boolean batchMode;
+    private boolean undoStackEnabled;
 
     //Este número representa el tamaño que tiene que tener la pila commandStackForUndo
     //para que el sistema se considere "limpio" (todos los cambios guardados)
@@ -68,6 +68,15 @@ public class KairosController {
         listeners = new HashSet<DataProyectoListener>();
         batchMode = false;
         cleanNumber = -1;
+        undoStackEnabled=true;
+    }
+
+    public boolean isUndoStackEnabled() {
+        return undoStackEnabled;
+    }
+
+    public void setUndoStackEnabled(boolean undoStackEnabled) {
+        this.undoStackEnabled = undoStackEnabled;
     }
 
     public void setBatchMode(boolean batchMode) {
@@ -91,7 +100,7 @@ public class KairosController {
      */
     public void executeCommand(KairosCommand cmd) {
         cmd.execute();
-        if (cmd.isUndoable()) {
+        if ((cmd.isUndoable())&&(undoStackEnabled)) {
             commandStackForUndo.push(cmd);
         }
         fireDataEvent(cmd.getDataType(), cmd.getEventType());
@@ -653,6 +662,68 @@ public class KairosController {
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getEditRestrictionCommand"> 
+    public KairosCommand getEditRestrictionCommand(Restriccion data, Restriccion newData) throws InstantiationException, IllegalAccessException {
+        class EditRestrictionCommand extends KairosCommand {
+
+            private final Restriccion data;
+            private final Restriccion newData;
+            private final Restriccion oldData;
+
+            public EditRestrictionCommand(Restriccion data, Restriccion newData) throws InstantiationException, IllegalAccessException {
+                super(KairosCommand.STD_CMD);
+                this.data = data;
+                this.newData = newData;
+                oldData = data.getClass().newInstance();
+                oldData.copyBasicValuesFrom(data);//Copio los datos de la restricción para poder deshacer
+            }
+
+            @Override
+            public void execute() {
+                data.copyBasicValuesFrom(newData);
+                data.clearAuxiliaryData();
+                if (dk.getStatus()==DataKairos.STATUS_PROJECT_SOLUTION)//Si hay una solución...
+                {
+                    data.inicializarDatos();
+                    dk.getMainWindow().getHorarioEditorMaster().needRecalcularPesos();
+                }
+            }
+
+            @Override
+            public void undo() {
+                data.copyBasicValuesFrom(oldData);
+                data.clearAuxiliaryData();
+                if (dk.getStatus()==DataKairos.STATUS_PROJECT_SOLUTION)//Si hay una solución...
+                {
+                    data.inicializarDatos();
+                    dk.getMainWindow().getHorarioEditorMaster().needRecalcularPesos();
+                }
+            }
+
+            @Override
+            public String getDescription() {
+                return "Edit restriction";
+            }
+
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+
+            @Override
+            public Object getDataType() {
+                return data;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.ADD;
+            }
+        }
+        return new EditRestrictionCommand(data, newData);
+    }
+//</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="getMoveHorarioItem">
     public KairosCommand getMoveHorarioItem(HorariosJPanelModel model, DraggableHorarioItemComponent dh, int rSrc, int cSrc, int rDst, int cDst) {
 
@@ -1194,6 +1265,11 @@ public class KairosController {
                 if (r != null) {
                     r.setDataProyecto(dk.getDP());
                     dk.getDP().getRestrictionsData().add(r);
+                    if (dk.getStatus()==DataKairos.STATUS_PROJECT_SOLUTION)//Si hay una solución...
+                {
+                    r.inicializarDatos();
+                    dk.getMainWindow().getHorarioEditorMaster().needRecalcularPesos();
+                }
                 }
 
             }
@@ -1203,6 +1279,7 @@ public class KairosController {
                 if (r != null) {
                     r.setDataProyecto(null);
                     dk.getDP().getRestrictionsData().remove(r);
+                    dk.getMainWindow().getHorarioEditorMaster().needRecalcularPesos();
                 }
 
             }
@@ -1652,6 +1729,54 @@ public class KairosController {
             }
         }
         return new DeleteTramoCommand(tr);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="getDeleteRestrictionCommand"> 
+    public KairosCommand getDeleteRestrictionCommand(Restriccion r) {
+        class DeleteRestrictionCommand extends KairosCommand {
+
+            private final Restriccion r;
+
+            public DeleteRestrictionCommand(Restriccion r) {
+                super(KairosCommand.STD_CMD);
+                this.r = r;
+
+            }
+
+            @Override
+            public void execute() {
+                dk.getDP().getRestrictionsData().remove(r);
+                r.setDataProyecto(null);
+            }
+
+            @Override
+            public void undo() {
+                r.setDataProyecto(dk.getDP());
+                dk.getDP().getRestrictionsData().add(r);
+            }
+
+            @Override
+            public String getDescription() {
+                return "Delete restriction";
+            }
+
+            @Override
+            public String toString() {
+                return getDescription();
+            }
+
+            @Override
+            public Object getDataType() {
+                return r;
+            }
+
+            @Override
+            int getEventType() {
+                return DataProyectoListener.ADD;
+            }
+        }
+        return new DeleteRestrictionCommand(r);
     }
 //</editor-fold>
     //**************************************************************************

@@ -79,6 +79,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
     protected JIntEditorDocencia jIntEditorDocencia;
     protected JIntRestricciones jIntRestricciones;
     protected JIntGenetic jIntgenGenetic;
+    protected JIntHorarioEditor jIntHorarioEditor;
     protected final HorarioEditorMaster horarioEditorMaster;
     protected ArrayList<JInternalFrame> listaTabs;
     protected AbstractAction cargarProyectoAction;
@@ -272,6 +273,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
         dk.getController().addListener(jIntTreeAulas);
         dk.getController().addListener(jIntRestricciones);
         dk.getController().addListener(jIntDatosProyecto);
+        dk.getController().addListener(horarioEditorMaster);
         dk.getController().addListener(this);
 
 //        dk.getDP().getRestrictionsData().addListener(horarioEditorMaster);
@@ -537,9 +539,11 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                         File fichero = fc.getSelectedFile();
                         XMLDataLoaderWriter xmldlw = new XMLDataLoaderWriter(dk);
                         xmldlw.setFile(fichero);
+                        dk.getController().setUndoStackEnabled(false);
                         boolean resul = xmldlw.load(fichero);
                         //Reconstruyo hashmap de profesores, util para asignaciones
                         if (resul) {
+                            
                             dk.getDP().reconstruyeHashMapProfesor();
                         }
                         boolean cargaCorrecta = resul;
@@ -551,6 +555,7 @@ public abstract class AbstractMainWindow extends javax.swing.JFrame implements D
                             ((DataGUIInterface) tab).expandTrees();
                         }
                         dk.setDirty(false);
+                        dk.getController().setUndoStackEnabled(true);
                         if (dk.getDP().getHorario().hayUnaSolucion()) {
                             mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_SOLUTION);
                         } else {

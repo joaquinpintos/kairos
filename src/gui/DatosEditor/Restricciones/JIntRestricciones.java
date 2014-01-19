@@ -18,6 +18,8 @@ package gui.DatosEditor.Restricciones;
 
 import data.DataKairos;
 import data.DataProyectoListener;
+import data.KairosCommand;
+import data.restricciones.AbstractDlgRestriccion;
 import gui.DatosEditor.DataGUIInterface;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -27,6 +29,8 @@ import javax.swing.AbstractAction;
 import data.restricciones.Restriccion;
 import gui.AbstractMainWindow;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static javax.swing.Action.MNEMONIC_KEY;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -149,7 +153,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
      *
      */
     public void creaAccionesYListeners() {
-
+        final JIntRestricciones window = this;
         //<editor-fold defaultstate="collapsed" desc="EditarRestriccionAction">
 //Acción para editar la restricción
         class EditarRestriccionAction extends AbstractAction {
@@ -164,13 +168,24 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
                 try {
                     Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
                     if (r != null) {
-                        r.getConfigDlg(this);
+                        AbstractDlgRestriccion dlg = r.getConfigDlg(this);
+                        dlg.setLocationRelativeTo(window);
+                        dlg.setVisible(true);
+                        if (dlg.getReturnStatus()==AbstractDlgRestriccion.RET_OK)
+                        {
+                            KairosCommand cmd=dk.getController().getEditRestrictionCommand(r,dlg.getEditedRestriction());
+                            dk.getController().executeCommand(cmd);
+                        }
                         //Lanzo el evento de que se han modificado las restricciones
 //                        dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.MODIFY);//comentado para no dar error
                         updateData();
                     }
 
                 } catch (ArrayIndexOutOfBoundsException exc) {
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(JIntRestricciones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(JIntRestricciones.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -190,7 +205,7 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             @Override
             public void actionPerformed(ActionEvent e) {
                 jDlgSelectNewRestriccion dlg = new jDlgSelectNewRestriccion(null, true, dk, editarRestriccionAction);
-                dlg.setLocationRelativeTo(null);
+                dlg.setLocationRelativeTo(window);
                 dlg.setVisible(true);
             }
         }
@@ -210,7 +225,9 @@ public final class JIntRestricciones extends javax.swing.JInternalFrame implemen
             public void actionPerformed(ActionEvent e) {
                 try {
                     Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
-                    dk.getDP().getRestrictionsData().remove(r);
+//                    dk.getDP().getRestrictionsData().remove(r);
+                    KairosCommand cmd=dk.getController().getDeleteRestrictionCommand(r);
+                    dk.getController().executeCommand(cmd);
                     //Lanzo el evento de que se han modificado las restricciones
 //                    dk.getDP().getRestrictionsData().fireDataEvent(r, DataProyectoListener.REMOVE);//comentado para no dar error
                     updateData();

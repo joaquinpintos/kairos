@@ -18,6 +18,7 @@ package gui.HorarioEditor;
 
 import data.aulas.AulaMT;
 import data.DataKairos;
+import data.DataProyectoListener;
 import gui.DatosEditor.DataGUIInterface;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -31,12 +32,13 @@ import java.awt.event.ComponentListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.JPanel;
 
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, HorarioListener {
+public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
 
     private AbstractMainWindow mainWindow;
 //    private final HorariosTableModelPorAula modelHorarios;
@@ -73,6 +75,10 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         //Registro como listener
         registraListener();
         creaAcciones();
+    }
+
+    public JPanel getjPanelHorarios() {
+        return jPanelHorarios;
     }
 
     public void setMaster(HorarioEditorMaster master) {
@@ -202,7 +208,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
     private void jListAulasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListAulasValueChanged
         AulaMT a = (AulaMT) jListAulas.getSelectedValue();
-        jTableHorario.updateUI();
         horariosJPanelModel.setHashAulaMostrada(a.getHash());
         horariosJPanelModel.rebuildAll();
         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
@@ -213,6 +218,10 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         }
         mainWindow.repaint();
     }//GEN-LAST:event_jListAulasValueChanged
+
+    public AbstractMainWindow getMainWindow() {
+        return mainWindow;
+    }
 
     private void jListRestriccionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListRestriccionesValueChanged
         Restriccion r = (Restriccion) jListRestricciones.getSelectedValue();
@@ -283,6 +292,7 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
     /**
      *
+     * @return
      */
     public JListRestriccionesModel getjListRestriccionesModel() {
         return jListRestriccionesModel;
@@ -290,51 +300,6 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
 
     public JList<Restriccion> getjListRestricciones() {
         return jListRestricciones;
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void needUpdate() {
-        updateData();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public synchronized void needRecalcularPesos() {
-        //Primero chequeo si HAY una solución calculada efectivamente.
-        if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
-            jListRestricciones.updateUI();
-            Restriccion rSelected = null;
-            try {
-                rSelected = (Restriccion) jListRestricciones.getSelectedValue();
-            } catch (IndexOutOfBoundsException ex) {
-            }
-            master.recalculaRestricciones();
-            //Intento seleccionar otra vez la misma restriccion
-            if (jListRestricciones.getModel().getSize() > 0) {
-                if (jListRestricciones.getSelectedIndex() == -1) {
-                    jListRestricciones.setSelectedIndex(0);
-                }
-                //  System.out.println("RESALTA " + ((Restriccion) jListRestricciones.getSelectedValue()));
-                try {
-                    master.resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
-                } catch (java.lang.IndexOutOfBoundsException e) {
-                    master.resaltaItemsConflictivos(null);
-                }
-            } else {
-                master.resaltaItemsConflictivos(null);
-            }
-
-        }
-
-        //Actualizo vistas gráficas
-        jListRestricciones.updateUI();
-        jListAulas.updateUI();
-
     }
 
     /**
@@ -453,6 +418,13 @@ public class JIntHorarioEditor extends javax.swing.JInternalFrame implements Dat
         jListRestricciones.setVisible(b);
 //        jScrollPane3.setVisible(b);
         jButVolverAOptimizar.setVisible(b);
+    }
+
+    @Override
+    public void dataEvent(Object obj, int type) {
+        if (master != null) {
+            master.dataEvent(obj, type);
+        }
     }
 }
 

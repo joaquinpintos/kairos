@@ -56,51 +56,69 @@ public class HorarioEditorMaster implements DataProyectoListener {
         if (dk.getDP().getHorario().hayUnaSolucion()) {
             if (obj instanceof Restriccion) {
                 //Inicializo datos si se ha modificado o añadido
-                if ((type == DataProyectoListener.ADD) || (type == DataProyectoListener.MODIFY)) {
-                    ((Restriccion) obj).inicializarDatos();
-                }
                 needRecalcularPesos();
+
             }
             if (obj instanceof Horario) {
 
                 needRelocateItems();
                 needRecalcularPesos();
             }
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    if ((jListRestricciones.getSelectedIndex() == -1) && (jListRestricciones.getModel().getSize() > 0)) {
-                        jListRestricciones.setSelectedIndex(0);
-                    }
-                }
-            });
 
             //TODO: Implementar eventos por los que se borra la solución actual
         }
     }
 
-    public synchronized void needRecalcularPesos() {
-        //Primero chequeo si HAY una solución calculada efectivamente.
-        if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
-            recalculaRestricciones();
-            jListRestricciones.updateUI();
+    public void needRecalcularPesos() {
+//        //Primero chequeo si HAY una solución calculada efectivamente.
+//        if (!dk.getDP().getHorario().getHorarios().isEmpty()) {
+//            recalculaRestricciones();
+//            jListRestricciones.updateUI();
 //            if (jListRestricciones.getSelectedIndex() == -1) {
-//                if (jListRestricciones.getFirstVisibleIndex()> 0) {
+//                if (jListRestricciones.getFirstVisibleIndex() > 0) {
 //                    jListRestricciones.setSelectedIndex(0);
 //                }
 //            }
-//            try {
-            resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
-//            } catch (java.lang.IndexOutOfBoundsException e) {
-//                resaltaItemsConflictivos(null);
-//            }
-        } else {
-            resaltaItemsConflictivos(null);
+////            try {
+//            resaltaItemsConflictivos((Restriccion) jListRestricciones.getSelectedValue());
+////            } catch (java.lang.IndexOutOfBoundsException e) {
+////                resaltaItemsConflictivos(null);
+////            }
+//        } else {
+//            resaltaItemsConflictivos(null);
+//        }
+//        for (JIntHorarioEditor hv : editors) {
+//            hv.getjListAulas().updateUI();
+//        }
+//        jListRestricciones.updateUI();
+
+        recalculaRestricciones();
+        jListRestricciones.updateUI();
+//        SwingUtilities.invokeLater(new Runnable() {
+////
+//            @Override
+//            public void run() {
+        Restriccion rest=null;
+        if (jListRestricciones.getSelectedIndex() == -1) {
+            if (jListRestricciones.getModel().getSize() > 0) {
+                jListRestricciones.setSelectedIndex(0);
+                rest = (Restriccion) jListRestricciones.getSelectedValue();
+
+            } else {
+                rest = null;
+            }
         }
+        else
+        {
+            rest=jListRestricciones.getSelectedValue();
+        }
+        resaltaItemsConflictivos(rest);
         for (JIntHorarioEditor hv : editors) {
             hv.getjListAulas().updateUI();
         }
-        jListRestricciones.updateUI();
+//            }
+//        });
+
     }
 
     public void recalculaRestricciones() {
@@ -134,12 +152,12 @@ public class HorarioEditorMaster implements DataProyectoListener {
      * @param restriccion
      */
     public void resaltaItemsConflictivos(Restriccion restriccion) {
-        JListRestriccionesModel jListRestriccionesModel = (JListRestriccionesModel) jListRestricciones.getModel();
-        for (JIntHorarioEditor hv : editors) {
-            hv.getHorariosJPanelModel().clearConflictivos();
-            hv.getjListAulasModel().clearConflictivos();
-        }
-        if (restriccion != null) {
+        if (dk.getStatus() == DataKairos.STATUS_PROJECT_SOLUTION) {
+            JListRestriccionesModel jListRestriccionesModel = (JListRestriccionesModel) jListRestricciones.getModel();
+            for (JIntHorarioEditor hv : editors) {
+                hv.getHorariosJPanelModel().clearConflictivos();
+                hv.getjListAulasModel().clearConflictivos();
+            }
 
             for (Restriccion r : jListRestriccionesModel.getData()) {
 //                if (r != restriccion) 
@@ -150,10 +168,11 @@ public class HorarioEditorMaster implements DataProyectoListener {
                     }
                 }
             }
-            for (JIntHorarioEditor hv : editors) {
-                hv.getHorariosJPanelModel().marcaConflictivos(restriccion.getCasillasConflictivas(), HorarioItem.DOUBLE_MARK);
-                hv.getjListAulasModel().marcaAulasConSegmentosConflictivos(restriccion.getCasillasConflictivas(), HorarioItem.DOUBLE_MARK);
-                hv.updateAllUIS();
+            if (restriccion != null) {
+                for (JIntHorarioEditor hv : editors) {
+                    hv.getHorariosJPanelModel().marcaConflictivos(restriccion.getCasillasConflictivas(), HorarioItem.DOUBLE_MARK);
+                    hv.getjListAulasModel().marcaAulasConSegmentosConflictivos(restriccion.getCasillasConflictivas(), HorarioItem.DOUBLE_MARK);
+                }
             }
         }
     }
