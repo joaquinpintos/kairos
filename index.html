@@ -17,6 +17,7 @@
             <header>
                 <p>A school timetable designer tool that provides both manual
                     and automatic search for possible solutions.</p>
+                <p><img src='images/kairos.png'/></p>
 
                 <p class="view"><a href="https://github.com/davidgutierrezrubio/kairos">
                         View the Project on GitHub <small>davidgutierrezrubio/kairos</small></a></p>
@@ -29,23 +30,39 @@
             </header>
 
             <section id="main_content">
-                <h3>Kairos</h3>
-                <p>Kairos es un programa realizado en Java para la creación y
-                    optimización de horarios escolares. Sus principales características son:
-                </p>
+                <img src='images/logo.png'/>
+                <p>Kairos is a Java program aimed to create and optimize school timetables. Its main features, among other, are:
 
                 <ul>
-                    <li>Permite introducir una serie de restricciones al modelo de horario buscado,
-                        de entre una lista de restricciones disponibles, fácilmente ampliable.</li>
-                    <li>Utiliza un algoritmo genético para la búsqueda de horarios
-                        que cumplan con todas o la mayoría de las condiciones.</li>
-                    <li>Los items del horario calculado pueden arrastrarse con el ratón y se recalcula automáticamente.</li>
-                    <li>Resaltado de los items que incumplen alguna restricción</li>
-                    <li>Corre sobre cualquier sistema operativo 
-                        con máquina virtual Java instalada (testado sobre Windows y Linux). </li>
-                    <li>Es de código abierto, con licencia GPL.</li>
+                    <li>Teachers, classrooms, courses, and restrictions are part of the model.</li>
+                    <li>It uses a genetic algorithm (GA) to look for a possible solution of the model</li>
+                    <li>From a solution computed by the GA (which may be or not optimal), user can visually rearrange
+                        timetable items, recalculating automatically restrictions</li>
+                    <li>In the timetable window, items that don't verify a restriction are marked as red</li>
+                    <li>Currently, it implements the following restrictions:
+                        <ul>
+<!--                            <li>Groups not ubicuous</li>
+                            <li>Teachers not ubicuous</li>-->
+                            <li>Courses cannot have gaps between.</li>
+                            <li>A teacher cannot/only can teach some days in some hours.</li>
+                            <li>Teachers cannot exceed a maximum of hours each day</li>
+                            <li>A teeacher cannot spread its courses in more than a give number of days</li>
+                        </ul>
+                    </li>
+                    <li>It is relatively easy to implement custom-made restrictions.</li>
+                    <li>It should run without problems in any Java-capable OS (currently tested on Windows XP, Windows 7, Linux)</li>
+                    <li>It is free software, licensed by the GNU Public License.</li>
                 </ul>
-                
+                <h3>Limitations</h3>
+                Kairos is currently under development. Although a full usable version is avalaible, there are still some features missing:
+                <ul>
+                    <li>Assignation of courses to clasrooms are static, that is, are given by the user at design time.
+                        So, it cannot be used for example when different groups have to share a
+                        common classroom as for example, a computer room.</li>
+                    <li>Currently, Kairos doesn't support subgroups division such that a subgroup can be in a course
+                        while another subgroup is in another differente course. </li>
+                    <li>Right now, the program is entirely in spanish, but I am currently doing the traslation to English.</li>
+                </ul>
                 
                 <h3>Screenshots</h3>
                 <p><a href="images/screenshots/shot01.png">Editing basic properties of the project</a></p>
