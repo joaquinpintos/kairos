@@ -157,7 +157,7 @@ public class DOMLoaderProfesores {
                 org.w3c.dom.Element elemDep = (Element) nodeList.item(i);
                 String nombre = elemDep.getAttribute("nombre");
                 nuevoDep = new Departamento(nombre);
-//                dataProyecto.getDataProfesores().addDepartamento(nuevoDep);
+//                dataProject.getDataProfesores().addDepartamento(nuevoDep);
                 KairosCommand cmd = dk.getController().getCreateDepartamentoCommand(nuevoDep);
                 dk.getController().executeCommand(cmd);
 

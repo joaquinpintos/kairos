@@ -67,14 +67,14 @@ public abstract class Restriccion implements Serializable {
     /**
      *
      */
-    protected DataProject dataProyecto;
+    protected DataProject dataProject;
 
     /**
      *
      */
     public Restriccion() {
         this(null);
-//        this.dataProyecto = null;
+//        this.dataProject = null;
 //        this.peso = 100;
 //        this.importancia = 1;
 //        debug = false;
@@ -84,10 +84,10 @@ public abstract class Restriccion implements Serializable {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public Restriccion(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public Restriccion(DataProject dataProject) {
+        this.dataProject = dataProject;
         this.peso = 100;
         this.level = 1;
         debug = false;
@@ -226,15 +226,15 @@ public abstract class Restriccion implements Serializable {
      * @return
      */
     public DataProject getDataProyecto() {
-        return dataProyecto;
+        return dataProject;
     }
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public void setDataProyecto(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public void setDataProyecto(DataProject dataProject) {
+        this.dataProject = dataProject;
     }
 
     /**
@@ -344,7 +344,7 @@ public abstract class Restriccion implements Serializable {
      */
     protected void marcaCasillaComoConflictiva(PosibleSolucion sol, Casilla c) {
         String hashAula = c.getHashAula();
-        ListaCasillas lc = dataProyecto.getDatosPorAula(hashAula).getListaCasillas();
+        ListaCasillas lc = dataProject.getDatosPorAula(hashAula).getListaCasillas();
         int indiceCasilla = lc.getCasillas().indexOf(c);
         marcaCasillaComoConflictiva(hashAula, indiceCasilla);
     }

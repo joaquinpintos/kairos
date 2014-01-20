@@ -16,7 +16,7 @@
  */
 package restricciones.profesorCiertosDias;
 
-import data.ArrayRangoHoras;
+import data.TimeRangeArray;
 import data.MyConstants;
 import data.profesores.Profesor;
 import data.genetic.Asignacion;
@@ -46,7 +46,7 @@ static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
     //true=los días referidos son los únicos que puede.
     private Boolean puedeEstosDias;
     //Map: dia de la semana -> lista de rangos horarios.
-    private HashMap<Integer, ArrayRangoHoras> rangos;
+    private HashMap<Integer, TimeRangeArray> rangos;
     
     private Profesor profesor;
     private String observaciones;
@@ -66,9 +66,9 @@ static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
         puedeEstosDias = false;
         segmentosConflictivos = new HashMap<String, ArrayList<Integer[]>>();
         casillasConflictivas = new HashMap<String, ArrayList<Integer>>();
-        rangos = new HashMap<Integer, ArrayRangoHoras>();
+        rangos = new HashMap<Integer, TimeRangeArray>();
         for (int n = 1; n <= 5; n++) {
-            rangos.put(n, new ArrayRangoHoras());
+            rangos.put(n, new TimeRangeArray());
         }
     }
 
@@ -76,7 +76,7 @@ static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
     public void inicializarDatos() {
         segmentosConflictivos.clear();
         casillasConflictivas.clear();
-        HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
+        HashMap<String, DatosPorAula> map = dataProject.getMapDatosPorAula();
         //Busco entre todas las aulas aquellas que tengan segmentos impartidos por el profesor
         for (String hashAula : map.keySet()) {
             ArrayList<Integer[]> segConflAula = new ArrayList<Integer[]>();
@@ -266,30 +266,30 @@ static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
     }
 
     void setLunes(String text) {
-        rangos.put(1, new ArrayRangoHoras(text));
+        rangos.put(1, new TimeRangeArray(text));
     }
 
     void setMartes(String text) {
-        rangos.put(2, new ArrayRangoHoras(text));
+        rangos.put(2, new TimeRangeArray(text));
     }
 
     void setMiercoles(String text) {
-        rangos.put(3, new ArrayRangoHoras(text));
+        rangos.put(3, new TimeRangeArray(text));
     }
 
     void setJueves(String text) {
-        rangos.put(4, new ArrayRangoHoras(text));
+        rangos.put(4, new TimeRangeArray(text));
     }
 
     void setViernes(String text) {
-        rangos.put(5, new ArrayRangoHoras(text));
+        rangos.put(5, new TimeRangeArray(text));
     }
 
     /**
      *
      * @return
      */
-    public HashMap<Integer, ArrayRangoHoras> getRangos() {
+    public HashMap<Integer, TimeRangeArray> getRangos() {
         return rangos;
     }
 
@@ -335,7 +335,7 @@ static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
     private boolean rangosSolapanCon(Casilla c) {
         boolean resul = false;
         int dia = c.getDiaSemana();
-        ArrayRangoHoras rangosConflictivosDeEseDia = rangos.get(dia);
+        TimeRangeArray rangosConflictivosDeEseDia = rangos.get(dia);
         try {
             resul = rangosConflictivosDeEseDia.solapaCon(c.getRangoHora());
         } catch (Exception ex) {
@@ -400,7 +400,7 @@ static final Character[] inicialesSemana = {'L', 'M', 'X', 'J', 'V'};
         //Leo datos del profesor por hash
         Element el = buscaPrimerElementoConNombre(parent, "nombre_profesor");
         String hashProfesor = el.getTextContent();
-        Profesor p = dataProyecto.getDataProfesores().buscaProfesorPorHash(hashProfesor);
+        Profesor p = dataProject.getDataProfesores().buscaProfesorPorHash(hashProfesor);
         this.setProfesor(p);
 
         //Leo tipo de restriccion

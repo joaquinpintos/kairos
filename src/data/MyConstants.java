@@ -29,7 +29,7 @@ public class MyConstants {
     /**
      * Cadena con los nombres de los días de la semana
      */
-    public static final String[] DIAS_SEMANA = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+    public static final String[] DAYS_OF_THE_WEEK = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
     /**
      * Cadena con los nombres de los días de la semana
      */

@@ -39,12 +39,12 @@ public class PrinterHorarioPorGrupos extends AbstractHorariosPrinter {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      * @param fileDst
      * @param variosDocumentos
      */
-    public PrinterHorarioPorGrupos(DataProject dataProyecto, File fileDst, boolean variosDocumentos) {
-        super(dataProyecto, fileDst, variosDocumentos);
+    public PrinterHorarioPorGrupos(DataProject dataProject, File fileDst, boolean variosDocumentos) {
+        super(dataProject, fileDst, variosDocumentos);
         buildData();
     }
 

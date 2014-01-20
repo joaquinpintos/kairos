@@ -55,10 +55,10 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public RProfesorMinimoHorasPorDia(DataProject dataProyecto) {
-        super(dataProyecto);
+    public RProfesorMinimoHorasPorDia(DataProject dataProject) {
+        super(dataProject);
         numMinimoHoras = 3; //Valor inicial
         listaProfesoresConflictivos = new HashSet<Profesor>();
         clasesPorDiaProfesor = new HashMap<Profesor, Integer[]>();
@@ -66,13 +66,13 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
 
     @Override
     public void inicializarDatos() {
-        numMinimoCasillas = numMinimoHoras * 60 / dataProyecto.getMinutosPorCasilla();
+        numMinimoCasillas = numMinimoHoras * 60 / dataProject.getMinutosPorCasilla();
         //Para cada aula, calculo cuántos casillas contiene cada día
         //VERSION-DEPENDENT: Depende de que cada día tenga el mísmo número de casillas!
         numeroCasillasPorDia = new HashMap<String, Integer>();
-        int numDiasPorSemana = dataProyecto.getDiasSemanaLectivos().size();
-        for (String hashAula : dataProyecto.getMapDatosPorAula().keySet()) {
-            int numCasillas = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas().size();
+        int numDiasPorSemana = dataProject.getDiasSemanaLectivos().size();
+        for (String hashAula : dataProject.getMapDatosPorAula().keySet()) {
+            int numCasillas = dataProject.getMapDatosPorAula().get(hashAula).getListaCasillas().size();
             numeroCasillasPorDia.put(hashAula, numCasillas / numDiasPorSemana);
         }
 
@@ -95,11 +95,11 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
             Asignacion asig = posibleSolucion.getMapAsignaciones().get(hashAula);
 //            int numCasillas = asig.getNumCasillas();
 //            int num2 = asig.getAsignaciones().size();
-            ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
-            ListaSegmentos ls = dataProyecto.getMapDatosPorAula().get(hashAula).getListaSegmentos();
+            ListaCasillas lc = dataProject.getMapDatosPorAula().get(hashAula).getListaCasillas();
+            ListaSegmentos ls = dataProject.getMapDatosPorAula().get(hashAula).getListaSegmentos();
             Segmento s;
             int numCasillasPorDia = numeroCasillasPorDia.get(hashAula);
-            for (int dia = 0; dia < dataProyecto.getDiasSemanaLectivos().size(); dia++) {
+            for (int dia = 0; dia < dataProject.getDiasSemanaLectivos().size(); dia++) {
                 for (int numCasilla = numCasillasPorDia * dia; numCasilla < numCasillasPorDia * (dia + 1); numCasilla++) {
                     int numSegmento = asig.getQueSegmentoHayEnCasilla(numCasilla);
 //                    Casilla c = lc.get(numCasilla);
@@ -203,8 +203,8 @@ public class RProfesorMinimoHorasPorDia extends Restriccion {
     private void marcaCasillasProfesorDia(Profesor p, int diaSemana, PosibleSolucion posibleSolucion) {
         for (String hashAula : posibleSolucion.getMapAsignaciones().keySet()) {
             Asignacion asig = posibleSolucion.getMapAsignaciones().get(hashAula);
-            ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
-            ListaSegmentos ls = dataProyecto.getMapDatosPorAula().get(hashAula).getListaSegmentos();
+            ListaCasillas lc = dataProject.getMapDatosPorAula().get(hashAula).getListaCasillas();
+            ListaSegmentos ls = dataProject.getMapDatosPorAula().get(hashAula).getListaSegmentos();
             for (int n : asig.getAsignaciones()) {
                 Segmento s = ls.get(n);
                 if (p.equals(s.getProfesor())) {

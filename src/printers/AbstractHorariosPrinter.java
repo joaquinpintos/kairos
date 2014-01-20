@@ -28,7 +28,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.DataProject;
 import data.MyConstants;
-import data.RangoHoras;
+import data.TimeRange;
 import data.horarios.DatosHojaHorario;
 import data.horarios.HorarioItem;
 import java.awt.Color;
@@ -45,7 +45,7 @@ abstract public class AbstractHorariosPrinter {
 
     private File fileDst;
     private boolean variosDocumentos;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
     private final ArrayList<Object> cabeceras;
     private final ArrayList<DatosHojaHorario> hojasHorarios;
     private final ArrayList<Object> piesDePagina;
@@ -62,16 +62,16 @@ abstract public class AbstractHorariosPrinter {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      * @param fileDst
      * @param variosDocumentos
      */
-    public AbstractHorariosPrinter(DataProject dataProyecto, File fileDst, boolean variosDocumentos) {
+    public AbstractHorariosPrinter(DataProject dataProject, File fileDst, boolean variosDocumentos) {
         this.alturaRecreos = 10;
         this.alturaSepMañanaTarde = 25;
         this.rotated = false;
         this.fileDst = fileDst;
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
         this.variosDocumentos = variosDocumentos;
         cabeceras = new ArrayList<Object>();
         hojasHorarios = new ArrayList<DatosHojaHorario>();
@@ -116,11 +116,11 @@ abstract public class AbstractHorariosPrinter {
      * @param tamañoTabla Tamaño deseado de la tabla en centímetros
      */
     public void setTamañoTablaTurnoSimple(float tamañoTabla) {
-        int numFilas1 = dataProyecto.getMañana1().getDuracionHoras();
-        numFilas1 += dataProyecto.getMañana1().getDuracionHoras();
-        int numFilas2 = dataProyecto.getTarde1().getDuracionHoras();
-        numFilas2 += dataProyecto.getTarde2().getDuracionHoras();
-        int maxNumFilas = (Math.max(numFilas1, numFilas2) * 60) / dataProyecto.getMinutosPorCasilla();
+        int numFilas1 = dataProject.getMañana1().getDuracionHoras();
+        numFilas1 += dataProject.getMañana1().getDuracionHoras();
+        int numFilas2 = dataProject.getTarde1().getDuracionHoras();
+        numFilas2 += dataProject.getTarde2().getDuracionHoras();
+        int maxNumFilas = (Math.max(numFilas1, numFilas2) * 60) / dataProject.getMinutosPorCasilla();
         setAlturaCeldas((tamañoTabla * CM_TO_POINT - alturaRecreos) / (maxNumFilas + 1));
     }
 
@@ -129,11 +129,11 @@ abstract public class AbstractHorariosPrinter {
      * @param tamañoTabla
      */
     public void setTamañoTablaTurnoDoble(float tamañoTabla) {
-        int maxNumFilas = dataProyecto.getMañana1().getDuracionHoras();
-        maxNumFilas += dataProyecto.getMañana2().getDuracionHoras();
-        maxNumFilas += dataProyecto.getTarde1().getDuracionHoras();
-        maxNumFilas += dataProyecto.getTarde2().getDuracionHoras();
-        maxNumFilas = (maxNumFilas * 60) / dataProyecto.getMinutosPorCasilla();
+        int maxNumFilas = dataProject.getMañana1().getDuracionHoras();
+        maxNumFilas += dataProject.getMañana2().getDuracionHoras();
+        maxNumFilas += dataProject.getTarde1().getDuracionHoras();
+        maxNumFilas += dataProject.getTarde2().getDuracionHoras();
+        maxNumFilas = (maxNumFilas * 60) / dataProject.getMinutosPorCasilla();
         setAlturaCeldas((tamañoTabla * CM_TO_POINT - alturaRecreos - alturaSepMañanaTarde) / (maxNumFilas + 1));
     }
 
@@ -233,7 +233,7 @@ abstract public class AbstractHorariosPrinter {
      * @return
      */
     public DataProject getDataProyecto() {
-        return dataProyecto;
+        return dataProject;
     }
 
     /**
@@ -318,12 +318,12 @@ abstract public class AbstractHorariosPrinter {
         Paragraph par = null;
         t.addCell("");
         for (int n = 0; n < 5; n++) {
-            c = createCeldaDiasSemana(MyConstants.DIAS_SEMANA[n]);
+            c = createCeldaDiasSemana(MyConstants.DAYS_OF_THE_WEEK[n]);
             c.setUseVariableBorders(true);
             t.addCell(c);
         }
         //Ahora relleno el resto de las filas. Primer columna (0) el rango de horas.
-        ArrayList<RangoHoras> horas = data.getRangosHoras();
+        ArrayList<TimeRange> horas = data.getRangosHoras();
         for (int numFila = 0; numFila < horas.size(); numFila++) {
             creaFilaRecreo(horas, numFila, t);
             creaSeparadorMañanaTarde(horas, numFila, t);
@@ -411,9 +411,9 @@ abstract public class AbstractHorariosPrinter {
      * @param numFila
      * @param t
      */
-    public void creaFilaRecreo(ArrayList<RangoHoras> horas, int numFila, PdfPTable t) {
+    public void creaFilaRecreo(ArrayList<TimeRange> horas, int numFila, PdfPTable t) {
         PdfPCell c;
-        if ((horas.get(numFila).getInicio().equals(dataProyecto.getMañana2().getInicio())) || (horas.get(numFila).getInicio().equals(dataProyecto.getTarde2().getInicio()))) {
+        if ((horas.get(numFila).getInicio().equals(dataProject.getMañana2().getInicio())) || (horas.get(numFila).getInicio().equals(dataProject.getTarde2().getInicio()))) {
             for (int n = 0; n < 6; n++) {
                 c = new PdfPCell(new Paragraph(""));
                 c.setFixedHeight(alturaRecreos);
@@ -429,9 +429,9 @@ abstract public class AbstractHorariosPrinter {
      * @param numFila
      * @param t
      */
-    public void creaSeparadorMañanaTarde(ArrayList<RangoHoras> horas, int numFila, PdfPTable t) {
+    public void creaSeparadorMañanaTarde(ArrayList<TimeRange> horas, int numFila, PdfPTable t) {
         PdfPCell c;
-        if ((horas.get(numFila).getInicio().equals(dataProyecto.getTarde1().getInicio())) && (numFila > 0)) {
+        if ((horas.get(numFila).getInicio().equals(dataProject.getTarde1().getInicio())) && (numFila > 0)) {
             for (int n = 0; n < 6; n++) {
                 c = new PdfPCell(new Paragraph(""));
                 c.setFixedHeight(alturaSepMañanaTarde);

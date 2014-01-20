@@ -59,7 +59,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
     public void inicializarDatos() {
         //Calculo los segmentos que imparte dicho profesor
         segmentosImpartidos.clear();
-        HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
+        HashMap<String, DatosPorAula> map = dataProject.getMapDatosPorAula();
         //Busco entre todas las aulas aquellas que tengan segmentos impartidos por el profesor
         for (String hashAula : map.keySet()) {
             ArrayList<Integer> segImpartAula = new ArrayList<Integer>();
@@ -108,8 +108,8 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
         for (String hashAula : segmentosImpartidos.keySet()) {
             Asignacion asig = posibleSolucion.getAsignacion(hashAula);
             ArrayList<Integer> segImpart = segmentosImpartidos.get(hashAula);
-            ListaCasillas lc = dataProyecto.getDatosPorAula(hashAula).getListaCasillas();
-//            ListaSegmentos ls = dataProyecto.getDatosPorAula(hashAula).getListaSegmentos();
+            ListaCasillas lc = dataProject.getDatosPorAula(hashAula).getListaCasillas();
+//            ListaSegmentos ls = dataProject.getDatosPorAula(hashAula).getListaSegmentos();
             for (int n = 0; n < segImpart.size(); n++) {
                 Casilla cas = lc.get(asig.enQueCasillaEstaSegmento(segImpart.get(n)));
 
@@ -222,7 +222,7 @@ public class RClasesCondensadasParaProfesor extends Restriccion {
         String hashProfesor = valorPrimerElementoConNombre(parent, "profesor");
 
         try {
-            Profesor p = dataProyecto.getDataProfesores().buscaProfesorPorHash(hashProfesor);
+            Profesor p = dataProject.getDataProfesores().buscaProfesorPorHash(hashProfesor);
             this.setProfesor(p);
         } catch (Exception ex) {
             Logger.getLogger(RClasesCondensadasParaProfesor.class.getName()).log(Level.SEVERE, null, ex);

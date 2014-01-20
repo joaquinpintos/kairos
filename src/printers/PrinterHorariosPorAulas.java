@@ -42,12 +42,12 @@ public class PrinterHorariosPorAulas extends AbstractHorariosPrinter {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      * @param fileDst
      * @param variosDocumentos
      */
-    public PrinterHorariosPorAulas(DataProject dataProyecto, File fileDst, boolean variosDocumentos) {
-        super(dataProyecto, fileDst, variosDocumentos);
+    public PrinterHorariosPorAulas(DataProject dataProject, File fileDst, boolean variosDocumentos) {
+        super(dataProject, fileDst, variosDocumentos);
         data = new HashMap<AulaMT, DatosHojaHorario>();
         buildData();
     }

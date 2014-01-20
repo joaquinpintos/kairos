@@ -18,24 +18,24 @@ package data.asignaturas;
 
 import data.AbstractDataSets;
 import data.DataProject;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import java.util.ArrayList;
 
 /**
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoListener {
+public class ListaGrupoCursos extends AbstractDataSets implements DataProjectListener {
 
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<GrupoCursos> grupoCursos;
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public ListaGrupoCursos(DataProject dataProyecto) {
-        super(dataProyecto);
+    public ListaGrupoCursos(DataProject dataProject) {
+        super(dataProject);
         grupoCursos = new ArrayList<GrupoCursos>();
     }
 
@@ -160,7 +160,7 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
     protected void dataEventGrupo(Grupo gr, int type) {
         GrupoCursos gc = grupoCursoQueContiene(gr);
         switch (type) {
-            case DataProyectoListener.ADD:
+            case DataProjectListener.ADD:
                 //Miro si no hay ya un grupoCurso que pueda contener esto
                 if (gc == null) {
                     this.add(gr);//Creo nuevo grupoCurso a partir de este
@@ -168,14 +168,14 @@ public class ListaGrupoCursos extends AbstractDataSets implements DataProyectoLi
                     gc.addGrupo(gr);
                 }
                 break;
-            case DataProyectoListener.REMOVE:
+            case DataProjectListener.REMOVE:
                 if (gc != null) {
                     removeGrupo(gc, gr);
                 } else {//Busco a lo bestia
                     removeGrupo(gr);
                 }
                 break;
-            case DataProyectoListener.MODIFY:
+            case DataProjectListener.MODIFY:
 //                gc = grupoCursoQueContiene(gr);
                 break;
             default:

@@ -35,32 +35,31 @@ import org.w3c.dom.Node;
 public class AcademicCalendar implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
-    //Array con los días de la semana lectivos 1=lunes,...,5=viernes
-    private ArrayList<Integer> diasSemanaLectivos;
-    GregorianCalendar inicioPeriodoLectivo, finPeriodoLectivo;
+    //Array with the academic week days 1=monday,...,5=friday
+    private ArrayList<Integer> academicWeekDays;
+    GregorianCalendar beginAcademicPeriod, endAcademicPeriod;
     //Formato por defecto de las fechas dd//MM/yyyy
-    SimpleDateFormat formatoFechas;
-    //String formateado de fechas no lectivas
-    ArrayList<String> diasNoLectivos;
-    ArrayList<String> descripcionDiasNoLectivos;
-    //Rangos de horas de apertura de las aulas
-    private RangoHoras mañana1, mañana2;
-    private RangoHoras tarde1, tarde2;
+    SimpleDateFormat KairosDateFormat;
+    //String with the non academic days
+    ArrayList<String> nonAcademicDays;
+    ArrayList<String> nonAcademicDaysDescription;
+    private TimeRange morning1, morning2;
+    private TimeRange evening1, evening2;
 
     /**
      * Constructor por defecto
      */
     public AcademicCalendar() {
-        this.diasSemanaLectivos = new ArrayList<Integer>();
-        formatoFechas = new SimpleDateFormat("dd/MM/yyyy");
-        this.inicioPeriodoLectivo = new GregorianCalendar();
-        this.finPeriodoLectivo = new GregorianCalendar();
-        diasNoLectivos = new ArrayList<String>();
-        descripcionDiasNoLectivos = new ArrayList<String>();
-        mañana1 = new RangoHoras();
-        mañana2 = new RangoHoras();
-        tarde1 = new RangoHoras();
-        tarde2 = new RangoHoras();
+        this.academicWeekDays = new ArrayList<Integer>();
+        KairosDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.beginAcademicPeriod = new GregorianCalendar();
+        this.endAcademicPeriod = new GregorianCalendar();
+        nonAcademicDays = new ArrayList<String>();
+        nonAcademicDaysDescription = new ArrayList<String>();
+        morning1 = new TimeRange();
+        morning2 = new TimeRange();
+        evening1 = new TimeRange();
+        evening2 = new TimeRange();
 
     }
 
@@ -69,47 +68,47 @@ public class AcademicCalendar implements Serializable {
      *
      * @return ArrayList<Integer> con días lectivos 1=lunes,..., 5=viernes
      */
-    public ArrayList<Integer> getDiasSemanaLectivos() {
-        return diasSemanaLectivos;
+    public ArrayList<Integer> getAcademicWeekDays() {
+        return academicWeekDays;
     }
 
     /**
      * Cambia los días de semana lectivos.
      *
-     * @param diasSemanaLectivos ArrayList<Integer> con días lectivos
+     * @param academicWeekDays ArrayList<Integer> con días lectivos
      * 1=lunes,..., 5=viernes
      */
-    public void setDiasSemanaLectivos(ArrayList<Integer> diasSemanaLectivos) {
-        this.diasSemanaLectivos = diasSemanaLectivos;
+    public void setAcademicWeekDays(ArrayList<Integer> academicWeekDays) {
+        this.academicWeekDays = academicWeekDays;
     }
 
     /**
      * Marca los días de la semana como lectivos,
      *
-     * @param lunes true=lectivo, false=no lectivo
-     * @param martes true=lectivo, false=no lectivo
-     * @param miércoles true=lectivo, false=no lectivo
-     * @param jueves true=lectivo, false=no lectivo
-     * @param viernes true=lectivo, false=no lectivo
+     * @param monday true=lectivo, false=no lectivo
+     * @param tuesday true=lectivo, false=no lectivo
+     * @param wednesday true=lectivo, false=no lectivo
+     * @param thursday true=lectivo, false=no lectivo
+     * @param friday true=lectivo, false=no lectivo
      */
-    public void marcaDiasSemanaLectivos(Boolean lunes, Boolean martes, Boolean miércoles, Boolean jueves, Boolean viernes) {
+    public void marcaDiasSemanaLectivos(Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday) {
         //Borro todos los datos anteriores
-        this.diasSemanaLectivos = new ArrayList<Integer>();
+        this.academicWeekDays = new ArrayList<Integer>();
 
-        if (lunes) {
-            diasSemanaLectivos.add(1);
+        if (monday) {
+            academicWeekDays.add(1);
         }
-        if (martes) {
-            diasSemanaLectivos.add(2);
+        if (tuesday) {
+            academicWeekDays.add(2);
         }
-        if (miércoles) {
-            diasSemanaLectivos.add(3);
+        if (wednesday) {
+            academicWeekDays.add(3);
         }
-        if (jueves) {
-            diasSemanaLectivos.add(4);
+        if (thursday) {
+            academicWeekDays.add(4);
         }
-        if (viernes) {
-            diasSemanaLectivos.add(5);
+        if (friday) {
+            academicWeekDays.add(5);
         }
     }
 
@@ -119,24 +118,24 @@ public class AcademicCalendar implements Serializable {
      * 1...5 para lunes...viernes. Este programa los traduce a las constantes de
      * GregorianCalendar.
      *
-     * @param dias Dias de la semana en formato 1=Lunes,...5=Viernes
+     * @param days Dias de la semana en formato 1=Lunes,...5=Viernes
      * @return Dias de la semana en constantes de GregorianCalendar
      */
-    public ArrayList<Integer> normalizaDiasLectivosSemana(ArrayList<Integer> dias) {
+    public ArrayList<Integer> normalizeAcademicWeekDays(ArrayList<Integer> days) {
         ArrayList<Integer> resul = new ArrayList<Integer>();
-        if (dias.contains(1)) {
+        if (days.contains(1)) {
             resul.add(GregorianCalendar.MONDAY);
         }
-        if (dias.contains(2)) {
+        if (days.contains(2)) {
             resul.add(GregorianCalendar.TUESDAY);
         }
-        if (dias.contains(3)) {
+        if (days.contains(3)) {
             resul.add(GregorianCalendar.WEDNESDAY);
         }
-        if (dias.contains(4)) {
+        if (days.contains(4)) {
             resul.add(GregorianCalendar.THURSDAY);
         }
-        if (dias.contains(5)) {
+        if (days.contains(5)) {
             resul.add(GregorianCalendar.FRIDAY);
         }
 
@@ -150,9 +149,9 @@ public class AcademicCalendar implements Serializable {
      *
      * @return Días lectivos, en objetos {@link GregorianCalendar}
      */
-    public ArrayList<GregorianCalendar> getArrayDiasLectivos() {
+    public ArrayList<GregorianCalendar> computeArrayAcademicDays() {
         {
-            return getArrayDiasLectivos((GregorianCalendar) inicioPeriodoLectivo.clone(), (GregorianCalendar) finPeriodoLectivo.clone());
+            return computeArrayAcademicDays((GregorianCalendar) beginAcademicPeriod.clone(), (GregorianCalendar) endAcademicPeriod.clone());
         }
     }
 
@@ -160,26 +159,26 @@ public class AcademicCalendar implements Serializable {
      * Calcula array de dias lectivos, obviando los festivos, sábados y
      * domingos, desde los días inicial y final dados.
      *
-     * @param parInicio Dia de inicio
-     * @param parFin Dia final
+     * @param beginPeriod Dia de inicio
+     * @param endPeriod Dia final
      * @return Array con los días lectivos, en objetos {@link GregorianCalendar}
      */
-    public ArrayList<GregorianCalendar> getArrayDiasLectivos(GregorianCalendar parInicio, GregorianCalendar parFin) {
+    public ArrayList<GregorianCalendar> computeArrayAcademicDays(GregorianCalendar beginPeriod, GregorianCalendar endPeriod) {
         ArrayList<GregorianCalendar> resul = new ArrayList<GregorianCalendar>();
-        GregorianCalendar inicio = (GregorianCalendar) parInicio.clone();
+        GregorianCalendar inicio = (GregorianCalendar) beginPeriod.clone();
 
-        ArrayList<Integer> diasLectivos = normalizaDiasLectivosSemana(diasSemanaLectivos);
+        ArrayList<Integer> diasLectivos = normalizeAcademicWeekDays(academicWeekDays);
         int day;
         String strDia;
-        GregorianCalendar fin = (GregorianCalendar) parFin.clone();
+        GregorianCalendar fin = (GregorianCalendar) endPeriod.clone();
         fin.add(GregorianCalendar.DAY_OF_MONTH, 1);
         while (!inicio.equals(fin)) {
-            day = inicio.get(GregorianCalendar.DAY_OF_WEEK); //Obtiene día de la semana
-            strDia = formatoFechas.format(inicio.getTime());
-            if (diasLectivos.contains(day) && (!diasNoLectivos.contains(strDia))) {
+            day = inicio.get(GregorianCalendar.DAY_OF_WEEK); //Get day of the week
+            strDia = KairosDateFormat.format(inicio.getTime());
+            if (diasLectivos.contains(day) && (!nonAcademicDays.contains(strDia))) {
                 resul.add((GregorianCalendar) inicio.clone());
             }
-            inicio.add(GregorianCalendar.DAY_OF_MONTH, 1);//Añado un día al bucle
+            inicio.add(GregorianCalendar.DAY_OF_MONTH, 1);//Add 1 to the loop
         }
         return resul;
     }
@@ -188,24 +187,24 @@ public class AcademicCalendar implements Serializable {
      *
      * @return Inicio del periodo docente
      */
-    public GregorianCalendar getInicio() {
-        return inicioPeriodoLectivo;
+    public GregorianCalendar getBeginning() {
+        return beginAcademicPeriod;
     }
 
     /**
      *
      * @return Fin del periodo docente
      */
-    public GregorianCalendar getFin() {
-        return finPeriodoLectivo;
+    public GregorianCalendar getEnd() {
+        return endAcademicPeriod;
     }
 
     /**
      *
      * @return Días no lectivos en formato texto
      */
-    public ArrayList<String> getDiasNoLectivos() {
-        return diasNoLectivos;
+    public ArrayList<String> getNonAcademicDays() {
+        return nonAcademicDays;
     }
 
     /**
@@ -214,84 +213,68 @@ public class AcademicCalendar implements Serializable {
      *
      * @param diasNoLectivos Días no lectivos en formato texto
      */
-    public void setDiasNoLectivos(ArrayList<String> diasNoLectivos) {
-        this.diasNoLectivos = diasNoLectivos;
+    public void setNonAcademicDays(ArrayList<String> diasNoLectivos) {
+        this.nonAcademicDays = diasNoLectivos;
     }
 
     /**
      *
      * @return
      */
-    public ArrayList<String> getDescripcionDiasNoLectivos() {
-        return descripcionDiasNoLectivos;
+    public ArrayList<String> getNonAcademicDaysDescription() {
+        return nonAcademicDaysDescription;
     }
 
     /**
      *
      * @param descripcionDiasNoLectivos
      */
-    public void setDescripcionDiasNoLectivos(ArrayList<String> descripcionDiasNoLectivos) {
-        this.descripcionDiasNoLectivos = descripcionDiasNoLectivos;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getStrInicio() {
-        return formatoFechas.format(inicioPeriodoLectivo.getTime());
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getStrFin() {
-        return formatoFechas.format(finPeriodoLectivo.getTime());
+    public void setNonAcademicDaysDescription(ArrayList<String> descripcionDiasNoLectivos) {
+        this.nonAcademicDaysDescription = descripcionDiasNoLectivos;
     }
 
     //Sobrecarga
     /**
      *
-     * @param strInicio
+     * @param strBeginning
      * @throws ParseException
      */
-    public void setInicio(String strInicio) throws ParseException {
-        this.inicioPeriodoLectivo.setTime(formatoFechas.parse(strInicio));
+    public void setBeginning(String strBeginning) throws ParseException {
+        this.beginAcademicPeriod.setTime(KairosDateFormat.parse(strBeginning));
     }
 
     /**
      *
-     * @param inicio
+     * @param beginPeriod
      */
-    public void setInicio(Date inicio) {
-        this.inicioPeriodoLectivo.setTime(inicio);
+    public void setBeginning(Date beginPeriod) {
+        this.beginAcademicPeriod.setTime(beginPeriod);
     }
 
     /**
      *
-     * @param inicio
+     * @param beginPeriod
      */
-    public void setInicio(GregorianCalendar inicio) {
-        this.inicioPeriodoLectivo = inicio;
+    public void setBeginning(GregorianCalendar beginPeriod) {
+        this.beginAcademicPeriod = beginPeriod;
     }
 
     /**
      *
-     * @param strFin
+     * @param strEndPeriod
      * @throws ParseException
      */
-    public void setFin(String strFin) throws ParseException {
-        this.finPeriodoLectivo.setTime(formatoFechas.parse(strFin));
+    public void setEnd(String strEndPeriod) throws ParseException {
+        this.endAcademicPeriod.setTime(KairosDateFormat.parse(strEndPeriod));
     }
 
     /**
      *
      * @param fin
      */
-    public void setFin(Date fin) {
+    public void setEnd(Date fin) {
         if (fin != null) {
-            this.finPeriodoLectivo.setTime(fin);
+            this.endAcademicPeriod.setTime(fin);
         }
     }
 
@@ -299,72 +282,72 @@ public class AcademicCalendar implements Serializable {
      *
      * @param fin
      */
-    public void setFin(GregorianCalendar fin) {
-        this.finPeriodoLectivo = fin;
+    public void setEnd(GregorianCalendar fin) {
+        this.endAcademicPeriod = fin;
     }
 
     /**
      *
      * @return
      */
-    public RangoHoras getMañana1() {
-        return mañana1;
+    public TimeRange getMorning1() {
+        return morning1;
     }
 
     /**
      *
-     * @param mañana1
+     * @param morning1
      */
-    public void setMañana1(RangoHoras mañana1) {
-        this.mañana1 = mañana1;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public RangoHoras getMañana2() {
-        return mañana2;
-    }
-
-    /**
-     *
-     * @param mañana2
-     */
-    public void setMañana2(RangoHoras mañana2) {
-        this.mañana2 = mañana2;
+    public void setMorning1(TimeRange morning1) {
+        this.morning1 = morning1;
     }
 
     /**
      *
      * @return
      */
-    public RangoHoras getTarde1() {
-        return tarde1;
+    public TimeRange getMorning2() {
+        return morning2;
     }
 
     /**
      *
-     * @param tarde1
+     * @param morning2
      */
-    public void setTarde1(RangoHoras tarde1) {
-        this.tarde1 = tarde1;
+    public void setMorning2(TimeRange morning2) {
+        this.morning2 = morning2;
     }
 
     /**
      *
      * @return
      */
-    public RangoHoras getTarde2() {
-        return tarde2;
+    public TimeRange getEvening1() {
+        return evening1;
     }
 
     /**
      *
-     * @param tarde2
+     * @param evening1
      */
-    public void setTarde2(RangoHoras tarde2) {
-        this.tarde2 = tarde2;
+    public void setEvening1(TimeRange evening1) {
+        this.evening1 = evening1;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public TimeRange getEvening2() {
+        return evening2;
+    }
+
+    /**
+     *
+     * @param evening2
+     */
+    public void setEvening2(TimeRange evening2) {
+        this.evening2 = evening2;
     }
 
     /**
@@ -381,8 +364,8 @@ public class AcademicCalendar implements Serializable {
 //            </periodo_lectivo>
         Element elePeriodoLectivo = documentoXML.createElement("periodo_lectivo");
         Node nodePeriodoLectivo = parent.appendChild(elePeriodoLectivo);
-        añadeNodo(nodePeriodoLectivo, "inicio", formatoFechas.format(inicioPeriodoLectivo.getTime()));
-        añadeNodo(nodePeriodoLectivo, "fin", formatoFechas.format(finPeriodoLectivo.getTime()));
+        añadeNodo(nodePeriodoLectivo, "inicio", KairosDateFormat.format(beginAcademicPeriod.getTime()));
+        añadeNodo(nodePeriodoLectivo, "fin", KairosDateFormat.format(endAcademicPeriod.getTime()));
 
         //Creo el nodo con el horario de aulas
         Element eleHorarioAulas = documentoXML.createElement("horario_aulas");
@@ -391,21 +374,21 @@ public class AcademicCalendar implements Serializable {
         //Nodo horario de mañana
         Element elemHorarioMañana = documentoXML.createElement("horario_mañana");
         Node nodeHorarioMañana = nodeHorarioAulas.appendChild(elemHorarioMañana);
-        escribeTramo(nodeHorarioMañana, "tramo_1", mañana1);
-        escribeTramo(nodeHorarioMañana, "tramo_2", mañana2);
+        escribeTramo(nodeHorarioMañana, "tramo_1", morning1);
+        escribeTramo(nodeHorarioMañana, "tramo_2", morning2);
 
         //Nodo horario de la tarde
         Element elemHorarioTarde = documentoXML.createElement("horario_tarde");
         Node nodeHorarioTarde = nodeHorarioAulas.appendChild(elemHorarioTarde);
-        escribeTramo(nodeHorarioTarde, "tramo_1", tarde1);
-        escribeTramo(nodeHorarioTarde, "tramo_2", tarde2);
+        escribeTramo(nodeHorarioTarde, "tramo_1", evening1);
+        escribeTramo(nodeHorarioTarde, "tramo_2", evening2);
 
         //Ahora escribo los días de la semana lectivos 1=lunes, ...5=viernes
         //dias_semana_lectivos
         Element eleDiasSemanaLectivos = documentoXML.createElement("dias_semana_lectivos");
         Node nodeDiasSemanaLectivos = parent.appendChild(eleDiasSemanaLectivos);
 
-        for (int dia : diasSemanaLectivos) {
+        for (int dia : academicWeekDays) {
             añadeNodo(nodeDiasSemanaLectivos, "dia", String.valueOf(dia));
         }
 
@@ -413,9 +396,9 @@ public class AcademicCalendar implements Serializable {
         //<diasNoLectivos> <dia descripcion="">fecha</dia>
         Node nodeDiasNoLectivos = parent.appendChild(documentoXML.createElement("dias_no_lectivos"));
 
-        for (int n = 0; n < diasNoLectivos.size(); n++) {
-            String strDia = diasNoLectivos.get(n);
-            String descripcion = descripcionDiasNoLectivos.get(n);
+        for (int n = 0; n < nonAcademicDays.size(); n++) {
+            String strDia = nonAcademicDays.get(n);
+            String descripcion = nonAcademicDaysDescription.get(n);
             Element eleDia = documentoXML.createElement("dia");
             eleDia.setAttribute("descripcion", descripcion);
             eleDia.setTextContent(strDia);
@@ -424,7 +407,7 @@ public class AcademicCalendar implements Serializable {
 
     }
 
-    private void escribeTramo(Node parent, String nombreTramo, RangoHoras rango) {
+    private void escribeTramo(Node parent, String nombreTramo, TimeRange rango) {
         Element elem1 = parent.getOwnerDocument().createElement(nombreTramo);
         Element elemInicio = parent.getOwnerDocument().createElement("inicio");
         elem1.appendChild(elemInicio);
@@ -448,14 +431,14 @@ public class AcademicCalendar implements Serializable {
      * @param descDnl
      */
     public void setDiasNoLectivos(ArrayList<String> dnl, ArrayList<String> descDnl) {
-        diasNoLectivos.clear();
-        descripcionDiasNoLectivos.clear();
+        nonAcademicDays.clear();
+        nonAcademicDaysDescription.clear();
 
         for (String d : dnl) {
-            diasNoLectivos.add(d);
+            nonAcademicDays.add(d);
         }
         for (String d : descDnl) {
-            descripcionDiasNoLectivos.add(d);
+            nonAcademicDaysDescription.add(d);
         }
     }
 
@@ -466,8 +449,8 @@ public class AcademicCalendar implements Serializable {
      * @param descripcion
      */
     public void addDiaNoLectivo(String strDia, String descripcion) {
-        diasNoLectivos.add(strDia);
-        descripcionDiasNoLectivos.add(descripcion);
+        nonAcademicDays.add(strDia);
+        nonAcademicDaysDescription.add(descripcion);
     }
 
     //Funciones delegados de formato y parseo de fechas
@@ -477,7 +460,7 @@ public class AcademicCalendar implements Serializable {
      * @return
      */
     public final String format(GregorianCalendar date) {
-        return formatoFechas.format(date.getTime());
+        return KairosDateFormat.format(date.getTime());
     }
 
     /**
@@ -488,16 +471,16 @@ public class AcademicCalendar implements Serializable {
      */
     public GregorianCalendar parse(String source) throws ParseException {
         GregorianCalendar resul = new GregorianCalendar();
-        resul.setTime(formatoFechas.parse(source));
+        resul.setTime(KairosDateFormat.parse(source));
         return resul;
     }
 
     void clear() {
-        this.diasSemanaLectivos.clear();
-        this.inicioPeriodoLectivo = new GregorianCalendar();
-        this.finPeriodoLectivo = new GregorianCalendar();
-        diasNoLectivos.clear();
-        descripcionDiasNoLectivos.clear();
+        this.academicWeekDays.clear();
+        this.beginAcademicPeriod = new GregorianCalendar();
+        this.endAcademicPeriod = new GregorianCalendar();
+        nonAcademicDays.clear();
+        nonAcademicDaysDescription.clear();
     }
 
     /**
@@ -507,9 +490,9 @@ public class AcademicCalendar implements Serializable {
      */
     public double getTotalHorasLectivasPorSemana(boolean tarde) {
         if (tarde) {
-            return diasSemanaLectivos.size() * (tarde1.getDuracionHoras() + tarde2.getDuracionHoras());
+            return academicWeekDays.size() * (evening1.getDuracionHoras() + evening2.getDuracionHoras());
         } else {
-            return diasSemanaLectivos.size() * (mañana1.getDuracionHoras() + mañana2.getDuracionHoras());
+            return academicWeekDays.size() * (morning1.getDuracionHoras() + morning2.getDuracionHoras());
         }
     }
 
@@ -525,19 +508,19 @@ public class AcademicCalendar implements Serializable {
         String resul = "";
         switch (dia.get(GregorianCalendar.DAY_OF_WEEK)) {
             case GregorianCalendar.MONDAY:
-                resul = MyConstants.DIAS_SEMANA[0];
+                resul = MyConstants.DAYS_OF_THE_WEEK[0];
                 break;
             case GregorianCalendar.TUESDAY:
-                resul = MyConstants.DIAS_SEMANA[1];
+                resul = MyConstants.DAYS_OF_THE_WEEK[1];
                 break;
             case GregorianCalendar.WEDNESDAY:
-                resul = MyConstants.DIAS_SEMANA[2];
+                resul = MyConstants.DAYS_OF_THE_WEEK[2];
                 break;
             case GregorianCalendar.THURSDAY:
-                resul = MyConstants.DIAS_SEMANA[3];
+                resul = MyConstants.DAYS_OF_THE_WEEK[3];
                 break;
             case GregorianCalendar.FRIDAY:
-                resul = MyConstants.DIAS_SEMANA[4];
+                resul = MyConstants.DAYS_OF_THE_WEEK[4];
                 break;
             default:
                 break;

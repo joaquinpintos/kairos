@@ -57,7 +57,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
     private File fileDst;
 
     /**
@@ -65,12 +65,12 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param dataProyecto
+     * @param dataProject
      */
-    public jDlgPrintHorario(java.awt.Frame parent, boolean modal, DataProject dataProyecto) {
+    public jDlgPrintHorario(java.awt.Frame parent, boolean modal, DataProject dataProject) {
         super(parent, modal);
         initComponents();
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -86,7 +86,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
         jRadPorGrupos.setSelected(true);
         jRadUnicoDocumento.setSelected(true);
         jRadOrientacionNormal.setSelected(true);
-        jTextTitle.setText(dataProyecto.getTituloPaginasImprimir());
+        jTextTitle.setText(dataProject.getTituloPaginasImprimir());
     }
 
     /**
@@ -270,7 +270,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
                 return;
             }
             returnStatus = retStatus;
-            JFileChooser fc = new JFileChooser(dataProyecto.getPathForPDF());
+            JFileChooser fc = new JFileChooser(dataProject.getPathForPDF());
             if (cuantosDocumentos == UN_DOCUMENTO) {
                 FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos PDF", "pdf");
                 fc.setFileFilter(filt);
@@ -283,10 +283,10 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
 
             if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                 fileDst = fc.getSelectedFile();
-                dataProyecto.setPathForPDF(fileDst);
+                dataProject.setPathForPDF(fileDst);
             }
             if (typeHorario == HORARIO_POR_AULAS) {
-                PrinterHorariosPorAulas pr = new PrinterHorariosPorAulas(dataProyecto, fileDst, (cuantosDocumentos == VARIOS_DOCUMENTOS));
+                PrinterHorariosPorAulas pr = new PrinterHorariosPorAulas(dataProject, fileDst, (cuantosDocumentos == VARIOS_DOCUMENTOS));
                 try {
                     setConfig(pr);
                     pr.crearDocumento();
@@ -298,7 +298,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
             }
             if (typeHorario == HORARIO_POR_PROFESORES) {
                 try {
-                    PrinterHorariosPorProfesor pr = new PrinterHorariosPorProfesor(dataProyecto, fileDst, (cuantosDocumentos == VARIOS_DOCUMENTOS));
+                    PrinterHorariosPorProfesor pr = new PrinterHorariosPorProfesor(dataProject, fileDst, (cuantosDocumentos == VARIOS_DOCUMENTOS));
                     setConfig(pr);
                     pr.crearDocumento();
                 } catch (DocumentException ex) {
@@ -309,7 +309,7 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
             }
             if (typeHorario == HORARIO_POR_GRUPOS) {
                 try {
-                    PrinterHorarioPorGrupos pr = new PrinterHorarioPorGrupos(dataProyecto, fileDst, (cuantosDocumentos == VARIOS_DOCUMENTOS));
+                    PrinterHorarioPorGrupos pr = new PrinterHorarioPorGrupos(dataProject, fileDst, (cuantosDocumentos == VARIOS_DOCUMENTOS));
                     setConfig(pr);
                     pr.crearDocumento();
                 } catch (DocumentException ex) {
@@ -382,12 +382,12 @@ public class jDlgPrintHorario extends javax.swing.JDialog {
     }
 
     private void setConfig(AbstractHorariosPrinter pr) {
-        int numFilasMañana = dataProyecto.getMañana1().getDuracionHoras() + dataProyecto.getMañana2().getDuracionHoras();
-        numFilasMañana = (numFilasMañana * 60) / dataProyecto.getMinutosPorCasilla();
-        int numFilasTarde = dataProyecto.getTarde1().getDuracionHoras() + dataProyecto.getTarde2().getDuracionHoras();
-        numFilasTarde = (numFilasTarde * 60) / dataProyecto.getMinutosPorCasilla();
+        int numFilasMañana = dataProject.getMañana1().getDuracionHoras() + dataProject.getMañana2().getDuracionHoras();
+        numFilasMañana = (numFilasMañana * 60) / dataProject.getMinutosPorCasilla();
+        int numFilasTarde = dataProject.getTarde1().getDuracionHoras() + dataProject.getTarde2().getDuracionHoras();
+        numFilasTarde = (numFilasTarde * 60) / dataProject.getMinutosPorCasilla();
         pr.setTextoTitulo(jTextTitle.getText());
-        dataProyecto.setTituloPaginasImprimir(jTextTitle.getText());
+        dataProject.setTituloPaginasImprimir(jTextTitle.getText());
         if (getOrientacionDocumentoElegido() == ORIENTACION_APAISADO) {
             pr.setRotated(true);
 //            pr.setTamañoTabla(18, numFilasMañana, numFilasTarde);

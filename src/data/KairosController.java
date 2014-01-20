@@ -50,7 +50,7 @@ public class KairosController {
     private final DataKairos dk;
     private final Stack<KairosCommand> commandStackForUndo;
     private final Stack<KairosCommand> commandStackForRedo;
-    private final HashSet<DataProyectoListener> listeners;
+    private final HashSet<DataProjectListener> listeners;
     private boolean batchMode;
     private boolean undoStackEnabled;
 
@@ -65,7 +65,7 @@ public class KairosController {
         this.dk = dk;
         commandStackForUndo = new Stack<KairosCommand>();
         commandStackForRedo = new Stack<KairosCommand>();
-        listeners = new HashSet<DataProyectoListener>();
+        listeners = new HashSet<DataProjectListener>();
         batchMode = false;
         cleanNumber = -1;
         undoStackEnabled=true;
@@ -123,11 +123,11 @@ public class KairosController {
                 commandStackForRedo.push(cmd);
                 int eventType;
                 switch (cmd.getEventType()) {
-                    case DataProyectoListener.ADD:
-                        eventType = DataProyectoListener.REMOVE;
+                    case DataProjectListener.ADD:
+                        eventType = DataProjectListener.REMOVE;
                         break;
-                    case DataProyectoListener.REMOVE:
-                        eventType = DataProyectoListener.ADD;
+                    case DataProjectListener.REMOVE:
+                        eventType = DataProjectListener.ADD;
                         break;
                     default:
                         eventType = cmd.getEventType();
@@ -172,7 +172,7 @@ public class KairosController {
 
     public void fireDataEvent(Object dataType, int eventType) {
 //        System.out.println(listeners);
-        for (DataProyectoListener l : listeners) {
+        for (DataProjectListener l : listeners) {
             l.dataEvent(dataType, eventType);
         }
 
@@ -180,7 +180,7 @@ public class KairosController {
         dk.getDP().getDataAsignaturas().getListaGrupoCursos().dataEvent(dataType, eventType);
     }
 
-    public void addListener(DataProyectoListener l) {
+    public void addListener(DataProjectListener l) {
         if (l != null) {
             listeners.add(l);
         }
@@ -354,7 +354,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new EditProfesorCommand(data, newData);
@@ -404,7 +404,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new EditAulaCommand(data, newData);
@@ -455,7 +455,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new EditCarreraCommand(data, newData);
@@ -525,7 +525,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new EditCursoCommand(data, newData);
@@ -603,7 +603,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new EditAsignaturaCommand(data, newData);
@@ -654,7 +654,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
 
         }
@@ -717,7 +717,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new EditRestrictionCommand(data, newData);
@@ -769,7 +769,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
 
         }
@@ -817,7 +817,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new CambiarNivelRestriccionCommand(r, level);
@@ -871,7 +871,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateDepartamentoCommand(newDep);
@@ -922,7 +922,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateProfesorCommand(dep, newProfesor);
@@ -974,7 +974,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateAulaCommand(newAula);
@@ -1025,7 +1025,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateCarreraCommand(car);
@@ -1078,7 +1078,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
 
             private void updateListaGrupoCursos(Teachable t, int eventType) {
@@ -1135,7 +1135,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateAsignaturaCommand(cur, asig);
@@ -1189,7 +1189,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateGrupoCommand(asig, gr);
@@ -1241,7 +1241,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateTramoCommand(gr, tr);
@@ -1301,7 +1301,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new CreateRestrictionCommand(r);
@@ -1362,7 +1362,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteProfesorCommand(p);
@@ -1423,7 +1423,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteAulaCommand(aula);
@@ -1476,7 +1476,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteCarreraCommand(car);
@@ -1532,7 +1532,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteCursoCommand(cur);
@@ -1588,7 +1588,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteAsignaturaCommand(asig);
@@ -1643,7 +1643,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteGrupoCommand(gr);
@@ -1725,7 +1725,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.REMOVE;
+                return DataProjectListener.REMOVE;
             }
         }
         return new DeleteTramoCommand(tr);
@@ -1773,7 +1773,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new DeleteRestrictionCommand(r);
@@ -1844,7 +1844,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new AsignarDocenciaCommand(p, t);
@@ -1904,7 +1904,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.ADD;
+                return DataProjectListener.ADD;
             }
         }
         return new AsignarAulaCommand(aulaMT, t);
@@ -1955,7 +1955,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
 
@@ -2011,7 +2011,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
 
@@ -2054,7 +2054,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new BeginBlockCommand();
@@ -2093,7 +2093,7 @@ public class KairosController {
 
             @Override
             int getEventType() {
-                return DataProyectoListener.MODIFY;
+                return DataProjectListener.MODIFY;
             }
         }
         return new EndBlockCommand();

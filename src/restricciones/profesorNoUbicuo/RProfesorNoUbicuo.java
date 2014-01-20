@@ -61,10 +61,10 @@ public class RProfesorNoUbicuo extends Restriccion {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public RProfesorNoUbicuo(DataProject dataProyecto) {
-        super(dataProyecto);
+    public RProfesorNoUbicuo(DataProject dataProject) {
+        super(dataProject);
         profesoresConflictivos = new HashSet<Profesor>();
     }
 
@@ -81,7 +81,7 @@ public class RProfesorNoUbicuo extends Restriccion {
         //Fase 1: Calculo de mapProfesorToAulas
         HashMap<Profesor, ArrayList<String>> mapProfesorToAulas;
         mapProfesorToAulas = new HashMap<Profesor, ArrayList<String>>();
-        for (Profesor p : dataProyecto.getDataProfesores().getTodosProfesores()) {
+        for (Profesor p : dataProject.getDataProfesores().getTodosProfesores()) {
             //hashaula->lista de segmentos
             ArrayList<String> dd = new ArrayList<String>();
             ArrayList<Tramo> docencia = p.getDocencia();
@@ -190,7 +190,7 @@ public class RProfesorNoUbicuo extends Restriccion {
         for (Profesor p : dataTarde.keySet()) {
             for (String hashAula : dataTarde.get(p).keySet()) {
                 ArrayList<Integer[]> segmentosConflictivos = dataTarde.get(p).get(hashAula);
-                ListaSegmentos ls = dataProyecto.getDatosPorAula(hashAula).getListaSegmentos();
+                ListaSegmentos ls = dataProject.getDatosPorAula(hashAula).getListaSegmentos();
                 for (int n = 0; n < ls.getSegmentos().size(); n++) {
                     Segmento s = ls.getSegmentos().get(n);
                     if (s.getProfesor() == p) {
@@ -207,7 +207,7 @@ public class RProfesorNoUbicuo extends Restriccion {
         for (Profesor p : data.keySet()) {
             ArrayList<Casilla> casillasConflictivas = new ArrayList<Casilla>();
             for (String hashAula : data.get(p).keySet()) {
-                HashMap<String, DatosPorAula> a = dataProyecto.getMapDatosPorAula();
+                HashMap<String, DatosPorAula> a = dataProject.getMapDatosPorAula();
                 DatosPorAula b = a.get(hashAula);
                 ListaCasillas lc = b.getListaCasillas();
                 ArrayList<Integer[]> segmentosConflictivos = data.get(p).get(hashAula);
@@ -240,13 +240,13 @@ public class RProfesorNoUbicuo extends Restriccion {
                     if (marcaCasillasConflictivas) {
                         //Para marcarla, necesito saber el inicio real del segmento
                         Asignacion asig = posibleSolucion.getAsignacion(c1.getHashAula());
-                        ListaCasillas lc = dataProyecto.getDatosPorAula(c1.getHashAula()).getListaCasillas();
+                        ListaCasillas lc = dataProject.getDatosPorAula(c1.getHashAula()).getListaCasillas();
                         int nc1 = lc.getCasillas().indexOf(c1);
                         int ns1 = asig.getQueSegmentoHayEnCasilla(nc1);
                         int c1real = asig.enQueCasillaEstaSegmento(ns1);
 
                         asig = posibleSolucion.getAsignacion(c2.getHashAula());
-                        lc = dataProyecto.getDatosPorAula(c2.getHashAula()).getListaCasillas();
+                        lc = dataProject.getDatosPorAula(c2.getHashAula()).getListaCasillas();
                         int nc2 = lc.getCasillas().indexOf(c2);
                         int ns2 = asig.getQueSegmentoHayEnCasilla(nc2);
                         int c2real = asig.enQueCasillaEstaSegmento(ns2);

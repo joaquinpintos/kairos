@@ -54,10 +54,10 @@ public class RGrupoNoUbicuo extends Restriccion {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public RGrupoNoUbicuo(DataProject dataProyecto) {
-        super(dataProyecto);
+    public RGrupoNoUbicuo(DataProject dataProject) {
+        super(dataProject);
         this.gruposConflictivos = new HashSet<String>();
         dataMañana = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
         dataTarde = new HashMap<String, HashMap<String, ArrayList<Integer[]>>>();
@@ -76,7 +76,7 @@ public class RGrupoNoUbicuo extends Restriccion {
         //Fase 1: Calculo de mapGrupoToAulas
         HashMap<String, ArrayList<String>> mapGrupoToAulas;
         mapGrupoToAulas = new HashMap<String, ArrayList<String>>();
-        for (Carrera car : dataProyecto.getDataAsignaturas().getCarreras()) {
+        for (Carrera car : dataProject.getDataAsignaturas().getCarreras()) {
             for (Curso cur : car.getCursos()) {
                 for (Asignatura asig : cur.getAsignaturas()) {
                     for (Grupo gr : asig.getGrupos().getGrupos()) {
@@ -192,7 +192,7 @@ public class RGrupoNoUbicuo extends Restriccion {
         for (String hash : dataTarde.keySet()) {
             for (String hashAula : dataTarde.get(hash).keySet()) {
                 ArrayList<Integer[]> segmentosConflictivos = dataTarde.get(hash).get(hashAula);
-                ListaSegmentos ls = dataProyecto.getDatosPorAula(hashAula).getListaSegmentos();
+                ListaSegmentos ls = dataProject.getDatosPorAula(hashAula).getListaSegmentos();
                 for (int n = 0; n < ls.getSegmentos().size(); n++) {
                     Segmento s = ls.getSegmentos().get(n);
                     if (!s.isHuecoLibre()) {
@@ -211,7 +211,7 @@ public class RGrupoNoUbicuo extends Restriccion {
         for (String hash : data.keySet()) {
             ArrayList<Casilla> casillasConflictivas = new ArrayList<Casilla>();
             for (String hashAula : data.get(hash).keySet()) {
-                HashMap<String, DatosPorAula> a = dataProyecto.getMapDatosPorAula();
+                HashMap<String, DatosPorAula> a = dataProject.getMapDatosPorAula();
                 DatosPorAula b = a.get(hashAula);
                 ListaCasillas lc = b.getListaCasillas();
                 ArrayList<Integer[]> segmentosConflictivos = data.get(hash).get(hashAula);
@@ -244,13 +244,13 @@ public class RGrupoNoUbicuo extends Restriccion {
                     if (marcaCasillasConflictivas) {
                         //Para marcarla, necesito saber el inicio real del segmento
                         Asignacion asig = posibleSolucion.getAsignacion(c1.getHashAula());
-                        ListaCasillas lc = dataProyecto.getDatosPorAula(c1.getHashAula()).getListaCasillas();
+                        ListaCasillas lc = dataProject.getDatosPorAula(c1.getHashAula()).getListaCasillas();
                         int nc1 = lc.getCasillas().indexOf(c1);
                         int ns1 = asig.getQueSegmentoHayEnCasilla(nc1);
                         int c1real = asig.enQueCasillaEstaSegmento(ns1);
 
                         asig = posibleSolucion.getAsignacion(c2.getHashAula());
-                        lc = dataProyecto.getDatosPorAula(c2.getHashAula()).getListaCasillas();
+                        lc = dataProject.getDatosPorAula(c2.getHashAula()).getListaCasillas();
                         int nc2 = lc.getCasillas().indexOf(c2);
                         int ns2 = asig.getQueSegmentoHayEnCasilla(nc2);
                         int c2real = asig.enQueCasillaEstaSegmento(ns2);

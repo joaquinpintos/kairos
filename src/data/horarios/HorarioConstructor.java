@@ -37,11 +37,11 @@ public class HorarioConstructor {
      * Construyo horario a partir de solución dada por array de enteros.
      *
      * @param sol
-     * @param dataProyecto
+     * @param dataProject
      * @return
      * @throws Exception
      */
-    public static Horario constructor(PosibleSolucion sol, DataProject dataProyecto) throws Exception {
+    public static Horario constructor(PosibleSolucion sol, DataProject dataProject) throws Exception {
         Horario resul = new Horario(sol);
         //Este hashmap me relaciona un hashaula y un numero de segmento con su correspondiente horarioItem
         //Es util para marcar rápidamente los horarioItem conflictivos.
@@ -53,8 +53,8 @@ public class HorarioConstructor {
         Grupo grupoNulo = new Grupo("libre");
         for (Asignacion asig : sol.getMapAsignaciones().values()) {
             String hashAula = asig.getHashAula();
-            ListaSegmentos listaSegmentos = dataProyecto.getDatosPorAula(hashAula).getListaSegmentos();
-            ListaCasillas listaCasillas = dataProyecto.getDatosPorAula(hashAula).getListaCasillas();
+            ListaSegmentos listaSegmentos = dataProject.getDatosPorAula(hashAula).getListaSegmentos();
+            ListaCasillas listaCasillas = dataProject.getDatosPorAula(hashAula).getListaCasillas();
             for (int k = 0; k < asig.getAsignaciones().size(); k++)//Recorro todos los segmentos.
             {
                 s = listaSegmentos.get(asig.getAsignaciones().get(k));

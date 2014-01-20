@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
  */
 public class DOMLoaderAsignaturas {
 
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
     private final DataKairos dk;
 
     /**
@@ -45,7 +45,7 @@ public class DOMLoaderAsignaturas {
      * @param dk
      */
     public DOMLoaderAsignaturas(DataKairos dk) {
-        this.dataProyecto = dk.getDP();
+        this.dataProject = dk.getDP();
         this.dk = dk;
     }
 
@@ -63,7 +63,7 @@ public class DOMLoaderAsignaturas {
                 String nombre = elemDep.getAttribute("nombre");
                 nuevaCarrera = new Carrera(nombre);
                 // dbg(nombreNodo + ":" + nombre);
-//                dataProyecto.getDataAsignaturas().addCarrera(nuevaCarrera);
+//                dataProject.getDataAsignaturas().addCarrera(nuevaCarrera);
                 KairosCommand cmd = dk.getController().getCreateCarreraCommand(nuevaCarrera);
                 dk.getController().executeCommand(cmd);
                 readListaCursos(elemDep, nuevaCarrera);
@@ -176,7 +176,7 @@ public class DOMLoaderAsignaturas {
         dk.getController().executeCommand(cmd);
         Element elemDocencia = buscaPrimerElementoConNombre(parent, "docente");
         if (elemDocencia != null) {
-            HashMap<String, Profesor> map = dataProyecto.getMapProfesor();
+            HashMap<String, Profesor> map = dataProject.getMapProfesor();
             Profesor prof = map.get(elemDocencia.getTextContent());
 //            tr.setDocenteOld(prof);
             cmd = dk.getController().getAsignarDocenciaCommand(prof, tr);
@@ -185,9 +185,9 @@ public class DOMLoaderAsignaturas {
         }
         Element elemAula = buscaPrimerElementoConNombre(parent, "aula");
         if (elemAula != null) {
-            HashMap<String, DatosPorAula> map = dataProyecto.getMapDatosPorAula();
+            HashMap<String, DatosPorAula> map = dataProject.getMapDatosPorAula();
             map.get(elemAula.getTextContent());
-            Aula aula = dataProyecto.getAulaPorHash(elemAula.getTextContent());
+            Aula aula = dataProject.getAulaPorHash(elemAula.getTextContent());
             final AulaMT aulaMT = new AulaMT(aula, elemAula.getTextContent().contains("@T"));
 //            tr.asignaAulaOld(aulaMT);
             cmd = dk.getController().getAsignarAulaCommand(aulaMT, tr);

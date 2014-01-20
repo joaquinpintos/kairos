@@ -17,7 +17,7 @@
 package data.genetic;
 
 import data.DataProject;
-import data.Hora;
+import data.KairosTime;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Carrera;
 import data.asignaturas.Curso;
@@ -26,7 +26,7 @@ import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
 import data.aulas.Aula;
 import data.aulas.DataAulas;
-import data.RangoHoras;
+import data.TimeRange;
 import data.profesores.DataProfesores;
 import java.util.ArrayList;
 
@@ -44,19 +44,19 @@ public class DataGenerator {
     private DataProfesores dataProfesores;
     private DataAulas dataAulas;
     int minutosCasilla;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      *
      * @param minutosRango
-     * @param dataProyecto
+     * @param dataProject
      */
-    public DataGenerator(int minutosRango, DataProject dataProyecto) {
+    public DataGenerator(int minutosRango, DataProject dataProject) {
         this.minutosCasilla = minutosRango;
-        this.dataProyecto = dataProyecto;
-        this.dataAsignaturas = dataProyecto.getDataAsignaturas();
-        this.dataProfesores = dataProyecto.getDataProfesores();
-        this.dataAulas = dataProyecto.getDataAulas();
+        this.dataProject = dataProject;
+        this.dataAsignaturas = dataProject.getDataAsignaturas();
+        this.dataProfesores = dataProject.getDataProfesores();
+        this.dataAulas = dataProject.getDataAulas();
     }
 
     /**
@@ -65,7 +65,7 @@ public class DataGenerator {
      */
     public boolean generaDatos() throws Exception {
         boolean resul;
-        dataProyecto.clearDatosPorAula();
+        dataProject.clearDatosPorAula();
 //        calculaHashMapDeAsignacionesAulasAGrupos();
         calculaCasillas();
         calculaSegmentos();
@@ -99,11 +99,11 @@ public class DataGenerator {
         for (Tramo tr : grupo.getTramosGrupoCompleto().getTramos()) {
 //            for (int n = 0; n < tr.getNumeroClases(); n++) {
             String hashAula = tr.getAulaMT().getHash();
-            Segmento s = new Segmento(tr, tr.getMinutos() / dataProyecto.getMinutosPorCasilla(), dataProyecto.getMinutosPorCasilla());
-            dataProyecto.getDatosPorAula(hashAula).addSegmento(s);
+            Segmento s = new Segmento(tr, tr.getMinutos() / dataProject.getMinutosPorCasilla(), dataProject.getMinutosPorCasilla());
+            dataProject.getDatosPorAula(hashAula).addSegmento(s);
             ls.add(s);
 //            }
-//            dataProyecto.getMapSegmentosPorAsignaturaGrupo().put(grupo.getHashCarreraGrupoCurso(), ls);
+//            dataProject.getMapSegmentosPorAsignaturaGrupo().put(grupo.getHashCarreraGrupoCurso(), ls);
         }
 
     }
@@ -119,38 +119,38 @@ public class DataGenerator {
         for (Aula aula : dataAulas.getAulas()) {
 
             //Aulas por la mañana hash nombreAula@M
-            nuevaListaCasillas = new ListaCasillas(dataProyecto.getMinutosPorCasilla());
+            nuevaListaCasillas = new ListaCasillas(dataProject.getMinutosPorCasilla());
             String hashAulaMañana = aula.getHash(false);//Aulas por la mañana
-            for (int dia : dataProyecto.getDiasSemanaLectivos()) {
-                auxCalculaCasillas(aula, hashAulaMañana, dia, nuevaListaCasillas, dataProyecto.getMañana1());
-                auxCalculaCasillas(aula, hashAulaMañana, dia, nuevaListaCasillas, dataProyecto.getMañana2());
+            for (int dia : dataProject.getDiasSemanaLectivos()) {
+                auxCalculaCasillas(aula, hashAulaMañana, dia, nuevaListaCasillas, dataProject.getMañana1());
+                auxCalculaCasillas(aula, hashAulaMañana, dia, nuevaListaCasillas, dataProject.getMañana2());
             }
 //            System.out.println("Aula "+hashAulaMañana+" con "+nuevaListaCasillas.size()+" casillas");
-            dataProyecto.getDatosPorAula(hashAulaMañana).setListaCasillas(nuevaListaCasillas);
-            dataProyecto.getDatosPorAula(hashAulaMañana).setHashAula(hashAulaMañana);
+            dataProject.getDatosPorAula(hashAulaMañana).setListaCasillas(nuevaListaCasillas);
+            dataProject.getDatosPorAula(hashAulaMañana).setHashAula(hashAulaMañana);
 
             //Aulas por la mañana hash nombreAula@T
-            nuevaListaCasillas = new ListaCasillas(dataProyecto.getMinutosPorCasilla());
+            nuevaListaCasillas = new ListaCasillas(dataProject.getMinutosPorCasilla());
             String hashAulaTarde = aula.getHash(true);//Aulas por la tarde
-            for (int dia : dataProyecto.getDiasSemanaLectivos()) {
+            for (int dia : dataProject.getDiasSemanaLectivos()) {
                 {
 
-                    auxCalculaCasillas(aula, hashAulaTarde, dia, nuevaListaCasillas, dataProyecto.getTarde1());
-                    auxCalculaCasillas(aula, hashAulaTarde, dia, nuevaListaCasillas, dataProyecto.getTarde2());
+                    auxCalculaCasillas(aula, hashAulaTarde, dia, nuevaListaCasillas, dataProject.getTarde1());
+                    auxCalculaCasillas(aula, hashAulaTarde, dia, nuevaListaCasillas, dataProject.getTarde2());
                 }
 
             }
 //            System.out.println("Aula "+hashAulaMañana+" con "+nuevaListaCasillas.size()+" casillas");
-            dataProyecto.getDatosPorAula(hashAulaTarde).setListaCasillas(nuevaListaCasillas);
-            dataProyecto.getDatosPorAula(hashAulaTarde).setHashAula(hashAulaTarde);
+            dataProject.getDatosPorAula(hashAulaTarde).setListaCasillas(nuevaListaCasillas);
+            dataProject.getDatosPorAula(hashAulaTarde).setHashAula(hashAulaTarde);
         }
 
     }
 
-    private void auxCalculaCasillas(Aula aula, String hashAula, int dia, ListaCasillas nuevaListaCasillas, RangoHoras rango) throws Exception {
-        ArrayList<Hora> horas = rango.split(minutosCasilla);
+    private void auxCalculaCasillas(Aula aula, String hashAula, int dia, ListaCasillas nuevaListaCasillas, TimeRange rango) throws Exception {
+        ArrayList<KairosTime> horas = rango.split(minutosCasilla);
         Casilla cas = null;
-        for (Hora hora : horas) {
+        for (KairosTime hora : horas) {
             cas = new Casilla(hashAula, hora, dia, minutosCasilla);
             cas.setAula(aula);
             nuevaListaCasillas.add(cas);
@@ -218,17 +218,17 @@ public class DataGenerator {
         //Tengo que calcular huecos libres de mañana y tarde, y rellenarlos en consecuencia.
         boolean resul = true;
 
-        for (DatosPorAula da : dataProyecto.getMapDatosPorAula().values()) {
+        for (DatosPorAula da : dataProject.getMapDatosPorAula().values()) {
             da.rellenaSegmentosConHuecosLibres();
         }
 
-//        int numCasillas = dataProyecto.getListaCasillas().size();
-//        int minutosCasillas = dataProyecto.getListaCasillas().get(0).getMinutos();
+//        int numCasillas = dataProject.getListaCasillas().size();
+//        int minutosCasillas = dataProject.getListaCasillas().get(0).getMinutos();
 //
 //
 //        long duracionTotalSegmentosMañana = 0;
 //        int cuantos = 0;
-//        for (Segmento s : dataProyecto.getListaSegmentos().getSegmentos()) {
+//        for (Segmento s : dataProject.getListaSegmentos().getSegmentos()) {
 //            if (!s.isTarde()) {
 //                duracionTotalSegmentosMañana += s.getDuracion();
 //                cuantos++;
@@ -238,13 +238,13 @@ public class DataGenerator {
 //
 //        //Calculo duracion casillas mañana
 //
-//        long duracionTotalCasillasMañana = dataProyecto.getListaCasillas().getNumCasillasMañana() * minutosCasillas;
+//        long duracionTotalCasillasMañana = dataProject.getListaCasillas().getNumCasillasMañana() * minutosCasillas;
 //        int contador = 0;
 //        while (duracionTotalSegmentosMañana < duracionTotalCasillasMañana) {
 //            Segmento s = new Segmento(null, minutosCasillas, -1);
 //            s.setHuecoLibre(true);
 //            s.setTarde(false);
-//            dataProyecto.getListaSegmentos().add(s);
+//            dataProject.getListaSegmentos().add(s);
 //            duracionTotalSegmentosMañana += minutosCasillas;
 //            contador++;
 //        }
@@ -260,7 +260,7 @@ public class DataGenerator {
 //        //Ahora repito lo mismo pero con la tarde
 //        long duracionTotalSegmentosTarde = 0;
 //        cuantos = 0;
-//        for (Segmento s : dataProyecto.getListaSegmentos().getSegmentos()) {
+//        for (Segmento s : dataProject.getListaSegmentos().getSegmentos()) {
 //            if (s.isTarde()) {
 //                duracionTotalSegmentosTarde += s.getDuracion();
 //                cuantos++;
@@ -270,13 +270,13 @@ public class DataGenerator {
 //
 //        //Calculo duracion casillas tarde
 //
-//        long duracionTotalCasillasTarde = dataProyecto.getListaCasillas().getNumCasillasTarde() * minutosCasillas;
+//        long duracionTotalCasillasTarde = dataProject.getListaCasillas().getNumCasillasTarde() * minutosCasillas;
 //        contador = 0;
 //        while (duracionTotalSegmentosTarde < duracionTotalCasillasTarde) {
 //            Segmento s = new Segmento(null, minutosCasillas, -1);
 //            s.setHuecoLibre(true);
 //            s.setTarde(true);
-//            dataProyecto.getListaSegmentos().add(s);
+//            dataProject.getListaSegmentos().add(s);
 //            duracionTotalSegmentosTarde += minutosCasillas;
 //            contador++;
 //        }
@@ -298,9 +298,9 @@ public class DataGenerator {
      *
      */
 //    public void calculaHashMapDeAsignacionesAulasAGrupos() {
-//        HashMap<String, String> mapa = dataProyecto.getDataAulas().getMapGruposCompletosToAulas();
+//        HashMap<String, String> mapa = dataProject.getDataAulas().getMapGruposCompletosToAulas();
 //        mapa.clear();
-//        for (Aula aula:dataProyecto.getDataAulas().getAulas())
+//        for (Aula aula:dataProject.getDataAulas().getAulas())
 //        {
 //            mapa.putAll(aula.getMapAsignacionesAulasAGrupos());
 //        }

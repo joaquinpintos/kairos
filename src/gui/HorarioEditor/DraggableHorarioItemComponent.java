@@ -17,7 +17,7 @@
 package gui.HorarioEditor;
 
 import data.MyConstants;
-import data.RangoHoras;
+import data.TimeRange;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
 import data.horarios.HorarioItem;
@@ -373,7 +373,7 @@ public class DraggableHorarioItemComponent extends JPanel {
         h.setNumcasilla(numCasillaDst);
         h.setDiaSemana(c.getDiaSemana());
         int dur = h.getRangoHoras().getDuracionMinutos();
-        h.setRangoHoras(new RangoHoras(c.getHora(), dur));
+        h.setRangoHoras(new TimeRange(c.getHora(), dur));
 
     }
 

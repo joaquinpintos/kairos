@@ -17,9 +17,9 @@
 package gui.BusquedaHorasLibres;
 
 import data.DataKairos;
-import data.Hora;
+import data.KairosTime;
 import data.MyConstants;
-import data.RangoHoras;
+import data.TimeRange;
 import data.horarios.HorarioItem;
 import data.profesores.Profesor;
 import java.awt.event.ActionEvent;
@@ -169,10 +169,10 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
 
     private void calculateFreeHours() {
         //Calcula las horas libres comunes a todos los profesores.
-        HashMap<Integer, ArrayList<RangoHoras>> horasDisponibles = new HashMap<Integer, ArrayList<RangoHoras>>();//diaSemana->Array rangos horas
-        Hora hora1 = dk.getDP().getAcademicCalendar().getMañana1().getInicio();
-        Hora hora2 = dk.getDP().getAcademicCalendar().getTarde2().getFin();
-        RangoHoras rh = new RangoHoras(hora1, hora2);
+        HashMap<Integer, ArrayList<TimeRange>> horasDisponibles = new HashMap<Integer, ArrayList<TimeRange>>();//diaSemana->Array rangos horas
+        KairosTime hora1 = dk.getDP().getAcademicCalendar().getMorning1().getInicio();
+        KairosTime hora2 = dk.getDP().getAcademicCalendar().getEvening2().getFin();
+        TimeRange rh = new TimeRange(hora1, hora2);
         //Con esto relleno un montón de rangos horarios en principio disponibles. Ahora es cuestión de irlos borrando
         try {
             for (int dia = 1; dia <= 5; dia++) {
@@ -188,7 +188,7 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
             {
                 int dia = h.getDiaSemana();
                 try {
-                    ArrayList<RangoHoras> rhOcupados = h.getRangoHoras().splitRangos(dk.getDP().getMinutosPorCasilla());
+                    ArrayList<TimeRange> rhOcupados = h.getRangoHoras().splitRangos(dk.getDP().getMinutosPorCasilla());
                     horasDisponibles.get(dia).removeAll(rhOcupados);
 
                 } catch (Exception ex) {
@@ -198,15 +198,15 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
         }
         //Ahora "comprimo" los rangos juntando los consecutivos
         for (int dia = 1; dia <= 5; dia++) {
-            ArrayList<RangoHoras> ran = horasDisponibles.get(dia);
+            ArrayList<TimeRange> ran = horasDisponibles.get(dia);
 
             boolean terminado = false;
 
             while (!terminado) {
                 terminado = true;
                 for (int n = 0; n < ran.size() - 1; n++) {
-                    RangoHoras r1 = ran.get(n);
-                    RangoHoras r2 = ran.get(n + 1);
+                    TimeRange r1 = ran.get(n);
+                    TimeRange r2 = ran.get(n + 1);
                     if (r1.getFin().equals(r2.getInicio())) {
                         r1.setFin(r2.getFin());
                         ran.remove(r2);
@@ -216,8 +216,8 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
                 }
             }
             if (duracionMinima > 0) {
-                for (Iterator<RangoHoras> it = ran.iterator(); it.hasNext();) {
-                    RangoHoras r = it.next();
+                for (Iterator<TimeRange> it = ran.iterator(); it.hasNext();) {
+                    TimeRange r = it.next();
                     if (r.getDuracionMinutos() < duracionMinima) {
                         it.remove();
                     }
@@ -244,8 +244,8 @@ public class JDlgMuestraHorasLibres extends javax.swing.JDialog {
         }
         texto.append("-----------------------------");
         for (int dia = 1; dia <= 5; dia++) {
-            texto.append("\n\n").append(MyConstants.DIAS_SEMANA[dia - 1]).append(":\n");
-            for (RangoHoras r : horasDisponibles.get(dia)) {
+            texto.append("\n\n").append(MyConstants.DAYS_OF_THE_WEEK[dia - 1]).append(":\n");
+            for (TimeRange r : horasDisponibles.get(dia)) {
                 texto.append(r.toString()).append("\n");
             }
         }

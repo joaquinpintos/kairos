@@ -26,16 +26,16 @@ import java.util.ArrayList;
 public class AbstractDataSets implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
-    private DataProject dataProyecto;
-    private final ArrayList<DataProyectoListener> listeners;
+    private DataProject dataProject;
+    private final ArrayList<DataProjectListener> listeners;
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public AbstractDataSets(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
-        listeners = new ArrayList<DataProyectoListener>();
+    public AbstractDataSets(DataProject dataProject) {
+        this.dataProject = dataProject;
+        listeners = new ArrayList<DataProjectListener>();
 
     }
 
@@ -51,14 +51,14 @@ public class AbstractDataSets implements Serializable {
      * @return
      */
     public DataProject getDataProyecto() {
-        return dataProyecto;
+        return dataProject;
     }
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public void setDataProyecto(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public void setDataProyecto(DataProject dataProject) {
+        this.dataProject = dataProject;
     }
 }

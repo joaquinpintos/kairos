@@ -17,10 +17,10 @@
 package gui.HorarioEditor;
 
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.KairosCommand;
 import data.MyConstants;
-import data.RangoHoras;
+import data.TimeRange;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
@@ -55,12 +55,12 @@ public class HorariosJPanelModel {
 
     JPanel jPanelHorarios;
     DataKairos dk;
-    private final ArrayList<DataProyectoListener> listeners;
+    private final ArrayList<DataProjectListener> listeners;
     //La solución que estoy mostrando
     private PosibleSolucion solucion;
     private String hashAulaMostrada;
-    private ArrayList<RangoHoras> listaDeRangosHorariosMañana;
-    private ArrayList<RangoHoras> listaDeRangosHorariosTarde;
+    private ArrayList<TimeRange> listaDeRangosHorariosMañana;
+    private ArrayList<TimeRange> listaDeRangosHorariosTarde;
     private final ArrayList<DraggableHorarioItemComponent> data;
     private final HashMap<String, DatosHojaHorario> horariosEnTablaPorAula;
     private final HashMap<String, Integer> numeroFilasPorAula;
@@ -96,7 +96,7 @@ public class HorariosJPanelModel {
         numeroFilasPorAula = new HashMap<String, Integer>();
         mapFilaColumnaToCasilla = new HashMap<String, HashMap<Integer[], Integer>>();
         data = new ArrayList<DraggableHorarioItemComponent>();
-        listeners = new ArrayList<DataProyectoListener>();
+        listeners = new ArrayList<DataProjectListener>();
         calculaFilasRecreo();
 
     }
@@ -114,7 +114,7 @@ public class HorariosJPanelModel {
 
     private void dibujaDiasSemana(int w, int h) {
         for (int n = 0; n < 5; n++) {
-            JLabel l = new JLabel(MyConstants.DIAS_SEMANA[n], JLabel.CENTER);
+            JLabel l = new JLabel(MyConstants.DAYS_OF_THE_WEEK[n], JLabel.CENTER);
             //l.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             jPanelHorarios.add(l);
             int x = col2x(n + 1, w, h);
@@ -131,7 +131,7 @@ public class HorariosJPanelModel {
     }
 
     private void dibujaHoras(int w, int h) {
-        ArrayList<RangoHoras> horas;
+        ArrayList<TimeRange> horas;
         filaRecreo = 0;
         if (hashAulaMostrada.contains("@T")) {
             horas = listaDeRangosHorariosTarde;
@@ -143,7 +143,7 @@ public class HorariosJPanelModel {
         if (horas != null) {
 
             for (int n = 0; n < horas.size(); n++) {
-                RangoHoras r = horas.get(n);
+                TimeRange r = horas.get(n);
                 JLabel l = new JLabel(r.toString(), JLabel.CENTER);
                 l.setBackground(MyConstants.FONDO_CASILLA_HORAS);
                 l.setOpaque(true);
@@ -498,7 +498,7 @@ public class HorariosJPanelModel {
     public void effectivelyDropItem(final DraggableHorarioItemComponent dragSrc, final int numFila, final int numColumna) {
         intercambioHorarioItemsNew(dragSrc, numFila, numColumna);
 
-        fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
+        fireDataEvent(dk.getDP().getHorario(), DataProjectListener.MODIFY);
     }
 
     /**
@@ -739,7 +739,7 @@ public class HorariosJPanelModel {
      *
      * @param l
      */
-    public void addListener(DataProyectoListener l) {
+    public void addListener(DataProjectListener l) {
         listeners.add(l);
     }
 
@@ -747,7 +747,7 @@ public class HorariosJPanelModel {
      *
      * @param l
      */
-    public void removeListener(DataProyectoListener l) {
+    public void removeListener(DataProjectListener l) {
         listeners.remove(l);
     }
 
@@ -757,7 +757,7 @@ public class HorariosJPanelModel {
      * @param type
      */
     public void fireDataEvent(Object data, int type) {
-        for (DataProyectoListener l : listeners) {
+        for (DataProjectListener l : listeners) {
             l.dataEvent(data, type);
         }
     }

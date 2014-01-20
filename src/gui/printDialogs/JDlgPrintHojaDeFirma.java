@@ -46,18 +46,18 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      * Creates new form JDlgPrintHojaDeFirma
      *
-     * @param dataProyecto
+     * @param dataProject
      * @param parent
      * @param modal
      */
-    public JDlgPrintHojaDeFirma(java.awt.Frame parent, boolean modal, DataProject dataProyecto) {
+    public JDlgPrintHojaDeFirma(java.awt.Frame parent, boolean modal, DataProject dataProject) {
         super(parent, modal);
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
         initComponents();
 
         // Close the dialog when Esc is pressed
@@ -73,7 +73,7 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
         });
         //Relleno combo con datos de aulas
         ArrayList<Aula> listData = new ArrayList<Aula>();
-        for (Aula aula : dataProyecto.getDataAulas().getAulas()) {
+        for (Aula aula : dataProject.getDataAulas().getAulas()) {
             listData.add(aula);
         }
         JListAulas.setListData(listData.toArray());
@@ -230,7 +230,7 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
         returnStatus = retStatus;
         File fileDst = null;
         if (retStatus == RET_OK) {
-            JFileChooser fc = new JFileChooser(dataProyecto.getPathForPDF());
+            JFileChooser fc = new JFileChooser(dataProject.getPathForPDF());
             FileNameExtensionFilter filt = new FileNameExtensionFilter("Archivos PDF", "pdf");
             fc.setFileFilter(filt);
             fc.setDialogTitle("Elige el nombre del archivo a guardar:");
@@ -238,7 +238,7 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
 
             if (valorDevuelto == JFileChooser.APPROVE_OPTION) {
                 fileDst = fc.getSelectedFile();
-                dataProyecto.setPathForPDF(fileDst);
+                dataProject.setPathForPDF(fileDst);
             }
             GregorianCalendar fechaInicio = new GregorianCalendar();
             GregorianCalendar fechaFinal = new GregorianCalendar();
@@ -246,7 +246,7 @@ public class JDlgPrintHojaDeFirma extends javax.swing.JDialog {
             fechaFinal.setTime(jXDateFinal.getDate());
             //Código para generar un pdf con las hojas de firma
             ArrayList<Aula> aulas = new ArrayList<Aula>(JListAulas.getSelectedValuesList());
-            HojaDeFirmaPrinter printer = new HojaDeFirmaPrinter(dataProyecto, fileDst, aulas, fechaInicio, fechaFinal);
+            HojaDeFirmaPrinter printer = new HojaDeFirmaPrinter(dataProject, fileDst, aulas, fechaInicio, fechaFinal);
             printer.imprime();
         }
 

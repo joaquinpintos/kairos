@@ -17,8 +17,8 @@
 package data.horarios;
 
 import data.DataProject;
-import data.Hora;
-import data.RangoHoras;
+import data.KairosTime;
+import data.TimeRange;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -36,16 +36,16 @@ import java.util.logging.Logger;
 public class DatosHojaHorario {
 
     HashMap<Integer, HorarioItem> data;
-    private ArrayList<RangoHoras> rangosHoras;
+    private ArrayList<TimeRange> rangosHoras;
     private HashMap<String, Integer> auxHorasHorario;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public DatosHojaHorario(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public DatosHojaHorario(DataProject dataProject) {
+        this.dataProject = dataProject;
         data = new HashMap<Integer, HorarioItem>();
     }
 
@@ -55,12 +55,12 @@ public class DatosHojaHorario {
      * @return
      */
     public int setMañana(Boolean includeRecreo) {
-        rangosHoras = new ArrayList<RangoHoras>();
-        rangosHoras.addAll(dataProyecto.getMañana1().splitRangos(dataProyecto.getMinutosPorCasilla()));
+        rangosHoras = new ArrayList<TimeRange>();
+        rangosHoras.addAll(dataProject.getMañana1().splitRangos(dataProject.getMinutosPorCasilla()));
         if (includeRecreo) {
-            rangosHoras.add(new RangoHoras(dataProyecto.getMañana1().getFin(), dataProyecto.getMañana2().getInicio()));
+            rangosHoras.add(new TimeRange(dataProject.getMañana1().getFin(), dataProject.getMañana2().getInicio()));
         }
-        rangosHoras.addAll(dataProyecto.getMañana2().splitRangos(dataProyecto.getMinutosPorCasilla()));
+        rangosHoras.addAll(dataProject.getMañana2().splitRangos(dataProject.getMinutosPorCasilla()));
         calculaIndicesAuxiliaresRangosHoras();
         return rangosHoras.size();
     }
@@ -69,7 +69,7 @@ public class DatosHojaHorario {
      *
      * @return
      */
-    public ArrayList<RangoHoras> getRangosHoras() {
+    public ArrayList<TimeRange> getRangosHoras() {
         return rangosHoras;
     }
 
@@ -79,14 +79,14 @@ public class DatosHojaHorario {
      * @return
      */
     public int setTarde(Boolean includeRecreo) {
-        rangosHoras = new ArrayList<RangoHoras>();
+        rangosHoras = new ArrayList<TimeRange>();
         try {
-            //horasHorario.add(new RangoHoras(dataProyecto.getMañana2().getFin(),dataProyecto.getTarde1().getInicio()));
-            rangosHoras.addAll(dataProyecto.getTarde1().splitRangos(dataProyecto.getMinutosPorCasilla()));
+            //horasHorario.add(new RangoHoras(dataProject.getMañana2().getFin(),dataProject.getTarde1().getInicio()));
+            rangosHoras.addAll(dataProject.getTarde1().splitRangos(dataProject.getMinutosPorCasilla()));
             if (includeRecreo) {
-                rangosHoras.add(new RangoHoras(dataProyecto.getTarde1().getFin(), dataProyecto.getTarde2().getInicio()));
+                rangosHoras.add(new TimeRange(dataProject.getTarde1().getFin(), dataProject.getTarde2().getInicio()));
             }
-            rangosHoras.addAll(dataProyecto.getTarde2().splitRangos(dataProyecto.getMinutosPorCasilla()));
+            rangosHoras.addAll(dataProject.getTarde2().splitRangos(dataProject.getMinutosPorCasilla()));
         } catch (Exception ex) {
             Logger.getLogger(DatosHojaHorario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -100,21 +100,21 @@ public class DatosHojaHorario {
      * @return
      */
     public int setMañanaYTarde(Boolean includeRecreo) {
-        rangosHoras = new ArrayList<RangoHoras>();
+        rangosHoras = new ArrayList<TimeRange>();
         try {
-            rangosHoras.addAll(dataProyecto.getMañana1().splitRangos(dataProyecto.getMinutosPorCasilla()));
+            rangosHoras.addAll(dataProject.getMañana1().splitRangos(dataProject.getMinutosPorCasilla()));
             if (includeRecreo) {
-                rangosHoras.add(new RangoHoras(dataProyecto.getMañana1().getFin(), dataProyecto.getMañana2().getInicio()));
+                rangosHoras.add(new TimeRange(dataProject.getMañana1().getFin(), dataProject.getMañana2().getInicio()));
             }
-            rangosHoras.addAll(dataProyecto.getMañana2().splitRangos(dataProyecto.getMinutosPorCasilla()));
+            rangosHoras.addAll(dataProject.getMañana2().splitRangos(dataProject.getMinutosPorCasilla()));
             if (includeRecreo) {
-                rangosHoras.add(new RangoHoras(dataProyecto.getMañana2().getFin(), dataProyecto.getTarde1().getInicio()));
+                rangosHoras.add(new TimeRange(dataProject.getMañana2().getFin(), dataProject.getTarde1().getInicio()));
             }
-            rangosHoras.addAll(dataProyecto.getTarde1().splitRangos(dataProyecto.getMinutosPorCasilla()));
+            rangosHoras.addAll(dataProject.getTarde1().splitRangos(dataProject.getMinutosPorCasilla()));
             if (includeRecreo) {
-                rangosHoras.add(new RangoHoras(dataProyecto.getTarde1().getFin(), dataProyecto.getTarde2().getInicio()));
+                rangosHoras.add(new TimeRange(dataProject.getTarde1().getFin(), dataProject.getTarde2().getInicio()));
             }
-            rangosHoras.addAll(dataProyecto.getTarde2().splitRangos(dataProyecto.getMinutosPorCasilla()));
+            rangosHoras.addAll(dataProject.getTarde2().splitRangos(dataProject.getMinutosPorCasilla()));
         } catch (Exception ex) {
             Logger.getLogger(DatosHojaHorario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -140,7 +140,7 @@ public class DatosHojaHorario {
      */
     public HorarioItem retrieveData(int numColumna, int numFila) {
         int numFilas = rangosHoras.size();
-        int numDiaLectivo = dataProyecto.getDiasSemanaLectivos().indexOf(numColumna) + 1;
+        int numDiaLectivo = dataProject.getDiasSemanaLectivos().indexOf(numColumna) + 1;
         return data.get((numDiaLectivo - 1) * numFilas + numFila);
     }
 
@@ -150,9 +150,9 @@ public class DatosHojaHorario {
      * @param horaInicio
      * @return
      */
-    public HorarioItem retrieveData(int numDia, Hora horaInicio) {
+    public HorarioItem retrieveData(int numDia, KairosTime horaInicio) {
         int numFila = horaInicioToNumeroFila(horaInicio);
-        int numColumma = dataProyecto.getDiasSemanaLectivos().indexOf(numDia) + 1;
+        int numColumma = dataProject.getDiasSemanaLectivos().indexOf(numDia) + 1;
         if (numFila == -1) {
             return null;
         } else {
@@ -166,7 +166,7 @@ public class DatosHojaHorario {
      * @param r
      * @return
      */
-    public HorarioItem retrieveData(int numDia, RangoHoras r) {
+    public HorarioItem retrieveData(int numDia, TimeRange r) {
         return retrieveData(numDia, r.getInicio());
     }
 
@@ -188,7 +188,7 @@ public class DatosHojaHorario {
      * @param h
      */
     public void add(HorarioItem h) {
-        Hora hora = h.getRangoHoras().getInicio();
+        KairosTime hora = h.getRangoHoras().getInicio();
         int numFila = 0;
         try {
             while (!hora.equals(rangosHoras.get(numFila).getInicio())) {
@@ -224,9 +224,9 @@ public class DatosHojaHorario {
                         }
                     }
                     if (hayQueRellenar) {
-                        RangoHoras r = rangosHoras.get(numFila);
+                        TimeRange r = rangosHoras.get(numFila);
                         boolean esTarde;
-                        esTarde = ((dataProyecto.getTarde1().contieneRango(r)) || (dataProyecto.getTarde2().contieneRango(r)));
+                        esTarde = ((dataProject.getTarde1().contieneRango(r)) || (dataProject.getTarde2().contieneRango(r)));
                         int numCasilla = (numDia - 1) * rangosHoras.size() + numFila;
                         HorarioItem h3 = new HorarioItem(null, null, null, null, r, esTarde, numDia, true, 1);
                         h3.setNumcasilla(numCasilla);
@@ -266,7 +266,7 @@ public class DatosHojaHorario {
      * @param horaInicio
      * @return
      */
-    public int horaInicioToNumeroFila(Hora horaInicio) {
+    public int horaInicioToNumeroFila(KairosTime horaInicio) {
         int numFila = 0;
         while ((!horaInicio.equals(rangosHoras.get(numFila).getInicio())) && numFila < rangosHoras.size()) {
             numFila++;

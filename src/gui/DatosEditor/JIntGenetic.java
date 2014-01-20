@@ -16,9 +16,9 @@
  */
 package gui.DatosEditor;
 
-import data.CheckDataProyecto;
+import data.CheckDataProject;
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import genetic.crossovers.PermutationCrossover;
 import data.genetic.DataGenerator;
 import data.genetic.GeneticAlgorithm;
@@ -239,7 +239,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
     public void doGenetic(PosibleSolucion solInicial) throws Exception {
         final ImageIcon[] trafficLights = new ImageIcon[]{dk.mc.RED_TRAFFIC_LIGHT, dk.mc.YELLOW_TRAFFIC_LIGHT, dk.mc.GREEN_TRAFFIC_LIGHT};
         final GeneticAlgorithm geneticAlgorithm;
-        CheckDataProyecto check = new CheckDataProyecto(dk.getDP());
+        CheckDataProject check = new CheckDataProject(dk.getDP());
         dk.getDP().calculaMinutosPorCasilla();
         System.out.println("Minutos por casilla: " + dk.getDP().getMinutosPorCasilla());
         DataGenerator dataGenerator = new DataGenerator(dk.getDP().getMinutosPorCasilla(), dk.getDP());
@@ -356,7 +356,7 @@ public class JIntGenetic extends javax.swing.JInternalFrame implements DataGUIIn
                         mainWindow.getHorarioEditorMaster().recalculaRestricciones();
                         for (JIntHorarioEditor hv : mainWindow.getHorarioEditorMaster().getEditors()) {
                             hv.updateData();
-                            hv.getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProyectoListener.MODIFY);
+                            hv.getHorariosJPanelModel().fireDataEvent(dk.getDP().getHorario(), DataProjectListener.MODIFY);
                         }
                     } else {
                         mainWindow.setProjectStatus(DataKairos.STATUS_PROJECT_NO_SOLUTION);

@@ -17,7 +17,7 @@
 package data.aulas;
 
 import data.DataProject;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.asignaturas.Grupo;
 import java.io.File;
 import java.io.Serializable;
@@ -34,21 +34,21 @@ public class DataAsignacionAulas implements Serializable {
     private static final long serialVersionUID = 27112013L;
     private Document documentoXML;
     private File lastFileUsed;
-    private final ArrayList<DataProyectoListener> listeners;
+    private final ArrayList<DataProjectListener> listeners;
     final HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesMañana;
     final HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignacionesTarde;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public DataAsignacionAulas(DataProject dataProyecto) {
+    public DataAsignacionAulas(DataProject dataProject) {
 
         asignacionesMañana = new HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>>();
         asignacionesTarde = new HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>>();
-        listeners = new ArrayList<DataProyectoListener>();
-        this.dataProyecto = dataProyecto;
+        listeners = new ArrayList<DataProjectListener>();
+        this.dataProject = dataProject;
     }
 
     /**
@@ -181,7 +181,7 @@ public class DataAsignacionAulas implements Serializable {
         }
         aula = buscaAula(asignaciones, hashAula, esTarde);
         //Ahora que tengo el aula, lo relleno con todos los grupos que tengan ese hash
-        for (Grupo gr : dataProyecto.getDataAsignaturas().getAllGrupos()) {
+        for (Grupo gr : dataProject.getDataAsignaturas().getAllGrupos()) {
             if (gr.getHashCarreraGrupoCurso() == null ? hashGrupoCurso == null : gr.getHashCarreraGrupoCurso().equals(hashGrupoCurso)) {
                 CarreraCursoGrupoContainer cont = new CarreraCursoGrupoContainer(hashGrupoCurso, gr.getNombreConCarrera());
                 //  if (!asignaciones.containsKey(aula)) asignaciones.put(aula,new HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>());
@@ -196,7 +196,7 @@ public class DataAsignacionAulas implements Serializable {
 
     private Aula buscaAula(HashMap<Aula, HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>> asignaciones, String hashBuscado, Boolean esTarde) {
         Aula resul = null;
-        for (Aula a : dataProyecto.getDataAulas().getAulas()) {
+        for (Aula a : dataProject.getDataAulas().getAulas()) {
             if (a.getHash(esTarde) == null ? hashBuscado == null : a.getHash(esTarde).equals(hashBuscado)) {
                 resul = a;
                 break;
@@ -217,7 +217,7 @@ public class DataAsignacionAulas implements Serializable {
         if (!asignacionesTarde.containsKey(aula)) {
             asignacionesTarde.put(aula, new HashMap<CarreraCursoGrupoContainer, ArrayList<Grupo>>());
         }
-        fireDataEvent(aula, DataProyectoListener.ADD);
+        fireDataEvent(aula, DataProjectListener.ADD);
     }
 
     public void removeAula(Aula aula) {
@@ -227,7 +227,7 @@ public class DataAsignacionAulas implements Serializable {
         if (!asignacionesTarde.containsKey(aula)) {
             asignacionesTarde.remove(aula);
         }
-        fireDataEvent(aula, DataProyectoListener.REMOVE);
+        fireDataEvent(aula, DataProjectListener.REMOVE);
     }
 
     /**
@@ -250,7 +250,7 @@ public class DataAsignacionAulas implements Serializable {
      *
      * @param l
      */
-    public void addListener(DataProyectoListener l) {
+    public void addListener(DataProjectListener l) {
         listeners.add(l);
     }
 
@@ -258,7 +258,7 @@ public class DataAsignacionAulas implements Serializable {
      *
      * @param l
      */
-    public void removeListener(DataProyectoListener l) {
+    public void removeListener(DataProjectListener l) {
         listeners.remove(l);
     }
 
@@ -268,7 +268,7 @@ public class DataAsignacionAulas implements Serializable {
      * @param type
      */
     public void fireDataEvent(Object data, int type) {
-        for (DataProyectoListener l : listeners) {
+        for (DataProjectListener l : listeners) {
             l.dataEvent(data, type);
         }
     }
@@ -310,7 +310,7 @@ public class DataAsignacionAulas implements Serializable {
      * @return
      */
     public DataProject getDataProyecto() {
-        return dataProyecto;
+        return dataProject;
     }
 
 }

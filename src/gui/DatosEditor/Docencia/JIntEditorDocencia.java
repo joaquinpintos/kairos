@@ -19,7 +19,7 @@ package gui.DatosEditor.Docencia;
 import gui.DatosEditor.Asignaturas.JTreeAsignaturasDropListener;
 import gui.DatosEditor.Profesores.JTreeProfesoresDropListener;
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.profesores.TreeCellRendererProfesores;
 import data.profesores.TreeModelProfesores;
 import gui.AbstractMainWindow;
@@ -35,7 +35,7 @@ import javax.swing.JTree;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntEditorDocencia extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeAsignaturas, TreeProfesores {
+public class JIntEditorDocencia extends javax.swing.JInternalFrame implements DataGUIInterface, DataProjectListener, TreeAsignaturas, TreeProfesores {
 
     private final DataKairos dk;
     private AbstractMainWindow mainWindow;

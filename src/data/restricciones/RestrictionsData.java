@@ -32,10 +32,10 @@ public class RestrictionsData extends AbstractDataSets {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public RestrictionsData(DataProject dataProyecto) {
-        super(dataProyecto);
+    public RestrictionsData(DataProject dataProject) {
+        super(dataProject);
         this.listaRestricciones = new ArrayList<Restriccion>();
     }
 

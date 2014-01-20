@@ -17,7 +17,7 @@
 package gui.DatosEditor.Profesores;
 
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.KairosCommand;
 import data.asignaturas.Teachable;
 import data.profesores.Departamento;
@@ -65,7 +65,7 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener, TreeProfesores {
+public class JIntTreeProfesores extends javax.swing.JInternalFrame implements DataGUIInterface, DataProjectListener, TreeProfesores {
 
     private Profesor profesorMostradoEnDocencia;
     private final DataKairos dk;

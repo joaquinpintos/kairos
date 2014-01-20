@@ -17,7 +17,7 @@
 package gui.DatosEditor.Aulas;
 
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.KairosCommand;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.Aula;
@@ -51,7 +51,7 @@ import javax.swing.event.TreeModelListener;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
+public class JIntTreeAulas extends javax.swing.JInternalFrame implements DataGUIInterface, DataProjectListener {
 
     private DataAsignaturas dataAsignaturas;
     private DataAulas dataAulas;

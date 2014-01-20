@@ -22,7 +22,7 @@ package data;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public interface DataProyectoListener {
+public interface DataProjectListener {
 
     public final int ADD = 0;
     public final int MODIFY = 1;

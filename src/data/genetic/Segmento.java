@@ -16,9 +16,9 @@
  */
 package data.genetic;
 
-import data.Hora;
+import data.KairosTime;
 import data.asignaturas.Grupo;
-import data.RangoHoras;
+import data.TimeRange;
 import data.asignaturas.Tramo;
 import data.profesores.Profesor;
 import java.io.Serializable;
@@ -114,10 +114,10 @@ public class Segmento implements Serializable {
      * @return
      * @throws Exception
      */
-    public RangoHoras getRangoHoraPuestoEnCasilla(Casilla cas) throws Exception {
-        Hora hora2 = cas.getHora().copia();
+    public TimeRange getRangoHoraPuestoEnCasilla(Casilla cas) throws Exception {
+        KairosTime hora2 = cas.getHora().copia();
         hora2.sumaMinutos(this.duracion);
-        return new RangoHoras(cas.getHora(), hora2);
+        return new TimeRange(cas.getHora(), hora2);
 
     }
 

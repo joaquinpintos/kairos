@@ -24,16 +24,16 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ArrayRangoHoras implements Serializable {
+public class TimeRangeArray implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
-    private final ArrayList<RangoHoras> data;
+    private final ArrayList<TimeRange> data;
 
     /**
      * Constructor por defecto, creando un array vacío.
      */
-    public ArrayRangoHoras() {
-        this.data = new ArrayList<RangoHoras>();
+    public TimeRangeArray() {
+        this.data = new ArrayList<TimeRange>();
     }
 
     /**
@@ -41,7 +41,7 @@ public class ArrayRangoHoras implements Serializable {
      *
      * @param data
      */
-    public ArrayRangoHoras(ArrayList<RangoHoras> data) {
+    public TimeRangeArray(ArrayList<TimeRange> data) {
         this.data = data;
     }
 
@@ -59,13 +59,13 @@ public class ArrayRangoHoras implements Serializable {
      *
      * @param texto Cadena con los rangos de horas
      */
-    public ArrayRangoHoras(String texto) {
-        data = new ArrayList<RangoHoras>();
+    public TimeRangeArray(String texto) {
+        data = new ArrayList<TimeRange>();
         if (!texto.equals("")) {
             String[] dataSplitted = texto.replace(" ", "").split(",");
             for (String r : dataSplitted) {
                 if (!r.equals("")) {
-                    data.add(new RangoHoras(r));
+                    data.add(new TimeRange(r));
                 }
             }
         }
@@ -75,7 +75,7 @@ public class ArrayRangoHoras implements Serializable {
     public String toString() {
         Boolean first = true;
         StringBuilder resul = new StringBuilder();
-        for (RangoHoras r : data) {
+        for (TimeRange r : data) {
             if (!first) {
                 resul.append(", ");
             }
@@ -89,7 +89,7 @@ public class ArrayRangoHoras implements Serializable {
      *
      * @return Array de rangos de horas
      */
-    public ArrayList<RangoHoras> getData() {
+    public ArrayList<TimeRange> getData() {
         return data;
     }
 
@@ -102,9 +102,9 @@ public class ArrayRangoHoras implements Serializable {
      * @param rangoHora Rango horario a comprobar
      * @return True si el rango dado está contenido. False en caso contrario.
      */
-    public boolean contiene(RangoHoras rangoHora) {
+    public boolean contiene(TimeRange rangoHora) {
         boolean resul = false;
-        for (RangoHoras r : data) {
+        for (TimeRange r : data) {
             if (r.contieneRango(rangoHora)) {
                 resul = true;
                 break;
@@ -120,9 +120,9 @@ public class ArrayRangoHoras implements Serializable {
      * @param rangoHora Rango a comprobar.
      * @return True si hay coincidencia. False en caso contrario.
      */
-    public boolean solapaCon(RangoHoras rangoHora) {
+    public boolean solapaCon(TimeRange rangoHora) {
         boolean resul = false;
-        for (RangoHoras r : data) {
+        for (TimeRange r : data) {
             if (r.solapaCon(rangoHora)) {
                 resul = true;
                 break;

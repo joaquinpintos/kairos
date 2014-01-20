@@ -17,7 +17,7 @@
 package loader;
 
 import data.DataProject;
-import data.RangoHoras;
+import data.TimeRange;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -32,16 +32,16 @@ import org.w3c.dom.Element;
 public class DOMLoaderDatosProyecto {
 
     private final File file;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      *
      * @param file
-     * @param dataProyecto
+     * @param dataProject
      */
-    public DOMLoaderDatosProyecto(File file, DataProject dataProyecto) {
+    public DOMLoaderDatosProyecto(File file, DataProject dataProject) {
         this.file = file;
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
     }
 
     /**
@@ -57,14 +57,14 @@ public class DOMLoaderDatosProyecto {
 
         //Leo datos horario aulas. En esta versión asumo que todas las horas son iguales
         nodo = buscaPrimerElementoConNombre(parent, "horario_aulas");
-        dataProyecto.setMañana1(leeRangoHoras("horario_mañana", "tramo_1", nodo));
-        dataProyecto.setMañana2(leeRangoHoras("horario_mañana", "tramo_2", nodo));
-        dataProyecto.setTarde1(leeRangoHoras("horario_tarde", "tramo_1", nodo));
-        dataProyecto.setTarde2(leeRangoHoras("horario_tarde", "tramo_2", nodo));
+        dataProject.setMañana1(leeRangoHoras("horario_mañana", "tramo_1", nodo));
+        dataProject.setMañana2(leeRangoHoras("horario_mañana", "tramo_2", nodo));
+        dataProject.setTarde1(leeRangoHoras("horario_tarde", "tramo_1", nodo));
+        dataProject.setTarde2(leeRangoHoras("horario_tarde", "tramo_2", nodo));
 
         //Leo dias lectivos de la semana
         nodo = buscaPrimerElementoConNombre(parent, "dias_semana_lectivos");
-        dataProyecto.setDiasSemanaLectivos(readDiasLectivosSemana(nodo));
+        dataProject.setDiasSemanaLectivos(readDiasLectivosSemana(nodo));
 
         //Leo fecha inicial y final del periodo lectivo
         nodo = buscaPrimerElementoConNombre(parent, "periodo_lectivo");
@@ -73,10 +73,10 @@ public class DOMLoaderDatosProyecto {
             //Nodo inicio
             nodo2 = buscaPrimerElementoConNombre(nodo, "inicio");
             String te = nodo2.getTextContent().trim();
-            dataProyecto.getAcademicCalendar().setInicio(te);
+            dataProject.getAcademicCalendar().setBeginning(te);
             //Nodo fin
             nodo2 = buscaPrimerElementoConNombre(nodo, "fin");
-            dataProyecto.getAcademicCalendar().setFin(nodo2.getTextContent().trim());
+            dataProject.getAcademicCalendar().setEnd(nodo2.getTextContent().trim());
         } catch (ParseException ex) {
             Logger.getLogger(DOMLoaderDatosProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,20 +89,20 @@ public class DOMLoaderDatosProyecto {
                 org.w3c.dom.Element elemDia = (Element) nodeList.item(i);
                 String descripcion = elemDia.getAttribute("descripcion");
                 String strDia = elemDia.getTextContent();
-                dataProyecto.getAcademicCalendar().addDiaNoLectivo(strDia, descripcion);
+                dataProject.getAcademicCalendar().addDiaNoLectivo(strDia, descripcion);
             }
         }
 
     }
 
-    private RangoHoras leeRangoHoras(String parteDia, String tramo, Element el) {
+    private TimeRange leeRangoHoras(String parteDia, String tramo, Element el) {
         Element el2 = buscaPrimerElementoConNombre(el, parteDia);
         Element el3 = buscaPrimerElementoConNombre(el2, tramo);
         Element el4 = buscaPrimerElementoConNombre(el3, "inicio");
         String inicio = el4.getTextContent();
         el4 = buscaPrimerElementoConNombre(el3, "fin");
         String fin = el4.getTextContent();
-        return new RangoHoras(inicio, fin);
+        return new TimeRange(inicio, fin);
     }
 
     private ArrayList<Integer> readDiasLectivosSemana(Element parent) {

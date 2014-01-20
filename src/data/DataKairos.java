@@ -89,10 +89,10 @@ public class DataKairos {
     /**
      * Cambia el objeto de datos del proyecto
      *
-     * @param dataProyecto Nueva variable de datos de proyecto
+     * @param dataProject Nueva variable de datos de proyecto
      */
-    public void setDP(DataProject dataProyecto) {
-        this.dataProject = dataProyecto;
+    public void setDP(DataProject dataProject) {
+        this.dataProject = dataProject;
     }
 
     /**
@@ -118,8 +118,8 @@ public class DataKairos {
         dd.add(3);
         dd.add(4);
         dd.add(5);
-        dataProject.getAcademicCalendar().setDiasSemanaLectivos(dd);
-        dataProject.getAcademicCalendar().setInicio(new GregorianCalendar());
+        dataProject.getAcademicCalendar().setAcademicWeekDays(dd);
+        dataProject.getAcademicCalendar().setBeginning(new GregorianCalendar());
         dataProject.getRestrictionsData().add(new RProfesorNoUbicuo(dataProject));
         dataProject.getRestrictionsData().add(new RGrupoNoUbicuo(dataProject));
         dataProject.getRestrictionsData().add(new RClasesNoCruzanRecreo(dataProject));

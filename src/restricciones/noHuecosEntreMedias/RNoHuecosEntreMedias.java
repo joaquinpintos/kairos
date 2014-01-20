@@ -58,9 +58,9 @@ public class RNoHuecosEntreMedias extends Restriccion {
         //Para cada aula, calculo cuántos casillas contiene cada día
         //VERSION-DEPENDENT: Depende de que cada día tenga el mísmo número de casillas!
         numeroCasillasPorDia.clear();
-        int numDiasPorSemana = dataProyecto.getDiasSemanaLectivos().size();
-        for (String hashAula : dataProyecto.getMapDatosPorAula().keySet()) {
-            int numCasillas = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas().size();
+        int numDiasPorSemana = dataProject.getDiasSemanaLectivos().size();
+        for (String hashAula : dataProject.getMapDatosPorAula().keySet()) {
+            int numCasillas = dataProject.getMapDatosPorAula().get(hashAula).getListaCasillas().size();
             numeroCasillasPorDia.put(hashAula, numCasillas / numDiasPorSemana);
         }
     }
@@ -72,7 +72,7 @@ public class RNoHuecosEntreMedias extends Restriccion {
      */
     @Override
     public long calculaPeso(PosibleSolucion posibleSolucion) {
-        int numMinimoCasillasOcupadas = (60 * numMinimoHorassOcupadas) / dataProyecto.getMinutosPorCasilla();
+        int numMinimoCasillasOcupadas = (60 * numMinimoHorassOcupadas) / dataProject.getMinutosPorCasilla();
         tramoConHuecosGlobal = false;
         diasPocoOcupados = false;
         long suma = getSuma();
@@ -90,12 +90,12 @@ public class RNoHuecosEntreMedias extends Restriccion {
             //state 2: en casillas libres de fin mañana/tarde
             //Si casilla libre aquí, falla test en este turno
             //0, 1 y 2
-//            ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
-            ListaSegmentos ls = dataProyecto.getMapDatosPorAula().get(hashAula).getListaSegmentos();
+//            ListaCasillas lc = dataProject.getMapDatosPorAula().get(hashAula).getListaCasillas();
+            ListaSegmentos ls = dataProject.getMapDatosPorAula().get(hashAula).getListaSegmentos();
             Segmento s;
             tramoConHuecosEsteDia = false;
             int numCasillasPorDia = numeroCasillasPorDia.get(hashAula);
-            for (int dia = 0; dia < dataProyecto.getDiasSemanaLectivos().size(); dia++) {
+            for (int dia = 0; dia < dataProject.getDiasSemanaLectivos().size(); dia++) {
                 state = 0; //Estado 0
                 int numCasillasOcupadasEsteDia = 0;
                 tramoConHuecosEsteDia = false;

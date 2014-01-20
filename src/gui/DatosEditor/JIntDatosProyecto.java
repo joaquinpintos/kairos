@@ -19,9 +19,9 @@ package gui.DatosEditor;
 import data.AcademicCalendar;
 import data.DataKairos;
 import data.DataProject;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.MyConstants;
-import data.RangoHoras;
+import data.TimeRange;
 import gui.AbstractMainWindow;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -40,7 +40,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
+public class JIntDatosProyecto extends javax.swing.JInternalFrame implements DataGUIInterface, DataProjectListener {
 
     private final DataKairos dk;
     private AbstractMainWindow mainwindow;
@@ -547,12 +547,12 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
         jCheckViernes.setSelected(dp.getDiasSemanaLectivos().contains(5));
 
         //Cambio campos inicio/final periodo lectivo
-        jXDateInicioPeriodoLectivo.setDate(dp.getAcademicCalendar().getInicio().getTime());
-        jXDateFinPeriodoLectivo.setDate(dp.getAcademicCalendar().getFin().getTime());
+        jXDateInicioPeriodoLectivo.setDate(dp.getAcademicCalendar().getBeginning().getTime());
+        jXDateFinPeriodoLectivo.setDate(dp.getAcademicCalendar().getEnd().getTime());
         StringBuilder texto = new StringBuilder();
-        for (int n = 0; n < dp.getAcademicCalendar().getDiasNoLectivos().size(); n++) {
-            texto.append(dp.getAcademicCalendar().getDiasNoLectivos().get(n)).append("  ");
-            texto.append(dp.getAcademicCalendar().getDescripcionDiasNoLectivos().get(n)).append("\n");
+        for (int n = 0; n < dp.getAcademicCalendar().getNonAcademicDays().size(); n++) {
+            texto.append(dp.getAcademicCalendar().getNonAcademicDays().get(n)).append("  ");
+            texto.append(dp.getAcademicCalendar().getNonAcademicDaysDescription().get(n)).append("\n");
         }
         jTextAreaDiasNoLectivos.setText(texto.toString());
         calculaDiasLectivosTotales();
@@ -573,12 +573,12 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
             Date a = jXDateInicioPeriodoLectivo.getDate();
             Date b = jXDateFinPeriodoLectivo.getDate();
             if ((a != null) && (b != null)) {
-                cal.setInicio(jXDateInicioPeriodoLectivo.getDate());
-                cal.setFin(jXDateFinPeriodoLectivo.getDate());
-                if (cal.getInicio().compareTo(cal.getFin()) > 0) {
+                cal.setBeginning(jXDateInicioPeriodoLectivo.getDate());
+                cal.setEnd(jXDateFinPeriodoLectivo.getDate());
+                if (cal.getBeginning().compareTo(cal.getEnd()) > 0) {
                     throw new ParseException("Fecha final es menor que la fecha inicial", 0);
                 }
-                ArrayList<GregorianCalendar> resul = cal.getArrayDiasLectivos();
+                ArrayList<GregorianCalendar> resul = cal.computeArrayAcademicDays();
                 jLabResulDias.setText("" + resul.size());
 
                 //Desgloso los días por día de la semana
@@ -622,15 +622,16 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
     }
 
     private void pasaDatosDeGUIaDataProyecto() {
-        //Actualizo los datos en dataProyecto
+        //Actualizo los datos en dataProject
+        //TODO: Pass this to the KairosController
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
         try {
-            dk.getDP().setMañana1(new RangoHoras(df.format(jSpinHoraMañanaInicio1.getValue()), df.format(jSpinHoraMañanaFin1.getValue())));
-            dk.getDP().setMañana2(new RangoHoras(df.format(jSpinHoraMañanaInicio2.getValue()), df.format(jSpinHoraMañanaFin2.getValue())));
+            dk.getDP().setMañana1(new TimeRange(df.format(jSpinHoraMañanaInicio1.getValue()), df.format(jSpinHoraMañanaFin1.getValue())));
+            dk.getDP().setMañana2(new TimeRange(df.format(jSpinHoraMañanaInicio2.getValue()), df.format(jSpinHoraMañanaFin2.getValue())));
 
-            dk.getDP().setTarde1(new RangoHoras(df.format(jSpinHoraTardeInicio1.getValue()), df.format(jSpinHoraTardeFin1.getValue())));
-            dk.getDP().setTarde2(new RangoHoras(df.format(jSpinHoraTardeInicio2.getValue()), df.format(jSpinHoraTardeFin2.getValue())));
+            dk.getDP().setTarde1(new TimeRange(df.format(jSpinHoraTardeInicio1.getValue()), df.format(jSpinHoraTardeFin1.getValue())));
+            dk.getDP().setTarde2(new TimeRange(df.format(jSpinHoraTardeInicio2.getValue()), df.format(jSpinHoraTardeFin2.getValue())));
 
         } catch (NumberFormatException ex) {
         }
@@ -654,8 +655,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
 
         dk.getDP().setDiasSemanaLectivos(ar);
         try {
-            dk.getDP().getAcademicCalendar().setInicio(jXDateInicioPeriodoLectivo.getDate());
-            dk.getDP().getAcademicCalendar().setFin(jXDateFinPeriodoLectivo.getDate());
+            dk.getDP().getAcademicCalendar().setBeginning(jXDateInicioPeriodoLectivo.getDate());
+            dk.getDP().getAcademicCalendar().setEnd(jXDateFinPeriodoLectivo.getDate());
         } catch (NullPointerException ex) {
         }
         jXDateInicioPeriodoLectivo.setForeground(Color.BLACK);
@@ -675,8 +676,8 @@ public class JIntDatosProyecto extends javax.swing.JInternalFrame implements Dat
                 nuevosDias.add(strDia);
                 nuevosDiasDescripcion.add(strDescripcion);
             }
-            cal.setDiasNoLectivos(nuevosDias);
-            cal.setDescripcionDiasNoLectivos(nuevosDiasDescripcion);
+            cal.setNonAcademicDays(nuevosDias);
+            cal.setNonAcademicDaysDescription(nuevosDiasDescripcion);
             jTextAreaDiasNoLectivos.setForeground(Color.BLACK);
         } catch (ParseException ex) {
             jTextAreaDiasNoLectivos.setForeground(MyConstants.CONFLICTIVE_ITEM);

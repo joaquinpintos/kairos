@@ -18,7 +18,7 @@ package gui;
 
 import data.DataKairos;
 import data.DataProject;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.KairosController;
 import data.asignaturas.DataAsignaturas;
 import data.aulas.DataAulas;
@@ -64,7 +64,7 @@ import loader.XMLDataLoaderWriter;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public abstract class AbstractMainWindow extends javax.swing.JFrame implements DataProyectoListener {
+public abstract class AbstractMainWindow extends javax.swing.JFrame implements DataProjectListener {
 
     //Variables globales de aplicación
     private File lastFileUsed;

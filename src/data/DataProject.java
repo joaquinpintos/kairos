@@ -58,7 +58,7 @@ public class DataProject implements Serializable {
     private Horario horario;
     //  private ListaSegmentos listaSegmentos;
     //Datos generales sobre el proyecto
-    private final ConfigProyecto configProyecto;
+    private final ConfigProject configProyecto;
 
     //private MainWindow mainWindow;
     //Clase con los datos del calendario académico: Días lectivos, inicio/fin, etc.
@@ -98,7 +98,7 @@ public class DataProject implements Serializable {
         dataRestricciones = new RestrictionsData(this);
         dataAsignacionAulas = new DataAsignacionAulas(this);
         status = DataKairos.STATUS_PROJECT_NO_SOLUTION;
-        configProyecto = new ConfigProyecto(this);
+        configProyecto = new ConfigProject(this);
     }
 
     /**
@@ -207,64 +207,64 @@ public class DataProject implements Serializable {
      *
      * @return
      */
-    public RangoHoras getMañana1() {
-        return this.academicCalendar.getMañana1();
+    public TimeRange getMañana1() {
+        return this.academicCalendar.getMorning1();
     }
 
     /**
      *
      * @param mañana1
      */
-    public void setMañana1(RangoHoras mañana1) {
-        this.academicCalendar.setMañana1(mañana1);
+    public void setMañana1(TimeRange mañana1) {
+        this.academicCalendar.setMorning1(mañana1);
     }
 
     /**
      *
      * @return
      */
-    public RangoHoras getMañana2() {
-        return this.academicCalendar.getMañana2();
+    public TimeRange getMañana2() {
+        return this.academicCalendar.getMorning2();
     }
 
     /**
      *
      * @param mañana2
      */
-    public void setMañana2(RangoHoras mañana2) {
-        this.academicCalendar.setMañana2(mañana2);
+    public void setMañana2(TimeRange mañana2) {
+        this.academicCalendar.setMorning2(mañana2);
     }
 
     /**
      *
      * @return
      */
-    public RangoHoras getTarde1() {
-        return this.academicCalendar.getTarde1();
+    public TimeRange getTarde1() {
+        return this.academicCalendar.getEvening1();
     }
 
     /**
      *
      * @param tarde1
      */
-    public void setTarde1(RangoHoras tarde1) {
-        this.academicCalendar.setTarde1(tarde1);
+    public void setTarde1(TimeRange tarde1) {
+        this.academicCalendar.setEvening1(tarde1);
     }
 
     /**
      *
      * @return
      */
-    public RangoHoras getTarde2() {
-        return this.academicCalendar.getTarde2();
+    public TimeRange getTarde2() {
+        return this.academicCalendar.getEvening2();
     }
 
     /**
      *
      * @param tarde2
      */
-    public void setTarde2(RangoHoras tarde2) {
-        this.academicCalendar.setTarde2(tarde2);
+    public void setTarde2(TimeRange tarde2) {
+        this.academicCalendar.setEvening2(tarde2);
     }
 
     /**
@@ -309,7 +309,7 @@ public class DataProject implements Serializable {
      * @return
      */
     public ArrayList<Integer> getDiasSemanaLectivos() {
-        return academicCalendar.getDiasSemanaLectivos();
+        return academicCalendar.getAcademicWeekDays();
     }
 
     /**
@@ -317,7 +317,7 @@ public class DataProject implements Serializable {
      * @param diasSemanaLectivos
      */
     public void setDiasSemanaLectivos(ArrayList<Integer> diasSemanaLectivos) {
-        this.academicCalendar.setDiasSemanaLectivos(diasSemanaLectivos);
+        this.academicCalendar.setAcademicWeekDays(diasSemanaLectivos);
     }
 
     /**
@@ -458,7 +458,7 @@ public class DataProject implements Serializable {
      *
      * @return
      */
-    public ConfigProyecto getConfigProyecto() {
+    public ConfigProject getConfigProyecto() {
         return configProyecto;
     }
 

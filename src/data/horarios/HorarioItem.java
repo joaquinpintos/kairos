@@ -17,7 +17,7 @@
 package data.horarios;
 
 import data.MyConstants;
-import data.RangoHoras;
+import data.TimeRange;
 import data.asignaturas.Asignatura;
 import data.asignaturas.Grupo;
 import data.asignaturas.Tramo;
@@ -51,7 +51,7 @@ public class HorarioItem implements Serializable {
     private Grupo grupo; //Grupo contiene la información del curso y carrera.
     private Asignatura asignatura;
     private Aula aula;
-    private RangoHoras rangoHoras;
+    private TimeRange rangoHoras;
     private boolean esTarde;
     private int diaSemana;
     private boolean huecoLibre;
@@ -73,7 +73,7 @@ public class HorarioItem implements Serializable {
      * @param esHuecoLibre
      * @param numeroDeCasillasQueOcupa
      */
-    public HorarioItem(Profesor profesor, Grupo grupo, Asignatura asignatura, Aula aula, RangoHoras rangoHoras, boolean esTarde, int diaSemana, boolean esHuecoLibre, int numeroDeCasillasQueOcupa) {
+    public HorarioItem(Profesor profesor, Grupo grupo, Asignatura asignatura, Aula aula, TimeRange rangoHoras, boolean esTarde, int diaSemana, boolean esHuecoLibre, int numeroDeCasillasQueOcupa) {
         this.profesor = profesor;
         this.grupo = grupo;
         this.asignatura = asignatura;
@@ -138,7 +138,7 @@ public class HorarioItem implements Serializable {
      *
      * @return
      */
-    public RangoHoras getRangoHoras() {
+    public TimeRange getRangoHoras() {
         return rangoHoras;
     }
 
@@ -146,7 +146,7 @@ public class HorarioItem implements Serializable {
      *
      * @param rangoHoras
      */
-    public void setRangoHoras(RangoHoras rangoHoras) {
+    public void setRangoHoras(TimeRange rangoHoras) {
         this.rangoHoras = rangoHoras;
     }
 
@@ -171,7 +171,7 @@ public class HorarioItem implements Serializable {
      * @return
      */
     public String printDiaSemana() {
-        return MyConstants.DIAS_SEMANA[diaSemana - 1];//diaSemana varía entre 1 y 5;
+        return MyConstants.DAYS_OF_THE_WEEK[diaSemana - 1];//diaSemana varía entre 1 y 5;
     }
 
     @Override

@@ -31,16 +31,16 @@ import org.w3c.dom.NodeList;
 public class DOMLoaderRestricciones {
 
     private final File file;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      *
      * @param file
-     * @param dataProyecto
+     * @param dataProject
      */
-    public DOMLoaderRestricciones(File file, DataProject dataProyecto) {
+    public DOMLoaderRestricciones(File file, DataProject dataProject) {
         this.file = file;
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
     }
 
     /**
@@ -71,7 +71,7 @@ public class DOMLoaderRestricciones {
         try {
             Class c = Class.forName(nombre);
             Restriccion r = (Restriccion) c.newInstance();
-            r.setDataProyecto(dataProyecto);
+            r.setDataProyecto(dataProject);
             //Leo variables comunes a cada restriccion. En este caso el nivel (rojo, amarillo, verde)
             Element elConfigComun = buscaPrimerNodoConNombre(element, "common_config");
 
@@ -83,7 +83,7 @@ public class DOMLoaderRestricciones {
             Element elConfigEspecifico = buscaPrimerNodoConNombre(element, "specific_config");
 
             r.readConfig(elConfigEspecifico);
-            dataProyecto.getRestrictionsData().add(r);
+            dataProject.getRestrictionsData().add(r);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DOMLoaderRestricciones.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

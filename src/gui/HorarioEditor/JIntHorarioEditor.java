@@ -18,7 +18,7 @@ package gui.HorarioEditor;
 
 import data.aulas.AulaMT;
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import gui.DatosEditor.DataGUIInterface;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -38,7 +38,7 @@ import javax.swing.JPanel;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
+public class JIntHorarioEditor extends javax.swing.JInternalFrame implements DataGUIInterface, DataProjectListener {
 
     private AbstractMainWindow mainWindow;
 //    private final HorariosTableModelPorAula modelHorarios;

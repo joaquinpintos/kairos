@@ -47,9 +47,9 @@ public class Horario implements Serializable {
     }
 
     /**
-     * Get the value of dataProyecto
+     * Get the value of dataProject
      *
-     * @return the value of dataProyecto
+     * @return the value of dataProject
      */
     public PosibleSolucion getSolucion() {
         return solucion;

@@ -30,8 +30,9 @@ public final class PosibleSolucion implements Serializable {
     private static final long serialVersionUID = 27112013L;
     private long peso;
     private int level;//Nivel de incumplimiento de restricciones: rojo, amarillo, verde
+    //HashMap classroom hash -> asignation
     private final HashMap<String, Asignacion> asignaciones;
-    private DataProject dataProyecto;
+    private DataProject dataProject;
 
     /**
      *
@@ -39,7 +40,7 @@ public final class PosibleSolucion implements Serializable {
      */
     public PosibleSolucion(HashMap<String, Asignacion> asignaciones) {
         this.asignaciones = asignaciones;
-        this.level = MyConstants.LEVEL_GREEN;
+        this.level = MyConstants.LEVEL_GREEN;//Default level
     }
 
     /**
@@ -61,14 +62,6 @@ public final class PosibleSolucion implements Serializable {
         asig.setPosibleSolucion(this);
     }
 
-    /**
-     *
-     * @param hashAula
-     * @param k
-     */
-    public void addToAsignacion(String hashAula, int k) {
-        asignaciones.get(hashAula).add(k);
-    }
 
     /**
      *
@@ -86,31 +79,24 @@ public final class PosibleSolucion implements Serializable {
         this.peso = peso;
     }
 
+
     /**
      *
-     * @return
+     * @param dataProject
      */
-    public DataProject getDataProyecto() {
-        return dataProyecto;
+    public void setDataProyecto(DataProject dataProject) {
+        this.dataProject = dataProject;
     }
 
     /**
      *
-     * @param dataProyecto
-     */
-    public void setDataProyecto(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
-    }
-
-    /**
-     *
-     * @param dataProyecto
+     * @param dataProject
      * @return
      */
-    public static PosibleSolucion generador(DataProject dataProyecto) {
+    public static PosibleSolucion generador(DataProject dataProject) {
         PosibleSolucion newps = new PosibleSolucion();
         // System.out.println(stDataProyecto.getMapDatosPorAula().values());
-        for (DatosPorAula da : dataProyecto.getMapDatosPorAula().values()) {
+        for (DatosPorAula da : dataProject.getMapDatosPorAula().values()) {
             // System.out.println("Genero datos para aula " + da.getHashAula());
             newps.addAsignacion(da.getHashAula(), Asignacion.generador(da));
         }
@@ -141,7 +127,7 @@ public final class PosibleSolucion implements Serializable {
             nuevasAsignaciones.put(hashAula, asig.copia());
         }
         PosibleSolucion newps = new PosibleSolucion(nuevasAsignaciones);
-        newps.setDataProyecto(dataProyecto);
+        newps.setDataProyecto(dataProject);
         newps.setPeso(peso);
         newps.setLevel(level);
         return newps;

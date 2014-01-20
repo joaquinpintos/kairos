@@ -49,7 +49,7 @@ public final class Asignacion implements Serializable {
     private final HashSet<Integer> segmentosConflictivos;
     private long peso;
     private int numSegmentos;
-    //private DataProyecto dataProyecto;
+    //private DataProyecto dataProject;
     private int minutosCasilla;
     private Aula aula;
     private PosibleSolucion posibleSolucion;

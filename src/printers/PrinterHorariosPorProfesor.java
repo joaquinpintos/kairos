@@ -40,14 +40,14 @@ public class PrinterHorariosPorProfesor extends AbstractHorariosPrinter {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      * @param fileDst
      * @param variosDocumentos
      * @throws DocumentException
      * @throws FileNotFoundException
      */
-    public PrinterHorariosPorProfesor(DataProject dataProyecto, File fileDst, boolean variosDocumentos) throws DocumentException, FileNotFoundException {
-        super(dataProyecto, fileDst, variosDocumentos);
+    public PrinterHorariosPorProfesor(DataProject dataProject, File fileDst, boolean variosDocumentos) throws DocumentException, FileNotFoundException {
+        super(dataProject, fileDst, variosDocumentos);
         buildData();
     }
 

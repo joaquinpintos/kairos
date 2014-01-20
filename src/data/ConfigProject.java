@@ -26,20 +26,20 @@ import org.w3c.dom.Node;
  *
  * @author usuario
  */
-public class ConfigProyecto implements Serializable {
+public class ConfigProject implements Serializable {
 
     private static final long serialVersionUID = 27112013L;
     private String nombreProyecto;
     //Este string almacena los grupos por defecto cuando se incluye una asignatura nueva
     private String gruposPorDefecto;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public ConfigProyecto(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public ConfigProject(DataProject dataProject) {
+        this.dataProject = dataProject;
         gruposPorDefecto = "";
     }
 

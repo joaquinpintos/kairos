@@ -26,17 +26,17 @@ import java.util.logging.Logger;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class RangoHoras implements Serializable {
+public class TimeRange implements Serializable {
 
-    private Hora inicio;
-    private Hora fin;
+    private KairosTime inicio;
+    private KairosTime fin;
 
     /**
      * Constructor con valores nulos por defecto
      */
-    public RangoHoras() {
-        inicio = new Hora(0, 0);
-        fin = new Hora(0, 0);
+    public TimeRange() {
+        inicio = new KairosTime(0, 0);
+        fin = new KairosTime(0, 0);
     }
 
     /**
@@ -44,7 +44,7 @@ public class RangoHoras implements Serializable {
      * @param inicio
      * @param fin
      */
-    public RangoHoras(Hora inicio, Hora fin) {
+    public TimeRange(KairosTime inicio, KairosTime fin) {
         this.inicio = inicio;
         this.fin = fin;
     }
@@ -54,13 +54,13 @@ public class RangoHoras implements Serializable {
      * @param inicio
      * @param duracion
      */
-    public RangoHoras(Hora inicio, int duracion) {
+    public TimeRange(KairosTime inicio, int duracion) {
         try {
             this.inicio = inicio.copia();
             this.fin = inicio.copia();
             this.fin.sumaMinutos(duracion);
         } catch (Exception ex) {
-            Logger.getLogger(RangoHoras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TimeRange.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -70,9 +70,9 @@ public class RangoHoras implements Serializable {
      * @param inicio
      * @param fin
      */
-    public RangoHoras(String inicio, String fin) {
-        this.inicio = new Hora(inicio);
-        this.fin = new Hora(fin);
+    public TimeRange(String inicio, String fin) {
+        this.inicio = new KairosTime(inicio);
+        this.fin = new KairosTime(fin);
     }
 
     /**
@@ -83,9 +83,9 @@ public class RangoHoras implements Serializable {
      * @param fin2
      * @throws Exception
      */
-    public RangoHoras(int ini1, int fin1, int ini2, int fin2) throws Exception {
-        this.inicio = new Hora(ini1, fin1);
-        this.fin = new Hora(ini2, fin2);
+    public TimeRange(int ini1, int fin1, int ini2, int fin2) throws Exception {
+        this.inicio = new KairosTime(ini1, fin1);
+        this.fin = new KairosTime(ini2, fin2);
     }
     //Hora en un string separado por un guion.
 
@@ -93,18 +93,18 @@ public class RangoHoras implements Serializable {
      *
      * @param hora
      */
-    public RangoHoras(String hora) {
+    public TimeRange(String hora) {
         String data = hora.replace(" ", "");//Quito espacios de cualquier sitio.
         String[] dataSplit = data.split("-");
-        this.inicio = new Hora(dataSplit[0]);
-        this.fin = new Hora(dataSplit[1]);
+        this.inicio = new KairosTime(dataSplit[0]);
+        this.fin = new KairosTime(dataSplit[1]);
     }
 
     /**
      *
      * @return
      */
-    public Hora getFin() {
+    public KairosTime getFin() {
         return fin;
     }
 
@@ -112,7 +112,7 @@ public class RangoHoras implements Serializable {
      *
      * @param fin
      */
-    public void setFin(Hora fin) {
+    public void setFin(KairosTime fin) {
         this.fin = fin;
     }
 
@@ -120,7 +120,7 @@ public class RangoHoras implements Serializable {
      *
      * @return
      */
-    public Hora getInicio() {
+    public KairosTime getInicio() {
         return inicio;
     }
 
@@ -128,7 +128,7 @@ public class RangoHoras implements Serializable {
      *
      * @param inicio
      */
-    public void setInicio(Hora inicio) {
+    public void setInicio(KairosTime inicio) {
         this.inicio = inicio;
     }
 
@@ -137,7 +137,7 @@ public class RangoHoras implements Serializable {
      * @param hora
      * @return
      */
-    public boolean contieneEstrictamente(Hora hora) {
+    public boolean contieneEstrictamente(KairosTime hora) {
         return (hora.menorEstrictoQue(this.fin)) && (this.inicio.menorEstrictoQue(hora));
     }
 
@@ -146,7 +146,7 @@ public class RangoHoras implements Serializable {
      * @param r
      * @return
      */
-    public boolean contieneRango(RangoHoras r) {
+    public boolean contieneRango(TimeRange r) {
         return (r.getFin().menorIgualQue(this.fin)) && (this.inicio.menorIgualQue(r.getInicio()));
     }
 
@@ -156,7 +156,7 @@ public class RangoHoras implements Serializable {
      * @param rango
      * @return
      */
-    public boolean solapaCon(RangoHoras rango) {
+    public boolean solapaCon(TimeRange rango) {
         return (rango.contieneEstrictamente(this.inicio) || rango.contieneEstrictamente(this.fin) || this.contieneEstrictamente(rango.inicio) || this.contieneEstrictamente(rango.fin));
     }
 
@@ -168,11 +168,11 @@ public class RangoHoras implements Serializable {
      * @return ArrayList con las horas
      * @throws Exception
      */
-    public ArrayList<Hora> split(int duracion) throws Exception {
-        ArrayList<Hora> resul = new ArrayList<Hora>();
-        Hora horaFin = this.fin.copia();
+    public ArrayList<KairosTime> split(int duracion) throws Exception {
+        ArrayList<KairosTime> resul = new ArrayList<KairosTime>();
+        KairosTime horaFin = this.fin.copia();
         horaFin.restaMinutos(duracion);
-        for (Hora hora = this.inicio.copia(); hora.menorIgualQue(horaFin); hora.sumaMinutos(duracion)) {
+        for (KairosTime hora = this.inicio.copia(); hora.menorIgualQue(horaFin); hora.sumaMinutos(duracion)) {
             resul.add(hora.copia());
         }
         return resul;
@@ -186,13 +186,13 @@ public class RangoHoras implements Serializable {
      * @return ArrayList con las horas
      * @throws Exception
      */
-    public ArrayList<RangoHoras> splitRangos(int duracion) {
-        ArrayList<RangoHoras> resul = new ArrayList<RangoHoras>();
+    public ArrayList<TimeRange> splitRangos(int duracion) {
+        ArrayList<TimeRange> resul = new ArrayList<TimeRange>();
         try {
-            Hora horaFin = this.fin.copia();
+            KairosTime horaFin = this.fin.copia();
             horaFin.restaMinutos(duracion);
-            for (Hora hora = this.inicio.copia(); hora.menorIgualQue(horaFin); hora.sumaMinutos(duracion)) {
-                resul.add(new RangoHoras(hora.copia(), duracion));
+            for (KairosTime hora = this.inicio.copia(); hora.menorIgualQue(horaFin); hora.sumaMinutos(duracion)) {
+                resul.add(new TimeRange(hora.copia(), duracion));
             }
         } catch (Exception exception) {
             resul = null;
@@ -209,12 +209,12 @@ public class RangoHoras implements Serializable {
      *
      * @return
      */
-    public RangoHoras copia() {
-        RangoHoras resul = null;
+    public TimeRange copia() {
+        TimeRange resul = null;
         try {
-            resul = new RangoHoras(inicio.copia(), fin.copia());
+            resul = new TimeRange(inicio.copia(), fin.copia());
         } catch (Exception ex) {
-            Logger.getLogger(RangoHoras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TimeRange.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resul;
     }
@@ -228,7 +228,7 @@ public class RangoHoras implements Serializable {
     public int getDuracionHoras() {
         int resul;
         try {
-            Hora h = fin.copia();
+            KairosTime h = fin.copia();
             h.setHoras(fin.getHoras() - inicio.getHoras());//Resto horas
             //ahora resto los minutos, con el método apropiado
             h.restaMinutos(inicio.getMinutos());
@@ -248,7 +248,7 @@ public class RangoHoras implements Serializable {
     public int getDuracionMinutos() {
         int resul;
         try {
-            Hora h = fin.copia();
+            KairosTime h = fin.copia();
             h.setHoras(fin.getHoras() - inicio.getHoras());//Resto horas
             //ahora resto los minutos, con el método apropiado
             h.restaMinutos(inicio.getMinutos());
@@ -275,7 +275,7 @@ public class RangoHoras implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RangoHoras other = (RangoHoras) obj;
+        final TimeRange other = (TimeRange) obj;
         if (this.inicio != other.inicio && (this.inicio == null || !this.inicio.equals(other.inicio))) {
             return false;
         }

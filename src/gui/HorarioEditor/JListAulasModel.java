@@ -17,7 +17,7 @@
 package gui.HorarioEditor;
 
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.aulas.AulaMT;
 import data.horarios.HorarioItem;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import javax.swing.AbstractListModel;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class JListAulasModel extends AbstractListModel<AulaMT> implements DataProyectoListener {
+public class JListAulasModel extends AbstractListModel<AulaMT> implements DataProjectListener {
 
     private final DataKairos dk;
 

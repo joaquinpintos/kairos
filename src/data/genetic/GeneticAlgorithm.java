@@ -36,7 +36,7 @@ public class GeneticAlgorithm {
     private PosibleSolucion optimo;
     private final Crossover cruzador;
     private final ArrayList<Restriccion> restricciones;
-    private final DataProject dataProyecto;
+    private final DataProject dataProject;
 //    private ListaSegmentos listaSegmentos;
 //    private ListaCasillas listaCasillas;
     private int tamañoManada;
@@ -105,13 +105,13 @@ public class GeneticAlgorithm {
      * @param cruzador
      * @param mutator
      * @param restricciones
-     * @param dataProyecto
+     * @param dataProject
      */
-    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, ArrayList<Restriccion> restricciones, DataProject dataProyecto) {
+    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, ArrayList<Restriccion> restricciones, DataProject dataProject) {
         this.solucionInicial = null;
         this.cruzador = cruzador;
         this.restricciones = restricciones;
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
         this.mutator = mutator;
         tamañoManada = 50;
         numElitismo = 5;
@@ -123,12 +123,12 @@ public class GeneticAlgorithm {
      *
      * @param cruzador
      * @param mutator
-     * @param dataProyecto
+     * @param dataProject
      */
-    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, DataProject dataProyecto) {
+    public GeneticAlgorithm(Crossover cruzador, Mutator mutator, DataProject dataProject) {
         this.solucionInicial = null;
         this.cruzador = cruzador;
-        this.dataProyecto = dataProyecto;
+        this.dataProject = dataProject;
         this.mutator = mutator;
         restricciones = new ArrayList<Restriccion>();
         tamañoManada = 50;
@@ -165,7 +165,7 @@ public class GeneticAlgorithm {
 //        while (numIter < max_iter) {
         tamañoManada = manada.size();
         for (PosibleSolucion s : manada) {
-            s.setDataProyecto(dataProyecto);
+            s.setDataProyecto(dataProject);
             s.update();//Actualizo datos internos de las soluciones
         }
         calculaPesosManada();
@@ -195,7 +195,7 @@ public class GeneticAlgorithm {
         //Finalizado el bucle, genero horario con la mejor solución hallada.
         //Antes refresco los datos internos de las soluciones
         if (optimo != null) {
-            optimo.setDataProyecto(dataProyecto);
+            optimo.setDataProyecto(dataProject);
             optimo.update();//Actualizo datos internos de las soluciones
             calculaPesosPosibleSolucion(optimo);
         }
@@ -214,7 +214,7 @@ public class GeneticAlgorithm {
             nnInicial = 1;
         }
         for (int nn = nnInicial; nn < tamañoManada; nn++) {
-            manada.add(PosibleSolucion.generador(dataProyecto));
+            manada.add(PosibleSolucion.generador(dataProject));
         }
     }
 

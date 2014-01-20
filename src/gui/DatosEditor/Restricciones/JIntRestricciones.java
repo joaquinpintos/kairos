@@ -17,7 +17,7 @@
 package gui.DatosEditor.Restricciones;
 
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.KairosCommand;
 import data.restricciones.AbstractDlgRestriccion;
 import gui.DatosEditor.DataGUIInterface;
@@ -42,7 +42,7 @@ import javax.swing.KeyStroke;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public final class JIntRestricciones extends javax.swing.JInternalFrame implements DataGUIInterface, DataProyectoListener {
+public final class JIntRestricciones extends javax.swing.JInternalFrame implements DataGUIInterface, DataProjectListener {
 
     private AbstractMainWindow mainWindow;
     private final ListModelRestricciones listModelRestricciones;

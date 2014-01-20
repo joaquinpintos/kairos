@@ -16,11 +16,11 @@
  */
 package data.genetic;
 
-import data.Hora;
+import data.KairosTime;
 import data.MyConstants;
 import data.asignaturas.Grupo;
 import data.aulas.Aula;
-import data.RangoHoras;
+import data.TimeRange;
 import java.io.Serializable;
 
 /**
@@ -32,7 +32,7 @@ public class Casilla implements Comparable<Casilla>, Serializable {
 
     private static final long serialVersionUID = 27112013L;
     private Aula aula;
-    private Hora hora;
+    private KairosTime hora;
     private int diaSemana;//Entre 1 y 5
     private int minutos;
     private boolean finalDeRango;
@@ -45,7 +45,7 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      * @param diaSemana
      * @param minutos
      */
-    public Casilla(String hashAula, Hora hora, int diaSemana, int minutos) {
+    public Casilla(String hashAula, KairosTime hora, int diaSemana, int minutos) {
         this.hashAula = hashAula;
         this.hora = hora;
         this.diaSemana = diaSemana;
@@ -88,7 +88,7 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      *
      * @return
      */
-    public Hora getHora() {
+    public KairosTime getHora() {
         return hora;
     }
 
@@ -96,7 +96,7 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      *
      * @param hora
      */
-    public void setHora(Hora hora) {
+    public void setHora(KairosTime hora) {
         this.hora = hora;
     }
 
@@ -127,10 +127,10 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      * @return
      * @throws Exception
      */
-    public RangoHoras getRangoHora() throws Exception {
-        Hora hora2 = hora.copia();
+    public TimeRange getRangoHora() throws Exception {
+        KairosTime hora2 = hora.copia();
         hora2.sumaMinutos(minutos);
-        return new RangoHoras(hora, hora2);
+        return new TimeRange(hora, hora2);
 
     }
 
@@ -141,10 +141,10 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      * @return
      * @throws Exception
      */
-    public RangoHoras getRangoSumando(int estosMinutos) throws Exception {
-        Hora hora2 = hora.copia();
+    public TimeRange getRangoSumando(int estosMinutos) throws Exception {
+        KairosTime hora2 = hora.copia();
         hora2.sumaMinutos(estosMinutos);
-        return new RangoHoras(hora, hora2);
+        return new TimeRange(hora, hora2);
     }
 
     /**
@@ -153,10 +153,10 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      * @return
      * @throws Exception
      */
-    public RangoHoras getRangoConSegmento(Segmento s) throws Exception {
-        Hora hora2 = hora.copia();
+    public TimeRange getRangoConSegmento(Segmento s) throws Exception {
+        KairosTime hora2 = hora.copia();
         hora2.sumaMinutos(s.getDuracion());
-        return new RangoHoras(hora, hora2);
+        return new TimeRange(hora, hora2);
     }
 
     /**
@@ -165,10 +165,10 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      * @return
      * @throws Exception
      */
-    public RangoHoras getRangoConGrupo(Grupo gr) throws Exception {
-        Hora hora2 = hora.copia();
+    public TimeRange getRangoConGrupo(Grupo gr) throws Exception {
+        KairosTime hora2 = hora.copia();
         hora2.sumaMinutos(gr.getTramosGrupoCompleto().getTramos().get(0).getMinutos());
-        return new RangoHoras(hora, hora2);
+        return new TimeRange(hora, hora2);
     }
 
     /**
@@ -177,7 +177,7 @@ public class Casilla implements Comparable<Casilla>, Serializable {
      */
     public String printDiaSemana() {
 //        String[] dias = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-        return MyConstants.DIAS_SEMANA[diaSemana - 1];//diaSemana varía entre 1 y 5;
+        return MyConstants.DAYS_OF_THE_WEEK[diaSemana - 1];//diaSemana varía entre 1 y 5;
     }
 
     void setFinaldeRango(boolean b) {

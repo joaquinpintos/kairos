@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.AcademicCalendar;
 import data.DataProject;
-import data.Hora;
+import data.KairosTime;
 import data.aulas.Aula;
 import data.horarios.HorarioItem;
 import java.io.File;
@@ -54,17 +54,17 @@ public class HojaDeFirmaPrinter {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      * @param fileDst
      * @param aulas
      * @param inicio
      * @param fin
      */
-    public HojaDeFirmaPrinter(DataProject dataProyecto, File fileDst, ArrayList<Aula> aulas, GregorianCalendar inicio, GregorianCalendar fin) {
+    public HojaDeFirmaPrinter(DataProject dataProject, File fileDst, ArrayList<Aula> aulas, GregorianCalendar inicio, GregorianCalendar fin) {
         this.aulas = aulas;
         this.inicio = inicio;
         this.fin = fin;
-        this.dp = dataProyecto;
+        this.dp = dataProject;
         this.fileDst = fileDst;
     }
 
@@ -80,7 +80,7 @@ public class HojaDeFirmaPrinter {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HojaDeFirmaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ArrayList<GregorianCalendar> dias = dp.getAcademicCalendar().getArrayDiasLectivos(inicio, fin);
+        ArrayList<GregorianCalendar> dias = dp.getAcademicCalendar().computeArrayAcademicDays(inicio, fin);
         if (dias.size() > 0) {
             doc.open();
             for (Aula aula : aulas) {
@@ -215,8 +215,8 @@ class ComparatorHorarioItems implements Comparator<HorarioItem> {
 
     @Override
     public int compare(HorarioItem o1, HorarioItem o2) {
-        Hora h1 = o1.getRangoHoras().getInicio();
-        Hora h2 = o2.getRangoHoras().getInicio();
+        KairosTime h1 = o1.getRangoHoras().getInicio();
+        KairosTime h2 = o2.getRangoHoras().getInicio();
         int resul = 0;
         if (h1.menorEstrictoQue(h2)) {
             resul = -1;

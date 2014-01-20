@@ -25,23 +25,23 @@ import java.util.Comparator;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class ComparatorDiasSemana implements Comparator, Serializable {
+public class ComparatorDaysOfTheWeek implements Comparator, Serializable {
 
     private static final long serialVersionUID = 27112013L;
-    private final ArrayList<String> dias;
+    private final ArrayList<String> days;
 
     /**
      *
      */
-    public ComparatorDiasSemana() {
-        dias = new ArrayList<String>();
-        dias.addAll(Arrays.asList(MyConstants.DIAS_SEMANA));
+    public ComparatorDaysOfTheWeek() {
+        days = new ArrayList<String>();
+        days.addAll(Arrays.asList(MyConstants.DAYS_OF_THE_WEEK));
     }
 
     @Override
     public int compare(Object o1, Object o2) {
-        int a = dias.indexOf(o1);
-        int b = dias.indexOf(o2);
+        int a = days.indexOf(o1);
+        int b = days.indexOf(o2);
         int resul = 0;
         if (a < b) {
             resul = -1;

@@ -16,7 +16,7 @@
  */
 package data.asignaturas;
 
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +28,7 @@ import java.util.Collections;
 public class Curso implements Serializable, Comparable<Curso>, Teachable {
 
     private static final long serialVersionUID = 27112013L;
-    private ArrayList<DataProyectoListener> listeners;
+    private ArrayList<DataProjectListener> listeners;
     private String nombre;
     private Carrera parent;
     private final ArrayList<Asignatura> asignaturas;

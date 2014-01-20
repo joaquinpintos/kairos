@@ -16,7 +16,7 @@
  */
 package data.asignaturas;
 
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class GrupoCursos implements DataProyectoListener, Serializable, Teachable {
+public class GrupoCursos implements DataProjectListener, Serializable, Teachable {
 
     private static final long serialVersionUID = 27112013L;
     private final ArrayList<Grupo> grupos;
@@ -108,13 +108,13 @@ public class GrupoCursos implements DataProyectoListener, Serializable, Teachabl
         if (obj instanceof Grupo) {
             Grupo gr = (Grupo) obj;
             switch (type) {
-                case DataProyectoListener.ADD:
+                case DataProjectListener.ADD:
                     addGrupo(gr);
                     break;
-                case DataProyectoListener.REMOVE:
+                case DataProjectListener.REMOVE:
                     grupos.remove(gr);
                     break;
-                case DataProyectoListener.MODIFY:
+                case DataProjectListener.MODIFY:
                     throw new java.lang.UnsupportedOperationException("Not supported yet.");
             }
 

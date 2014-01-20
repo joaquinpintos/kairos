@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class Hora implements Serializable, Comparable<Hora> {
+public class KairosTime implements Serializable, Comparable<KairosTime> {
 
     private static final long serialVersionUID = 27112013L;
     private int horas;
@@ -39,7 +39,7 @@ public class Hora implements Serializable, Comparable<Hora> {
      * @throws NumberFormatException Si la hora resultante no está en el rango
      * 0:00-23:59
      */
-    public Hora(int horas, int minutos) throws NumberFormatException {
+    public KairosTime(int horas, int minutos) throws NumberFormatException {
         this.horas = horas;
         this.minutos = minutos;
         normalize();
@@ -53,7 +53,7 @@ public class Hora implements Serializable, Comparable<Hora> {
      * @throws NumberFormatException Si la hora resultante no está en el rango
      * 0:00-23:59
      */
-    public Hora(String cadena) throws NumberFormatException {
+    public KairosTime(String cadena) throws NumberFormatException {
         String[] arrayHoras = cadena.split(":");
         this.horas = new Integer(arrayHoras[0]);
         this.minutos = new Integer(arrayHoras[1]);
@@ -160,7 +160,7 @@ public class Hora implements Serializable, Comparable<Hora> {
      * @return True si la hora es menor o igual que otraHora. False en caso
      * contrario
      */
-    public boolean menorIgualQue(Hora otraHora) {//Devuelve true si this es menor que otra.
+    public boolean menorIgualQue(KairosTime otraHora) {//Devuelve true si this es menor que otra.
         boolean resul;
         if (this.horas < otraHora.horas) {
             resul = true;
@@ -176,7 +176,7 @@ public class Hora implements Serializable, Comparable<Hora> {
      * @param otraHora
      * @return True si this es menor que otraHora. False en caso contrario
      */
-    public boolean menorEstrictoQue(Hora otraHora) {
+    public boolean menorEstrictoQue(KairosTime otraHora) {
         boolean resul;
         if (this.horas < otraHora.horas) {
             resul = true;
@@ -189,8 +189,8 @@ public class Hora implements Serializable, Comparable<Hora> {
     /**
      * Devuelve una copia del objeto
      */
-    public Hora copia() {
-        Hora resul = new Hora(this.horas, this.minutos);
+    public KairosTime copia() {
+        KairosTime resul = new KairosTime(this.horas, this.minutos);
         return resul;
     }
 
@@ -210,7 +210,7 @@ public class Hora implements Serializable, Comparable<Hora> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Hora other = (Hora) obj;
+        final KairosTime other = (KairosTime) obj;
         if (this.horas != other.horas) {
             return false;
         }
@@ -221,7 +221,7 @@ public class Hora implements Serializable, Comparable<Hora> {
     }
 
     @Override
-    public int compareTo(Hora o) {
+    public int compareTo(KairosTime o) {
         int resul = 0;
         if (menorEstrictoQue(o)) {
             resul = -1;

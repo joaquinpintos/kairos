@@ -26,22 +26,22 @@ import data.genetic.DatosPorAula;
 import java.util.HashSet;
 
 /**
- * Esta clase chequea los datos en dataProyecto y comprueba que son válidos para
+ * Esta clase chequea los datos en dataProject y comprueba que son válidos para
  * ejecutar el algoritmo genético. Los métodos de chequeo devuelven "" si todo
  * va bien y mensaje de error en caso contrario.
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class CheckDataProyecto {
+public class CheckDataProject {
 
-    DataProject dataProyecto;
+    DataProject dataProject;
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public CheckDataProyecto(DataProject dataProyecto) {
-        this.dataProyecto = dataProyecto;
+    public CheckDataProject(DataProject dataProject) {
+        this.dataProject = dataProject;
     }
 
     /**
@@ -50,7 +50,7 @@ public class CheckDataProyecto {
      */
     public HashSet<String> chequeaProfesores() {
         HashSet<String> resul = new HashSet<String>();
-        DataProfesores dataProfesores = dataProyecto.getDataProfesores();
+        DataProfesores dataProfesores = dataProject.getDataProfesores();
         if (dataProfesores.getDepartamentos().isEmpty()) {
             resul.add("No hay departamentos.");
         }
@@ -66,7 +66,7 @@ public class CheckDataProyecto {
      */
     public HashSet<String> chequeaSiLosGruposCaben() {
         HashSet<String> resul = new HashSet<String>();
-        for (DatosPorAula dp : dataProyecto.getMapDatosPorAula().values()) {
+        for (DatosPorAula dp : dataProject.getMapDatosPorAula().values()) {
             if (dp.getListaCasillas().getMinutosTotales() < dp.getListaSegmentos().getMinutosTotales()) {
                 resul.add("En el aula " + dp.getHashAula() + " no caben los segmentos (" + dp.getListaCasillas().getMinutosTotales() + " < " + dp.getListaSegmentos().getMinutosTotales());
             }
@@ -82,7 +82,7 @@ public class CheckDataProyecto {
     public HashSet<String> chequeaSiTodosLosTramosTienenAsignadaDocencia() {
         HashSet<String> resul = new HashSet<String>();
         mainLoop:
-        for (Grupo gr : dataProyecto.getDataAsignaturas().getAllGrupos()) {
+        for (Grupo gr : dataProject.getDataAsignaturas().getAllGrupos()) {
             for (Tramo tr : gr.getTramosGrupoCompleto().getTramos()) {
                 if (!tr.isAsignado()) {
                     resul.add("Hay grupos sin profesor asignado");
@@ -99,7 +99,7 @@ public class CheckDataProyecto {
      */
     public HashSet<String> chequeSiTodosLosTramosTieneUnaAulaAsignada() {
         HashSet<String> resul = new HashSet<String>();
-        for (Carrera carr : dataProyecto.getDataAsignaturas().getCarreras()) {
+        for (Carrera carr : dataProject.getDataAsignaturas().getCarreras()) {
             for (Curso curso : carr.getCursos()) {
                 for (Asignatura asig : curso.getAsignaturas()) {
                     for (Grupo gr : asig.getGrupos().getGrupos()) {

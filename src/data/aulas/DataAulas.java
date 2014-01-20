@@ -38,10 +38,10 @@ public class DataAulas extends AbstractDataSets {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public DataAulas(DataProject dataProyecto) {
-        super(dataProyecto);
+    public DataAulas(DataProject dataProject) {
+        super(dataProject);
         this.aulas = new ArrayList<Aula>();
         mapHashToContainers = new HashMap<String, AulaMT>();
         aulaContainers = new ArrayList<AulaMT>();

@@ -16,7 +16,7 @@
  */
 package data.aulas;
 
-import data.RangoHoras;
+import data.TimeRange;
 import java.util.ArrayList;
 
 /**
@@ -25,21 +25,21 @@ import java.util.ArrayList;
  */
 public class ListaRangosHoras {
 
-    private ArrayList<RangoHoras> rangos;
+    private ArrayList<TimeRange> rangos;
     private Aula parent;
 
     /**
      *
      */
     public ListaRangosHoras() {
-        rangos = new ArrayList<RangoHoras>();
+        rangos = new ArrayList<TimeRange>();
     }
 
     /**
      *
      * @param rangos
      */
-    public ListaRangosHoras(ArrayList<RangoHoras> rangos) {
+    public ListaRangosHoras(ArrayList<TimeRange> rangos) {
         this.rangos = rangos;
     }
 
@@ -47,7 +47,7 @@ public class ListaRangosHoras {
      *
      * @return
      */
-    public ArrayList<RangoHoras> getRangos() {
+    public ArrayList<TimeRange> getRangos() {
         return rangos;
     }
 
@@ -55,7 +55,7 @@ public class ListaRangosHoras {
      *
      * @param rangos
      */
-    public void setRangos(ArrayList<RangoHoras> rangos) {
+    public void setRangos(ArrayList<TimeRange> rangos) {
         this.rangos = rangos;
     }
 
@@ -63,7 +63,7 @@ public class ListaRangosHoras {
      *
      * @param rangoHoras
      */
-    public void addRango(RangoHoras rangoHoras) {
+    public void addRango(TimeRange rangoHoras) {
         this.rangos.add(rangoHoras);
     }
 
@@ -71,7 +71,7 @@ public class ListaRangosHoras {
      *
      * @param rangoHoras
      */
-    public void removeRango(RangoHoras rangoHoras) {
+    public void removeRango(TimeRange rangoHoras) {
         this.rangos.remove(rangoHoras);
     }
 
@@ -96,7 +96,7 @@ public class ListaRangosHoras {
      * @param index
      * @return
      */
-    public RangoHoras get(int index) {
+    public TimeRange get(int index) {
         return rangos.get(index);
     }
 }

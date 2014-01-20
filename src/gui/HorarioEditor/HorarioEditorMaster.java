@@ -17,7 +17,7 @@
 package gui.HorarioEditor;
 
 import data.DataKairos;
-import data.DataProyectoListener;
+import data.DataProjectListener;
 import data.horarios.Horario;
 import data.horarios.HorarioItem;
 import data.restricciones.Restriccion;
@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
  *
  * @author David Gutiérrez Rubio <davidgutierrezrubio@gmail.com>
  */
-public class HorarioEditorMaster implements DataProyectoListener {
+public class HorarioEditorMaster implements DataProjectListener {
 
     private final ArrayList<JIntHorarioEditor> editors;
     private final DataKairos dk;

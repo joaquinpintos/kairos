@@ -17,7 +17,7 @@
 package restricciones.ClasesNoCruzanRecreo;
 
 import data.DataProject;
-import data.RangoHoras;
+import data.TimeRange;
 import data.genetic.Asignacion;
 import data.genetic.Casilla;
 import data.genetic.ListaCasillas;
@@ -49,10 +49,10 @@ public class RClasesNoCruzanRecreo extends Restriccion {
 
     /**
      *
-     * @param dataProyecto
+     * @param dataProject
      */
-    public RClasesNoCruzanRecreo(DataProject dataProyecto) {
-        super(dataProyecto);
+    public RClasesNoCruzanRecreo(DataProject dataProject) {
+        super(dataProject);
         casillaJustoAntesRecreo = new HashMap<String, Integer[]>();
         casillaJustoDespuesRecreo = new HashMap<String, Integer[]>();
         casillaJustoDespuesFinalDia = new HashMap<String, Integer[]>();
@@ -66,27 +66,27 @@ public class RClasesNoCruzanRecreo extends Restriccion {
         casillaJustoDespuesFinalDia.clear();
         casillaJustoDespuesRecreo.clear();
         //Calculo todas las casillas que son "recreo". Esto NO incluye a los finales del dia
-//        Hora horaRecreoMañana = dataProyecto.getMañana1().getFin();
-//        Hora horaRecreoTarde = dataProyecto.getTarde1().getFin();
-        for (String hashAula : dataProyecto.getMapDatosPorAula().keySet()) {
+//        Hora horaRecreoMañana = dataProject.getMañana1().getFin();
+//        Hora horaRecreoTarde = dataProject.getTarde1().getFin();
+        for (String hashAula : dataProject.getMapDatosPorAula().keySet()) {
             casillaJustoAntesRecreo.put(hashAula, new Integer[]{-1, -1, -1, -1, -1});
             casillaJustoDespuesRecreo.put(hashAula, new Integer[]{-1, -1, -1, -1, -1});
             casillaJustoDespuesFinalDia.put(hashAula, new Integer[]{-1, -1, -1, -1, -1});
             casillaJustoAntesFinalDia.put(hashAula, new Integer[]{-1, -1, -1, -1, -1});
             try {
-                ListaCasillas lc = dataProyecto.getMapDatosPorAula().get(hashAula).getListaCasillas();
+                ListaCasillas lc = dataProject.getMapDatosPorAula().get(hashAula).getListaCasillas();
                 for (int n = 0; n < lc.size(); n++) {
                     Casilla c = lc.get(n);
                     int dia = c.getDiaSemana();//Va de 1 a 5!!! El array de 0 a 4
-                    RangoHoras h = c.getRangoHora();
-                    if ((h.getFin().equals(dataProyecto.getMañana1().getFin())) || (h.getFin().equals(dataProyecto.getTarde1().getFin()))) {
+                    TimeRange h = c.getRangoHora();
+                    if ((h.getFin().equals(dataProject.getMañana1().getFin())) || (h.getFin().equals(dataProject.getTarde1().getFin()))) {
                         casillaJustoAntesRecreo.get(hashAula)[dia - 1] = n;
                         casillaJustoDespuesRecreo.get(hashAula)[dia - 1] = n + 1;
                     }
-//                    if ((h.getInicio().equals(dataProyecto.getMañana2().getInicio())) || (h.getInicio().equals(dataProyecto.getTarde2().getInicio()))) {
+//                    if ((h.getInicio().equals(dataProject.getMañana2().getInicio())) || (h.getInicio().equals(dataProject.getTarde2().getInicio()))) {
 //                        casillaJustoDespuesRecreo.get(hashAula)[dia - 1] = n;
 //                    }
-                    if ((h.getFin().equals(dataProyecto.getMañana2().getFin())) || (h.getFin().equals(dataProyecto.getTarde2().getFin()))) {
+                    if ((h.getFin().equals(dataProject.getMañana2().getFin())) || (h.getFin().equals(dataProject.getTarde2().getFin()))) {
                         casillaJustoAntesFinalDia.get(hashAula)[dia - 1] = n;
                         casillaJustoDespuesFinalDia.get(hashAula)[dia - 1] = n + 1;
                     }
